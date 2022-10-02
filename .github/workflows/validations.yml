@@ -6,4 +6,23 @@ on:
 
 jobs:
   validations:
-    uses: ./.github/workflows/reusable-validations.yml
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Generate release data
+        id: generate-release-data
+        uses: ./.github/actions/generate-release-data
+      - name: Validate tag
+        run: |
+          git fetch --all --tags
+          tag="${{ steps.generate-release-data.outputs.tag }}"
+          exists=$(git tag -l "$tag")
+          if [ -n "$exists" ]
+          then
+            echo "ERROR -> tag [$tag] found [$exists]"
+            exit 1
+          else
+            echo "INFO -> the tag doesn't exist 👌"
+          fi
+

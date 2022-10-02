@@ -1,11 +1,19 @@
-name: Windows package
+name: Create packages
 
 on:
   workflow_dispatch:
 
 jobs:
-  windows-package:
-    runs-on: windows-2022
+  package:
+    strategy:
+      matrix:
+        os: [windows-2022, macos-12]
+        include:
+          - os: windows-2022
+            ext: exe
+          - os: macos-12
+            ext: dmg
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -27,5 +35,6 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           path: |
-            ${{ github.workspace }}/build/compose/binaries/main/exe/*.exe
+            ${{ github.workspace }}/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
           retention-days: 1
+
