@@ -1,3 +1,7 @@
+# 1.0.3
+- Changed
+  - One GitHub package action using matrix instead of two
+
 # 1.0.2
 - Added
   - [Gradle Versions Plugin](https://github.com/ben-manes/gradle-versions-plugin)
