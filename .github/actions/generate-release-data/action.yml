@@ -1,0 +1,25 @@
+name: Generate release data
+description: Generate some data needed for the release like the tag
+outputs:
+  name:
+    description: Release name
+    value: ${{ steps.generate-data.outputs.name }}
+  version:
+    description: App version
+    value: ${{ steps.generate-data.outputs.version }}
+  tag:
+    description: Tag to create
+    value: ${{ steps.generate-data.outputs.tag }}
+runs:
+  using: "composite"
+  steps:
+    - id: generate-data
+      shell: bash
+      run: |
+        version=$(grep "version = " build.gradle.kts | sed 's/[^0-9.]*//g')
+        tag="v$version"
+        name="Version $version"
+        echo "::set-output name=name::$name"
+        echo "::set-output name=version::$version"
+        echo "::set-output name=tag::$tag"
+        

@@ -1,6 +1,9 @@
 # 1.0.3
 - Changed
   - One GitHub package action using matrix instead of two
+  - Create generate release data GitHub action
+  - Remove reusable validation GitHub workflows
+  - Remove the tag validation for create release action
 
 # 1.0.2
 - Added
