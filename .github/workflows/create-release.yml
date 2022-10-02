@@ -1,0 +1,29 @@
+name: Create release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validations:
+    uses: ./.github/workflows/reusable-validations.yml
+  create-release:
+    runs-on: ubuntu-22.04
+    needs: [validations]
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Get the tag
+        id: get-tag
+        run: |
+          version=$(grep "version = " build.gradle.kts | sed 's/[^0-9.]*//g')
+          tag="v$version"
+          echo "::set-output name=version::$version"
+          echo "::set-output name=tag::$tag"
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get-tag.outputs.tag }}
+          name: "Version ${{ steps.get-tag.outputs.version }}"
+          body: ""

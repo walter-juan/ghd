@@ -1,0 +1,16 @@
+query GetLastRelease($owner: String!, $name: String!) {
+    repository(owner: $owner, name: $name) {
+        latestRelease {
+            id
+            name
+            tagName
+            url
+            publishedAt
+            author {
+                url
+                login
+                avatarUrl
+            }
+        }
+    }
+}

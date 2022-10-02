@@ -1,0 +1,28 @@
+name: Reusable validations
+
+on:
+  workflow_call:
+
+jobs:
+  validations:
+    name: Validations
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Validate tag
+        run: |
+          version=$(grep "version = " build.gradle.kts | sed 's/[^0-9.]*//g')
+          tag="v$version"
+          echo "INFO -> version [$version]"
+          echo "INFO -> tag [$tag]"
+          exists=$(git tag -l "$tag")
+          if [ -n "$exists" ]
+          then
+            echo "ERROR -> tag [$tag] found [$exists]"
+            exit 1
+          else
+            echo "INFO -> the tag doesn't exist 👌"
+          fi

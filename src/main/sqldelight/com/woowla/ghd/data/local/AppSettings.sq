@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS dbAppSettings (
+    id TEXT NOT NULL PRIMARY KEY,
+    githubPatToken TEXT,
+    checkTimeout INTEGER,
+    synchronizedAt TEXT,
+    appDarkTheme INTEGER AS Boolean DEFAULT 0,
+    pullRequestCleanUpTimeout INTEGER
+);
+
+insertOrUpdate:
+INSERT OR REPLACE INTO dbAppSettings(id, githubPatToken, checkTimeout, synchronizedAt, appDarkTheme, pullRequestCleanUpTimeout)
+VALUES ?;
+
+select:
+SELECT *
+FROM dbAppSettings
+WHERE id = ?;

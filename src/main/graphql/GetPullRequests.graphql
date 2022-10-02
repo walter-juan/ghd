@@ -1,0 +1,26 @@
+query GetPullRequests($owner: String!, $name: String!, $last: Int) {
+    repository(owner: $owner, name: $name) {
+        pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC}) {
+            edges {
+                node {
+                    id
+                    number
+                    url
+                    state
+                    title
+                    createdAt
+                    updatedAt
+                    mergedAt
+                    isDraft
+                    baseRefName
+                    headRefName
+                    author {
+                        url
+                        login
+                        avatarUrl
+                    }
+                }
+            }
+        }
+    }
+}
