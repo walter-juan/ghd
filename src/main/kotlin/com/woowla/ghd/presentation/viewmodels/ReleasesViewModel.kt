@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.usecases.GetAllReleasesUseCase
 import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
@@ -13,7 +15,7 @@ import kotlinx.datetime.Instant
 class ReleasesViewModel(
     private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
     private val getAllReleasesUseCase: GetAllReleasesUseCase = GetAllReleasesUseCase()
-): ViewModel() {
+): ScreenModel {
     private val initialStateValue = State.Loading(mapOf())
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -21,7 +23,7 @@ class ReleasesViewModel(
 
     init {
         loadReleases()
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+        EventBus.subscribe(this, coroutineScope, Event.SYNCHRONIZED) {
             reload()
         }
     }
@@ -33,7 +35,7 @@ class ReleasesViewModel(
     private fun loadReleases() {
         _state.value = State.Loading(_state.getReleasesOrEmptyList())
 
-        viewModelScope.launch {
+        coroutineScope.launch {
             val synchronizedAt = getAppSettingsUseCase.execute().getOrNull()?.synchronizedAt
 
             getAllReleasesUseCase.execute()

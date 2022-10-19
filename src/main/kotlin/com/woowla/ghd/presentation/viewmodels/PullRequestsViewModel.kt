@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.usecases.GetAllPullRequestsUseCase
@@ -17,7 +19,7 @@ class PullRequestsViewModel(
     private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
     private val getAllPullRequestsUseCase: GetAllPullRequestsUseCase = GetAllPullRequestsUseCase(),
     private val setPullRequestSeenAt: SetPullRequestSeenAt = SetPullRequestSeenAt(),
-): ViewModel() {
+): ScreenModel {
     private val initialStateValue = State.Loading(mapOf())
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -25,7 +27,7 @@ class PullRequestsViewModel(
 
     init {
         loadPulls()
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+        EventBus.subscribe(this, coroutineScope, Event.SYNCHRONIZED) {
             reload()
         }
     }
@@ -36,7 +38,7 @@ class PullRequestsViewModel(
 
     fun markAsSeen(pullRequest: PullRequest) {
         _state.on<State.Success> {
-            viewModelScope.launch {
+            coroutineScope.launch {
                 val appSeenAt = if (pullRequest.appSeen) {
                     null
                 } else {
@@ -55,7 +57,7 @@ class PullRequestsViewModel(
     private fun loadPulls() {
         _state.value = State.Loading(_state.getPullsOrEmptyList())
 
-        viewModelScope.launch {
+        coroutineScope.launch {
             val synchronizedAt = getAppSettingsUseCase.execute().getOrNull()?.synchronizedAt
             getAllPullRequestsUseCase.execute()
                 .fold(

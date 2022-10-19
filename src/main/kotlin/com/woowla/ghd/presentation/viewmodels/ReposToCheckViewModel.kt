@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.usecases.DeleteRepoToCheckUseCase
 import com.woowla.ghd.domain.usecases.GetAllReposToCheckUseCaseUseCase
@@ -15,7 +17,7 @@ class ReposToCheckViewModel(
     private val getAllReposToCheckUseCaseUseCase: GetAllReposToCheckUseCaseUseCase = GetAllReposToCheckUseCaseUseCase(),
     private val saveRepoToCheckBulkUseCase: SaveRepoToCheckBulkUseCase = SaveRepoToCheckBulkUseCase(),
     private val deleteRepoToCheckUseCase: DeleteRepoToCheckUseCase = DeleteRepoToCheckUseCase(),
-): ViewModel() {
+): ScreenModel {
     private val initialStateValue = State.Loading
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -23,14 +25,14 @@ class ReposToCheckViewModel(
 
     init {
         loadRepos()
-        EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
+        EventBus.subscribe(this, coroutineScope, Event.REPO_TO_CHECK_UPDATED) {
             reload()
         }
     }
 
     fun bulkImportRepo(file: File?) {
         _state.on<State.Success> {
-            viewModelScope.launch {
+            coroutineScope.launch {
                 if (file != null) {
                     saveRepoToCheckBulkUseCase.execute(file)
                 }
@@ -40,7 +42,7 @@ class ReposToCheckViewModel(
 
     fun deleteRepo(repoToCheck: RepoToCheck) {
         _state.on<State.Success> {
-            viewModelScope.launch {
+            coroutineScope.launch {
                 deleteRepoToCheckUseCase.execute(repoToCheck.id)
                 reload()
             }
@@ -53,7 +55,7 @@ class ReposToCheckViewModel(
 
     private fun loadRepos() {
         _state.value = State.Loading
-        viewModelScope.launch {
+        coroutineScope.launch {
             getAllReposToCheckUseCaseUseCase.execute().fold(
                 onSuccess = {
                     _state.value = State.Success(reposToCheck = it)

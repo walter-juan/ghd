@@ -15,23 +15,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.Tab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
-import com.woowla.ghd.presentation.screens.ReleasesScreen
-import com.woowla.ghd.presentation.screens.ComponentsSampleScreen
-import com.woowla.ghd.presentation.screens.AboutScreen
-import com.woowla.ghd.presentation.screens.PullRequestsScreen
-import com.woowla.ghd.presentation.screens.RepoToCheckEditScreen
-import com.woowla.ghd.presentation.screens.RepoToCheckScreen
-import com.woowla.ghd.presentation.screens.SettingsScreen
-import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun App() {
-    var selectedAppScreen: AppScreen by remember { mutableStateOf(AppTabScreen.Repos) }
     val systemDarkTheme = isSystemInDarkTheme()
     var darkTheme by remember { mutableStateOf(systemDarkTheme) }
 
@@ -48,64 +42,42 @@ fun App() {
         Row(
             modifier = Modifier.fillMaxSize()
         ) {
-            NavigationRail(
-                backgroundColor = AppColors.navRailBackground()
-            ) {
-                val enabled = selectedAppScreen is AppTabScreen
-                AppTabScreen.values().forEach { appScreen ->
-                    NavigationRailItem(
-                        icon = { Icon(painter = painterResource(appScreen.tabIcon), contentDescription = appScreen.tabTitle) },
-                        label = { Text(appScreen.tabTitle) },
-                        enabled = enabled,
-                        selected = selectedAppScreen == appScreen,
-                        onClick = { selectedAppScreen = appScreen },
-                        alwaysShowLabel = false,
-                        selectedContentColor = if (enabled) { MaterialTheme.colors.primary } else {
-                            AppColors.navRailBackground()
-                        },
-                        unselectedContentColor = if (enabled) {
-                            AppColors.navRailItemUnselectedContentColor()
-                        } else {
-                            AppColors.navRailBackground()
-                        },
-                    )
+            TabNavigator(TabAboutScreen) {
+                NavigationRail(
+                    backgroundColor = AppColors.navRailBackground()
+                ) {
+                    TabNavigationRailItem(TabPullRequestsScreen)
+                    TabNavigationRailItem(TabReleasesScreen)
+                    TabNavigationRailItem(TabRepoToCheckScreen)
+                    TabNavigationRailItem(TabAppSettings)
+                    TabNavigationRailItem(TabAboutScreen)
                 }
-            }
 
-            val selectedAppScreenLocked = selectedAppScreen
-            when (selectedAppScreenLocked) {
-                AppTabScreen.Pulls -> {
-                    PullRequestsScreen()
-                }
-                AppTabScreen.Releases -> {
-                    ReleasesScreen()
-                }
-                AppTabScreen.Repos -> {
-                    RepoToCheckScreen(
-                        onEditRepoClick = { selectedAppScreen = AppFullScreen.RepoEdit(repoToCheck = it) },
-                        onAddNewRepoClick = { selectedAppScreen = AppFullScreen.RepoEdit(repoToCheck = null) }
-                    )
-                }
-                AppTabScreen.Settings -> {
-                    SettingsScreen()
-                }
-                AppTabScreen.About -> {
-                    AboutScreen(
-                        onComponentsSampleScreenClick = { selectedAppScreen = AppFullScreen.ComponentsSample },
-                    )
-                }
-                AppFullScreen.ComponentsSample -> {
-                    ComponentsSampleScreen(
-                        onBackClick = { selectedAppScreen = AppTabScreen.About }
-                    )
-                }
-                is AppFullScreen.RepoEdit -> {
-                    RepoToCheckEditScreen(
-                        viewModel = RepoToCheckEditViewModel(repoToCheck = selectedAppScreenLocked.repoToCheck),
-                        onBackClick = { selectedAppScreen = AppTabScreen.Repos }
-                    )
-                }
+                CurrentTab()
             }
         }
     }
+}
+
+@Composable
+private fun TabNavigationRailItem(tab: Tab) {
+    val tabNavigator = LocalTabNavigator.current
+    val enabled = true
+
+    NavigationRailItem(
+        icon = { Icon(painter = tab.options.icon!!, contentDescription = tab.options.title) },
+        label = { Text(tab.options.title) },
+        enabled = enabled,
+        selected = tabNavigator.current.key == tab.key,
+        onClick = { tabNavigator.current = tab },
+        alwaysShowLabel = false,
+        selectedContentColor = if (enabled) { MaterialTheme.colors.primary } else {
+            AppColors.navRailBackground()
+        },
+        unselectedContentColor = if (enabled) {
+            AppColors.navRailItemUnselectedContentColor()
+        } else {
+            AppColors.navRailBackground()
+        },
+    )
 }

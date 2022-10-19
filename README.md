@@ -39,6 +39,7 @@ $ ./gradlew build -PdebugConfig=false
 
 # Links
 - Android official
+  - [Material Design Components](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary) code documentation, the package `androidx.compose.material`
   - [List and id's for performance](https://developer.android.com/jetpack/compose/lists)
   - [State](https://developer.android.com/jetpack/compose/state)
   - [Kotlin for compose](https://developer.android.com/jetpack/compose/kotlin)

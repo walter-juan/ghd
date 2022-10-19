@@ -1,3 +1,7 @@
+# 1.0.4
+- Added
+  - [Voyager](https://github.com/adrielcafe/voyager) library for navigation and view models
+
 # 1.0.3
 - Changed
   - One GitHub package action using matrix instead of two
