@@ -135,7 +135,7 @@ tasks.withType<DependencyUpdatesTask> {
 
     checkForGradleUpdate = true
     gradleReleaseChannel = "current"
-    outputFormatter = "plain"
+    outputFormatter = "plain,html"
     outputDir = "${rootProject.buildDir}/reports/dependencyUpdates"
     reportfileName = "report"
     rejectVersionIf {
