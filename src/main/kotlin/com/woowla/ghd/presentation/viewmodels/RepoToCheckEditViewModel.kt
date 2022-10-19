@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.mappers.DomainMappers
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 class RepoToCheckEditViewModel(
     private val repoToCheck: RepoToCheck?,
     private val saveRepoToCheckUseCase: SaveRepoToCheckUseCase = SaveRepoToCheckUseCase(),
-): ViewModel() {
+): ScreenModel {
 
     private val initialStateValue: UpsertRepoToCheckRequest = if (repoToCheck == null) {
         UpsertRepoToCheckRequest.newInstance()
@@ -51,7 +53,7 @@ class RepoToCheckEditViewModel(
     }
 
     fun saveRepo() {
-        viewModelScope.launch {
+        coroutineScope.launch {
             saveRepoToCheckUseCase
                 .execute(_updateRequest.value)
                 .onSuccess {

@@ -31,80 +31,91 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.model.rememberScreenModel
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.components.FileDialog
+import com.woowla.ghd.presentation.components.Screen
 import com.woowla.ghd.presentation.components.SectionCategory
 import com.woowla.ghd.presentation.components.SectionItem
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
-import com.woowla.ghd.utils.MaterialColors
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
+import com.woowla.ghd.utils.MaterialColors
 
-@Composable
-fun RepoToCheckScreen(
-    viewModel: ReposToCheckViewModel = ReposToCheckViewModel(),
-    onEditRepoClick: (RepoToCheck) -> Unit,
-    onAddNewRepoClick: () -> Unit
-) {
-    val scaffoldState = rememberScaffoldState()
+class RepoToCheckScreen: Screen {
+    @Composable
+    override fun Content() {
+        val viewModel = rememberScreenModel { ReposToCheckViewModel() }
+        val navigator = LocalNavigator.currentOrThrow
+        val onEditRepoClick: (RepoToCheck) -> Unit = {
+            navigator.push(RepoToCheckEditScreen(repoToCheck = it))
+        }
+        val onAddNewRepoClick: () -> Unit = {
+            navigator.push(RepoToCheckEditScreen(repoToCheck = null))
+        }
 
-    val reposState by viewModel.state.collectAsState()
+        val scaffoldState = rememberScaffoldState()
 
-    var isFileDialogOpen by remember { mutableStateOf(false) }
-    if (isFileDialogOpen) {
-        FileDialog(
-            onCloseRequest = { file ->
-                isFileDialogOpen = false
-                viewModel.bulkImportRepo(file)
-            }
-        )
-    }
+        val reposState by viewModel.state.collectAsState()
 
-    Screen(
-        scaffoldState = scaffoldState,
-        topBar = { TopBar(title = i18n.top_bar_title_repos_to_check) }
-    ) {
-        val lockedState = reposState
-        when(lockedState) {
-            is ReposToCheckViewModel.State.Error -> item { Text(i18n.generic_error) }
-            ReposToCheckViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
-            is ReposToCheckViewModel.State.Success -> {
-                item {
-                    SectionCategory(i18n.screen_repos_to_check_new_repositories_section) {
-                        SectionItem(
-                            title = i18n.screen_repos_to_check_add_new_repository_item,
-                        ) {
-                            Button(onClick = { onAddNewRepoClick.invoke() }) {
-                                Icon(imageVector = Icons.Default.Add, contentDescription = null)
+        var isFileDialogOpen by remember { mutableStateOf(false) }
+        if (isFileDialogOpen) {
+            FileDialog(
+                onCloseRequest = { file ->
+                    isFileDialogOpen = false
+                    viewModel.bulkImportRepo(file)
+                }
+            )
+        }
+
+        Screen(
+            scaffoldState = scaffoldState,
+            topBar = { TopBar(title = i18n.top_bar_title_repos_to_check) }
+        ) {
+            val lockedState = reposState
+            when(lockedState) {
+                is ReposToCheckViewModel.State.Error -> item { Text(i18n.generic_error) }
+                ReposToCheckViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
+                is ReposToCheckViewModel.State.Success -> {
+                    item {
+                        SectionCategory(i18n.screen_repos_to_check_new_repositories_section) {
+                            SectionItem(
+                                title = i18n.screen_repos_to_check_add_new_repository_item,
+                            ) {
+                                Button(onClick = { onAddNewRepoClick.invoke() }) {
+                                    Icon(imageVector = Icons.Default.Add, contentDescription = null)
+                                }
+                            }
+                            SectionItem(
+                                title = i18n.screen_repos_to_check_bulk_import_item,
+                                description = i18n.screen_repos_to_check_bulk_import_item_description,
+                            ) {
+                                Button(onClick = { isFileDialogOpen = true }) {
+                                    Icon(imageVector = Icons.Default.FileUpload, contentDescription = null)
+                                }
                             }
                         }
-                        SectionItem(
-                            title = i18n.screen_repos_to_check_bulk_import_item,
-                            description = i18n.screen_repos_to_check_bulk_import_item_description,
-                        ) {
-                            Button(onClick = { isFileDialogOpen = true }) {
-                                Icon(imageVector = Icons.Default.FileUpload, contentDescription = null)
-                            }
-                        }
-                    }
-                    SectionCategory(i18n.screen_repos_to_check_repositories_section) {
-                        SectionItem(
-                            title = i18n.screen_app_settings_repositories_item,
-                            description = i18n.screen_app_settings_repositories_item_description(lockedState.reposToCheck.size),
-                        ) {
-                            lockedState.reposToCheck.forEach { repoToCheck ->
-                                RepoCard(
-                                    repoToCheck = repoToCheck,
-                                    onEditClick = { repoToEdit ->
-                                        onEditRepoClick.invoke(repoToEdit)
-                                    },
-                                    onDeleteClick = { repoToDelete ->
-                                        viewModel.deleteRepo(repoToDelete)
-                                    },
-                                )
-                                Spacer(modifier = Modifier.padding(5.dp))
+                        SectionCategory(i18n.screen_repos_to_check_repositories_section) {
+                            SectionItem(
+                                title = i18n.screen_app_settings_repositories_item,
+                                description = i18n.screen_app_settings_repositories_item_description(lockedState.reposToCheck.size),
+                            ) {
+                                lockedState.reposToCheck.forEach { repoToCheck ->
+                                    RepoCard(
+                                        repoToCheck = repoToCheck,
+                                        onEditClick = { repoToEdit ->
+                                            onEditRepoClick.invoke(repoToEdit)
+                                        },
+                                        onDeleteClick = { repoToDelete ->
+                                            viewModel.deleteRepo(repoToDelete)
+                                        },
+                                    )
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                }
                             }
                         }
                     }
@@ -176,3 +187,4 @@ private fun RepoCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Uni
         }
     }
 }
+

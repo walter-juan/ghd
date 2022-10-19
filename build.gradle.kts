@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.0.3"
+version = "1.0.4"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 val ktorVersion = extra["ktor.version"] as String
@@ -69,6 +69,10 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
     // kamel, media loading and caching (requires Ktor HttpClient)
     implementation("com.alialbaali.kamel:kamel-image:0.4.0")
+    // navigation and view models
+    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc02")
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:1.0.0-rc02")
+    implementation("cafe.adriel.voyager:voyager-transitions:1.0.0-rc02")
     // kotest runner
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     // kotest assertions

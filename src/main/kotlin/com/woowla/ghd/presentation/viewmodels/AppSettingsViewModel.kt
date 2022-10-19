@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
 import com.woowla.ghd.domain.usecases.SaveAppSettingsUseCase
@@ -12,7 +14,7 @@ import kotlinx.coroutines.launch
 class AppSettingsViewModel(
     private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
     private val saveAppSettingsUseCase: SaveAppSettingsUseCase = SaveAppSettingsUseCase(),
-): ViewModel() {
+): ScreenModel {
     private val initialStateValue = State.Loading
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -51,7 +53,7 @@ class AppSettingsViewModel(
 
     fun saveSettings() {
         _state.on<State.Success> {
-            viewModelScope.launch {
+            coroutineScope.launch {
                 saveAppSettingsUseCase
                     .execute(it.appSettings)
                     .onSuccess {
@@ -68,7 +70,7 @@ class AppSettingsViewModel(
 
     private fun loadSettings() {
         _state.value = State.Loading
-        viewModelScope.launch {
+        coroutineScope.launch {
             getAppSettingsUseCase.execute().fold(
                 onSuccess = {
                     _state.value = State.Success(appSettings = it)
