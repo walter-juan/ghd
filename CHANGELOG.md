@@ -1,6 +1,8 @@
 # 1.0.4
 - Added
   - [Voyager](https://github.com/adrielcafe/voyager) library for navigation and view models
+- Changed
+  - Update dependencies
 
 # 1.0.3
 - Changed
