@@ -1,4 +1,3 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
@@ -58,17 +57,16 @@ dependencies {
     // sqldelight database for JVM
     implementation("com.squareup.sqldelight:sqlite-driver:$sqldelightVersion")
     // date time kotlin lib
-    // TODO a lower version 0.3.2 is used due to problems with kotest
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
     // logger
     implementation("co.touchlab:kermit:1.1.3")
     // cross-platform lib to resolve some application directories for desktop
     implementation("net.harawata:appdirs:1.2.1")
     // An annotation processor for generating type-safe bean mappers
-    implementation("org.mapstruct:mapstruct:1.5.2.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.2.Final")
+    implementation("org.mapstruct:mapstruct:1.5.3.Final")
+    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
     // kamel, media loading and caching (requires Ktor HttpClient)
-    implementation("com.alialbaali.kamel:kamel-image:0.4.0")
+    implementation("com.alialbaali.kamel:kamel-image:0.4.1")
     // navigation and view models
     implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc02")
     implementation("cafe.adriel.voyager:voyager-tab-navigator:1.0.0-rc02")
