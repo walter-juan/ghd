@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.0.4"
+version = "1.0.5"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 val ktorVersion = extra["ktor.version"] as String

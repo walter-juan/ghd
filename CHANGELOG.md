@@ -1,3 +1,7 @@
+# 1.0.5
+- Added
+  - Pull request notifications in bulk import file
+
 # 1.0.4
 - Added
   - [Voyager](https://github.com/adrielcafe/voyager) library for navigation and view models
