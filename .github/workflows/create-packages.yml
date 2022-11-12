@@ -35,6 +35,6 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           path: |
-            ${{ github.workspace }}/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
+            ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
           retention-days: 1
 

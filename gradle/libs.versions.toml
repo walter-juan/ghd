@@ -1,0 +1,37 @@
+[versions]
+kotlin = "1.7.20"
+sqldelight = "1.5.4"
+apollo3 = "3.6.2"
+mapstruct = "1.5.3.Final"
+voyager = "1.0.0-rc02"
+kotest = "5.5.1"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version = "1.2.0" }
+sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
+apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
+benmanesversions = { id = "com.github.ben-manes.versions", version = "0.43.0" }
+
+[libraries]
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.6.4" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.2" }
+apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
+sqldelight-sqlite-driver = { group = "com.squareup.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+kermit = { group = "co.touchlab", name = "kermit", version = "1.1.3" }
+appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
+mapstruct-core = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
+voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
+
+test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+test-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
+test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "1.1.0" }
