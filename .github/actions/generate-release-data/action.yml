@@ -16,7 +16,7 @@ runs:
     - id: generate-data
       shell: bash
       run: |
-        version=$(grep "version = " build.gradle.kts | sed 's/[^0-9.]*//g')
+        version=$(grep "version = " app/build.gradle.kts | sed 's/[^0-9.]*//g')
         tag="v$version"
         name="Version $version"
         echo "::set-output name=name::$name"

@@ -3,24 +3,18 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 plugins {
-    kotlin("jvm")
-    kotlin("kapt")
-    id("org.jetbrains.compose")
-    id("com.squareup.sqldelight")
-    id("com.apollographql.apollo3")
-    id("com.github.gmazzo.buildconfig")
-    id("com.github.ben-manes.versions")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.apollo3)
+    alias(libs.plugins.buildconfig)
+    alias(libs.plugins.benmanesversions)
 }
 
 group = "com.woowla"
 version = "1.0.5"
 val debug = (extra["debugConfig"] as String).toBoolean()
-
-val ktorVersion = extra["ktor.version"] as String
-val realmVersion = extra["realm.version"] as String
-val kotestVersion = extra["kotest.version"] as String
-val sqldelightVersion = extra["sqldelight.version"] as String
-val apollo3Version = extra["apollo3.version"] as String
 
 repositories {
     google()
@@ -40,6 +34,7 @@ apollo {
 }
 
 buildConfig {
+    packageName("com.woowla.ghd")
     buildConfigField("String", "APP_NAME", "\"${project.name}\"")
     buildConfigField("String", "APP_VERSION", provider { "\"${project.version}\"" })
     buildConfigField("boolean", "DEBUG", provider { "$debug" })
@@ -49,38 +44,38 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
     // kotlin coroutines, needed because we are using the main dispatcher
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.6.4")
+    implementation(libs.kotlinx.coroutines.swing)
     // ktor http client (needed for kamel)
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation(libs.ktor.client.cio)
     // GraphQL client
-    implementation("com.apollographql.apollo3:apollo-runtime:$apollo3Version")
+    implementation(libs.apollo3)
     // sqldelight database for JVM
-    implementation("com.squareup.sqldelight:sqlite-driver:$sqldelightVersion")
+    implementation(libs.sqldelight.sqlite.driver)
     // date time kotlin lib
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation(libs.kotlinx.datetime)
     // logger
-    implementation("co.touchlab:kermit:1.1.3")
+    implementation(libs.kermit)
     // cross-platform lib to resolve some application directories for desktop
-    implementation("net.harawata:appdirs:1.2.1")
+    implementation(libs.appdirs)
     // An annotation processor for generating type-safe bean mappers
-    implementation("org.mapstruct:mapstruct:1.5.3.Final")
-    kapt("org.mapstruct:mapstruct-processor:1.5.3.Final")
+    implementation(libs.mapstruct.core)
+    kapt(libs.mapstruct.processor)
     // kamel, media loading and caching (requires Ktor HttpClient)
-    implementation("com.alialbaali.kamel:kamel-image:0.4.1")
+    implementation(libs.kamel)
     // navigation and view models
-    implementation("cafe.adriel.voyager:voyager-navigator:1.0.0-rc02")
-    implementation("cafe.adriel.voyager:voyager-tab-navigator:1.0.0-rc02")
-    implementation("cafe.adriel.voyager:voyager-transitions:1.0.0-rc02")
+    implementation(libs.voyager.navigator.core)
+    implementation(libs.voyager.navigator.tab)
+    implementation(libs.voyager.transitions)
     // kotest runner
-    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation(libs.test.kotest.runner.junit5)
     // kotest assertions
-    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation(libs.test.kotest.assertions.core)
     // kotest assertions, kotlinx DateTime assertions
-    testImplementation("io.kotest:kotest-assertions-kotlinx-time:4.4.3")
+    testImplementation(libs.test.kotest.assertions.kotlinx.time)
     // kotest property-based testing (right now used only for the data generators)
-    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation(libs.test.kotest.property)
     // kotest property-based testing, kotlinx DateTime generators
-    testImplementation("io.kotest.extensions:kotest-property-datetime:1.1.0")
+    testImplementation(libs.test.kotest.extensions.property.datetime)
 }
 
 compose.desktop {
@@ -142,3 +137,4 @@ tasks.withType<DependencyUpdatesTask> {
         isNonStable(candidate.version)
     }
 }
+

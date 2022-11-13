@@ -18,23 +18,27 @@ $ ./gradlew build -PdebugConfig=false
 
 - Run the app
     ```shell
-    $ ./gradlew run
+    ./gradlew run
     ```
 - Build the project
     ```shell
-    $ ./gradlew build
+    ./gradlew build
     ```
 - Clean the project
     ```shell
-    $ ./gradlew clean
+    ./gradlew clean
     ```
 - Create the packages
     ```shell
-    $ ./gradlew package
+    ./gradlew package
     ```
 - To know which dependencies have updates
     ```shell
-    $ ./gradlew dependencyUpdates
+    ./gradlew dependencyUpdates
+    ```
+- Update Gradle version
+    ```shell
+    ./gradlew wrapper --gradle-version 7.5.1
     ```
 
 # Links
