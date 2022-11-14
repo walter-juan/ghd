@@ -1,19 +1,20 @@
 [versions]
 kotlin = "1.7.20"
 sqldelight = "1.5.4"
-apollo3 = "3.6.2"
+apollo3 = "3.7.0"
 mapstruct = "1.5.3.Final"
 voyager = "1.0.0-rc02"
-kotest = "5.5.1"
+kotest = "5.5.4"
+exposed = "0.40.1"
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version = "1.2.0" }
+compose = { id = "org.jetbrains.compose", version = "1.2.1" }
 sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
-benmanesversions = { id = "com.github.ben-manes.versions", version = "0.43.0" }
+benmanesversions = { id = "com.github.ben-manes.versions", version = "0.44.0" }
 
 [libraries]
 # kotlin coroutines, needed because we are using the main dispatcher
@@ -21,13 +22,20 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 # date time kotlin lib
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
 # ktor http client (needed for kamel)
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.2" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.3" }
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
 # sqldelight database for JVM
 sqldelight-sqlite-driver = { group = "com.squareup.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+# H2 database
+h2 = { group = "com.h2database", name = "h2", version = "2.1.214" }
+# Exposed ORM
+exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 # logger
-kermit = { group = "co.touchlab", name = "kermit", version = "1.1.3" }
+kermit = { group = "co.touchlab", name = "kermit", version = "1.2.2" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
 # An annotation processor for generating type-safe bean mappers
@@ -53,5 +61,6 @@ test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", nam
 
 [bundles]
 voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions"]
+exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
 
 test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]
