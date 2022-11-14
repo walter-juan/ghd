@@ -16,22 +16,42 @@ buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
 benmanesversions = { id = "com.github.ben-manes.versions", version = "0.43.0" }
 
 [libraries]
+# kotlin coroutines, needed because we are using the main dispatcher
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.6.4" }
+# date time kotlin lib
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
+# ktor http client (needed for kamel)
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.2" }
+# GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
+# sqldelight database for JVM
 sqldelight-sqlite-driver = { group = "com.squareup.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
+# logger
 kermit = { group = "co.touchlab", name = "kermit", version = "1.1.3" }
+# cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
+# An annotation processor for generating type-safe bean mappers
 mapstruct-core = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+# kamel, media loading and caching (requires Ktor HttpClient)
 kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
+# navigation and view models
 voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
 voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
 voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 
+# kotest runner
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+# kotest property-based testing (right now used only for the data generators)
 test-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+# kotest assertions
 test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+# kotest assertions, kotlinx DateTime assertions
 test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
+# kotest property-based testing, kotlinx DateTime generators
 test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "1.1.0" }
+
+[bundles]
+voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions"]
+
+test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]
