@@ -14,7 +14,7 @@ jobs:
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
-      - name: Release
+      - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.generate-release-data.outputs.tag }}

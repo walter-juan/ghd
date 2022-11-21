@@ -24,7 +24,7 @@ jobs:
           java-version: '16'
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.4
-      - name: Setup and execute package Gradle task
+      - name: Create package
         uses: gradle/gradle-build-action@v2.2.2
         with:
           arguments: |
