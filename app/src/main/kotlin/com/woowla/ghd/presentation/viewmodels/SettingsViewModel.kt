@@ -3,15 +3,20 @@ package com.woowla.ghd.presentation.viewmodels
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
+import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
 import com.woowla.ghd.domain.usecases.SaveAppSettingsUseCase
+import com.woowla.ghd.domain.usecases.SaveSyncSettingsUseCase
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
-class AppSettingsViewModel(
+class SettingsViewModel(
+    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
+    private val saveSyncSettingsUseCase: SaveSyncSettingsUseCase = SaveSyncSettingsUseCase(),
     private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
     private val saveAppSettingsUseCase: SaveAppSettingsUseCase = SaveAppSettingsUseCase(),
 ): ScreenModel {
@@ -29,36 +34,36 @@ class AppSettingsViewModel(
 
     fun patTokenUpdated(gitHubPatToken: String) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(githubPatToken = gitHubPatToken))
+            _state.value = it.copy(syncSettings = it.syncSettings.copy(githubPatToken = gitHubPatToken))
         }
     }
 
     fun checkTimeoutUpdated(checkTimeout: Long) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(checkTimeout = checkTimeout))
+            _state.value = it.copy(syncSettings = it.syncSettings.copy(checkTimeout = checkTimeout))
         }
     }
 
     fun pullRequestCleanUpTimeoutUpdated(cleanUpTimeout: Long) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestCleanUpTimeout = cleanUpTimeout))
+            _state.value = it.copy(syncSettings = it.syncSettings.copy(pullRequestCleanUpTimeout = cleanUpTimeout))
         }
     }
 
     fun appThemeUpdated(appDarkTheme: Boolean?) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(appDarkTheme = appDarkTheme))
+            _state.value = it.copy(appSettings = it.appSettings.copy(darkTheme = appDarkTheme))
         }
     }
 
     fun saveSettings() {
         _state.on<State.Success> {
             coroutineScope.launch {
-                saveAppSettingsUseCase
-                    .execute(it.appSettings)
-                    .onSuccess {
-                        _events.emit(Events.Saved)
-                    }
+                val syncSettingsResult = saveSyncSettingsUseCase.execute(it.syncSettings)
+                val appSettingsResult = saveAppSettingsUseCase.execute(it.appSettings)
+                if (syncSettingsResult.isSuccess && appSettingsResult.isSuccess) {
+                    _events.emit(Events.Saved)
+                }
                 reload()
             }
         }
@@ -71,14 +76,13 @@ class AppSettingsViewModel(
     private fun loadSettings() {
         _state.value = State.Loading
         coroutineScope.launch {
-            getAppSettingsUseCase.execute().fold(
-                onSuccess = {
-                    _state.value = State.Success(appSettings = it)
-                },
-                onFailure = {
-                    _state.value = State.Error(throwable = it)
-                }
-            )
+            try {
+                val syncSettings = getSyncSettingsUseCase.execute().getOrThrow()
+                val appSettings = getAppSettingsUseCase.execute().getOrThrow()
+                _state.value = State.Success(syncSettings = syncSettings, appSettings = appSettings)
+            } catch (th: Throwable) {
+                _state.value = State.Error(throwable = th)
+            }
         }
     }
 
@@ -92,7 +96,7 @@ class AppSettingsViewModel(
 
     sealed class State {
         object Loading: State()
-        data class Success(val appSettings: AppSettings): State()
+        data class Success(val syncSettings: SyncSettings, val appSettings: AppSettings): State()
         data class Error(val throwable: Throwable): State()
     }
 }

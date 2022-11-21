@@ -1,7 +1,11 @@
-# 1.0.5
+# 1.1.0
 - Added
   - Pull request notifications in bulk import file
-
+  - Database encryption
+  - Add dependency updates GitHub Workflow
+- Changed
+  - Use Gradle version catalog, now the dependencies are in [libs.versions.toml](gradle/libs.versions.toml). 
+  
 # 1.0.4
 - Added
   - [Voyager](https://github.com/adrielcafe/voyager) library for navigation and view models

@@ -9,6 +9,9 @@ class GetAllReposToCheckUseCaseUseCase(
     private val localDataSource: LocalDataSource = LocalDataSource(),
 ): UseCaseWithoutParams<List<RepoToCheck>>() {
     override suspend fun perform(): Result<List<RepoToCheck>> {
-        return localDataSource.getAllReposToCheck().map { DbMappers.INSTANCE.dbRepoToCheckToRepoToCheck(it) }
+        return localDataSource.getAllReposToCheck()
+            .map {
+                DbMappers.INSTANCE.dbRepoToCheckToRepoToCheck(it)
+            }
     }
 }

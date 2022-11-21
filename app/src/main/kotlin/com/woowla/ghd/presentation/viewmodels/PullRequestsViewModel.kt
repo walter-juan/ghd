@@ -5,7 +5,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.usecases.GetAllPullRequestsUseCase
-import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
+import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
 import com.woowla.ghd.domain.usecases.SetPullRequestSeenAt
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
@@ -16,7 +16,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 class PullRequestsViewModel(
-    private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
+    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
     private val getAllPullRequestsUseCase: GetAllPullRequestsUseCase = GetAllPullRequestsUseCase(),
     private val setPullRequestSeenAt: SetPullRequestSeenAt = SetPullRequestSeenAt(),
 ): ScreenModel {
@@ -58,7 +58,7 @@ class PullRequestsViewModel(
         _state.value = State.Loading(_state.getPullsOrEmptyList())
 
         coroutineScope.launch {
-            val synchronizedAt = getAppSettingsUseCase.execute().getOrNull()?.synchronizedAt
+            val synchronizedAt = getSyncSettingsUseCase.execute().getOrNull()?.synchronizedAt
             getAllPullRequestsUseCase.execute()
                 .fold(
                     onSuccess = { pullRequests ->

@@ -13,16 +13,25 @@ import com.woowla.ghd.presentation.components.Screen
 import com.woowla.ghd.presentation.components.SectionCategory
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.TopBar
+import java.nio.file.Path
 
 class AboutScreen(
-    private val appDir: String = AppFolderFactory.folder,
+    private val appDir: Path = AppFolderFactory.folder,
+    val onBackClick: (() -> Unit)? = null,
 ) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val onComponentsSampleScreenClick = { navigator.push(ComponentsSampleScreen()) }
 
-        Screen(topBar = { TopBar(title = i18n.top_bar_title_about) }) {
+        Screen(
+            topBar = {
+                TopBar(
+                    title = i18n.top_bar_title_about,
+                    navOnClick = onBackClick
+                )
+            }
+        ) {
             item {
                 SectionCategory("Regarding ghd") {
                     SectionItem(

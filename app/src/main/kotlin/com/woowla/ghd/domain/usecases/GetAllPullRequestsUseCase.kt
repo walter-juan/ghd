@@ -10,14 +10,11 @@ class GetAllPullRequestsUseCase(
 ) : UseCaseWithoutParams<List<PullRequest>>() {
 
     override suspend fun perform(): Result<List<PullRequest>> {
-        val dbPullRequests = localDataSource.getAllPullRequests().getOrThrow()
-
-        val pullRequests = dbPullRequests.map { dbPullRequest ->
-            val dbRepoToCheck = localDataSource.getRepoToCheck(dbPullRequest.repoToCheckId).getOrThrow()
-            val repoToCheck = DbMappers.INSTANCE.dbRepoToCheckToRepoToCheck(dbRepoToCheck)
-            DbMappers.INSTANCE.dbPullRequestToPullRequest(dbPullRequest, repoToCheck)
-        }.sorted()
-
-        return Result.success(pullRequests)
+        return localDataSource.getAllPullRequests()
+            .map { dbPullRequests ->
+                DbMappers.INSTANCE.dbPullRequestToPullRequest(dbPullRequests)
+            }.map { pullRequests ->
+                pullRequests.sorted()
+            }
     }
 }

@@ -11,9 +11,9 @@ class SaveAppSettingsUseCase(
     private val localDataSource: LocalDataSource = LocalDataSource(),
 ) : UseCase<AppSettings, Unit>() {
     override suspend fun perform(params: AppSettings): Result<Unit> {
-        return localDataSource.updateAppSettings(DomainMappers.INSTANCE.appSettingsToDbAppSettings(params))
+        return localDataSource.updateAppSettings(DomainMappers.INSTANCE.appSettingsToUpsertRequest(params))
             .onSuccess {
-                EventBus.publish(Event.APP_SETTINGS_UPDATED)
+                EventBus.publish(Event.SETTINGS_UPDATED)
             }
     }
 }

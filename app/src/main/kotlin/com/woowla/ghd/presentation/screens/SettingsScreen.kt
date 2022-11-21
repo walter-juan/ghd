@@ -43,18 +43,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
-import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.Screen
 import com.woowla.ghd.presentation.components.SectionCategory
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.TopBar
-import com.woowla.ghd.presentation.viewmodels.AppSettingsViewModel
+import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 
-class AppSettingsScreen : Screen {
+class SettingsScreen : Screen {
     @Composable
     override fun Content() {
-        val viewModel = rememberScreenModel { AppSettingsViewModel() }
+        val viewModel = rememberScreenModel { SettingsViewModel() }
         val scaffoldState = rememberScaffoldState()
 
         val settingsState by viewModel.state.collectAsState()
@@ -62,7 +62,7 @@ class AppSettingsScreen : Screen {
         LaunchedEffect(scaffoldState.snackbarHostState) {
             viewModel.events.collect { event->
                 when (event) {
-                    AppSettingsViewModel.Events.Saved -> {
+                    SettingsViewModel.Events.Saved -> {
                         scaffoldState.snackbarHostState.showSnackbar(i18n.screen_app_settings_saved)
                     }
                 }
@@ -85,15 +85,16 @@ class AppSettingsScreen : Screen {
             }
         ) {
             when(settingsState) {
-                AppSettingsViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
-                is AppSettingsViewModel.State.Error -> item { Text(i18n.generic_error) }
-                is AppSettingsViewModel.State.Success -> {
-                    val successState = (settingsState as AppSettingsViewModel.State.Success)
+                SettingsViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
+                is SettingsViewModel.State.Error -> item { Text(i18n.generic_error) }
+                is SettingsViewModel.State.Success -> {
+                    val successState = (settingsState as SettingsViewModel.State.Success)
 
                     item {
-                        var gitHubPatToken by remember { mutableStateOf(successState.appSettings.githubPatToken ?: "") }
+                        var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken ?: "") }
                         var passwordVisible by remember { mutableStateOf(false) }
-                        SectionCategory(i18n.screen_app_settings_networking_section) {
+
+                        SectionCategory(i18n.screen_app_settings_synchronization_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_github_token_item,
                                 description = i18n.screen_app_settings_github_token_item_description
@@ -141,12 +142,12 @@ class AppSettingsScreen : Screen {
                                 title = i18n.screen_app_settings_checkout_timeout_item,
                                 description = i18n.screen_app_settings_checkout_timeout_item_description
                             ) {
-                                val checkTimeoutMinutes = AppSettings.availableCheckTimeouts.associateWith { checkTimeout ->
+                                val checkTimeoutMinutes = SyncSettings.availableCheckTimeouts.associateWith { checkTimeout ->
                                     i18n.app_settings_checkout_time_in_minutes(checkTimeout)
                                 }
 
                                 var expanded by remember { mutableStateOf(false) }
-                                var textFieldText by remember { mutableStateOf(checkTimeoutMinutes[successState.appSettings.checkTimeout] ?: i18n.app_settings_checkout_time_unknown) }
+                                var textFieldText by remember { mutableStateOf(checkTimeoutMinutes[successState.syncSettings.checkTimeout] ?: i18n.app_settings_checkout_time_unknown) }
                                 var textFieldSize by remember { mutableStateOf(Size.Zero) }
                                 val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
@@ -184,19 +185,17 @@ class AppSettingsScreen : Screen {
                                     }
                                 }
                             }
-                        }
 
-                        SectionCategory(i18n.screen_app_settings_appliation_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_pull_requests_clean_up_item,
                                 description = i18n.screen_app_settings_pull_requests_clean_up_item_description
                             ) {
-                                val cleanUpTimeoutHours = AppSettings.availablePullRequestCleanUpTimeout.associateWith { cleanUpTimeout ->
+                                val cleanUpTimeoutHours = SyncSettings.availablePullRequestCleanUpTimeout.associateWith { cleanUpTimeout ->
                                     i18n.app_settings_pr_cleanup_in_hours(cleanUpTimeout)
                                 }
 
                                 var expanded by remember { mutableStateOf(false) }
-                                var textFieldText by remember { mutableStateOf(cleanUpTimeoutHours[successState.appSettings.pullRequestCleanUpTimeout] ?: i18n.app_settings_pr_cleanup_unknown) }
+                                var textFieldText by remember { mutableStateOf(cleanUpTimeoutHours[successState.syncSettings.pullRequestCleanUpTimeout] ?: i18n.app_settings_pr_cleanup_unknown) }
                                 var textFieldSize by remember { mutableStateOf(Size.Zero) }
                                 val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 
@@ -234,7 +233,9 @@ class AppSettingsScreen : Screen {
                                     }
                                 }
                             }
+                        }
 
+                        SectionCategory(i18n.screen_app_settings_appliation_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_theme_item,
                                 description = i18n.screen_app_settings_theme_item_description
@@ -242,7 +243,7 @@ class AppSettingsScreen : Screen {
                                 val appThemeValues = mapOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)
                                 var expanded by remember { mutableStateOf(false) }
 
-                                var textFieldText by remember { mutableStateOf(appThemeValues[successState.appSettings.appDarkTheme] ?: i18n.app_settings_app_theme_unknown) }
+                                var textFieldText by remember { mutableStateOf(appThemeValues[successState.appSettings.darkTheme] ?: i18n.app_settings_app_theme_unknown) }
                                 var textFieldSize by remember { mutableStateOf(Size.Zero) }
                                 val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
 

@@ -18,26 +18,19 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kapt)
     alias(libs.plugins.compose)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
 }
 
 group = "com.woowla"
-version = "1.0.5"
+version = "1.1.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}
-
-sqldelight {
-    database("GhdDatabase") {
-        packageName = "com.woowla.ghd.data.local"
-    }
 }
 
 apollo {
@@ -55,39 +48,20 @@ buildConfig {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
-    // kotlin coroutines, needed because we are using the main dispatcher
     implementation(libs.kotlinx.coroutines.swing)
-    // ktor http client (needed for kamel)
     implementation(libs.ktor.client.cio)
-    // GraphQL client
     implementation(libs.apollo3)
-    // sqldelight database for JVM
-    implementation(libs.sqldelight.sqlite.driver)
-    // date time kotlin lib
+    implementation(libs.h2)
+    implementation(libs.bundles.exposed)
     implementation(libs.kotlinx.datetime)
-    // logger
     implementation(libs.kermit)
-    // cross-platform lib to resolve some application directories for desktop
     implementation(libs.appdirs)
-    // An annotation processor for generating type-safe bean mappers
     implementation(libs.mapstruct.core)
     kapt(libs.mapstruct.processor)
-    // kamel, media loading and caching (requires Ktor HttpClient)
     implementation(libs.kamel)
-    // navigation and view models
-    implementation(libs.voyager.navigator.core)
-    implementation(libs.voyager.navigator.tab)
-    implementation(libs.voyager.transitions)
-    // kotest runner
-    testImplementation(libs.test.kotest.runner.junit5)
-    // kotest assertions
-    testImplementation(libs.test.kotest.assertions.core)
-    // kotest assertions, kotlinx DateTime assertions
-    testImplementation(libs.test.kotest.assertions.kotlinx.time)
-    // kotest property-based testing (right now used only for the data generators)
-    testImplementation(libs.test.kotest.property)
-    // kotest property-based testing, kotlinx DateTime generators
-    testImplementation(libs.test.kotest.extensions.property.datetime)
+    implementation(libs.bundles.voyager)
+
+    testImplementation(libs.bundles.test.kotest)
 }
 
 compose.desktop {
