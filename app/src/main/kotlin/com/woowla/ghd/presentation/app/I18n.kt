@@ -11,6 +11,7 @@ object i18n {
     } else {
         "GHD - GitHub Dashboard"
     }
+    val generic_loading = "Loading"
     val generic_error = "Error"
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
     val generic_hours_ago: (Long) -> String = { "$it hours ago" }
@@ -61,7 +62,7 @@ object i18n {
 
     val screen_app_settings_saved = "Saved"
     val screen_app_settings_save = "Save"
-    val screen_app_settings_networking_section = "Networking"
+    val screen_app_settings_synchronization_section = "Synchronization"
     val screen_app_settings_appliation_section = "Application"
     val screen_app_settings_github_token_field_label = "GitHub PAT token"
     val screen_app_settings_github_field_show = "Show GitHub PAT token"
@@ -78,6 +79,19 @@ object i18n {
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"
     val screen_app_settings_pull_requests_clean_up_item_description = "Remove closed and merged pull requests after certain amount of time"
+
+    val screen_login_password_field_label = "Password"
+    val screen_login_password_field_field_show = "Show GitHub PAT token"
+    val screen_login_password_field_field_hide = "Hide GitHub PAT token"
+    val screen_login_unlock_button = "Unlock"
+    val screen_login_about_app_button = "About the app"
+    val screen_login_create_new_database_button = "Create new database"
+    val screen_login_password_database_info = "This password is used to encrypt the local database. Remember this password because it will be needed each time you open the app, if you don't remember it, the database will have to be created again."
+    val screen_login_remove_database_info = "Don't remember the password you set? You can remove the database and set a new password again, by clicking the button below."
+    val screen_login_remove_database = "Set new password"
+    val screen_login_remove_database_confirmation_dialog_text = "Setting a new password will delete all your data, are you sure?"
+    val screen_login_remove_database_confirmation_dialog_yes_button = "Yes"
+    val screen_login_remove_database_confirmation_dialog_no_button = "No"
 
     val app_theme_system_default = "System default"
     val app_theme_dark = "Dark"
@@ -97,4 +111,12 @@ object i18n {
     val app_settings_pr_cleanup_unknown = "?"
 
     val file_dialog_choose_file = "Choose a file"
+
+    val error_unknown = "Unknown error"
+    val error_db_wrong_password_format = "Wrong password format"
+    val error_db_wrong_user_or_password = "Wrong password or username"
+    val error_db_wrong_encryption_password = "Wrong encryption password"
+    val error_db_database_not_foung = "Database not found"
+    val error_db_database_already_open = "Database already opened"
+    val error_db_unknown = "Unknown database error"
 }

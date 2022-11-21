@@ -1,189 +1,203 @@
 package com.woowla.ghd.data.local
 
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
-import com.woowla.ghd.AppFolderFactory
+import com.woowla.ghd.data.local.db.DbSettings
+import com.woowla.ghd.data.local.db.entities.DbPullRequest
+import com.woowla.ghd.data.local.db.entities.DbRelease
+import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
+import com.woowla.ghd.data.local.db.entities.DbSyncSettings
+import com.woowla.ghd.data.local.db.newDbSuspendedTransaction
+import com.woowla.ghd.data.local.db.tables.DbPullRequestTable
+import com.woowla.ghd.data.local.db.tables.DbReleaseTable
+import com.woowla.ghd.data.local.prop.AppProperties
+import com.woowla.ghd.data.local.prop.entities.PropAppSettings
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
 import com.woowla.ghd.domain.requests.UpsertReleaseRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import java.nio.file.Paths
-import java.util.*
+import com.woowla.ghd.data.local.db.utils.findByIdOrThrow
+import com.woowla.ghd.data.local.db.utils.upsertById
+import com.woowla.ghd.domain.requests.UpsertAppSettings
+import com.woowla.ghd.domain.requests.UpsertSyncSettings
+import kotlinx.datetime.Instant
+import kotlinx.datetime.toInstant
+import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.dao.with
 
 class LocalDataSource(
-    database: GhdDatabase = ghdDatabaseInstance,
+    private val appProperties: AppProperties = AppProperties,
 ) {
-    companion object {
-        private val ghdDatabaseInstance: GhdDatabase by lazy {
-            val name = "ghd.sqlite"
-            val path = Paths.get(AppFolderFactory.folder, name)
-
-            val url = "jdbc:sqlite:$path"
-
-            val driver = JdbcSqliteDriver(
-                url,
-                Properties(1).apply { put("foreign_keys", "true") }
+    suspend fun getAppSettings(): Result<PropAppSettings> {
+        return runCatching {
+            appProperties.load()
+            PropAppSettings(
+                darkTheme = appProperties.darkTheme
             )
-
-            GhdDatabase.Schema.create(driver)
-            GhdDatabase(driver)
         }
     }
 
-    private val appSettingsUUID = "06f16337-4ded-4296-8b51-18b23fe3c1c4"
-    private val appSettingsQueries = database.appSettingsQueries
-    private val repoToCheckQueries = database.repoToCheckQueries
-    private val pullRequestQueries = database.pullRequestQueries
-    private val releaseQueries = database.releaseQueries
-
-    suspend fun getAppSettings(): Result<DbAppSettings> {
+    suspend fun updateAppSettings(upsertRequest: UpsertAppSettings): Result<Unit> {
         return runCatching {
-            getOrCreateSettings()
+            appProperties.load()
+            appProperties.darkTheme = upsertRequest.darkTheme
+            appProperties.store()
         }
     }
-    suspend fun updateAppSettings(dbAppSettings: DbAppSettings): Result<Unit> {
+
+    suspend fun getSyncSettings(): Result<DbSyncSettings> {
         return runCatching {
-            appSettingsQueries.insertOrUpdate(dbAppSettings.copy(id = appSettingsUUID))
+            getOrCreateSyncSettings()
+        }
+    }
+
+    suspend fun updateSyncSettings(upsertRequest: UpsertSyncSettings): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                val dbEntity = getOrCreateSyncSettings()
+                dbEntity.githubPatToken = upsertRequest.githubPatToken
+                dbEntity.checkTimeout = upsertRequest.checkTimeout
+                dbEntity.synchronizedAt = upsertRequest.synchronizedAt
+                dbEntity.pullRequestCleanUpTimeout = upsertRequest.pullRequestCleanUpTimeout
+            }
         }
     }
 
     suspend fun getRepoToCheck(id: Long): Result<DbRepoToCheck> {
         return runCatching {
-            repoToCheckQueries.select(id).executeAsOne()
+            newDbSuspendedTransaction {
+                DbRepoToCheck.findByIdOrThrow(id)
+            }
         }
     }
     suspend fun getAllReposToCheck(): Result<List<DbRepoToCheck>> {
         return runCatching {
-            repoToCheckQueries.selectAll().executeAsList()
+            newDbSuspendedTransaction {
+                DbRepoToCheck.all().toList()
+            }
         }
     }
     suspend fun upsertRepoToCheck(upsertRequest: UpsertRepoToCheckRequest): Result<Unit> {
         return runCatching {
-            repoToCheckQueries.insertOrUpdate(
-                id = upsertRequest.id,
-                owner = upsertRequest.owner,
-                name = upsertRequest.name,
-                pullNotificationsEnabled = upsertRequest.pullNotificationsEnabled,
-                releaseNotificationsEnabled = upsertRequest.releaseNotificationsEnabled,
-                groupName = upsertRequest.groupName,
-                pullBranchRegex = upsertRequest.pullBranchRegex
-            )
+            newDbSuspendedTransaction {
+                DbRepoToCheck.upsertById(upsertRequest.id) {
+                    owner = upsertRequest.owner
+                    name = upsertRequest.name
+                    pullNotificationsEnabled = upsertRequest.pullNotificationsEnabled
+                    releaseNotificationsEnabled = upsertRequest.releaseNotificationsEnabled
+                    groupName = upsertRequest.groupName
+                    pullBranchRegex = upsertRequest.pullBranchRegex
+                }
+            }
         }
     }
     suspend fun removeRepoToCheck(id: Long): Result<Unit> {
         return runCatching {
-            repoToCheckQueries.delete(id)
+            newDbSuspendedTransaction {
+                DbRepoToCheck.findById(id)?.delete()
+            }
         }
     }
 
     suspend fun getPullRequest(id: String): Result<DbPullRequest> {
         return runCatching {
-            pullRequestQueries.select(id = id).executeAsOne()
-        }
-    }
-    suspend fun getPullRequestsByRepository(repoToCheckId: Long): Result<List<DbPullRequest>> {
-        return runCatching {
-            pullRequestQueries.selectByRepoToCheck(repoToCheckId = repoToCheckId).executeAsList()
+            newDbSuspendedTransaction {
+                DbPullRequest.findByIdOrThrow(id).load(DbPullRequest::repoToCheck)
+            }
         }
     }
     suspend fun getAllPullRequests(): Result<List<DbPullRequest>> {
         return runCatching {
-            pullRequestQueries.selectAll().executeAsList()
+            newDbSuspendedTransaction {
+                DbPullRequest.all().with(DbPullRequest::repoToCheck).toList()
+            }
         }
     }
-    suspend fun upsertPullRequest(upsertRequest: UpsertPullRequestRequest): Result<Unit> {
-        return upsertPullRequests(listOf(upsertRequest))
-    }
-    suspend fun updateAppSeenAt(id: String, appSeenAt: String?): Result<Unit> {
+    suspend fun updateAppSeenAt(id: String, appSeenAt: Instant?): Result<Unit> {
         return runCatching {
-            pullRequestQueries.updateAppSeenAt(id = id, appSeenAt = appSeenAt)
+            newDbSuspendedTransaction {
+                DbPullRequest.findByIdOrThrow(id).apply {
+                    this.appSeenAt = appSeenAt
+                }
+            }
         }
     }
     suspend fun upsertPullRequests(upsertRequests: List<UpsertPullRequestRequest>): Result<Unit> {
         return runCatching {
-            upsertRequests.forEach { upsertRequest ->
-                pullRequestQueries.insertOrUpdate(
-                    id = upsertRequest.id,
-                    number = upsertRequest.number,
-                    url = upsertRequest.url,
-                    title = upsertRequest.title,
-                    state = upsertRequest.state,
-                    createdAt = upsertRequest.createdAt,
-                    updatedAt = upsertRequest.updatedAt,
-                    mergedAt = upsertRequest.mergedAt,
-                    draft = upsertRequest.draft,
-                    baseRef = upsertRequest.baseRef,
-                    headRef = upsertRequest.headRef,
-                    authorLogin = upsertRequest.authorLogin,
-                    authorUrl = upsertRequest.authorUrl,
-                    authorAvatarUrl = upsertRequest.authorAvatarUrl,
-                    appSeenAt = upsertRequest.appSeenAt,
-                    repoToCheckId = upsertRequest.repoToCheckId,
-                )
+            newDbSuspendedTransaction {
+                upsertRequests.forEach { upsertRequest ->
+                    val dbRepoToCheck = DbRepoToCheck.findByIdOrThrow(upsertRequest.repoToCheckId)
+                    DbPullRequest.upsertById(upsertRequest.id) {
+                        number = upsertRequest.number
+                        url = upsertRequest.url
+                        title = upsertRequest.title
+                        state = upsertRequest.state
+                        createdAt = upsertRequest.createdAt
+                        updatedAt = upsertRequest.updatedAt
+                        mergedAt = upsertRequest.mergedAt
+                        draft = upsertRequest.draft
+                        baseRef = upsertRequest.baseRef
+                        headRef = upsertRequest.headRef
+                        authorLogin = upsertRequest.authorLogin
+                        authorUrl = upsertRequest.authorUrl
+                        authorAvatarUrl = upsertRequest.authorAvatarUrl
+                        appSeenAt = upsertRequest.appSeenAt
+                        repoToCheck = dbRepoToCheck
+                    }
+                }
             }
         }
     }
-    suspend fun removePullRequests(id: String): Result<Unit> {
-        return removePullRequests(listOf(id))
-    }
     suspend fun removePullRequests(ids: List<String>): Result<Unit> {
         return runCatching {
-            ids.forEach { id ->
-                pullRequestQueries.delete(id)
+            newDbSuspendedTransaction {
+                DbPullRequest.find { DbPullRequestTable.id inList ids }.forEach { it.delete() }
             }
         }
     }
 
-    suspend fun getReleaseByRepository(repoToCheckId: Long): Result<DbRelease> {
-        return runCatching {
-            releaseQueries.selectByRepoToCheck(repoToCheckId = repoToCheckId).executeAsOne()
-        }
-    }
     suspend fun getAllReleases(): Result<List<DbRelease>> {
         return runCatching {
-            releaseQueries.selectAll().executeAsList()
+            newDbSuspendedTransaction {
+                DbRelease.all().with(DbRelease::repoToCheck).toList()
+            }
         }
     }
     suspend fun upsertRelease(upsertRequest: UpsertReleaseRequest): Result<Unit> {
         return runCatching {
-            releaseQueries.insertOrUpdate(
-                id = upsertRequest.id,
-                name = upsertRequest.name,
-                tagName = upsertRequest.tagName,
-                url = upsertRequest.url,
-                publishedAt = upsertRequest.publishedAt,
-                authorLogin = upsertRequest.authorLogin,
-                authorUrl = upsertRequest.authorUrl,
-                authorAvatarUrl = upsertRequest.authorAvatarUrl,
-                repoToCheckId = upsertRequest.repoToCheckId,
-            )
-        }
-    }
-    suspend fun removeRelease(id: String): Result<Unit> {
-        return runCatching {
-            releaseQueries.delete(id)
+            newDbSuspendedTransaction {
+                val dbRepoToCheck = DbRepoToCheck.findByIdOrThrow(upsertRequest.repoToCheckId)
+                DbRelease.upsertById(upsertRequest.id) {
+                    name = upsertRequest.name
+                    tagName = upsertRequest.tagName
+                    url = upsertRequest.url
+                    publishedAt = upsertRequest.publishedAt
+                    authorLogin = upsertRequest.authorLogin
+                    authorUrl = upsertRequest.authorUrl
+                    authorAvatarUrl = upsertRequest.authorAvatarUrl
+                    repoToCheck = dbRepoToCheck
+                }
+            }
         }
     }
     suspend fun removeReleaseByRepoToCheck(repoToCheckId: Long): Result<Unit> {
         return runCatching {
-            releaseQueries.deleteByRepoToCheck(repoToCheckId)
+            newDbSuspendedTransaction {
+                DbRelease.find { DbReleaseTable.repoToCheckId eq repoToCheckId }.forEach { it.delete() }
+            }
         }
     }
 
-    private fun getOrCreateSettings(): DbAppSettings {
-        val query = appSettingsQueries.select(id = appSettingsUUID)
-        val dbAppSettings = query.executeAsOneOrNull()
-
-        return if (dbAppSettings == null) {
-            appSettingsQueries.insertOrUpdate(DbAppSettings(
-                id = appSettingsUUID,
-                githubPatToken = "",
-                checkTimeout = null,
-                synchronizedAt = null,
-                appDarkTheme = null,
-                pullRequestCleanUpTimeout = null,
-            ))
-            appSettingsQueries.select(id = appSettingsUUID).executeAsOne()
-        } else {
-            dbAppSettings
+    private suspend fun getOrCreateSyncSettings(): DbSyncSettings {
+        return newDbSuspendedTransaction {
+            val dbSyncSettings = DbSyncSettings.findById(DbSettings.syncSettingsUUID)
+            if (dbSyncSettings == null) {
+                DbSyncSettings.new(DbSettings.syncSettingsUUID) {
+                    githubPatToken = ""
+                    checkTimeout = null
+                    synchronizedAt = null
+                    pullRequestCleanUpTimeout = null
+                }
+            } else {
+                dbSyncSettings
+            }
         }
     }
 }

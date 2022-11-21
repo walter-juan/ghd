@@ -1,3 +1,4 @@
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -11,6 +12,9 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.woowla.ghd.domain.Synchronizer
+import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
+import com.woowla.ghd.eventbus.Event
+import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.presentation.app.App
 import com.woowla.ghd.presentation.app.AppIcons
@@ -22,8 +26,14 @@ fun main() {
 
     application {
         val coroutineScope = rememberCoroutineScope()
-
         var isVisible by remember { mutableStateOf(true) }
+        var appUnlocked by remember { mutableStateOf(false) }
+
+        LaunchedEffect("main-synchronizer") {
+            EventBus.subscribe("main-subscriber", this, Event.APP_UNLOCKED) {
+                appUnlocked = true
+            }
+        }
 
         Window(
             title = i18n.app_name,
@@ -34,7 +44,7 @@ fun main() {
         ) {
             MenuBar {
                 Menu(i18n.menu_bar_menu_actions) {
-                    Item(i18n.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                    Item(i18n.menu_bar_menu_item_synchronize, enabled = appUnlocked, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 }
             }
             App()
@@ -46,7 +56,7 @@ fun main() {
             tooltip = i18n.tray_tooltip,
             onAction = { isVisible = true },
             menu = {
-                Item(i18n.tray_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                Item(i18n.tray_item_synchronize, enabled = appUnlocked, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 if (isVisible) {
                     Item(i18n.tray_item_hide_app, onClick = { isVisible = false })
                 } else {

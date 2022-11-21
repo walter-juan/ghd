@@ -18,26 +18,19 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kapt)
     alias(libs.plugins.compose)
-    alias(libs.plugins.sqldelight)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
 }
 
 group = "com.woowla"
-version = "1.0.5"
+version = "1.1.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}
-
-sqldelight {
-    database("GhdDatabase") {
-        packageName = "com.woowla.ghd.data.local"
-    }
 }
 
 apollo {
@@ -58,7 +51,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.swing)
     implementation(libs.ktor.client.cio)
     implementation(libs.apollo3)
-    implementation(libs.sqldelight.sqlite.driver)
+    implementation(libs.h2)
+    implementation(libs.bundles.exposed)
     implementation(libs.kotlinx.datetime)
     implementation(libs.kermit)
     implementation(libs.appdirs)

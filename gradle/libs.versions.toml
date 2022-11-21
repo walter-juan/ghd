@@ -1,6 +1,5 @@
 [versions]
 kotlin = "1.7.20"
-sqldelight = "1.5.4"
 apollo3 = "3.7.0"
 mapstruct = "1.5.3.Final"
 voyager = "1.0.0-rc02"
@@ -11,7 +10,6 @@ exposed = "0.40.1"
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version = "1.2.1" }
-sqldelight = { id = "com.squareup.sqldelight", version.ref = "sqldelight" }
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
 benmanesversions = { id = "com.github.ben-manes.versions", version = "0.44.0" }
@@ -25,8 +23,6 @@ kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.3" }
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
-# sqldelight database for JVM
-sqldelight-sqlite-driver = { group = "com.squareup.sqldelight", name = "sqlite-driver", version.ref = "sqldelight" }
 # H2 database
 h2 = { group = "com.h2database", name = "h2", version = "2.1.214" }
 # Exposed ORM

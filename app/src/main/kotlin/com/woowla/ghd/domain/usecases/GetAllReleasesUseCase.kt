@@ -9,14 +9,11 @@ class GetAllReleasesUseCase(
     private val localDataSource: LocalDataSource = LocalDataSource()
 )  : UseCaseWithoutParams<List<Release>>() {
     override suspend fun perform(): Result<List<Release>> {
-        val dbReleases = localDataSource.getAllReleases().getOrThrow()
-
-        val releases = dbReleases.map { dbRelease ->
-            val dbRepoToCheck = localDataSource.getRepoToCheck(dbRelease.repoToCheckId).getOrThrow()
-            val repoToCheck = DbMappers.INSTANCE.dbRepoToCheckToRepoToCheck(dbRepoToCheck)
-            DbMappers.INSTANCE.dbReleaseToRelease(dbRelease, repoToCheck)
-        }.sorted()
-
-        return Result.success(releases)
+        return localDataSource.getAllReleases()
+            .map { dbReleases ->
+                DbMappers.INSTANCE.dbReleaseToRelease(dbReleases)
+            }.map { releases ->
+                releases.sorted()
+            }
     }
 }

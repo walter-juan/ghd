@@ -1,13 +1,12 @@
 package com.woowla.ghd.domain.usecases
 
 import com.woowla.ghd.KermitLogger
-import com.woowla.ghd.data.local.DbRepoToCheck
 import com.woowla.ghd.data.local.LocalDataSource
+import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
 import com.woowla.ghd.data.remote.RemoteDataSource
-import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.mappers.ApiMappers
-import com.woowla.ghd.domain.mappers.InstantMapper
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.utils.UseCaseWithoutParams
@@ -19,8 +18,8 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.Clock
 
 class SynchronizationUseCase(
-    private val appSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
-    private val saveAppSettingsUseCase: SaveAppSettingsUseCase = SaveAppSettingsUseCase(),
+    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
+    private val saveSyncSettingsUseCase: SaveSyncSettingsUseCase = SaveSyncSettingsUseCase(),
     private val getAllPullRequestsUseCase: GetAllPullRequestsUseCase = GetAllPullRequestsUseCase(),
     private val getAllReleasesUseCase: GetAllReleasesUseCase = GetAllReleasesUseCase(),
     private val sendPullRequestsNotificationsUseCase: SendPullRequestsNotificationsUseCase = SendPullRequestsNotificationsUseCase(),
@@ -29,10 +28,10 @@ class SynchronizationUseCase(
     private val remoteDataSource: RemoteDataSource = RemoteDataSource()
 ) : UseCaseWithoutParams<Unit>() {
     override suspend fun perform(): Result<Unit> {
-        val appSettingsResult = appSettingsUseCase.execute()
-        val appSettings = appSettingsResult.getOrNull()
-        val githubPatToken = appSettings?.githubPatToken
-        val pullRequestCleanUpTimeout = AppSettings.getValidPullRequestCleanUpTimeout(appSettings?.pullRequestCleanUpTimeout)
+        val getSyncSettingsResult = getSyncSettingsUseCase.execute()
+        val getSyncSettings = getSyncSettingsResult.getOrNull()
+        val githubPatToken = getSyncSettings?.githubPatToken
+        val pullRequestCleanUpTimeout = SyncSettings.getValidPullRequestCleanUpTimeout(getSyncSettings?.pullRequestCleanUpTimeout)
         KermitLogger.d("SynchronizationUseCase :: is github token null or blank? ${githubPatToken.isNullOrBlank()}")
         if (githubPatToken.isNullOrBlank()) {
             return Result.success(Unit)
@@ -58,8 +57,8 @@ class SynchronizationUseCase(
         }
 
         val synchronizedAt = Clock.System.now()
-        appSettingsResult.onSuccess { appSettings ->
-            saveAppSettingsUseCase.execute(appSettings.copy(synchronizedAt = synchronizedAt))
+        getSyncSettingsResult.onSuccess { syncSettings ->
+            saveSyncSettingsUseCase.execute(syncSettings.copy(synchronizedAt = synchronizedAt))
         }
 
         KermitLogger.d("SynchronizationUseCase :: sync at $synchronizedAt and it took $measuredTime millis to download the pull requests and repositories")
@@ -82,9 +81,8 @@ class SynchronizationUseCase(
             .map { apiPullRequests ->
                 // insert
                 val pullUpsertRequests = apiPullRequests.map { apiPullRequest ->
-                    val instantMapper = InstantMapper()
                     val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.appSeenAt
-                    apiMappers.pullRequestNodeToUpsertRequest(pullRequestNode = apiPullRequest, appSeenAt = instantMapper.stringToInstant(appSeenAt), repoToCheckId = dbRepoToCheck.id)
+                    apiMappers.pullRequestNodeToUpsertRequest(pullRequestNode = apiPullRequest, appSeenAt = appSeenAt, repoToCheckId = dbRepoToCheck.id.value)
                 }.filter { upsertPullRequestRequest ->
                     val headRef = upsertPullRequestRequest.headRef
                     val regexStr = dbRepoToCheck.pullBranchRegex
@@ -105,10 +103,10 @@ class SynchronizationUseCase(
             .getLastRelease(owner = dbRepoToCheck.owner, repo = dbRepoToCheck.name)
             .map { apiRelease ->
                 // remove old one
-                localDataSource.removeReleaseByRepoToCheck(repoToCheckId = dbRepoToCheck.id)
+                localDataSource.removeReleaseByRepoToCheck(repoToCheckId = dbRepoToCheck.id.value)
                 // insert the new one
                 try {
-                    val releaseUpsertRequest = apiMappers.lastReleaseToUpsertRequest(apiRelease, dbRepoToCheck.id)
+                    val releaseUpsertRequest = apiMappers.lastReleaseToUpsertRequest(apiRelease, dbRepoToCheck.id.value)
                     localDataSource.upsertRelease(releaseUpsertRequest)
                 } catch (ex: Exception) {
                     KermitLogger.e("fetchLastReleases error", ex)

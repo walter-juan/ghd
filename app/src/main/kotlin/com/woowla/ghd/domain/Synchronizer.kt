@@ -1,12 +1,13 @@
 package com.woowla.ghd.domain
 
 import com.woowla.ghd.KermitLogger
-import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
+import com.woowla.ghd.domain.entities.SyncSettings
+import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
 import com.woowla.ghd.domain.usecases.SynchronizationUseCase
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.extensions.timer
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CoroutineScope
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class Synchronizer private constructor(
     private val synchronizationUseCase: SynchronizationUseCase = SynchronizationUseCase(),
-    private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase()
+    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase()
 ) {
     companion object {
         val INSTANCE = Synchronizer()
@@ -26,17 +27,23 @@ class Synchronizer private constructor(
     private val job = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
-    private var checkTimeout = AppSettings.defaultCheckTimeout
+    private val isInitialized = AtomicBoolean(false)
+    private var checkTimeout = SyncSettings.defaultCheckTimeout
     private var timerJob: Job? = null
 
     private var syncJob: Job? = null
 
-    init {
+    fun initialize() {
+        isInitialized.set(true)
         reloadCheckTimeout(forceReload = true, startWithDelay = false)
         subscribe()
     }
 
     fun sync() {
+        if (!isInitialized.get()) {
+            return
+        }
+
         // don't sync if it's still running
         if (syncJob?.isCompleted ?: true) {
             KermitLogger.d("Synchronizer :: sync")
@@ -52,9 +59,9 @@ class Synchronizer private constructor(
 
     private fun reloadCheckTimeout(forceReload: Boolean = false, startWithDelay: Boolean = true) {
         scope.launch {
-            val settingsCheckTimeout = getAppSettingsUseCase.execute().getOrNull()?.checkTimeout
+            val settingsCheckTimeout = getSyncSettingsUseCase.execute().getOrNull()?.checkTimeout
             if (forceReload || (settingsCheckTimeout != null && settingsCheckTimeout != checkTimeout)) {
-                checkTimeout = AppSettings.getValidCheckTimeout(settingsCheckTimeout)
+                checkTimeout = SyncSettings.getValidCheckTimeout(settingsCheckTimeout)
                 setTimer(startWithDelay = startWithDelay)
             }
         }
@@ -73,7 +80,7 @@ class Synchronizer private constructor(
     }
 
     private fun subscribe() {
-        EventBus.subscribe(this, scope, Event.APP_SETTINGS_UPDATED) {
+        EventBus.subscribe(this, scope, Event.SETTINGS_UPDATED) {
             reloadCheckTimeout()
         }
     }
