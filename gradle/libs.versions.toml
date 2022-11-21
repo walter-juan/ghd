@@ -1,0 +1,62 @@
+[versions]
+kotlin = "1.7.20"
+apollo3 = "3.7.0"
+mapstruct = "1.5.3.Final"
+voyager = "1.0.0-rc02"
+kotest = "5.5.4"
+exposed = "0.40.1"
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version = "1.2.1" }
+apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
+benmanesversions = { id = "com.github.ben-manes.versions", version = "0.44.0" }
+
+[libraries]
+# kotlin coroutines, needed because we are using the main dispatcher
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.6.4" }
+# date time kotlin lib
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
+# ktor http client (needed for kamel)
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.1.3" }
+# GraphQL client
+apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
+# H2 database
+h2 = { group = "com.h2database", name = "h2", version = "2.1.214" }
+# Exposed ORM
+exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
+exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
+# logger
+kermit = { group = "co.touchlab", name = "kermit", version = "1.2.2" }
+# cross-platform lib to resolve some application directories for desktop
+appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
+# An annotation processor for generating type-safe bean mappers
+mapstruct-core = { group = "org.mapstruct", name = "mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "mapstruct" }
+# kamel, media loading and caching (requires Ktor HttpClient)
+kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
+# navigation and view models
+voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
+
+# kotest runner
+test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+# kotest property-based testing (right now used only for the data generators)
+test-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+# kotest assertions
+test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+# kotest assertions, kotlinx DateTime assertions
+test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
+# kotest property-based testing, kotlinx DateTime generators
+test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "1.1.0" }
+
+[bundles]
+voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions"]
+exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
+
+test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]

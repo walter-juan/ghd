@@ -8,6 +8,9 @@ build/
 ### GHD debug folder ###
 ghd-debug/
 
+### Binary folders ###
+bin
+
 ### IntelliJ IDEA ###
 .idea
 

@@ -1,7 +1,5 @@
 
-> ⚠️ Right now GitHub PAT is needed to fetch all data and the database used for store it is not encrypted, your token will be exposed.
->
-> ℹ️ **Take this like a sample to play with it, not an application to use**
+> ℹ️ **This project is a sample to play with it, not an application to use**
 >
 > This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
@@ -18,24 +16,41 @@ $ ./gradlew build -PdebugConfig=false
 
 - Run the app
     ```shell
-    $ ./gradlew run
+    ./gradlew run
     ```
 - Build the project
     ```shell
-    $ ./gradlew build
+    ./gradlew build
     ```
 - Clean the project
     ```shell
-    $ ./gradlew clean
+    ./gradlew clean
     ```
 - Create the packages
     ```shell
-    $ ./gradlew package
+    ./gradlew package
     ```
 - To know which dependencies have updates
     ```shell
-    $ ./gradlew dependencyUpdates
+    ./gradlew dependencyUpdates
     ```
+- Update Gradle version
+    ```shell
+    ./gradlew wrapper --gradle-version 7.5.1
+    ```
+# H2 Database
+
+The database used in this project is [H2](https://www.h2database.com/) because of encryption support + embedded. As the database is encrypted a user and password is required, you can find it in [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt).
+
+**H2 Console**
+
+For more detailed information follow [the tutorial from H2](https://www.h2database.com/html/tutorial.html).
+
+1. Download H2 console app:
+   - The `Platform-Independent Zip` from [the website](https://www.h2database.com/html/download.html)
+   - Or `h2-<versuin>.jar` from [the GitHub releases](https://github.com/h2database/h2database/releases)
+2. From terminal run the h2 `$ java -jar h2*.jar` and the web browser will be opened.
+3. In the [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt) you can find all the data required like the URL, driver, user and password
 
 # Links
 - Android official
