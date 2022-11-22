@@ -53,6 +53,8 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
 3. In the [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt) you can find all the data required like the URL, driver, user and password
 
 # Links
+- GitHub
+  - [GitHub Actions runner images](https://github.com/actions/runner-images)
 - Android official
   - [Material Design Components](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary) code documentation, the package `androidx.compose.material`
   - [List and id's for performance](https://developer.android.com/jetpack/compose/lists)

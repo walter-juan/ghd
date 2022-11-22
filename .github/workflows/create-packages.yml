@@ -5,6 +5,7 @@ on:
 
 jobs:
   package:
+    name: Crete packages
     strategy:
       matrix:
         os: [windows-2022, macos-12]
@@ -17,14 +18,14 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up Java
         uses: actions/setup-java@v3.4.1
         with:
           distribution: 'temurin'
           java-version: '16'
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.4
-      - name: Setup and execute package Gradle task
+      - name: Create package
         uses: gradle/gradle-build-action@v2.2.2
         with:
           arguments: |
