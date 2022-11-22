@@ -19,7 +19,6 @@ runs:
         version=$(grep "version = " app/build.gradle.kts | sed 's/[^0-9.]*//g')
         tag="v$version"
         name="Version $version"
-        echo "::set-output name=name::$name"
-        echo "::set-output name=version::$version"
-        echo "::set-output name=tag::$tag"
-        
+        echo "name=$name" >> $GITHUB_OUTPUT
+        echo "version=$version" >> $GITHUB_OUTPUT
+        echo "tag=$tag" >> $GITHUB_OUTPUT
