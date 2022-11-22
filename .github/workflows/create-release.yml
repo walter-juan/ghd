@@ -7,15 +7,16 @@ on:
 
 jobs:
   create-release:
+    name: Crete release
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.1.0
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
-      - name: Release
-        uses: softprops/action-gh-release@v1
+      - name: Create release
+        uses: softprops/action-gh-release@v0.1.15
         with:
           tag_name: ${{ steps.generate-release-data.outputs.tag }}
           name: ${{ steps.generate-release-data.outputs.name }}
