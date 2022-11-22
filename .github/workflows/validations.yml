@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.1.0
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
