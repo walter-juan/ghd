@@ -1,5 +1,6 @@
 # 1.1.1
-
+- Changed
+  - GitHub Actions, rename and update versions
 # 1.1.0
 - Added
   - Pull request notifications in bulk import file
