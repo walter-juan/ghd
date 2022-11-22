@@ -5,6 +5,7 @@ on:
 
 jobs:
   package:
+    name: Crete packages
     strategy:
       matrix:
         os: [windows-2022, macos-12]

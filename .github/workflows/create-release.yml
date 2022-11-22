@@ -7,6 +7,7 @@ on:
 
 jobs:
   create-release:
+    name: Crete release
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
