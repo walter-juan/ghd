@@ -17,23 +17,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v3.1.0
       - name: Set up Java
-        uses: actions/setup-java@v3.4.1
+        uses: actions/setup-java@v3.6.0
         with:
           distribution: 'temurin'
           java-version: '16'
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.4
+        uses: gradle/wrapper-validation-action@v1.0.5
       - name: Create package
-        uses: gradle/gradle-build-action@v2.2.2
+        uses: gradle/gradle-build-action@v2.2.3
         with:
           arguments: |
             clean
             package
             -PdebugConfig=false
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.0
+        uses: actions/upload-artifact@v3.1.1
         with:
           path: |
             ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
