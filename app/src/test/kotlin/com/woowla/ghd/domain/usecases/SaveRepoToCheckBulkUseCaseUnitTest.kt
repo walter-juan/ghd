@@ -26,7 +26,7 @@ class SaveRepoToCheckBulkUseCaseUnitTest : StringSpec({
         val repos = parseRepos(validLine)
         repos.size shouldBe 3
         repos[0] shouldBe Repository(owner = "walter", name = "test")
-        repos[1] shouldBe Repository(owner = "walter", name = "ghd", notificationsEnabled = true)
+        repos[1] shouldBe Repository(owner = "walter", name = "ghd", pullNotificationsEnabled = true)
         repos[2] shouldBe Repository(owner = "alvaro", name = "vscode")
     }
 })

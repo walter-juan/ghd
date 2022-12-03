@@ -48,7 +48,7 @@ class PlainTextFileParserUnitTest : StringSpec({
         repos[0] shouldBe SaveRepoToCheckBulkUseCase.Repository(
             owner = "walter",
             name = "ghd",
-            notificationsEnabled = true
+            pullNotificationsEnabled = true
         )
     }
 
@@ -67,7 +67,7 @@ class PlainTextFileParserUnitTest : StringSpec({
         repos[1] shouldBe SaveRepoToCheckBulkUseCase.Repository(
             owner = "walter",
             name = "ghd",
-            notificationsEnabled = true
+            pullNotificationsEnabled = true
         )
         repos[2] shouldBe SaveRepoToCheckBulkUseCase.Repository(owner = "alvaro", name = "vscode")
     }

@@ -27,12 +27,12 @@ open class SaveRepoToCheckBulkUseCase(
             upsertRequest = UpsertRepoToCheckRequest.newInstance().copy(
                 owner = repo.owner,
                 name = repo.name,
-                pullNotificationsEnabled = repo.notificationsEnabled
+                pullNotificationsEnabled = repo.pullNotificationsEnabled
             )
         )
     }
 
-    data class Repository(val owner: String, val name: String, val notificationsEnabled: Boolean = false)
+    data class Repository(val owner: String, val name: String, val pullNotificationsEnabled: Boolean = false)
 }
 
 interface FileParser {
@@ -64,7 +64,7 @@ open class PlainTextFileParser : FileParser {
         return SaveRepoToCheckBulkUseCase.Repository(
             owner = owner,
             name = name,
-            notificationsEnabled = notificationsEnabled.toBoolean()
+            pullNotificationsEnabled = notificationsEnabled.toBoolean()
         )
     }
 
