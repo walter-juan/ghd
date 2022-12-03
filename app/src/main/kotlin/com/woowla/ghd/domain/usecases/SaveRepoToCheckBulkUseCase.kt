@@ -9,40 +9,18 @@ import java.io.File
 
 open class SaveRepoToCheckBulkUseCase(
     private val localDataSource: LocalDataSource = LocalDataSource(),
+    val fileParser: FileParser = PlainTextFileParser(),
 ) : UseCase<File, Unit>() {
     override suspend fun perform(params: File): Result<Unit> {
-        val lines = getFileLines(params)
-       
-        lines
-            .filter { line ->
-                validate(line)
-            }
-            .map { line ->
-                parse(line)
-            }
-            .forEach { repo ->
-                storeToDataSource(repo)
-            }
+
+        fileParser.parse(params).forEach { repo ->
+            storeToDataSource(repo)
+        }
 
         EventBus.publish(Event.REPO_TO_CHECK_UPDATED)
 
         return Result.success(Unit)
     }
-
-    private fun parse(line: String): Repository {
-        val owner = line.split("/").getOrNull(0)
-        val name = line.split("/").getOrNull(1)?.split(" ")?.getOrNull(0)
-        val notificationsEnabled = line.split(" ").getOrElse(1) { "false" }
-        require(!owner.isNullOrBlank()) { "owner is null or blank" }
-        require(!name.isNullOrBlank()) { "name is null or blank" }
-        return Repository(owner = owner, name = name, notificationsEnabled = notificationsEnabled.toBoolean())
-    }
-
-    private fun validate(line: String): Boolean {
-        return line.matches("""^(\w|-)+(/)(\w|-)+( (true|false))*${'$'}""".toRegex())
-    }
-
-    open fun getFileLines(params: File) = params.bufferedReader().readLines()
 
     open suspend fun storeToDataSource(repo: Repository) {
         localDataSource.upsertRepoToCheck(
@@ -55,4 +33,42 @@ open class SaveRepoToCheckBulkUseCase(
     }
 
     data class Repository(val owner: String, val name: String, val notificationsEnabled: Boolean = false)
+}
+
+interface FileParser {
+    fun parse(params: File): List<SaveRepoToCheckBulkUseCase.Repository>
+}
+
+open class PlainTextFileParser : FileParser {
+    override fun parse(params: File): List<SaveRepoToCheckBulkUseCase.Repository> {
+        val lines = getFileLines(params)
+
+        val repositoryList = lines
+            .filter { line ->
+                validate(line)
+            }
+            .map { line ->
+                parse(line)
+            }
+        return repositoryList
+    }
+
+    open fun getFileLines(params: File) = params.bufferedReader().readLines()
+
+    private fun parse(line: String): SaveRepoToCheckBulkUseCase.Repository {
+        val owner = line.split("/").getOrNull(0)
+        val name = line.split("/").getOrNull(1)?.split(" ")?.getOrNull(0)
+        val notificationsEnabled = line.split(" ").getOrElse(1) { "false" }
+        require(!owner.isNullOrBlank()) { "owner is null or blank" }
+        require(!name.isNullOrBlank()) { "name is null or blank" }
+        return SaveRepoToCheckBulkUseCase.Repository(
+            owner = owner,
+            name = name,
+            notificationsEnabled = notificationsEnabled.toBoolean()
+        )
+    }
+
+    private fun validate(line: String): Boolean {
+        return line.matches("""^(\w|-)+(/)(\w|-)+( (true|false))*${'$'}""".toRegex())
+    }
 }
