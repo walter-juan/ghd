@@ -1,10 +1,10 @@
 [versions]
 kotlin = "1.7.20"
-apollo3 = "3.7.0"
+apollo3 = "3.7.1"
 mapstruct = "1.5.3.Final"
 voyager = "1.0.0-rc02"
 kotest = "5.5.4"
-exposed = "0.40.1"
+exposed = "0.41.1"
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
