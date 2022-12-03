@@ -1,4 +1,7 @@
 # 1.1.2
+- Changed
+  - Update dependencies
+
 # 1.1.1
 - Changed
   - GitHub Actions, rename, update versions, change the `set-output` for the new one
