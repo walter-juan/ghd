@@ -1,5 +1,8 @@
-# 1.1.2
+# 1.2.0
+- Added
+  - Export repos to check to YAML
 - Changed
+  - Plain text import changed for YAML
   - Update dependencies
 
 # 1.1.1
