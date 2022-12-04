@@ -74,7 +74,9 @@ object i18n {
     val screen_app_settings_checkout_timeout_item = "Refresh timeout"
     val screen_app_settings_checkout_timeout_item_description = "The timeout in minutes each time the pull requests and releases are checked"
     val screen_repos_to_check_bulk_import_item = "Bulk import"
-    val screen_repos_to_check_bulk_import_item_description = "Choose a file which should contain a list of repositories separated in newlines in <owner>/<name> format"
+    val screen_repos_to_check_export_item = "Export"
+    val screen_repos_to_check_export_item_description = "A YML file will be created with all repositories"
+    val screen_repos_to_check_bulk_import_item_description = "Choose a file which should contain a list of repositories in YML format"
     val screen_app_settings_theme_item = "Theme"
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"
@@ -111,6 +113,7 @@ object i18n {
     val app_settings_pr_cleanup_unknown = "?"
 
     val file_dialog_choose_file = "Choose a file"
+    val file_dialog_save_file = "Save a file"
 
     val error_unknown = "Unknown error"
     val error_db_wrong_password_format = "Wrong password format"

@@ -4,8 +4,9 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.usecases.DeleteRepoToCheckUseCase
-import com.woowla.ghd.domain.usecases.GetAllReposToCheckUseCaseUseCase
-import com.woowla.ghd.domain.usecases.SaveRepoToCheckBulkUseCase
+import com.woowla.ghd.domain.usecases.ExportRepoToCheckUseCase
+import com.woowla.ghd.domain.usecases.GetAllReposToCheckUseCase
+import com.woowla.ghd.domain.usecases.ImportRepoToCheckUseCase
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import java.io.File
@@ -14,8 +15,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ReposToCheckViewModel(
-    private val getAllReposToCheckUseCaseUseCase: GetAllReposToCheckUseCaseUseCase = GetAllReposToCheckUseCaseUseCase(),
-    private val saveRepoToCheckBulkUseCase: SaveRepoToCheckBulkUseCase = SaveRepoToCheckBulkUseCase(),
+    private val getAllReposToCheckUseCase: GetAllReposToCheckUseCase = GetAllReposToCheckUseCase(),
+    private val importRepoToCheckUseCase: ImportRepoToCheckUseCase = ImportRepoToCheckUseCase(),
+    private val exportRepoToCheckUseCase: ExportRepoToCheckUseCase = ExportRepoToCheckUseCase(),
     private val deleteRepoToCheckUseCase: DeleteRepoToCheckUseCase = DeleteRepoToCheckUseCase(),
 ): ScreenModel {
     private val initialStateValue = State.Loading
@@ -34,7 +36,20 @@ class ReposToCheckViewModel(
         _state.on<State.Success> {
             coroutineScope.launch {
                 if (file != null) {
-                    saveRepoToCheckBulkUseCase.execute(file)
+                    val content = file.readText()
+                    importRepoToCheckUseCase.execute(content)
+                }
+            }
+        }
+    }
+
+    fun bulkExportRepo(file: File?) {
+        _state.on<State.Success> {
+            coroutineScope.launch {
+                if (file != null) {
+                    exportRepoToCheckUseCase.execute().onSuccess { content ->
+                        file.writeText(content)
+                    }
                 }
             }
         }
@@ -56,7 +71,7 @@ class ReposToCheckViewModel(
     private fun loadRepos() {
         _state.value = State.Loading
         coroutineScope.launch {
-            getAllReposToCheckUseCaseUseCase.execute().fold(
+            getAllReposToCheckUseCase.execute().fold(
                 onSuccess = {
                     _state.value = State.Success(reposToCheck = it)
                 },

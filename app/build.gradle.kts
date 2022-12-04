@@ -15,7 +15,8 @@ import java.io.OutputStream
 import java.io.PrintStream
 
 plugins {
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
     alias(libs.plugins.compose)
     alias(libs.plugins.apollo3)
@@ -60,6 +61,7 @@ dependencies {
     kapt(libs.mapstruct.processor)
     implementation(libs.kamel)
     implementation(libs.bundles.voyager)
+    implementation(libs.kaml)
 
     testImplementation(libs.bundles.test.kotest)
 }
