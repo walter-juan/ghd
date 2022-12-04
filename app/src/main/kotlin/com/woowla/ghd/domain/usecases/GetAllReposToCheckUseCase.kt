@@ -5,7 +5,7 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.mappers.DbMappers
 import com.woowla.ghd.utils.UseCaseWithoutParams
 
-class GetAllReposToCheckUseCaseUseCase(
+class GetAllReposToCheckUseCase(
     private val localDataSource: LocalDataSource = LocalDataSource(),
 ): UseCaseWithoutParams<List<RepoToCheck>>() {
     override suspend fun perform(): Result<List<RepoToCheck>> {
