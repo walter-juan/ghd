@@ -8,7 +8,7 @@ import java.awt.Frame
 import java.io.File
 
 @Composable
-fun FileDialog(
+fun FileLoadDialog(
     parent: Frame? = null,
     onCloseRequest: (file: File?) -> Unit
 ) = AwtWindow(
@@ -20,6 +20,26 @@ fun FileDialog(
                     onCloseRequest(files.firstOrNull())
                 }
             }
+        }
+    },
+    dispose = FileDialog::dispose
+)
+@Composable
+fun FileSaveDialog(
+    parent: Frame? = null,
+    fileName: String,
+    onCloseRequest: (file: File?) -> Unit
+) = AwtWindow(
+    create = {
+        object : FileDialog(parent, i18n.file_dialog_save_file, SAVE) {
+            override fun setVisible(value: Boolean) {
+                super.setVisible(value)
+                if (value) {
+                    onCloseRequest(files.firstOrNull())
+                }
+            }
+        }.apply {
+            file = fileName
         }
     },
     dispose = FileDialog::dispose

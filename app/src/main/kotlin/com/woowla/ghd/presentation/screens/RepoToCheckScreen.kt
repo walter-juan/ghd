@@ -1,15 +1,7 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -19,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.FileUpload
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -37,11 +30,7 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.FileDialog
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 import com.woowla.ghd.utils.MaterialColors
@@ -62,12 +51,23 @@ class RepoToCheckScreen: Screen {
 
         val reposState by viewModel.state.collectAsState()
 
-        var isFileDialogOpen by remember { mutableStateOf(false) }
-        if (isFileDialogOpen) {
-            FileDialog(
+        var isBulkImportFileDialogOpen by remember { mutableStateOf(false) }
+        if (isBulkImportFileDialogOpen) {
+            FileLoadDialog(
                 onCloseRequest = { file ->
-                    isFileDialogOpen = false
+                    isBulkImportFileDialogOpen = false
                     viewModel.bulkImportRepo(file)
+                }
+            )
+        }
+
+        var isBulkExportFileDialogOpen by remember { mutableStateOf(false) }
+        if (isBulkExportFileDialogOpen) {
+            FileSaveDialog(
+                fileName = "ghd-repos.yml",
+                onCloseRequest = { file ->
+                    isBulkExportFileDialogOpen = false
+                    viewModel.bulkExportRepo(file)
                 }
             )
         }
@@ -90,12 +90,27 @@ class RepoToCheckScreen: Screen {
                                     Icon(imageVector = Icons.Default.Add, contentDescription = null)
                                 }
                             }
-                            SectionItem(
-                                title = i18n.screen_repos_to_check_bulk_import_item,
-                                description = i18n.screen_repos_to_check_bulk_import_item_description,
-                            ) {
-                                Button(onClick = { isFileDialogOpen = true }) {
-                                    Icon(imageVector = Icons.Default.FileUpload, contentDescription = null)
+
+                            Row {
+                                Box(modifier = Modifier.weight(1f)) {
+                                    SectionItem(
+                                        title = i18n.screen_repos_to_check_bulk_import_item,
+                                        description = i18n.screen_repos_to_check_bulk_import_item_description,
+                                    ) {
+                                        Button(onClick = { isBulkImportFileDialogOpen = true }) {
+                                            Icon(imageVector = Icons.Default.FileUpload, contentDescription = null)
+                                        }
+                                    }
+                                }
+                                Box(modifier = Modifier.weight(1f)) {
+                                    SectionItem(
+                                        title = i18n.screen_repos_to_check_export_item,
+                                        description = i18n.screen_repos_to_check_export_item_description,
+                                    ) {
+                                        Button(onClick = { isBulkExportFileDialogOpen = true }) {
+                                            Icon(imageVector = Icons.Default.FileDownload, contentDescription = null)
+                                        }
+                                    }
                                 }
                             }
                         }
