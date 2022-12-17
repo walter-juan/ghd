@@ -5,7 +5,12 @@
 >
 > That said, I'm not responsible if one day the app stops working, I don't do some database migration, or something else that makes the app not work properly
 
+# GHD
+
 [GHD (GitHub Dashboard)](https://github.com/walter-juan/ghd), is an application to show the pull requests and releases from your GitHub repositories.
+
+<img width="400" alt="pulls" src="https://user-images.githubusercontent.com/4141614/208247083-3d95095e-78e4-4fb7-99bc-970c2ead70fa.png"> <img width="400" alt="releases" src="https://user-images.githubusercontent.com/4141614/208247090-465dc713-603a-4cf1-b4eb-92d3dbd31b95.png">
+
 
 # Useful Gradle commands
 
@@ -28,7 +33,7 @@ $ ./gradlew build -PdebugConfig=false
     ```
 - Create the packages
     ```shell
-    ./gradlew package
+    ./gradlew packageDistributionForCurrentOS
     ```
 - To know which dependencies have updates
     ```shell
@@ -75,7 +80,7 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
   - [iconoir](https://iconoir.com/)
   - [Google material icons](https://fonts.google.com/icons)
 - Colors
-  - More or less all of them should be in [MaterialColors](src/main/kotlin/com/woowla/ghd/utils/MaterialColors.kt)
+  - More or less all of them should be in [MaterialColors](app/src/main/kotlin/com/woowla/ghd/utils/MaterialColors.kt)
   - [Material colors](https://material.io/design/color/the-color-system.html#tools-for-picking-colors), other resource [materialui](https://materialui.co/colors)
 - Others
   - [Boxy SVG editor](https://boxy-svg.com/)
