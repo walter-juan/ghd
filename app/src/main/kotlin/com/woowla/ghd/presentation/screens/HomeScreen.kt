@@ -24,7 +24,7 @@ import com.woowla.ghd.presentation.app.i18n
 class HomeScreen : Screen {
     @Composable
     override fun Content() {
-        TabNavigator(TabAboutScreen) {
+        TabNavigator(TabPullRequestsScreen) {
             NavigationRail(
                 backgroundColor = AppColors.navRailBackground()
             ) {
