@@ -92,14 +92,6 @@ class SynchronizationUseCase(
                 val pullUpsertRequests = apiPullRequests.map { apiPullRequest ->
                     val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.appSeenAt
                     apiMappers.pullRequestNodeToUpsertRequest(pullRequestNode = apiPullRequest, appSeenAt = appSeenAt, repoToCheckId = dbRepoToCheck.id.value)
-                }.filter { upsertPullRequestRequest ->
-                    val headRef = upsertPullRequestRequest.headRef
-                    val regexStr = dbRepoToCheck.pullBranchRegex
-                    if (!headRef.isNullOrBlank() && !regexStr.isNullOrBlank()) {
-                        headRef.matches(regexStr.toRegex())
-                    } else {
-                        true
-                    }
                 }
                 localDataSource.upsertPullRequests(pullUpsertRequests)
             }
@@ -126,14 +118,25 @@ class SynchronizationUseCase(
     private suspend fun cleanUpPullRequests(cleanUpTimeout: Long) {
         getAllPullRequestsUseCase.execute()
             .map { pullRequests ->
-                pullRequests.filter { pullRequest ->
-                    if (pullRequest.state == PullRequestState.CLOSED || pullRequest.state == PullRequestState.MERGED) {
-                        val duration: Duration = Clock.System.now() - pullRequest.updatedAt
-                        duration.inWholeHours > cleanUpTimeout
-                    } else {
-                        false
+                pullRequests
+                    .filter { pullRequest ->
+                        val isOld = if (pullRequest.state == PullRequestState.CLOSED || pullRequest.state == PullRequestState.MERGED) {
+                            val duration: Duration = Clock.System.now() - pullRequest.updatedAt
+                            duration.inWholeHours > cleanUpTimeout
+                        } else {
+                            false
+                        }
+
+                        val headRef = pullRequest.headRef
+                        val regexStr = pullRequest.repoToCheck.pullBranchRegex
+                        val hasBranchToExclude = if (!headRef.isNullOrBlank() && !regexStr.isNullOrBlank()) {
+                            !headRef.matches(regexStr.toRegex())
+                        } else {
+                            false
+                        }
+
+                        isOld || hasBranchToExclude
                     }
-                }
             }
             .map { pullRequests ->
                 pullRequests.map { it.id }
