@@ -16,7 +16,7 @@ class ReleasesViewModel(
     private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
     private val getAllReleasesUseCase: GetAllReleasesUseCase = GetAllReleasesUseCase()
 ): ScreenModel {
-    private val initialStateValue = State.Loading(mapOf())
+    private val initialStateValue = State.Loading(listOf())
 
     private val _state = MutableStateFlow<State>(initialStateValue)
     val state: StateFlow<State> = _state
@@ -41,7 +41,11 @@ class ReleasesViewModel(
             getAllReleasesUseCase.execute()
                 .fold(
                     onSuccess = { releases ->
-                        _state.value = State.Success(releases = releases.groupBy { it.repoToCheck.groupName }, synchronizedAt = synchronizedAt)
+                        val groupedReleases = releases
+                            .groupBy { it.repoToCheck.groupName }
+                            .toList()
+                            .sortedBy { it.first }
+                        _state.value = State.Success(releases = groupedReleases, synchronizedAt = synchronizedAt)
                     },
                     onFailure = {
                         _state.value = State.Error(throwable = it)
@@ -50,18 +54,18 @@ class ReleasesViewModel(
         }
     }
 
-    private fun StateFlow<State>.getReleasesOrEmptyList(): Map<String?, List<Release>> {
+    private fun StateFlow<State>.getReleasesOrEmptyList(): List<Pair<String?, List<Release>>> {
         val lockedValue = value
         return when(lockedValue) {
             is State.Loading -> lockedValue.releases
             is State.Success -> lockedValue.releases
-            is State.Error -> mapOf()
+            is State.Error -> listOf()
         }
     }
 
     sealed class State {
-        data class Loading(val releases: Map<String?, List<Release>>): State()
-        data class Success(val releases: Map<String?, List<Release>>, val synchronizedAt: Instant?): State()
+        data class Loading(val releases: List<Pair<String?, List<Release>>>): State()
+        data class Success(val releases: List<Pair<String?, List<Release>>>, val synchronizedAt: Instant?): State()
         data class  Error(val throwable: Throwable): State()
     }
 }
