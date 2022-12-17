@@ -1,6 +1,7 @@
 package com.woowla.ghd.data.remote
 
 import com.apollographql.apollo3.ApolloClient
+import com.woowla.ghd.data.remote.type.PullRequestState
 
 class RemoteDataSource(
     private val apolloClient: ApolloClient = apolloClientInstance
@@ -12,9 +13,9 @@ class RemoteDataSource(
             .build()
     }
 
-    suspend fun getAllPullRequests(owner: String, repo: String): Result<List<GetPullRequestsQuery.Node>> {
+    suspend fun getPullRequests(owner: String, repo: String, state: PullRequestState): Result<List<GetPullRequestsQuery.Node>> {
         return runCatching {
-            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, last = 50)
+            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 50)
             val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
             pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.edges?.mapNotNull { it?.node } ?: listOf()
         }

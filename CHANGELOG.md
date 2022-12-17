@@ -1,4 +1,7 @@
 # 1.2.1
+- Fixed
+  - Retrieve the latest 50 open + 50 merged + 50 closed pull requests instead of the latest 50 open or merged or closed
+
 # 1.2.0
 - Added
   - Export repos to check to YAML
