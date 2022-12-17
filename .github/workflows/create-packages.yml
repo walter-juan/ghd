@@ -5,37 +5,4 @@ on:
 
 jobs:
   package:
-    name: Crete packages
-    strategy:
-      matrix:
-        os: [windows-2022, macos-12]
-        include:
-          - os: windows-2022
-            ext: exe
-          - os: macos-12
-            ext: dmg
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3.1.0
-      - name: Set up Java
-        uses: actions/setup-java@v3.6.0
-        with:
-          distribution: 'temurin'
-          java-version: '16'
-      - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.0.5
-      - name: Create package
-        uses: gradle/gradle-build-action@v2.2.3
-        with:
-          arguments: |
-            clean
-            packageDistributionForCurrentOS
-            -PdebugConfig=false
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3.1.1
-        with:
-          path: |
-            ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
-          retention-days: 1
-
+    uses: ./.github/workflows/reusable-create-packages.yml

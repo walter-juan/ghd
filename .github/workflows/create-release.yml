@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-packages:
-    uses: ./.github/workflows/create-packages.yml
+    uses: ./.github/workflows/reusable-create-packages.yml
   create-release:
     name: Crete release
     needs: [create-packages]
