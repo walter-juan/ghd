@@ -5,4 +5,5 @@ on:
 
 jobs:
   package:
+    name: Crete packages
     uses: ./.github/workflows/reusable-create-packages.yml
