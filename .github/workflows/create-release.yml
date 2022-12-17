@@ -31,4 +31,4 @@ jobs:
           body: ""
           files: |
             .downloads/artifact/*.dmg
-            .downloads/artifact/exe/*.exe
+            .downloads/artifact/*.exe
