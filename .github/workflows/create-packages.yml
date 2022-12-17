@@ -30,7 +30,7 @@ jobs:
         with:
           arguments: |
             clean
-            package
+            packageDistributionForCurrentOS
             -PdebugConfig=false
       - name: Upload artifacts
         uses: actions/upload-artifact@v3.1.1
