@@ -4,6 +4,7 @@
 - Fixed
   - Retrieve the latest 50 open + 50 merged + 50 closed pull requests instead of the latest 50 open or merged or closed
   - Sort the grouped releases by name
+  - Support dark theme for release and pull cards
 
 # 1.2.0
 - Added

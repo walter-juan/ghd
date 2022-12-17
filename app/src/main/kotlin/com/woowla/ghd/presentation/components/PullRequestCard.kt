@@ -43,6 +43,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.woowla.ghd.presentation.app.AppColors
 import com.woowla.ghd.presentation.app.AppIcons
 import com.woowla.ghd.utils.MaterialColors
 import com.woowla.ghd.utils.openWebpage
@@ -83,7 +84,7 @@ fun PullRequestCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .height(IntrinsicSize.Min)
-                .background(color = if (hover) { MaterialColors.LightBlue50 } else { if (seen) { MaterialColors.Gray200 } else { MaterialColors.White } } )
+                .background(color = if (hover) { AppColors.cardHoverBackground() } else { if (seen) { AppColors.cardSelectedBackground() } else { AppColors.cardBackground() } } )
         ) {
             if (categoryColor != null) {
                 Box(

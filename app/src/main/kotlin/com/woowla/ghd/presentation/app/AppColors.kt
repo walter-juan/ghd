@@ -80,4 +80,31 @@ object AppColors {
             MaterialColors.Gray500
         }
     }
+
+    @Composable
+    fun cardBackground(lightTheme: Boolean = MaterialTheme.colors.isLight): Color {
+        return if (lightTheme) {
+            MaterialColors.White
+        } else {
+            MaterialColors.Gray900
+        }
+    }
+
+    @Composable
+    fun cardHoverBackground(lightTheme: Boolean = MaterialTheme.colors.isLight): Color {
+        return if (lightTheme) {
+            MaterialColors.LightBlue50
+        } else {
+            MaterialColors.BlueGray900
+        }
+    }
+
+    @Composable
+    fun cardSelectedBackground(lightTheme: Boolean = MaterialTheme.colors.isLight): Color {
+        return if (lightTheme) {
+            MaterialColors.Gray200
+        } else {
+            Color(0xFF0D0D0D)
+        }
+    }
 }
