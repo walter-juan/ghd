@@ -8,4 +8,9 @@ class PullRequestDecorator(val pullRequest: PullRequest) {
     val updatedAt = i18n.pull_request_updated_at(pullRequest.updatedAt)
     val authorWithTitle = "${pullRequest.authorLogin} - ${pullRequest.title}"
     val state = PullRequestStateDecorator(pullRequest.state)
+    val totalCommentCount = if (pullRequest.totalCommentsCount != null && pullRequest.totalCommentsCount > 0) {
+        "${pullRequest.totalCommentsCount} - "
+    } else {
+        ""
+    }
 }

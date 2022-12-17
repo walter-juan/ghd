@@ -19,6 +19,7 @@ data class PullRequest(
     val authorUrl: String?,
     val authorAvatarUrl: String?,
     val appSeenAt: Instant?,
+    val totalCommentsCount: Long?,
     val repoToCheckId: Long,
     val repoToCheck: RepoToCheck
 ): Comparable<PullRequest> {

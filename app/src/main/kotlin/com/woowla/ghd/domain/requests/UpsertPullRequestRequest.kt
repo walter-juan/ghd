@@ -18,5 +18,6 @@ data class UpsertPullRequestRequest(
     val authorUrl: String?,
     val authorAvatarUrl: String?,
     val appSeenAt: Instant?,
+    val totalCommentsCount: Long?,
     val repoToCheckId: Long
 )
