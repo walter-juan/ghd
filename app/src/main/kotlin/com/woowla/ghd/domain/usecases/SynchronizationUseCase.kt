@@ -4,6 +4,7 @@ import com.woowla.ghd.KermitLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
 import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.data.remote.type.PullRequestState as RemotePullRequestState
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.mappers.ApiMappers
@@ -42,15 +43,23 @@ class SynchronizationUseCase(
 
         val measuredTime = coroutineScope {
             measureTimeMillis {
-                val fetchPullRequests = allReposToCheck.map { dbRepoToCheck ->
-                    async { fetchPullRequests(dbRepoToCheck) }
+                val fetchOpenPullRequests = allReposToCheck.map { dbRepoToCheck ->
+                    async { fetchPullRequests(dbRepoToCheck, RemotePullRequestState.OPEN) }
+                }
+                val fetchMergedPullRequests = allReposToCheck.map { dbRepoToCheck ->
+                    async { fetchPullRequests(dbRepoToCheck, RemotePullRequestState.MERGED) }
+                }
+                val fetchClosedPullRequests = allReposToCheck.map { dbRepoToCheck ->
+                    async { fetchPullRequests(dbRepoToCheck, RemotePullRequestState.CLOSED) }
                 }
                 val fetchReleases = allReposToCheck.map { dbRepoToCheck ->
                     async { fetchLastReleases(dbRepoToCheck) }
                 }
 
                 fetchReleases.awaitAll()
-                fetchPullRequests.awaitAll()
+                fetchOpenPullRequests.awaitAll()
+                fetchMergedPullRequests.awaitAll()
+                fetchClosedPullRequests.awaitAll()
 
                 cleanUpPullRequests(cleanUpTimeout = pullRequestCleanUpTimeout)
             }
@@ -74,10 +83,10 @@ class SynchronizationUseCase(
         return Result.success(Unit)
     }
 
-    private suspend fun fetchPullRequests(dbRepoToCheck: DbRepoToCheck) {
+    private suspend fun fetchPullRequests(dbRepoToCheck: DbRepoToCheck, state: RemotePullRequestState) {
         val apiMappers = ApiMappers.INSTANCE
         remoteDataSource
-            .getAllPullRequests(owner = dbRepoToCheck.owner, repo = dbRepoToCheck.name)
+            .getPullRequests(owner = dbRepoToCheck.owner, repo = dbRepoToCheck.name, state = state)
             .map { apiPullRequests ->
                 // insert
                 val pullUpsertRequests = apiPullRequests.map { apiPullRequest ->

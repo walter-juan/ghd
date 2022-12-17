@@ -1,6 +1,6 @@
-query GetPullRequests($owner: String!, $name: String!, $last: Int) {
+query GetPullRequests($owner: String!, $name: String!, $states: [PullRequestState!], $last: Int) {
     repository(owner: $owner, name: $name) {
-        pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC}) {
+        pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC} states: $states) {
             edges {
                 node {
                     id
