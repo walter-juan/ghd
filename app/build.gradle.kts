@@ -35,8 +35,10 @@ repositories {
 }
 
 apollo {
-    packageName.set("com.woowla.ghd.data.remote")
-    generateOptionalOperationVariables.set(false)
+    service("github") {
+        packageName.set("com.woowla.ghd.data.remote")
+        generateOptionalOperationVariables.set(false)
+    }
 }
 
 buildConfig {
