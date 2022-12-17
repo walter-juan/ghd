@@ -108,7 +108,7 @@ fun PullRequestCard(
                                 painter = overlineIcon,
                                 contentDescription = null,
                                 modifier = Modifier.size(15.dp),
-                                tint = overlineIconTint ?: MaterialTheme.colors.secondaryVariant
+                                tint = overlineIconTint ?: MaterialColors.Gray700
                             )
                         }
                         Text(

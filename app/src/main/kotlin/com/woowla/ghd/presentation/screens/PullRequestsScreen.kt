@@ -22,6 +22,7 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.presentation.app.AppIcons
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.PullRequestCard
 import com.woowla.ghd.presentation.components.Screen
@@ -89,7 +90,8 @@ class PullRequestsScreen : Screen {
 
             PullRequestCard(
                 text = pullRequestDecorator.fullRepo,
-                overlineText = pullRequestDecorator.updatedAt,
+                overlineIcon = if (pullRequestDecorator.totalCommentCount.isNullOrBlank()) { null } else { painterResource(AppIcons.chatLines) },
+                overlineText = pullRequestDecorator.totalCommentCount + pullRequestDecorator.updatedAt,
                 secondaryText = pullRequestDecorator.authorWithTitle,
                 categoryColor = pullRequestDecorator.state.iconTint,
                 linkUrl = pullRequest.url,

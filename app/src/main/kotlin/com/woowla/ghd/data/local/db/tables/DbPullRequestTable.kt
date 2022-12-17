@@ -19,5 +19,6 @@ object DbPullRequestTable : TextIdTable() {
     val authorUrl = text("authorUrl").nullable()
     val authorAvatarUrl = text("authorAvatarUrl").nullable()
     val appSeenAt = timestamp("appSeenAt").nullable()
+    val totalCommentsCount = long("totalCommentsCount").nullable()
     val repoToCheck = reference("repoToCheckId", DbRepoToCheckTable, onDelete = ReferenceOption.CASCADE)
 }

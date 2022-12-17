@@ -139,6 +139,7 @@ class LocalDataSource(
                         authorUrl = upsertRequest.authorUrl
                         authorAvatarUrl = upsertRequest.authorAvatarUrl
                         appSeenAt = upsertRequest.appSeenAt
+                        totalCommentsCount = upsertRequest.totalCommentsCount
                         repoToCheck = dbRepoToCheck
                     }
                 }

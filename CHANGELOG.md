@@ -1,6 +1,7 @@
 # 1.2.1
 - Added
   - Upload macOS and Windows builds on GitHub Releases
+  - Add the number of comments in pull requests
 - Changed
   - Set the pull requests as the first screen after open the app instead of the about
   - Update dependencies

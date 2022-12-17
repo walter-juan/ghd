@@ -28,6 +28,7 @@ object AppIcons {
     const val settings = "icons/iconoir/ic_settings.svg"
     const val checkCircledOutline = "icons/iconoir/ic_check_circled_outline.svg"
     const val warningCircledOutline = "icons/iconoir/ic_warning_circled_outline.svg"
-    const val questionMarkCircle = "icons/iconoir/ic_question_mark_circle.svg"
+    const val chatLines = "icons/iconoir/ic_chat_lines.svg"
+
     const val dotCircle = "icons/custom/ic_dot_circle.svg"
 }
