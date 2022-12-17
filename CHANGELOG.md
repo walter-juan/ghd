@@ -1,5 +1,6 @@
 # 1.2.1
 - Changed
+  - Set the pull requests as the first screen after open the app instead of the about
   - Update dependencies
 - Fixed
   - Retrieve the latest 50 open + 50 merged + 50 closed pull requests instead of the latest 50 open or merged or closed
