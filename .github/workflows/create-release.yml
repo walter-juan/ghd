@@ -6,8 +6,11 @@ on:
       - main
 
 jobs:
+  create-packages:
+    uses: ./.github/workflows/create-packages.yml
   create-release:
     name: Crete release
+    needs: [create-packages]
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
@@ -15,9 +18,16 @@ jobs:
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
+      - name: Download artifacts
+        uses: actions/download-artifact@v3.0.1
+        with:
+          path: .downloads
       - name: Create release
         uses: softprops/action-gh-release@v0.1.15
         with:
           tag_name: ${{ steps.generate-release-data.outputs.tag }}
           name: ${{ steps.generate-release-data.outputs.name }}
           body: ""
+          files: |
+            .downloads/artifact/*.dmg
+            .downloads/artifact/exe/*.exe
