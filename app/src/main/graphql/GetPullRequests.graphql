@@ -14,6 +14,7 @@ query GetPullRequests($owner: String!, $name: String!, $states: [PullRequestStat
                     isDraft
                     baseRefName
                     headRefName
+                    totalCommentsCount
                     author {
                         url
                         login

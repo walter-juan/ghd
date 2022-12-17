@@ -21,5 +21,6 @@ class DbPullRequest(id: EntityID<String>) : TextEntity(id) {
     var authorUrl by DbPullRequestTable.authorUrl
     var authorAvatarUrl by DbPullRequestTable.authorAvatarUrl
     var appSeenAt by DbPullRequestTable.appSeenAt
+    var totalCommentsCount by DbPullRequestTable.totalCommentsCount
     var repoToCheck by DbRepoToCheck referencedOn DbPullRequestTable.repoToCheck
 }
