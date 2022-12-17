@@ -1,4 +1,6 @@
 # 1.2.1
+- Changed
+  - Update dependencies
 - Fixed
   - Retrieve the latest 50 open + 50 merged + 50 closed pull requests instead of the latest 50 open or merged or closed
 
