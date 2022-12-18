@@ -9,13 +9,9 @@ class AuthorizationInterceptor(
     private val gitHubPATTokenProvider: GitHubPATTokenProvider = GitHubPATTokenProvider()
 ): HttpInterceptor {
     override suspend fun intercept(request: HttpRequest, chain: HttpInterceptorChain): HttpResponse {
+        val requestBuilder = request.newBuilder()
         val token = gitHubPATTokenProvider.get()
-
-        val request = request
-            .newBuilder()
-            .addHeader("Authorization", "token $token")
-            .build()
-
-        return chain.proceed(request)
+        token?.let { requestBuilder.addHeader("Authorization", "token $token") }
+        return chain.proceed(requestBuilder.build())
     }
 }
