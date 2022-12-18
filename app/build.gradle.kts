@@ -45,13 +45,17 @@ buildConfig {
     packageName("com.woowla.ghd")
     buildConfigField("String", "APP_VERSION", provider { "\"${project.version}\"" })
     buildConfigField("boolean", "DEBUG", provider { "$debug" })
+    buildConfigField("String", "GH_GHD_OWNER", "\"walter-juan\"")
+    buildConfigField("String", "GH_GHD_REPO", "\"ghd\"")
+    buildConfigField("String", "GH_GHD_LATEST_RELEASE_URL", "\"https://github.com/walter-juan/ghd/releases/latest\"")
 }
 
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
     implementation(libs.kotlinx.coroutines.swing)
-    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.bundles.ktor.client)
     implementation(libs.apollo3)
     implementation(libs.h2)
     implementation(libs.bundles.exposed)
@@ -63,6 +67,7 @@ dependencies {
     implementation(libs.kamel)
     implementation(libs.bundles.voyager)
     implementation(libs.kaml)
+    implementation(libs.semver)
 
     testImplementation(libs.bundles.test.kotest)
 }

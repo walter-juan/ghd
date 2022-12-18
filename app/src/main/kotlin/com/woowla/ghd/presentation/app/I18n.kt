@@ -96,6 +96,13 @@ object i18n {
     val screen_login_remove_database_confirmation_dialog_yes_button = "Yes"
     val screen_login_remove_database_confirmation_dialog_no_button = "No"
 
+    val dialog_new_app_version_title = "Update available"
+    val dialog_new_app_version_ignore_button = "Ignore"
+    val dialog_new_app_version_update_button = "Update now"
+    val dialog_new_app_version_text: (String) -> String = { "A new version of GHD ($it) is available for download! Would you like to update it now?" }
+    val dialog_new_app_version_current_version = "Current version: ${BuildConfig.APP_VERSION}"
+    val dialog_new_app_version_latest_version: (String) -> String = { "Latest version: $it" }
+
     val app_theme_system_default = "System default"
     val app_theme_dark = "Dark"
     val app_theme_light = "Light"
