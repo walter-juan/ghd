@@ -1,3 +1,5 @@
+# 1.2.3
+
 # 1.2.2
 - Fixed
   - Remove the pull requests that doesn't match with the branch regex from the database
