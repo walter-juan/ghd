@@ -43,6 +43,52 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew wrapper --gradle-version 7.5.1
     ```
+# macOS application
+
+The **macOS application is unsigned** and to be able to run the `com.apple.quarantine` has to be removed. Right now, as this app is more for personal use, I don't want to register and do all the stuff about signing with Apple.
+
+> The `com.apple.quarantine` attribute is used to determine if an application should be checked (and blocked if needed.)
+
+So if you want to use this app you should remove the `com.apple.quarantine`.
+
+**How to install**
+
+1. Download the `dmg` file from [releases](https://github.com/walter-juan/ghd/releases/latest)
+2. Open the `dmg` file and move the application to `Applications` folder
+3. Open terminal and run:
+  ```shell
+  xattr -d com.apple.quarantine /Applications/ghd.app
+  ```
+
+**Sources**
+
+- [Der Flounder, Clearing the quarantine extended attribute from downloaded applications](https://derflounder.wordpress.com/2012/11/20/clearing-the-quarantine-extended-attribute-from-downloaded-applications/)
+- [sureshg/compose-desktop-sample GitHub Project](https://github.com/sureshg/compose-desktop-sample)
+- [OSX Daily, How to Fix App “is damaged and can’t be opened. You should move it to the Trash” Error on Mac](https://osxdaily.com/2019/02/13/fix-app-damaged-cant-be-opened-trash-error-mac/)
+- [How-To Geek, How to Fix “App Is Damaged and Can’t Be Opened” on Mac](https://www.howtogeek.com/803598/app-is-damaged-and-cant-be-opened/)
+
+**Commands**
+
+- Show the attributes
+  ```shell
+  xattr /path/to/my-app.app
+  ```
+
+- Remove the `com.apple.quarantine` attribute
+  ```shell
+  xattr -d com.apple.quarantine /path/to/my-app.app
+  ```
+
+- Remove the `com.apple.quarantine` attribute recursively for the entire targeted .app directory contents
+  ```shell
+  sudo xattr -dr com.apple.quarantine /path/to/my-app.app
+  ```
+
+- Remove the all attributes + recursively
+  ```shell
+  sudo xattr -cr /path/to/my-app.app
+  ```
+
 # H2 Database
 
 The database used in this project is [H2](https://www.h2database.com/) because of encryption support + embedded. As the database is encrypted a user and password is required, you can find it in [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt).
