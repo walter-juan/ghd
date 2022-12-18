@@ -43,7 +43,6 @@ apollo {
 
 buildConfig {
     packageName("com.woowla.ghd")
-    buildConfigField("String", "APP_NAME", "\"${project.name}\"")
     buildConfigField("String", "APP_VERSION", provider { "\"${project.version}\"" })
     buildConfigField("boolean", "DEBUG", provider { "$debug" })
 }
