@@ -23,6 +23,10 @@ jobs:
         uses: actions/download-artifact@v3.0.1
         with:
           path: .downloads
+      - name: Compress binaries
+        run: |
+          cd .downloads/artifact/
+          find . '(' -type f -name "*.dmg" -o -name "*.exe" ')' -a -execdir zip '{}'.zip '{}' \;
       - name: Create release
         uses: softprops/action-gh-release@v0.1.15
         with:
@@ -30,5 +34,5 @@ jobs:
           name: ${{ steps.generate-release-data.outputs.name }}
           body: ""
           files: |
-            .downloads/artifact/*.dmg
-            .downloads/artifact/*.exe
+            .downloads/artifact/*.dmg.zip
+            .downloads/artifact/*.exe.zip
