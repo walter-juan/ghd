@@ -1,4 +1,4 @@
-name: Create packages
+name: (re-usable) Create packages
 
 on:
   workflow_call:
