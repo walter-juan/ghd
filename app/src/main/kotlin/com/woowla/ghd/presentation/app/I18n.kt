@@ -91,6 +91,7 @@ object i18n {
     val screen_login_password_database_info = "This password is used to encrypt the local database. Remember this password because it will be needed each time you open the app, if you don't remember it, the database will have to be created again."
     val screen_login_remove_database_info = "Don't remember the password you set? You can remove the database and set a new password again, by clicking the button below."
     val screen_login_remove_database = "Set new password"
+    val screen_login_remove_database_confirmation_dialog_title = "Set new password"
     val screen_login_remove_database_confirmation_dialog_text = "Setting a new password will delete all your data, are you sure?"
     val screen_login_remove_database_confirmation_dialog_yes_button = "Yes"
     val screen_login_remove_database_confirmation_dialog_no_button = "No"

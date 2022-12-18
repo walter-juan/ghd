@@ -245,6 +245,7 @@ class LoginScreen : Screen {
     @Composable
     private fun deleteDatabaseConfirmationDialog(onCloseRequest: () -> Unit, onConfirmClick: () -> Unit, onDiscardClick: () -> Unit, ) {
         Dialog(
+            title = i18n.screen_login_remove_database_confirmation_dialog_title,
             onCloseRequest = onCloseRequest,
             state = rememberDialogState(position = WindowPosition(Alignment.Center)),
         ) {
