@@ -5,6 +5,7 @@ mapstruct = "1.5.3.Final"
 voyager = "1.0.0-rc02"
 kotest = "5.5.4"
 exposed = "0.41.1"
+ktor = "2.2.1"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -20,8 +21,11 @@ benmanesversions = { id = "com.github.ben-manes.versions", version = "0.44.0" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.6.4" }
 # date time kotlin lib
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.0" }
-# ktor http client (needed for kamel)
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version = "2.2.1" }
+# ktor http client (needed for kamel and some API requests)
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
 # H2 database
@@ -46,6 +50,8 @@ voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-nav
 voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 # YAML support for kotlinx.serialization
 kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.49.0" }
+# Kotlin data class for Semantic Versioning 2.0.0 specification (SemVer)
+semver = { group = "net.swiftzer.semver", name = "semver", version = "1.1.2" }
 
 # kotest runner
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
@@ -61,5 +67,6 @@ test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", nam
 [bundles]
 voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions"]
 exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
+ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 
 test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]

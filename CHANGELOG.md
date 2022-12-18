@@ -1,4 +1,6 @@
 # 1.2.3
+- Added
+  - Check app updates
 
 # 1.2.2
 - Fixed
