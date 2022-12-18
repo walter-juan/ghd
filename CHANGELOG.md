@@ -2,6 +2,7 @@
 - Fixed
   - Remove the pull requests that doesn't match with the branch regex from the database
 - Changed
+  - Upload compressed binaries
   - Update dependencies
 
 # 1.2.1
