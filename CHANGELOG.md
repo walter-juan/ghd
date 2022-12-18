@@ -1,6 +1,8 @@
 # 1.2.2
 - Fixed
   - Remove the pull requests that doesn't match with the branch regex from the database
+- Changed
+  - Update dependencies
 
 # 1.2.1
 - Added
