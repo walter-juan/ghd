@@ -108,6 +108,7 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
   - [GitHub Actions runner images](https://github.com/actions/runner-images)
 - Android official
   - [Material Design Components](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary) code documentation, the package `androidx.compose.material`
+  - [Material Design 3 Components](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary) code documentation, the package `androidx.compose.material3`
   - [List and id's for performance](https://developer.android.com/jetpack/compose/lists)
   - [State](https://developer.android.com/jetpack/compose/state)
   - [Kotlin for compose](https://developer.android.com/jetpack/compose/kotlin)
