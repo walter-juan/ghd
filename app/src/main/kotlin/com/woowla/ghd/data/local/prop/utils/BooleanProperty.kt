@@ -5,7 +5,7 @@ import kotlin.reflect.KProperty
 
 class BooleanProperty(private val properties: Properties) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): Boolean? {
-        return properties.getProperty("darkTheme")?.toBoolean()
+        return properties.getProperty("darkTheme")?.toBooleanStrictOrNull()
     }
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean?) {
