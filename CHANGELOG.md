@@ -1,4 +1,6 @@
 # 1.2.4
+- Fixed
+  - System default theme
 
 # 1.2.3
 - Added
