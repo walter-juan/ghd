@@ -16,6 +16,7 @@ import kotlin.time.Duration
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 
 class SynchronizationUseCase(
@@ -72,6 +73,8 @@ class SynchronizationUseCase(
 
         KermitLogger.d("SynchronizationUseCase :: sync at $synchronizedAt and it took $measuredTime millis to download the pull requests and repositories")
 
+        // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
+        delay(150)
         EventBus.publish(Event.SYNCHRONIZED)
 
         val pullRequestsAfter = getAllPullRequestsUseCase.execute().getOrDefault(listOf())
