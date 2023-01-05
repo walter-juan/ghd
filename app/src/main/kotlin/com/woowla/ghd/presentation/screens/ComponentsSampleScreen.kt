@@ -2,69 +2,111 @@ package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Stadium
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Usb
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.ghd.presentation.components.Chip
-import com.woowla.ghd.presentation.components.ImageChip
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionCategorySwitch
-import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.SectionItemSwitch
-import com.woowla.ghd.presentation.components.SwitchText
-import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestGitHubState
+import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.presentation.app.AppDimens
+import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.utils.MaterialColors
+import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.days
 
 class ComponentsSampleScreen : Screen {
+    private val repoToCheck = RepoToCheck(
+        id = 12,
+        owner = "walter-juan",
+        name = "ghd",
+        pullNotificationsEnabled = false,
+        releaseNotificationsEnabled = false,
+        groupName = "applications",
+        pullBranchRegex = null
+    )
+    private val release = Release(
+        id = "8u8wuw93u",
+        name = "Version 1.0.2 ",
+        tagName = "v1.0.2",
+        url = "https://github.com/walter-juan/ghd/releases/tag/v1.0.2",
+        publishedAt = Clock.System.now().minus(67.days),
+        authorLogin = "github-actions",
+        authorUrl = null,
+        authorAvatarUrl = null,
+        repoToCheckId = repoToCheck.id,
+        repoToCheck = repoToCheck
+    )
+    private val pullRequest = PullRequest(
+        id = "jdf9skw4",
+        number = 3,
+        url = "https://github.com/walter-juan/ghd/pull/3",
+        gitHubState = PullRequestGitHubState.OPEN,
+        title = "v1.0.4",
+        createdAt = Clock.System.now().minus(78.days),
+        updatedAt = Clock.System.now().minus(2.days),
+        mergedAt = null,
+        draft = false,
+        baseRef = null,
+        headRef = null,
+        authorLogin = "walter-juan",
+        authorUrl = null,
+        authorAvatarUrl = null,
+        appSeenAt = Clock.System.now(),
+        totalCommentsCount = 3,
+        repoToCheckId = repoToCheck.id,
+        repoToCheck = repoToCheck,
+    )
+
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val onBackClick: (() -> Unit) = { navigator.pop() }
 
-        Screen(
+        ScreenScrollable(
             topBar = {
                 TopBar(
                     title = "Components",
                     navOnClick = onBackClick
                 )
-            }
+            },
         ) {
-            item {
-                Column {
-                    Title("Typography")
-                    TypographySample()
-                    Title("SwitchText")
-                    SwitchTextSample()
-                    Title("Sections")
-                    SectionsSample()
-                    Title("Chips")
-                    ChipsSample()
-                }
+            Column(
+                modifier = Modifier
+                    .padding(AppDimens.contentPaddingAllDp.dp)
+                    .width(AppDimens.contentWidthDp.dp)
+            ) {
+                Title("Typography")
+                TypographySample()
+                Title("SwitchText")
+                SwitchTextSample()
+                Title("Sections")
+                SectionsSample()
+                Title("Chips")
+                ChipsSample()
+                Title("Card list item")
+                CardListItemSample()
+                Title("Repo to check card")
+                RepoToCheckCardSample()
+                Title("Pull request card")
+                PullRequestCardSample()
+                Title("Release card")
+                ReleaseCardSample()
             }
         }
     }
@@ -82,6 +124,126 @@ class ComponentsSampleScreen : Screen {
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(10.dp))
+    }
+
+    @Composable
+    private fun CardListItemSample() {
+        val selected = remember { mutableStateOf(false) }
+
+        Row {
+            Checkbox(
+                checked = selected.value,
+                onCheckedChange = { selected.value = it }
+            )
+            Text(
+                text = "Click to change the card to 'selected'/'unselected' or hover the car and click to the checkbox",
+                modifier = Modifier.padding(5.dp).background(Color.White)
+            )
+        }
+
+        CardListItem(
+            selected = selected.value,
+            onClick = {},
+            overlineText = {
+                Text("The overline text")
+            },
+            headlineText = {
+                Text("This is a full card list item sample with all the things you can set")
+            },
+            supportingText = {
+                Text(
+                    text = "This is the supporting text for the card list item, in this case the is quite large and it has been set to one line as maximum. Just check the this sample code to see how to do it.",
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            },
+            leadingContent = { paddingValues ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(25.dp)
+                        .background(Color.LightGray)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Stadium,
+                        contentDescription = null,
+                        modifier = Modifier.padding(paddingValues)
+                    )
+                }
+            },
+            trailingContent = { paddingValues ->
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(25.dp)
+                        .background(Color.LightGray)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Stadium,
+                        contentDescription = null,
+                        modifier = Modifier.padding(paddingValues)
+                    )
+                }
+            },
+            hoverContent = { paddingValues ->
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxSize().padding(paddingValues)
+                ) {
+                    Checkbox(
+                        checked = selected.value,
+                        onCheckedChange = { selected.value = it }
+                    )
+                    Text(
+                        text = "Set whatever you want as hover content. In this case click to change the card to 'selected'/'unselected'",
+                        modifier = Modifier.background(Color.White)
+                    )
+                }
+            },
+        )
+    }
+
+    @Composable
+    private fun RepoToCheckCardSample() {
+        RepoToCheckCard(repoToCheck = repoToCheck, onEditClick = {}, onDeleteClick = {})
+    }
+
+    @Composable
+    private fun PullRequestCardSample() {
+        val seen = remember { mutableStateOf(false) }
+        val pr = pullRequest.copy(
+            appSeenAt = if (seen.value) {
+                Clock.System.now().minus(2.days)
+            } else {
+                null
+            }
+        )
+
+        Row {
+            Checkbox(
+                checked = seen.value,
+                onCheckedChange = { seen.value = it }
+            )
+            Text(
+                text = "Click to change the card to 'seen'/'not seen' or hover the car and click to the button",
+                modifier = Modifier.padding(5.dp).background(Color.White)
+            )
+        }
+
+        PullRequestCard(
+            pullRequest = pr,
+            onSeenClick = {
+                seen.value = !seen.value
+            }
+        )
+    }
+
+    @Composable
+    private fun ReleaseCardSample() {
+        ReleaseCard(release)
     }
 
     @Composable

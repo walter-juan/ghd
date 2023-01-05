@@ -29,6 +29,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
@@ -72,16 +73,22 @@ class RepoToCheckScreen: Screen {
             )
         }
 
-        Screen(
+        ScreenScrollable(
             scaffoldState = scaffoldState,
             topBar = { TopBar(title = i18n.top_bar_title_repos_to_check) }
         ) {
-            val lockedState = reposState
-            when(lockedState) {
-                is ReposToCheckViewModel.State.Error -> item { Text(i18n.generic_error) }
-                ReposToCheckViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
-                is ReposToCheckViewModel.State.Success -> {
-                    item {
+            Column(
+                modifier = Modifier
+                    .padding(AppDimens.contentPaddingAllDp.dp)
+                    .width(AppDimens.contentWidthDp.dp)
+            ) {
+                val lockedState = reposState
+                when(lockedState) {
+                    ReposToCheckViewModel.State.Initializing -> { }
+                    is ReposToCheckViewModel.State.Error -> {
+                        Text(i18n.generic_error)
+                    }
+                    is ReposToCheckViewModel.State.Success -> {
                         SectionCategory(i18n.screen_repos_to_check_new_repositories_section) {
                             SectionItem(
                                 title = i18n.screen_repos_to_check_add_new_repository_item,
@@ -120,7 +127,7 @@ class RepoToCheckScreen: Screen {
                                 description = i18n.screen_app_settings_repositories_item_description(lockedState.reposToCheck.size),
                             ) {
                                 lockedState.reposToCheck.forEach { repoToCheck ->
-                                    RepoCard(
+                                    RepoToCheckCard(
                                         repoToCheck = repoToCheck,
                                         onEditClick = { repoToEdit ->
                                             onEditRepoClick.invoke(repoToEdit)

@@ -20,7 +20,7 @@ class ReposToCheckViewModel(
     private val exportRepoToCheckUseCase: ExportRepoToCheckUseCase = ExportRepoToCheckUseCase(),
     private val deleteRepoToCheckUseCase: DeleteRepoToCheckUseCase = DeleteRepoToCheckUseCase(),
 ): ScreenModel {
-    private val initialStateValue = State.Loading
+    private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
     val state: StateFlow<State> = _state
@@ -69,7 +69,6 @@ class ReposToCheckViewModel(
     }
 
     private fun loadRepos() {
-        _state.value = State.Loading
         coroutineScope.launch {
             getAllReposToCheckUseCase.execute().fold(
                 onSuccess = {
@@ -87,7 +86,7 @@ class ReposToCheckViewModel(
     }
 
     sealed class State {
-        object Loading: State()
+        object Initializing: State()
         data class Success(val reposToCheck: List<RepoToCheck>): State()
         data class Error(val throwable: Throwable): State()
     }

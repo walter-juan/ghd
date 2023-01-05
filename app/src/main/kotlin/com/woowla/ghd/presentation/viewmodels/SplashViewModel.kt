@@ -19,13 +19,11 @@ class SplashViewModel(
         private const val MIN_LOADING_TIME = 1200
     }
 
-    private val initialStateValue = State.Loading
+    private val initialStateValue = State.Initializing
     private val _state = MutableStateFlow<State>(initialStateValue)
     val state: StateFlow<State> = _state
 
     init {
-        _state.value = State.Loading
-
         coroutineScope.launch {
             _state.value = State.Started
             val timeMillis = measureTimeMillis {
@@ -42,7 +40,7 @@ class SplashViewModel(
     }
 
     sealed class State {
-        object Loading : State()
+        object Initializing : State()
         object Started : State()
     }
 }

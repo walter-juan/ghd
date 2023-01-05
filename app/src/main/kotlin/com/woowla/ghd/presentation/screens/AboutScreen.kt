@@ -1,18 +1,21 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
+import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.components.*
 import java.nio.file.Path
 
 class AboutScreen(
@@ -24,7 +27,7 @@ class AboutScreen(
         val navigator = LocalNavigator.currentOrThrow
         val onComponentsSampleScreenClick = { navigator.push(ComponentsSampleScreen()) }
 
-        Screen(
+        ScreenScrollable(
             topBar = {
                 TopBar(
                     title = i18n.top_bar_title_about,
@@ -32,7 +35,11 @@ class AboutScreen(
                 )
             }
         ) {
-            item {
+            Column(
+                modifier = Modifier
+                    .padding(AppDimens.contentPaddingAllDp.dp)
+                    .width(AppDimens.contentWidthDp.dp)
+            ) {
                 SectionCategory("Regarding ghd") {
                     SectionItem(
                         title = "What is it?",
