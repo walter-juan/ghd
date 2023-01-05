@@ -24,15 +24,7 @@ data class PullRequest(
     val repoToCheck: RepoToCheck
 ): Comparable<PullRequest> {
     companion object {
-        val defaultComparator = compareBy<PullRequest> { pull ->
-            when (pull.state) {
-                PullRequestState.UNKNOWN -> 1
-                PullRequestState.OPEN -> 2
-                PullRequestState.DRAFT -> 3
-                PullRequestState.MERGED -> 4
-                PullRequestState.CLOSED -> 5
-            }
-        }.thenByDescending { it.updatedAt }
+        val defaultComparator = compareBy<PullRequest> { it.state }.thenByDescending { it.updatedAt }
     }
 
     val appSeen: Boolean = appSeenAt?.after(updatedAt) ?: false
