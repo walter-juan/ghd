@@ -20,7 +20,7 @@ class PullRequestsViewModel(
     private val getAllPullRequestsUseCase: GetAllPullRequestsUseCase = GetAllPullRequestsUseCase(),
     private val setPullRequestSeenAt: SetPullRequestSeenAt = SetPullRequestSeenAt(),
 ): ScreenModel {
-    private val initialStateValue = State.Loading(mapOf())
+    private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
     val state: StateFlow<State> = _state
@@ -55,14 +55,15 @@ class PullRequestsViewModel(
     }
 
     private fun loadPulls() {
-        _state.value = State.Loading(_state.getPullsOrEmptyList())
-
         coroutineScope.launch {
             val synchronizedAt = getSyncSettingsUseCase.execute().getOrNull()?.synchronizedAt
             getAllPullRequestsUseCase.execute()
                 .fold(
                     onSuccess = { pullRequests ->
-                        _state.value = State.Success(pulls = pullRequests.groupBy { it.state }, synchronizedAt = synchronizedAt)
+                        val groupedPullRequests = pullRequests
+                            .groupBy { it.state }
+                            .map { GroupedPullRequests(pullRequestState = it.key, pullRequests = it.value) }
+                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, synchronizedAt = synchronizedAt)
                     },
                     onFailure = {
                         _state.value = State.Error(throwable = it)
@@ -71,18 +72,11 @@ class PullRequestsViewModel(
         }
     }
 
-    private fun StateFlow<State>.getPullsOrEmptyList(): Map<PullRequestState, List<PullRequest>> {
-        val lockedValue = value
-        return when(lockedValue) {
-            is State.Loading -> lockedValue.pulls
-            is State.Success -> lockedValue.pulls
-            is State.Error -> mapOf()
-        }
-    }
-
     sealed class State {
-        data class Loading(val pulls: Map<PullRequestState, List<PullRequest>>): State()
-        data class Success(val pulls: Map<PullRequestState, List<PullRequest>>, val synchronizedAt: Instant?): State()
+        object Initializing: State()
+        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val synchronizedAt: Instant?): State()
         data class  Error(val throwable: Throwable): State()
     }
+
+    data class GroupedPullRequests(val pullRequestState: PullRequestState, val pullRequests: List<PullRequest>)
 }

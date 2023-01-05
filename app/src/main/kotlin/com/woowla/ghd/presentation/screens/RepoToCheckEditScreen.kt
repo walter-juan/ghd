@@ -1,10 +1,6 @@
 package com.woowla.ghd.presentation.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
@@ -25,12 +21,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.SwitchText
-import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
 
 data class RepoToCheckEditScreen(
@@ -62,7 +55,7 @@ data class RepoToCheckEditScreen(
             }
         }
 
-        Screen(
+        ScreenScrollable(
             topBar = {
                 TopBar(
                     title = i18n.top_bar_title_repos_to_check_edit,
@@ -79,7 +72,11 @@ data class RepoToCheckEditScreen(
                 )
             }
         ) {
-            item {
+            Column(
+                modifier = Modifier
+                    .padding(AppDimens.contentPaddingAllDp.dp)
+                    .width(AppDimens.contentWidthDp.dp)
+            ) {
                 SectionCategory(i18n.screen_edit_repo_to_check_repository_section) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(5.dp),

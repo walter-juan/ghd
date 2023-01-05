@@ -20,7 +20,7 @@ class SettingsViewModel(
     private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
     private val saveAppSettingsUseCase: SaveAppSettingsUseCase = SaveAppSettingsUseCase(),
 ): ScreenModel {
-    private val initialStateValue = State.Loading
+    private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
     val state: StateFlow<State> = _state
@@ -74,7 +74,6 @@ class SettingsViewModel(
     }
 
     private fun loadSettings() {
-        _state.value = State.Loading
         coroutineScope.launch {
             try {
                 val syncSettings = getSyncSettingsUseCase.execute().getOrThrow()
@@ -95,7 +94,7 @@ class SettingsViewModel(
     }
 
     sealed class State {
-        object Loading: State()
+        object Initializing: State()
         data class Success(val syncSettings: SyncSettings, val appSettings: AppSettings): State()
         data class Error(val throwable: Throwable): State()
     }

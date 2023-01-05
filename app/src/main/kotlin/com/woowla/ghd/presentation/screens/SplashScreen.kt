@@ -40,7 +40,7 @@ class SplashScreen : Screen {
         val splashState by viewModel.state.collectAsState()
         var visible by remember { mutableStateOf(false) }
         visible = when(splashState) {
-            SplashViewModel.State.Loading -> false
+            SplashViewModel.State.Initializing -> false
             SplashViewModel.State.Started -> true
         }
 

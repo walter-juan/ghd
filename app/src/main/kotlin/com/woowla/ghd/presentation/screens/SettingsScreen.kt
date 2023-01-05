@@ -44,11 +44,9 @@ import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.woowla.ghd.domain.entities.SyncSettings
+import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.Screen
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 
 class SettingsScreen : Screen {
@@ -69,7 +67,7 @@ class SettingsScreen : Screen {
             }
         }
 
-        Screen(
+        ScreenScrollable(
             scaffoldState = scaffoldState,
             topBar = {
                 TopBar(
@@ -84,13 +82,19 @@ class SettingsScreen : Screen {
                 )
             }
         ) {
-            when(settingsState) {
-                SettingsViewModel.State.Loading -> item { /* nothing, this should be fast to load? */ }
-                is SettingsViewModel.State.Error -> item { Text(i18n.generic_error) }
-                is SettingsViewModel.State.Success -> {
-                    val successState = (settingsState as SettingsViewModel.State.Success)
+            Column(
+                modifier = Modifier
+                    .padding(AppDimens.contentPaddingAllDp.dp)
+                    .width(AppDimens.contentWidthDp.dp)
+            ) {
+                when(settingsState) {
+                    SettingsViewModel.State.Initializing -> { }
+                    is SettingsViewModel.State.Error -> {
+                        Text(i18n.generic_error)
+                    }
+                    is SettingsViewModel.State.Success -> {
+                        val successState = (settingsState as SettingsViewModel.State.Success)
 
-                    item {
                         var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken ?: "") }
                         var passwordVisible by remember { mutableStateOf(false) }
 
