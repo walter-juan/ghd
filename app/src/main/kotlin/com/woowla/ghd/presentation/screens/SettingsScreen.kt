@@ -148,45 +148,15 @@ class SettingsScreen : Screen {
                             ) {
                                 val checkTimeoutMinutes = SyncSettings.availableCheckTimeouts.associateWith { checkTimeout ->
                                     i18n.app_settings_checkout_time_in_minutes(checkTimeout)
-                                }
+                                }.toList()
 
-                                var expanded by remember { mutableStateOf(false) }
-                                var textFieldText by remember { mutableStateOf(checkTimeoutMinutes[successState.syncSettings.checkTimeout] ?: i18n.app_settings_checkout_time_unknown) }
-                                var textFieldSize by remember { mutableStateOf(Size.Zero) }
-                                val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
-
-                                Column(
+                                OutlinedSelectField(
+                                    selected = successState.syncSettings.checkTimeout,
+                                    values = checkTimeoutMinutes,
+                                    emptyText = i18n.app_settings_checkout_time_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
-                                ) {
-                                    OutlinedTextField(
-                                        value = textFieldText,
-                                        onValueChange = { textFieldText = it },
-                                        enabled = false,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .onGloballyPositioned { coordinates ->
-                                                // this value is used to assign to the DropDown the same width
-                                                textFieldSize = coordinates.size.toSize()
-                                            }
-                                            .clickable { expanded = !expanded },
-                                        trailingIcon = { Icon(icon, contentDescription = null) }
-                                    )
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false },
-                                        modifier = Modifier
-                                            .width(with(LocalDensity.current){ textFieldSize.width.toDp() })
-                                    ) {
-                                        checkTimeoutMinutes.forEach { (checkTimeout, text) ->
-                                            DropdownMenuItem(onClick = {
-                                                textFieldText = text
-                                                expanded = false
-                                                viewModel.checkTimeoutUpdated(checkTimeout = checkTimeout)
-                                            }) {
-                                                Text(text = text)
-                                            }
-                                        }
-                                    }
+                                ) { value, _ ->
+                                    viewModel.checkTimeoutUpdated(checkTimeout = value)
                                 }
                             }
 
@@ -196,45 +166,15 @@ class SettingsScreen : Screen {
                             ) {
                                 val cleanUpTimeoutHours = SyncSettings.availablePullRequestCleanUpTimeout.associateWith { cleanUpTimeout ->
                                     i18n.app_settings_pr_cleanup_in_hours(cleanUpTimeout)
-                                }
+                                }.toList()
 
-                                var expanded by remember { mutableStateOf(false) }
-                                var textFieldText by remember { mutableStateOf(cleanUpTimeoutHours[successState.syncSettings.pullRequestCleanUpTimeout] ?: i18n.app_settings_pr_cleanup_unknown) }
-                                var textFieldSize by remember { mutableStateOf(Size.Zero) }
-                                val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
-
-                                Column(
+                                OutlinedSelectField(
+                                    selected = successState.syncSettings.pullRequestCleanUpTimeout,
+                                    values = cleanUpTimeoutHours,
+                                    emptyText = i18n.app_settings_pr_cleanup_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
-                                ) {
-                                    OutlinedTextField(
-                                        value = textFieldText,
-                                        onValueChange = { textFieldText = it },
-                                        enabled = false,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .onGloballyPositioned { coordinates ->
-                                                // this value is used to assign to the DropDown the same width
-                                                textFieldSize = coordinates.size.toSize()
-                                            }
-                                            .clickable { expanded = !expanded },
-                                        trailingIcon = { Icon(icon, contentDescription = null) }
-                                    )
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false },
-                                        modifier = Modifier
-                                            .width(with(LocalDensity.current){ textFieldSize.width.toDp() })
-                                    ) {
-                                        cleanUpTimeoutHours.forEach { (cleanUpTimeout, text) ->
-                                            DropdownMenuItem(onClick = {
-                                                textFieldText = text
-                                                expanded = false
-                                                viewModel.pullRequestCleanUpTimeoutUpdated(cleanUpTimeout = cleanUpTimeout)
-                                            }) {
-                                                Text(text = text)
-                                            }
-                                        }
-                                    }
+                                ) { value, _ ->
+                                    viewModel.pullRequestCleanUpTimeoutUpdated(cleanUpTimeout = value)
                                 }
                             }
                         }
@@ -244,45 +184,14 @@ class SettingsScreen : Screen {
                                 title = i18n.screen_app_settings_theme_item,
                                 description = i18n.screen_app_settings_theme_item_description
                             ) {
-                                val appThemeValues = mapOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)
-                                var expanded by remember { mutableStateOf(false) }
+                                val appThemeValues = listOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)
 
-                                var textFieldText by remember { mutableStateOf(appThemeValues[successState.appSettings.darkTheme] ?: i18n.app_settings_app_theme_unknown) }
-                                var textFieldSize by remember { mutableStateOf(Size.Zero) }
-                                val icon = if (expanded) { Icons.Filled.KeyboardArrowUp } else { Icons.Filled.KeyboardArrowDown }
-
-                                Column(
+                                OutlinedSelectField(
+                                    selected = successState.appSettings.darkTheme,
+                                    values = appThemeValues,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
-                                ) {
-                                    OutlinedTextField(
-                                        value = textFieldText,
-                                        onValueChange = { textFieldText = it },
-                                        enabled = false,
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .onGloballyPositioned { coordinates ->
-                                                // this value is used to assign to the DropDown the same width
-                                                textFieldSize = coordinates.size.toSize()
-                                            }
-                                            .clickable { expanded = !expanded },
-                                        trailingIcon = { Icon(icon, contentDescription = null) }
-                                    )
-                                    DropdownMenu(
-                                        expanded = expanded,
-                                        onDismissRequest = { expanded = false },
-                                        modifier = Modifier
-                                            .width(with(LocalDensity.current){textFieldSize.width.toDp()})
-                                    ) {
-                                        appThemeValues.forEach { (appDarkTheme, text) ->
-                                            DropdownMenuItem(onClick = {
-                                                textFieldText = text
-                                                expanded = false
-                                                viewModel.appThemeUpdated(appDarkTheme = appDarkTheme)
-                                            }) {
-                                                Text(text = text)
-                                            }
-                                        }
-                                    }
+                                ) { value, _ ->
+                                    viewModel.appThemeUpdated(appDarkTheme = value)
                                 }
                             }
                         }

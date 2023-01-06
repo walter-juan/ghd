@@ -99,6 +99,8 @@ class ComponentsSampleScreen : Screen {
                 SectionsSample()
                 Title("Chips")
                 ChipsSample()
+                Title("OutlinedSelectField")
+                OutlinedSelectFieldSample()
                 Title("Card list item")
                 CardListItemSample()
                 Title("Repo to check card")
@@ -124,6 +126,24 @@ class ComponentsSampleScreen : Screen {
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(10.dp))
+    }
+
+    @Composable
+    private fun OutlinedSelectFieldSample() {
+        val values = listOf(1 to "One", 2 to "Two", 3 to "Three", 4 to "Four", 5 to "Five")
+        val selected = values.random().first
+
+        Text(text = "With one option selected by default")
+        OutlinedSelectField(
+            selected = selected,
+            values = values,
+        ) { _, _ -> }
+
+        Text(text = "Without an option selected by default")
+        OutlinedSelectField(
+            values = values,
+            emptyText = "(no option selected)"
+        ) { _, _ -> }
     }
 
     @Composable
