@@ -116,7 +116,6 @@ object i18n {
 
     val app_settings_checkout_time_in_minutes: (Long) -> String = { "$it minutes" }
     val app_settings_checkout_time_unknown = "?"
-    val app_settings_app_theme_unknown = "?"
     val app_settings_pr_cleanup_in_hours: (Long) -> String = { "$it hours" }
     val app_settings_pr_cleanup_unknown = "?"
 
