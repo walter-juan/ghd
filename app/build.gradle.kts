@@ -60,7 +60,7 @@ dependencies {
     implementation(libs.h2)
     implementation(libs.bundles.exposed)
     implementation(libs.kotlinx.datetime)
-    implementation(libs.kermit)
+    implementation(libs.logback.classic)
     implementation(libs.appdirs)
     implementation(libs.mapstruct.core)
     kapt(libs.mapstruct.processor)

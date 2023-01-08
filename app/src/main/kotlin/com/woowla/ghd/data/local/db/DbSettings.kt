@@ -1,7 +1,7 @@
 package com.woowla.ghd.data.local.db
 
 import com.woowla.ghd.AppFolderFactory
-import com.woowla.ghd.KermitLogger
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.db.exceptions.toDbException
 import com.woowla.ghd.extensions.mapFailure
 import java.util.*
@@ -66,7 +66,7 @@ object DbSettings {
         return runCatching {
             val dataSource = getDbDataSource(filePassword = filePassword, createIfNotExists = createIfNotExists)
             val isValid = dataSource.connection.use { it.isValid(2) }
-            KermitLogger.d("The database connection is valid [$isValid]")
+            AppLogger.d("The database connection is valid [$isValid]")
         }.mapFailure {
             it.toDbException()
         }

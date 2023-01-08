@@ -1,6 +1,6 @@
 package com.woowla.ghd.domain.synchronization
 
-import com.woowla.ghd.KermitLogger
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.services.PullRequestService
 import com.woowla.ghd.domain.services.ReleaseService
@@ -54,26 +54,26 @@ class Synchronizer private constructor(
 
         // don't sync if it's still running
         if (syncJob?.isCompleted ?: true) {
-            KermitLogger.d("Synchronizer :: sync")
+            AppLogger.d("Synchronizer :: sync")
             syncJob = scope.launch {
                 unsubscribe()
                 executeAllSynchronizables()
                 subscribe()
             }
         } else {
-            KermitLogger.d("Synchronizer :: don't sync, still in progress")
+            AppLogger.d("Synchronizer :: don't sync, still in progress")
         }
     }
 
     private suspend fun executeAllSynchronizables() {
         val syncSettings = syncSettingsService.get().getOrNull()
-        KermitLogger.d("SynchronizationUseCase :: are sync settings null? ${syncSettings == null}")
+        AppLogger.d("SynchronizationUseCase :: are sync settings null? ${syncSettings == null}")
         if (syncSettings == null) {
             return
         }
 
         val githubPatToken = syncSettings.githubPatToken
-        KermitLogger.d("SynchronizationUseCase :: is github token null or blank? ${githubPatToken.isNullOrBlank()}")
+        AppLogger.d("SynchronizationUseCase :: is github token null or blank? ${githubPatToken.isNullOrBlank()}")
         if (githubPatToken.isNullOrBlank()) {
             return
         }
@@ -87,7 +87,7 @@ class Synchronizer private constructor(
         val synchronizedAt = Clock.System.now()
         syncSettingsService.save(syncSettings.copy(synchronizedAt = synchronizedAt))
 
-        KermitLogger.d("SynchronizationUseCase :: sync at $synchronizedAt and it took $measuredTime millis to download the pull requests and repositories")
+        AppLogger.d("SynchronizationUseCase :: sync at $synchronizedAt and it took $measuredTime millis to download the pull requests and repositories")
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
         delay(150)
