@@ -1,6 +1,6 @@
 package com.woowla.ghd.utils
 
-import com.woowla.ghd.KermitLogger
+import com.woowla.ghd.AppLogger
 import java.awt.Desktop
 import java.net.URI
 import java.net.URISyntaxException
@@ -13,7 +13,7 @@ fun openWebpage(uri: URI): Boolean {
             desktop.browse(uri)
             return true
         } catch (e: Exception) {
-            KermitLogger.e(e.message ?: "Error opening the webpage", e)
+            AppLogger.e(e.message ?: "Error opening the webpage", e)
         }
     }
     return false
@@ -23,7 +23,7 @@ fun openWebpage(url: String): Boolean {
     try {
         return openWebpage(URI(url))
     } catch (e: URISyntaxException) {
-        KermitLogger.e(e.message ?: "Error opening the webpage", e)
+        AppLogger.e(e.message ?: "Error opening the webpage", e)
     }
     return false
 }
@@ -32,7 +32,7 @@ fun openWebpage(url: URL): Boolean {
     try {
         return openWebpage(url.toURI())
     } catch (e: URISyntaxException) {
-        KermitLogger.e(e.message ?: "Error opening the webpage", e)
+        AppLogger.e(e.message ?: "Error opening the webpage", e)
     }
     return false
 }

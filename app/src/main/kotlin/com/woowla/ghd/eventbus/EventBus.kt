@@ -1,6 +1,6 @@
 package com.woowla.ghd.eventbus
 
-import com.woowla.ghd.KermitLogger
+import com.woowla.ghd.AppLogger
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ object EventBus {
         val subscriberJob = events
             .filter { it == event }
             .onEach { action.invoke() }
-            .catch { ex -> KermitLogger.e("EventBus :: Exception, ${ex.message}", ex) }
+            .catch { ex -> AppLogger.e("EventBus :: Exception, ${ex.message}", ex) }
             .launchIn(scope)
         subscriberJobs[subscriber] = getJobs(subscriber) + subscriberJob
     }

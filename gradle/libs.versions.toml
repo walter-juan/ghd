@@ -6,6 +6,7 @@ voyager = "1.0.0-rc02"
 kotest = "5.5.4"
 exposed = "0.41.1"
 ktor = "2.2.1"
+log4j = "2.19.0"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -36,7 +37,7 @@ exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 # logger
-kermit = { group = "co.touchlab", name = "kermit", version = "1.2.2" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.3.5" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
 # An annotation processor for generating type-safe bean mappers
