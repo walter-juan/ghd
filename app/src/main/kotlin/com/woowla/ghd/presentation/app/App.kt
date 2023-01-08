@@ -16,8 +16,8 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
 import cafe.adriel.voyager.navigator.Navigator
 import com.woowla.ghd.BuildConfig
-import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
-import com.woowla.ghd.domain.usecases.GetNewAppVersionUseCase
+import com.woowla.ghd.domain.services.AppSettingsService
+import com.woowla.ghd.domain.services.AppVersionService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.screens.SplashScreen
@@ -32,10 +32,10 @@ fun App() {
     val newAppVersion = remember { mutableStateOf("")  }
 
     LaunchedEffect("app-theme") {
-        GetAppSettingsUseCase().execute().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+        AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
         EventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
             launch {
-                GetAppSettingsUseCase().execute().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+                AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
             }
         }
     }
@@ -43,7 +43,7 @@ fun App() {
     LaunchedEffect("check-app-update") {
         if (!BuildConfig.DEBUG) {
             // check only on prod releases to avoid checking each time the app is opened
-            GetNewAppVersionUseCase().execute().onSuccess { response ->
+            AppVersionService().checkForNewVersion().onSuccess { response ->
                 openNewAppVersionDialog.value = response.newVersion
                 newAppVersion.value = response.latestVersion.toString()
             }

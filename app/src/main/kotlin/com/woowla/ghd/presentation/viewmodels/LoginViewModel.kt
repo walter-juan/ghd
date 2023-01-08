@@ -5,7 +5,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import cafe.adriel.voyager.navigator.Navigator
 import com.woowla.ghd.data.local.db.DbSettings
 import com.woowla.ghd.data.local.db.exceptions.DbDatabaseNotFoundException
-import com.woowla.ghd.domain.Synchronizer
+import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.screens.HomeScreen

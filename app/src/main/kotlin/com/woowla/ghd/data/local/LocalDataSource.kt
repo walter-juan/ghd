@@ -15,10 +15,9 @@ import com.woowla.ghd.domain.requests.UpsertReleaseRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.data.local.db.utils.findByIdOrThrow
 import com.woowla.ghd.data.local.db.utils.upsertById
-import com.woowla.ghd.domain.requests.UpsertAppSettings
+import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
 import com.woowla.ghd.domain.requests.UpsertSyncSettings
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
 
@@ -34,7 +33,7 @@ class LocalDataSource(
         }
     }
 
-    suspend fun updateAppSettings(upsertRequest: UpsertAppSettings): Result<Unit> {
+    suspend fun updateAppSettings(upsertRequest: UpsertAppSettingsRequest): Result<Unit> {
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = upsertRequest.darkTheme

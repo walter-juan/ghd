@@ -1,22 +1,21 @@
-package com.woowla.ghd.domain.usecases
+package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.data.remote.RemoteDataSource
-import com.woowla.ghd.utils.UseCaseWithoutParams
 import net.swiftzer.semver.SemVer
 
-class GetNewAppVersionUseCase(
+class AppVersionService(
     private val remoteDataSource: RemoteDataSource = RemoteDataSource()
-) : UseCaseWithoutParams<GetNewAppVersionUseCase.Response>() {
+) {
 
-    override suspend fun perform(): Result<Response> {
+    suspend fun checkForNewVersion(): Result<CheckForNewVersionResponse> {
         return remoteDataSource
             .getLastGhdRelease()
-            .map { apiRelease ->
+            .mapCatching { apiRelease ->
                 val currentVersion = SemVer.parse(BuildConfig.APP_VERSION)
                 val latestVersion = SemVer.parse(apiRelease.tag.removePrefix("v"))
 
-                Response(
+                CheckForNewVersionResponse(
                     newVersion = (currentVersion < latestVersion),
                     currentVersion = currentVersion,
                     latestVersion = latestVersion
@@ -24,5 +23,5 @@ class GetNewAppVersionUseCase(
             }
     }
 
-    data class Response(val newVersion: Boolean, val currentVersion: SemVer, val latestVersion: SemVer)
+    data class CheckForNewVersionResponse(val newVersion: Boolean, val currentVersion: SemVer, val latestVersion: SemVer)
 }

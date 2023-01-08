@@ -3,8 +3,8 @@ package com.woowla.ghd.presentation.viewmodels
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.Release
-import com.woowla.ghd.domain.usecases.GetAllReleasesUseCase
-import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
+import com.woowla.ghd.domain.services.ReleaseService
+import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Instant
 
 class ReleasesViewModel(
-    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
-    private val getAllReleasesUseCase: GetAllReleasesUseCase = GetAllReleasesUseCase()
+    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
+    private val releaseService: ReleaseService = ReleaseService()
 ): ScreenModel {
     private val initialStateValue = State.Initializing
 
@@ -34,9 +34,9 @@ class ReleasesViewModel(
 
     private fun loadReleases() {
         coroutineScope.launch {
-            val synchronizedAt = getSyncSettingsUseCase.execute().getOrNull()?.synchronizedAt
+            val synchronizedAt = syncSettingsService.get().getOrNull()?.synchronizedAt
 
-            getAllReleasesUseCase.execute()
+            releaseService.getAll()
                 .fold(
                     onSuccess = { releases ->
                         val groupedReleases = releases

@@ -4,10 +4,8 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
-import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
-import com.woowla.ghd.domain.usecases.SaveAppSettingsUseCase
-import com.woowla.ghd.domain.usecases.SaveSyncSettingsUseCase
+import com.woowla.ghd.domain.services.AppSettingsService
+import com.woowla.ghd.domain.services.SyncSettingsService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +13,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class SettingsViewModel(
-    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
-    private val saveSyncSettingsUseCase: SaveSyncSettingsUseCase = SaveSyncSettingsUseCase(),
-    private val getAppSettingsUseCase: GetAppSettingsUseCase = GetAppSettingsUseCase(),
-    private val saveAppSettingsUseCase: SaveAppSettingsUseCase = SaveAppSettingsUseCase(),
+    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
+    private val appSettingsService: AppSettingsService = AppSettingsService(),
 ): ScreenModel {
     private val initialStateValue = State.Initializing
 
@@ -59,8 +55,8 @@ class SettingsViewModel(
     fun saveSettings() {
         _state.on<State.Success> {
             coroutineScope.launch {
-                val syncSettingsResult = saveSyncSettingsUseCase.execute(it.syncSettings)
-                val appSettingsResult = saveAppSettingsUseCase.execute(it.appSettings)
+                val syncSettingsResult = syncSettingsService.save(it.syncSettings)
+                val appSettingsResult = appSettingsService.save(it.appSettings)
                 if (syncSettingsResult.isSuccess && appSettingsResult.isSuccess) {
                     _events.emit(Events.Saved)
                 }
@@ -76,8 +72,8 @@ class SettingsViewModel(
     private fun loadSettings() {
         coroutineScope.launch {
             try {
-                val syncSettings = getSyncSettingsUseCase.execute().getOrThrow()
-                val appSettings = getAppSettingsUseCase.execute().getOrThrow()
+                val syncSettings = syncSettingsService.get().getOrThrow()
+                val appSettings = appSettingsService.get().getOrThrow()
                 _state.value = State.Success(syncSettings = syncSettings, appSettings = appSettings)
             } catch (th: Throwable) {
                 _state.value = State.Error(throwable = th)

@@ -3,10 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.usecases.DeleteRepoToCheckUseCase
-import com.woowla.ghd.domain.usecases.ExportRepoToCheckUseCase
-import com.woowla.ghd.domain.usecases.GetAllReposToCheckUseCase
-import com.woowla.ghd.domain.usecases.ImportRepoToCheckUseCase
+import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import java.io.File
@@ -15,10 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ReposToCheckViewModel(
-    private val getAllReposToCheckUseCase: GetAllReposToCheckUseCase = GetAllReposToCheckUseCase(),
-    private val importRepoToCheckUseCase: ImportRepoToCheckUseCase = ImportRepoToCheckUseCase(),
-    private val exportRepoToCheckUseCase: ExportRepoToCheckUseCase = ExportRepoToCheckUseCase(),
-    private val deleteRepoToCheckUseCase: DeleteRepoToCheckUseCase = DeleteRepoToCheckUseCase(),
+    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
 ): ScreenModel {
     private val initialStateValue = State.Initializing
 
@@ -37,7 +31,7 @@ class ReposToCheckViewModel(
             coroutineScope.launch {
                 if (file != null) {
                     val content = file.readText()
-                    importRepoToCheckUseCase.execute(content)
+                    repoToCheckService.import(content)
                 }
             }
         }
@@ -47,7 +41,7 @@ class ReposToCheckViewModel(
         _state.on<State.Success> {
             coroutineScope.launch {
                 if (file != null) {
-                    exportRepoToCheckUseCase.execute().onSuccess { content ->
+                    repoToCheckService.export().onSuccess { content ->
                         file.writeText(content)
                     }
                 }
@@ -58,7 +52,7 @@ class ReposToCheckViewModel(
     fun deleteRepo(repoToCheck: RepoToCheck) {
         _state.on<State.Success> {
             coroutineScope.launch {
-                deleteRepoToCheckUseCase.execute(repoToCheck.id)
+                repoToCheckService.delete(repoToCheck.id)
                 reload()
             }
         }
@@ -70,7 +64,7 @@ class ReposToCheckViewModel(
 
     private fun loadRepos() {
         coroutineScope.launch {
-            getAllReposToCheckUseCase.execute().fold(
+            repoToCheckService.getAll().fold(
                 onSuccess = {
                     _state.value = State.Success(reposToCheck = it)
                 },

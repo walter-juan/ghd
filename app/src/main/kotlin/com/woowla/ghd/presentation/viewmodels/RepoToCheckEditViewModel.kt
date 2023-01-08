@@ -5,7 +5,7 @@ import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.mappers.DomainMappers
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import com.woowla.ghd.domain.usecases.SaveRepoToCheckUseCase
+import com.woowla.ghd.domain.services.RepoToCheckService
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class RepoToCheckEditViewModel(
     private val repoToCheck: RepoToCheck?,
-    private val saveRepoToCheckUseCase: SaveRepoToCheckUseCase = SaveRepoToCheckUseCase(),
+    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
 ): ScreenModel {
 
     private val initialStateValue: UpsertRepoToCheckRequest = if (repoToCheck == null) {
@@ -54,8 +54,7 @@ class RepoToCheckEditViewModel(
 
     fun saveRepo() {
         coroutineScope.launch {
-            saveRepoToCheckUseCase
-                .execute(_updateRequest.value)
+            repoToCheckService.save(_updateRequest.value)
                 .onSuccess {
                     _events.emit(Events.Saved)
                 }

@@ -1,16 +1,23 @@
-package com.woowla.ghd.domain.usecases
+package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.mappers.DomainMappers
+import com.woowla.ghd.domain.mappers.PropMappers
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
-import com.woowla.ghd.utils.UseCase
 
-class SaveAppSettingsUseCase(
+class AppSettingsService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
-) : UseCase<AppSettings, Unit>() {
-    override suspend fun perform(params: AppSettings): Result<Unit> {
+) {
+    suspend fun get(): Result<AppSettings> {
+        return localDataSource.getAppSettings()
+            .mapCatching {
+                PropMappers.INSTANCE.propAppSettingsToAppSettings(it)
+            }
+    }
+
+    suspend fun save(params: AppSettings): Result<Unit> {
         return localDataSource.updateAppSettings(DomainMappers.INSTANCE.appSettingsToUpsertRequest(params))
             .onSuccess {
                 EventBus.publish(Event.SETTINGS_UPDATED)
