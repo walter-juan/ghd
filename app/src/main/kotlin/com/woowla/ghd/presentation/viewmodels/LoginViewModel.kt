@@ -62,7 +62,7 @@ class LoginViewModel(
         coroutineScope.launch {
             // ifExists is false because we want to create also the database
             val (testConnectionResult,  time) = measureTimedValue {
-                dbSettings.testConnection(filePassword = pwd, ifExists = false)
+                dbSettings.testConnection(filePassword = pwd, createIfNotExists = true)
             }
             delay(MIN_LOADING_TIME - time.inWholeMilliseconds)
 

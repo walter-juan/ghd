@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.bundles.voyager)
     implementation(libs.kaml)
     implementation(libs.semver)
+    implementation(libs.flyway.core)
 
     testImplementation(libs.bundles.test.kotest)
 }
