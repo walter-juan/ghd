@@ -1,11 +1,11 @@
 package com.woowla.ghd.data.remote
 
-import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
+import com.woowla.ghd.domain.services.SyncSettingsService
 
 class GitHubPATTokenProvider(
-    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase()
+    private val syncSettingsService: SyncSettingsService = SyncSettingsService()
 ) {
     suspend fun get(): String? {
-        return getSyncSettingsUseCase.execute().map { it.githubPatToken }.getOrNull()
+        return syncSettingsService.get().map { it.githubPatToken }.getOrNull()
     }
 }

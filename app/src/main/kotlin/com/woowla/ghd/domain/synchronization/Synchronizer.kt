@@ -1,24 +1,32 @@
-package com.woowla.ghd.domain
+package com.woowla.ghd.domain.synchronization
 
 import com.woowla.ghd.KermitLogger
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
-import com.woowla.ghd.domain.usecases.SynchronizationUseCase
+import com.woowla.ghd.domain.services.PullRequestService
+import com.woowla.ghd.domain.services.ReleaseService
+import com.woowla.ghd.domain.services.RepoToCheckService
+import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.extensions.timer
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.system.measureTimeMillis
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 
 class Synchronizer private constructor(
-    private val synchronizationUseCase: SynchronizationUseCase = SynchronizationUseCase(),
-    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase()
+    private val pullRequestService: PullRequestService = PullRequestService(),
+    private val releaseService: ReleaseService = ReleaseService(),
+    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
+    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
+    private val synchronizableServiceList: List<SynchronizableService> = listOf(PullRequestService(), ReleaseService())
 ) {
     companion object {
         val INSTANCE = Synchronizer()
@@ -49,7 +57,7 @@ class Synchronizer private constructor(
             KermitLogger.d("Synchronizer :: sync")
             syncJob = scope.launch {
                 unsubscribe()
-                synchronizationUseCase.execute()
+                executeAllSynchronizables()
                 subscribe()
             }
         } else {
@@ -57,9 +65,38 @@ class Synchronizer private constructor(
         }
     }
 
+    private suspend fun executeAllSynchronizables() {
+        val syncSettings = syncSettingsService.get().getOrNull()
+        KermitLogger.d("SynchronizationUseCase :: are sync settings null? ${syncSettings == null}")
+        if (syncSettings == null) {
+            return
+        }
+
+        val githubPatToken = syncSettings.githubPatToken
+        KermitLogger.d("SynchronizationUseCase :: is github token null or blank? ${githubPatToken.isNullOrBlank()}")
+        if (githubPatToken.isNullOrBlank()) {
+            return
+        }
+
+        val allReposToCheck = repoToCheckService.getAll().getOrDefault(listOf())
+
+        val measuredTime = measureTimeMillis {
+            synchronizableServiceList.forEach { it.synchronize(syncSettings, allReposToCheck) }
+        }
+
+        val synchronizedAt = Clock.System.now()
+        syncSettingsService.save(syncSettings.copy(synchronizedAt = synchronizedAt))
+
+        KermitLogger.d("SynchronizationUseCase :: sync at $synchronizedAt and it took $measuredTime millis to download the pull requests and repositories")
+
+        // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
+        delay(150)
+        EventBus.publish(Event.SYNCHRONIZED)
+    }
+
     private fun reloadCheckTimeout(forceReload: Boolean = false, startWithDelay: Boolean = true) {
         scope.launch {
-            val settingsCheckTimeout = getSyncSettingsUseCase.execute().getOrNull()?.checkTimeout
+            val settingsCheckTimeout = syncSettingsService.get().getOrNull()?.checkTimeout
             if (forceReload || (settingsCheckTimeout != null && settingsCheckTimeout != checkTimeout)) {
                 checkTimeout = SyncSettings.getValidCheckTimeout(settingsCheckTimeout)
                 setTimer(startWithDelay = startWithDelay)

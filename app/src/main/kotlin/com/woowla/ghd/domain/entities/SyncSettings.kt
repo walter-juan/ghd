@@ -30,4 +30,6 @@ data class SyncSettings(
             }
         }
     }
+
+    fun getValidPullRequestCleanUpTimeout(): Long = Companion.getValidPullRequestCleanUpTimeout(pullRequestCleanUpTimeout)
 }

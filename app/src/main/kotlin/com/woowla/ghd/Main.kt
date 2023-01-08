@@ -11,8 +11,7 @@ import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.woowla.ghd.domain.Synchronizer
-import com.woowla.ghd.domain.usecases.GetAppSettingsUseCase
+import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient

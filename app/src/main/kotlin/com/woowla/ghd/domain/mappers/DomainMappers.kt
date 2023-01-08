@@ -5,7 +5,7 @@ import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.requests.UpsertAppSettings
+import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
 import com.woowla.ghd.domain.requests.UpsertReleaseRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
@@ -20,7 +20,7 @@ interface DomainMappers {
         val INSTANCE: DomainMappers = Mappers.getMapper(DomainMappers::class.java)
     }
 
-    fun appSettingsToUpsertRequest(appSettings: AppSettings): UpsertAppSettings
+    fun appSettingsToUpsertRequest(appSettings: AppSettings): UpsertAppSettingsRequest
 
     fun syncSettingsToUpsertRequest(syncSettings: SyncSettings): UpsertSyncSettings
 

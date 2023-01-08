@@ -4,9 +4,8 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
-import com.woowla.ghd.domain.usecases.GetAllPullRequestsUseCase
-import com.woowla.ghd.domain.usecases.GetSyncSettingsUseCase
-import com.woowla.ghd.domain.usecases.SetPullRequestSeenAt
+import com.woowla.ghd.domain.services.PullRequestService
+import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +15,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
 class PullRequestsViewModel(
-    private val getSyncSettingsUseCase: GetSyncSettingsUseCase = GetSyncSettingsUseCase(),
-    private val getAllPullRequestsUseCase: GetAllPullRequestsUseCase = GetAllPullRequestsUseCase(),
-    private val setPullRequestSeenAt: SetPullRequestSeenAt = SetPullRequestSeenAt(),
+    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
+    private val pullRequestService: PullRequestService = PullRequestService(),
 ): ScreenModel {
     private val initialStateValue = State.Initializing
 
@@ -44,7 +42,7 @@ class PullRequestsViewModel(
                 } else {
                     Clock.System.now()
                 }
-                setPullRequestSeenAt.execute(SetPullRequestSeenAt.Params(id = pullRequest.id, appSeenAt = appSeenAt))
+                pullRequestService.markAsSeen(id = pullRequest.id, appSeenAt = appSeenAt)
                 loadPulls()
             }
         }
@@ -56,8 +54,8 @@ class PullRequestsViewModel(
 
     private fun loadPulls() {
         coroutineScope.launch {
-            val synchronizedAt = getSyncSettingsUseCase.execute().getOrNull()?.synchronizedAt
-            getAllPullRequestsUseCase.execute()
+            val synchronizedAt = syncSettingsService.get().getOrNull()?.synchronizedAt
+            pullRequestService.getAll()
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests

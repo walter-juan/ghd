@@ -1,5 +1,5 @@
 package com.woowla.ghd.domain.requests
 
-data class UpsertAppSettings(
+data class UpsertAppSettingsRequest(
     val darkTheme: Boolean?,
 )

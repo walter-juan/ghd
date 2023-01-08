@@ -6,6 +6,7 @@ import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import org.mapstruct.Mapper
