@@ -1,6 +1,14 @@
 # 1.2.4
 - Fixed
   - System default theme
+- Changed
+  - Technical changes
+    - Re-implement the screen component
+    - Create an outlined select field component
+    - Add small delay before publish the synchronized event
+    - Replace use cases in favour of services
+    - Add database migrations
+    - Replace logger class
 
 # 1.2.3
 - Added
