@@ -9,6 +9,9 @@ import com.woowla.ghd.domain.mappers.ApiMappers
 import com.woowla.ghd.domain.mappers.DbMappers
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 class ReleaseService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
@@ -27,8 +30,12 @@ class ReleaseService(
     override suspend fun synchronize(syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>) {
         val releasesBefore = getAll().getOrDefault(listOf())
 
-        repoToCheckList.forEach { dbRepoToCheck ->
-            fetchLastReleases(dbRepoToCheck)
+        coroutineScope {
+            repoToCheckList
+                .map { dbRepoToCheck ->
+                    async { fetchLastReleases(dbRepoToCheck) }
+                }
+                .awaitAll()
         }
 
         val releasesAfter = getAll().getOrDefault(listOf())
