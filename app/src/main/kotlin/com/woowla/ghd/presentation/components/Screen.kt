@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.FabPosition
@@ -47,7 +46,6 @@ fun ScreenScrollable(
         isFloatingActionButtonDocked = isFloatingActionButtonDocked,
     ) { scaffoldPaddingValues ->
         Box(
-            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.TopCenter
         ) {
             Box(
@@ -55,7 +53,7 @@ fun ScreenScrollable(
                 modifier = Modifier
                     .padding(scaffoldPaddingValues)
                     .verticalScroll(scrollState)
-                    .fillMaxSize()
+                    .fillMaxWidth()
             ) {
                 content()
             }
