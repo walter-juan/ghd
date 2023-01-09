@@ -13,6 +13,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -22,8 +25,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
 class Synchronizer private constructor(
-    private val pullRequestService: PullRequestService = PullRequestService(),
-    private val releaseService: ReleaseService = ReleaseService(),
     private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
     private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
     private val synchronizableServiceList: List<SynchronizableService> = listOf(PullRequestService(), ReleaseService())
@@ -80,8 +81,15 @@ class Synchronizer private constructor(
 
         val allReposToCheck = repoToCheckService.getAll().getOrDefault(listOf())
 
+
         val measuredTime = measureTimeMillis {
-            synchronizableServiceList.forEach { it.synchronize(syncSettings, allReposToCheck) }
+            coroutineScope {
+                synchronizableServiceList
+                    .map {
+                        async { it.synchronize(syncSettings, allReposToCheck) }
+                    }
+                    .awaitAll()
+            }
         }
 
         val synchronizedAt = Clock.System.now()
