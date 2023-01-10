@@ -10,15 +10,25 @@ outputs:
   tag:
     description: Tag to create
     value: ${{ steps.generate-data.outputs.tag }}
+  release_notes:
+    description: Release notes extracted from the changelog using the version output
+    value: ${{ steps.generate-data.outputs.release_notes }}
 runs:
   using: "composite"
   steps:
     - id: generate-data
       shell: bash
       run: |
+        changelog_file="CHANGELOG.md"
+        
         version=$(grep "version = " app/build.gradle.kts | sed 's/[^0-9.]*//g')
         tag="v$version"
         name="Version $version"
+        release_notes=$(awk -v ver="$version" ' /^#+ \[/ { if (p) { exit }; if ($2 == "["ver"]") { p=1; next} } p && NF ' "$changelog_file")
+        
         echo "name=$name" >> $GITHUB_OUTPUT
         echo "version=$version" >> $GITHUB_OUTPUT
         echo "tag=$tag" >> $GITHUB_OUTPUT
+        echo "release_notes<<EOF-DELIMITER" >> $GITHUB_OUTPUT
+        echo "$release_notes" >> $GITHUB_OUTPUT
+        echo "EOF-DELIMITER" >> $GITHUB_OUTPUT
