@@ -1,9 +1,7 @@
 
-> ℹ️ **This project is a sample to play with it, not an application to use**
->
 > This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
-> That said, I'm not responsible if one day the app stops working, I don't do some database migration, or something else that makes the app not work properly
+> That said, **I'm not responsible if one day the app stops working** or doesn't work properly and you need to re-install it. **This should not happen**, but if a re-installation is needed it will be written in the release notes.
 
 # GHD
 
@@ -11,39 +9,21 @@
 
 <img width="400" alt="pulls" src="https://user-images.githubusercontent.com/4141614/208247083-3d95095e-78e4-4fb7-99bc-970c2ead70fa.png"> <img width="400" alt="releases" src="https://user-images.githubusercontent.com/4141614/208247090-465dc713-603a-4cf1-b4eb-92d3dbd31b95.png">
 
+Features:
+- Have a list of all open & draft pull requests
+  - Mark a pull request as seen to know later if it has been updated
+  - Notify when pull request is created or updated
+  - Filter pull request by branch
+- Have a list of the latest release from a repository
+  - Notify when a new release is created
 
-# Useful Gradle commands
+# Installation
 
-**By default, the debug flag is enabled**, example how to remove it:
-```shell
-$ ./gradlew build -PdebugConfig=false
-```
+## Windows application
 
-- Run the app
-    ```shell
-    ./gradlew run
-    ```
-- Build the project
-    ```shell
-    ./gradlew build
-    ```
-- Clean the project
-    ```shell
-    ./gradlew clean
-    ```
-- Create the packages
-    ```shell
-    ./gradlew packageDistributionForCurrentOS
-    ```
-- To know which dependencies have updates
-    ```shell
-    ./gradlew dependencyUpdates
-    ```
-- Update Gradle version
-    ```shell
-    ./gradlew wrapper --gradle-version 7.5.1
-    ```
-# macOS application
+Download the `exe` file from [releases](https://github.com/walter-juan/ghd/releases/latest) and install.
+
+## macOS application
 
 The **macOS application is unsigned** and to be able to run the `com.apple.quarantine` has to be removed. Right now, as this app is more for personal use, I don't want to register and do all the stuff about signing with Apple.
 
@@ -88,6 +68,38 @@ So if you want to use this app you should remove the `com.apple.quarantine`.
   ```shell
   sudo xattr -cr /path/to/my-app.app
   ```
+
+# Useful Gradle commands
+
+**By default, the debug flag is enabled**, example how to remove it:
+```shell
+$ ./gradlew build -PdebugConfig=false
+```
+
+- Run the app
+    ```shell
+    ./gradlew run
+    ```
+- Build the project
+    ```shell
+    ./gradlew build
+    ```
+- Clean the project
+    ```shell
+    ./gradlew clean
+    ```
+- Create the packages
+    ```shell
+    ./gradlew packageDistributionForCurrentOS
+    ```
+- To know which dependencies have updates
+    ```shell
+    ./gradlew dependencyUpdates
+    ```
+- Update Gradle version
+    ```shell
+    ./gradlew wrapper --gradle-version 7.5.1
+    ```
 
 # H2 Database
 
