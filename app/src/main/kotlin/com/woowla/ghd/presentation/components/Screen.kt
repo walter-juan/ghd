@@ -86,7 +86,15 @@ fun ScreenScaffold(
         floatingActionButton = floatingActionButton,
         floatingActionButtonPosition = floatingActionButtonPosition,
         isFloatingActionButtonDocked = isFloatingActionButtonDocked,
-        content = content,
+        content = { paddingValues ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                content(paddingValues)
+            }
+        },
         bottomBar = {
             if (statusBarText != null) {
                 StatusBar(text = statusBarText)
