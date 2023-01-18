@@ -101,6 +101,8 @@ class ComponentsSampleScreen : Screen {
                 ChipsSample()
                 Title("OutlinedSelectField")
                 OutlinedSelectFieldSample()
+                Title("LabelledCheckBox")
+                LabelledCheckBoxSample()
                 Title("Card list item")
                 CardListItemSample()
                 Title("Repo to check card")
@@ -126,6 +128,16 @@ class ComponentsSampleScreen : Screen {
                 .fillMaxWidth()
         )
         Spacer(modifier = Modifier.padding(10.dp))
+    }
+
+    @Composable
+    private fun LabelledCheckBoxSample() {
+        val checked = remember { mutableStateOf(false) }
+        LabelledCheckBox(
+            checked = checked.value,
+            onCheckedChange = { checked.value = it },
+            label = "Click to this label to modify the checkbox"
+        )
     }
 
     @Composable

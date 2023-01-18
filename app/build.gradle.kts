@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.kaml)
     implementation(libs.semver)
     implementation(libs.flyway.core)
+    implementation(libs.tinder.statemachine)
 
     testImplementation(libs.bundles.test.kotest)
 }
