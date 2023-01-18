@@ -1,7 +1,6 @@
 package com.woowla.ghd.data.local.db
 
 import com.woowla.ghd.AppFolderFactory
-import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.db.exceptions.toDbException
 import com.woowla.ghd.extensions.mapFailure
 import java.util.*
@@ -41,7 +40,7 @@ object DbSettings {
 
     fun getDb(): Database = requireNotNull(INSTANCE) { "Not intialized database" }
 
-    suspend fun initDb(filePassword: String) {
+    suspend fun initDb(filePassword: String?) {
         mutex.withLock {
             val dataSource = getDbDataSource(filePassword = filePassword, createIfNotExists = true)
 
@@ -59,14 +58,13 @@ object DbSettings {
 
     /**
      * Test the database connection
-     * @param filePassword The password file to use.
+     * @param filePassword The password file to use or null to not use password
      * @param createIfNotExists If this is true the database will be created. Usually this should be used as true
      */
-    suspend fun testConnection(filePassword: String = "testConnection", createIfNotExists: Boolean = false): Result<Unit> {
+    suspend fun testConnection(filePassword: String? = "testConnection", createIfNotExists: Boolean = false): Result<Unit> {
         return runCatching {
             val dataSource = getDbDataSource(filePassword = filePassword, createIfNotExists = createIfNotExists)
             val isValid = dataSource.connection.use { it.isValid(2) }
-            AppLogger.d("The database connection is valid [$isValid]")
         }.mapFailure {
             it.toDbException()
         }
@@ -84,26 +82,28 @@ object DbSettings {
 
     /**
      * Create a new database connection
-     * @param filePassword The password file to use.
+     * @param filePassword The password file to use or null to not use password
      * @param createIfNotExists If this is true the database will be created. Usually this should be used as true
      */
-    private fun getDbDataSource(filePassword: String, createIfNotExists: Boolean = true): DataSource {
-        val url = mutableListOf("jdbc:h2:$dbPath", "CIPHER=AES")
+    private fun getDbDataSource(filePassword: String?, createIfNotExists: Boolean = true): DataSource {
+        val encryptDatabase = filePassword != null
+
+        val url = mutableListOf("jdbc:h2:$dbPath")
+        if (encryptDatabase) {
+            url.add("CIPHER=AES")
+        }
         if (!createIfNotExists) {
             url.add("IFEXISTS=TRUE")
         }
 
-        // check if is empty because the "$filePassword $dbPwd" is correct and won't throw a invalid password error
-        val password = if (filePassword.isEmpty()) {
-            dbPwd
-        } else {
-            "$filePassword $dbPwd"
-        }
-
         return JdbcDataSource().apply {
             setURL(url.joinToString(separator = ";"))
-            setUser(dbUser)
-            setPassword(password)
+            if (encryptDatabase) {
+                setUser(dbUser)
+                if (!filePassword.isNullOrEmpty()) {
+                    setPassword("$filePassword $dbPwd")
+                }
+            }
         }
     }
 }

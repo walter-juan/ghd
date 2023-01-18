@@ -1,5 +1,8 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -33,8 +36,9 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
+import com.woowla.ghd.presentation.components.LabelledCheckBox
 import com.woowla.ghd.presentation.components.OutlinedTextFieldValidation
-import com.woowla.ghd.presentation.components.ScreenScrollable
+import com.woowla.ghd.presentation.components.ScreenScaffold
 import com.woowla.ghd.presentation.decorators.ErrorMessageFactory
 import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 
@@ -46,7 +50,7 @@ class LoginScreen : Screen {
         val loginState by viewModel.state.collectAsState()
 
         val lockedLoginState = loginState
-        ScreenScrollable {
+        ScreenScaffold {
             Column(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier
@@ -54,31 +58,29 @@ class LoginScreen : Screen {
                     .width(AppDimens.contentWidthDp.dp)
             ) {
                 when(lockedLoginState) {
-                    is LoginViewModel.State.Error -> {
-                        Text(i18n.generic_error)
-                    }
-                    LoginViewModel.State.Loading -> {
+                    LoginViewModel.State.Initializing -> {
                         Text(i18n.generic_loading)
                     }
-                    is LoginViewModel.State.Success.SuccessWithDatabase -> {
-                        loginDatabaseAlreadyExists(
-                            navigator = navigator,
-                            error = lockedLoginState.error,
-                            onUnlockDatabase = { pwd ->
-                                viewModel.unlockDatabase(pwd = pwd)
-                            },
-                            onDeleteDatabase = {
-                                viewModel.deleteDatabase()
-                            },
-                        )
-                    }
-                    is LoginViewModel.State.Success.SuccessWithoutDatabase -> {
+                    is LoginViewModel.State.NonexistentDatabase -> {
                         loginDatabaseNoExists(
                             navigator = navigator,
                             error = lockedLoginState.error,
-                            onCreateNewDatabase = { pwd ->
-                                viewModel.createDatabase(pwd = pwd)
+                            onCreateNewDatabase = { encrypt, password ->
+                                viewModel.onCreateDatabase(encrypt, password)
                             }
+                        )
+                    }
+                    is LoginViewModel.State.LockedDatabase -> {
+                        loginDatabaseAlreadyExists(
+                            navigator = navigator,
+                            isDbEncrypted = lockedLoginState.isDbEncrypted,
+                            error = lockedLoginState.error,
+                            onUnlockDatabase = { password ->
+                                viewModel.onUnlockDatabase(password = password)
+                            },
+                            onDeleteDatabase = {
+                                viewModel.onDeleteDatabase()
+                            },
                         )
                     }
                 }
@@ -87,124 +89,161 @@ class LoginScreen : Screen {
     }
 
     @Composable
-    private fun loginDatabaseNoExists(navigator: Navigator, error: Throwable? = null, onCreateNewDatabase: (pwd: String) -> Unit) {
+    private fun loginDatabaseNoExists(navigator: Navigator, error: Throwable? = null, onCreateNewDatabase: (encryt: Boolean, passsword: String?) -> Unit) {
+        var encryptDatabase by remember { mutableStateOf(false) }
         var passwordVisible by remember { mutableStateOf(false) }
         var password by remember { mutableStateOf("") }
 
-        OutlinedTextFieldValidation(
-            value = password,
-            onValueChange = {
-                password = it
-            },
-            label = { Text(i18n.screen_login_password_field_label) },
-            isError = error != null,
-            error = error?.let(ErrorMessageFactory::create),
-            visualTransformation = if (passwordVisible) {
-                VisualTransformation.None
-            } else {
-                PasswordVisualTransformation()
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                val image = if (passwordVisible) {
-                    Icons.Filled.Visibility
-                } else {
-                    Icons.Filled.VisibilityOff
-                }
-                val description = if (passwordVisible) {
-                    i18n.screen_login_password_field_field_hide
-                } else {
-                    i18n.screen_login_password_field_field_show
-                }
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, description)
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Button(
-            onClick = { onCreateNewDatabase.invoke(password) },
-            modifier = Modifier.fillMaxWidth(),
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(i18n.screen_login_create_new_database_button)
+            Column {
+                Button(
+                    onClick = { onCreateNewDatabase.invoke(encryptDatabase, password) },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(i18n.screen_login_create_new_database_button)
+                }
+
+                LabelledCheckBox(
+                    label = i18n.screen_login_encrypt_data_field_label,
+                    checked = encryptDatabase,
+                    onCheckedChange = {
+                        encryptDatabase = it
+                    },
+                )
+
+                AnimatedVisibility(
+                    visible = encryptDatabase,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Column {
+                        Text(i18n.screen_login_master_password_info)
+                        OutlinedTextFieldValidation(
+                            value = password,
+                            onValueChange = {
+                                password = it
+                            },
+                            label = { Text(i18n.screen_login_master_password_field_label) },
+                            isError = error != null,
+                            error = error?.let(ErrorMessageFactory::create),
+                            visualTransformation = if (passwordVisible) {
+                                VisualTransformation.None
+                            } else {
+                                PasswordVisualTransformation()
+                            },
+                            singleLine = true,
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            trailingIcon = {
+                                val image = if (passwordVisible) {
+                                    Icons.Filled.Visibility
+                                } else {
+                                    Icons.Filled.VisibilityOff
+                                }
+                                val description = if (passwordVisible) {
+                                    i18n.screen_login_master_password_field_field_hide
+                                } else {
+                                    i18n.screen_login_master_password_field_field_show
+                                }
+                                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                    Icon(imageVector = image, description)
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                }
+            }
+            Column {
+                OutlinedButton(
+                    onClick = {
+                        navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
+                    },
+                ) {
+                    Text(i18n.screen_login_about_app_button)
+                }
+            }
         }
-
-        OutlinedButton(
-            onClick = {
-                navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
-            },
-        ) {
-            Text(i18n.screen_login_about_app_button)
-        }
-
-        Spacer(modifier = Modifier.padding(20.dp))
-
-        Text(i18n.screen_login_password_database_info)
     }
 
     @Composable
-    private fun loginDatabaseAlreadyExists(navigator: Navigator, error: Throwable? = null, onUnlockDatabase: (pwd: String) -> Unit, onDeleteDatabase: () -> Unit) {
+    private fun loginDatabaseAlreadyExists(navigator: Navigator, isDbEncrypted: Boolean, error: Throwable? = null, onUnlockDatabase: (password: String?) -> Unit, onDeleteDatabase: () -> Unit) {
         var passwordVisible by remember { mutableStateOf(false) }
         var password by remember { mutableStateOf("") }
         val openConfirmRemoveDatabaseDialog = remember { mutableStateOf(false)  }
 
-        OutlinedTextFieldValidation(
-            value = password,
-            onValueChange = {
-                password = it
-            },
-            label = { Text(i18n.screen_login_password_field_label) },
-            isError = error != null,
-            error = error?.let(ErrorMessageFactory::create),
-            visualTransformation = if (passwordVisible) {
-                VisualTransformation.None
-            } else {
-                PasswordVisualTransformation()
-            },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = {
-                val image = if (passwordVisible) {
-                    Icons.Filled.Visibility
-                } else {
-                    Icons.Filled.VisibilityOff
-                }
-                val description = if (passwordVisible) {
-                    i18n.screen_login_password_field_field_hide
-                } else {
-                    i18n.screen_login_password_field_field_show
-                }
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, description)
-                }
-            },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Button(
-            onClick = { onUnlockDatabase.invoke(password) },
-            modifier = Modifier.fillMaxWidth(),
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Text(i18n.screen_login_unlock_button)
-        }
+            Column {
+                if (isDbEncrypted) {
+                    OutlinedTextFieldValidation(
+                        value = password,
+                        onValueChange = {
+                            password = it
+                        },
+                        label = { Text(i18n.screen_login_master_password_field_label) },
+                        isError = error != null,
+                        error = error?.let(ErrorMessageFactory::create),
+                        visualTransformation = if (passwordVisible) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        trailingIcon = {
+                            val image = if (passwordVisible) {
+                                Icons.Filled.Visibility
+                            } else {
+                                Icons.Filled.VisibilityOff
+                            }
+                            val description = if (passwordVisible) {
+                                i18n.screen_login_master_password_field_field_hide
+                            } else {
+                                i18n.screen_login_master_password_field_field_show
+                            }
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(imageVector = image, description)
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(i18n.screen_login_master_password_info)
+                }
+                Button(
+                    onClick = { if (isDbEncrypted) onUnlockDatabase.invoke(password) else onUnlockDatabase.invoke(null) },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text(i18n.screen_login_unlock_button)
+                }
 
-        OutlinedButton(
-            onClick = {
-                navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
-            },
-        ) {
-            Text(i18n.screen_login_about_app_button)
-        }
+                Spacer(modifier = Modifier.padding(10.dp))
 
-        Spacer(modifier = Modifier.padding(20.dp))
 
-        Text(i18n.screen_login_remove_database_info)
-        Button(
-            onClick = {
-                openConfirmRemoveDatabaseDialog.value = true
-            },
-        ) {
-            Text(i18n.screen_login_remove_database)
+            }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedButton(
+                    onClick = {
+                        navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
+                    },
+                ) {
+                    Text(i18n.screen_login_about_app_button)
+                }
+                Button(
+                    onClick = {
+                        openConfirmRemoveDatabaseDialog.value = true
+                    },
+                ) {
+                    Text(i18n.screen_login_fresh_start)
+                }
+            }
         }
 
         if (openConfirmRemoveDatabaseDialog.value) {
@@ -226,7 +265,7 @@ class LoginScreen : Screen {
     @Composable
     private fun deleteDatabaseConfirmationDialog(onCloseRequest: () -> Unit, onConfirmClick: () -> Unit, onDiscardClick: () -> Unit, ) {
         Dialog(
-            title = i18n.screen_login_remove_database_confirmation_dialog_title,
+            title = i18n.screen_login_fresh_start_confirmation_dialog_title,
             onCloseRequest = onCloseRequest,
             state = rememberDialogState(position = WindowPosition(Alignment.Center)),
         ) {
@@ -236,7 +275,7 @@ class LoginScreen : Screen {
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = i18n.screen_login_remove_database_confirmation_dialog_text,
+                    text = i18n.screen_login_fresh_start_confirmation_dialog_text,
                     textAlign = TextAlign.Center,
                 )
                 Row(
@@ -245,12 +284,12 @@ class LoginScreen : Screen {
                     OutlinedButton(
                         onClick = onConfirmClick
                     ) {
-                        Text(i18n.screen_login_remove_database_confirmation_dialog_yes_button)
+                        Text(i18n.screen_login_fresh_start_confirmation_dialog_yes_button)
                     }
                     Button(
                         onClick = onDiscardClick
                     ) {
-                        Text(i18n.screen_login_remove_database_confirmation_dialog_no_button)
+                        Text(i18n.screen_login_fresh_start_confirmation_dialog_no_button)
                     }
                 }
             }
