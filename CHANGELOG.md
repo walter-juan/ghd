@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.2.6]
+### Changed
+- Database encryption now is optional
+
 ## [1.2.5]
 ### Added
 - Add release notes in GitHub release
@@ -97,7 +101,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.2.5...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.2.6...dev
+[1.2.6]: https://github.com/walter-juan/ghd/releases/tag/v1.2.6
 [1.2.5]: https://github.com/walter-juan/ghd/releases/tag/v1.2.5
 [1.2.4]: https://github.com/walter-juan/ghd/releases/tag/v1.2.4
 [1.2.3]: https://github.com/walter-juan/ghd/releases/tag/v1.2.3
