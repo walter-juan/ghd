@@ -13,6 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.3.0]
+### Changed
+- Use Material 3
+- Change color scheme
+- Some minor visual changes like the synchronization text, now is in the toolbar
+### Fixed
+- Select input colors
+
 ## [1.2.6]
 ### Changed
 - Database encryption now is optional
@@ -101,7 +109,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.2.6...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.0...dev
+[1.3.0]: https://github.com/walter-juan/ghd/releases/tag/v1.3.0
 [1.2.6]: https://github.com/walter-juan/ghd/releases/tag/v1.2.6
 [1.2.5]: https://github.com/walter-juan/ghd/releases/tag/v1.2.5
 [1.2.4]: https://github.com/walter-juan/ghd/releases/tag/v1.2.4
