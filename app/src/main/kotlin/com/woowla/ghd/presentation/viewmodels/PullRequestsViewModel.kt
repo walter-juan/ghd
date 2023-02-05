@@ -35,21 +35,15 @@ class PullRequestsViewModel(
     }
 
     fun markAsSeen(pullRequest: PullRequest) {
-        _state.on<State.Success> {
-            coroutineScope.launch {
-                val appSeenAt = if (pullRequest.appSeen) {
-                    null
-                } else {
-                    Clock.System.now()
-                }
-                pullRequestService.markAsSeen(id = pullRequest.id, appSeenAt = appSeenAt)
-                loadPulls()
+        coroutineScope.launch {
+            val appSeenAt = if (pullRequest.appSeen) {
+                null
+            } else {
+                Clock.System.now()
             }
+            pullRequestService.markAsSeen(id = pullRequest.id, appSeenAt = appSeenAt)
+            loadPulls()
         }
-    }
-
-    private inline fun <reified T: State> MutableStateFlow<State>.on(block: (T) -> Unit) {
-        (value as? T)?.let(block)
     }
 
     private fun loadPulls() {

@@ -27,34 +27,28 @@ class ReposToCheckViewModel(
     }
 
     fun bulkImportRepo(file: File?) {
-        _state.on<State.Success> {
-            coroutineScope.launch {
-                if (file != null) {
-                    val content = file.readText()
-                    repoToCheckService.import(content)
-                }
+        coroutineScope.launch {
+            if (file != null) {
+                val content = file.readText()
+                repoToCheckService.import(content)
             }
         }
     }
 
     fun bulkExportRepo(file: File?) {
-        _state.on<State.Success> {
-            coroutineScope.launch {
-                if (file != null) {
-                    repoToCheckService.export().onSuccess { content ->
-                        file.writeText(content)
-                    }
+        coroutineScope.launch {
+            if (file != null) {
+                repoToCheckService.export().onSuccess { content ->
+                    file.writeText(content)
                 }
             }
         }
     }
 
     fun deleteRepo(repoToCheck: RepoToCheck) {
-        _state.on<State.Success> {
-            coroutineScope.launch {
-                repoToCheckService.delete(repoToCheck.id)
-                reload()
-            }
+        coroutineScope.launch {
+            repoToCheckService.delete(repoToCheck.id)
+            reload()
         }
     }
 
@@ -73,10 +67,6 @@ class ReposToCheckViewModel(
                 }
             )
         }
-    }
-
-    private inline fun <reified T: State> MutableStateFlow<State>.on(block: (T) -> Unit) {
-        (value as? T)?.let(block)
     }
 
     sealed class State {
