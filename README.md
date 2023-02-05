@@ -7,15 +7,20 @@
 
 [GHD (GitHub Dashboard)](https://github.com/walter-juan/ghd), is an application to show the pull requests and releases from your GitHub repositories.
 
-<img width="400" alt="pulls" src="https://user-images.githubusercontent.com/4141614/208247083-3d95095e-78e4-4fb7-99bc-970c2ead70fa.png"> <img width="400" alt="releases" src="https://user-images.githubusercontent.com/4141614/208247090-465dc713-603a-4cf1-b4eb-92d3dbd31b95.png">
-
 Features:
-- Have a list of all open & draft pull requests
+- List open & draft pull requests
   - Mark a pull request as seen to know later if it has been updated
   - Notify when pull request is created or updated
   - Filter pull request by branch
-- Have a list of the latest release from a repository
+- List latest releases from a repository
   - Notify when a new release is created
+- Light and dark themes
+
+☀️ Light Theme | 🌒 Dark Theme
+:------:|:------:|
+<img width="400" alt="ghd-pull-requests-light" src="https://user-images.githubusercontent.com/4141614/216827850-6eb5b4f6-712a-48bc-add6-c1168c238175.png">|<img width="400" alt="ghd-pull-requests-dark" src="https://user-images.githubusercontent.com/4141614/216827846-93378e20-d598-42d0-a15e-435f4c5e0a77.png">
+<img width="400" alt="ghd-releases-light" src="https://user-images.githubusercontent.com/4141614/216827857-2ac3ebc8-a280-4d74-b189-28f47753dc12.png">|<img width="400" alt="ghd-releases-dark" src="https://user-images.githubusercontent.com/4141614/216827855-f6dd87c4-2085-48c1-98c2-4a9b082c0235.png">
+
 
 # Installation
 
