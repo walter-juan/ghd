@@ -5,14 +5,16 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -88,6 +90,7 @@ class LoginScreen : Screen {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun loginDatabaseNoExists(navigator: Navigator, error: Throwable? = null, onCreateNewDatabase: (encryt: Boolean, passsword: String?) -> Unit) {
         var encryptDatabase by remember { mutableStateOf(false) }
@@ -148,7 +151,7 @@ class LoginScreen : Screen {
                                     i18n.screen_login_master_password_field_field_show
                                 }
                                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Icon(imageVector = image, description)
+                                    Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
                                 }
                             },
                             modifier = Modifier.fillMaxWidth(),
@@ -207,7 +210,7 @@ class LoginScreen : Screen {
                                 i18n.screen_login_master_password_field_field_show
                             }
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = image, description)
+                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),

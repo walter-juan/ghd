@@ -1,11 +1,10 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.NavigationRail
-import androidx.compose.material.NavigationRailItem
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
@@ -17,7 +16,6 @@ import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import cafe.adriel.voyager.transitions.SlideTransition
-import com.woowla.ghd.presentation.app.AppColors
 import com.woowla.ghd.presentation.app.AppIcons
 import com.woowla.ghd.presentation.app.i18n
 
@@ -25,9 +23,7 @@ class HomeScreen : Screen {
     @Composable
     override fun Content() {
         TabNavigator(TabPullRequestsScreen) {
-            NavigationRail(
-                backgroundColor = AppColors.navRailBackground()
-            ) {
+            NavigationRail{
                 TabNavigationRailItem(TabPullRequestsScreen)
                 TabNavigationRailItem(TabReleasesScreen)
                 TabNavigationRailItem(TabRepoToCheckScreen)
@@ -50,14 +46,6 @@ class HomeScreen : Screen {
             selected = tabNavigator.current.key == tab.key,
             onClick = { tabNavigator.current = tab },
             alwaysShowLabel = false,
-            selectedContentColor = if (enabled) { MaterialTheme.colors.primary } else {
-                AppColors.navRailBackground()
-            },
-            unselectedContentColor = if (enabled) {
-                AppColors.navRailItemUnselectedContentColor()
-            } else {
-                AppColors.navRailBackground()
-            },
         )
     }
 

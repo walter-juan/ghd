@@ -1,6 +1,5 @@
 package com.woowla.ghd.presentation.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -11,19 +10,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -33,14 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.toSize
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import com.woowla.ghd.domain.entities.SyncSettings
@@ -50,33 +46,39 @@ import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 
 class SettingsScreen : Screen {
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel { SettingsViewModel() }
-        val scaffoldState = rememberScaffoldState()
+        val snackbarHostState = remember { SnackbarHostState() }
 
         val settingsState by viewModel.state.collectAsState()
 
-        LaunchedEffect(scaffoldState.snackbarHostState) {
+        LaunchedEffect(snackbarHostState) {
             viewModel.events.collect { event->
                 when (event) {
                     SettingsViewModel.Events.Saved -> {
-                        scaffoldState.snackbarHostState.showSnackbar(i18n.screen_app_settings_saved)
+                        snackbarHostState.showSnackbar(i18n.screen_app_settings_saved)
                     }
                 }
             }
         }
 
         ScreenScrollable(
-            scaffoldState = scaffoldState,
+            snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopBar(
                     title = i18n.top_bar_title_settings,
                     actions = {
-                        IconButton(
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                             onClick = { viewModel.saveSettings() }
                         ) {
-                            Icon(Icons.Filled.Save, contentDescription = i18n.screen_app_settings_save)
+                            Icon(
+                                Icons.Filled.Save,
+                                contentDescription = i18n.screen_app_settings_save,
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
                         }
                     }
                 )
@@ -135,7 +137,7 @@ class SettingsScreen : Screen {
                                                 i18n.screen_app_settings_github_field_show
                                             }
                                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                                Icon(imageVector = image, description)
+                                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
                                             }
                                         },
                                         modifier = Modifier.weight(1f)

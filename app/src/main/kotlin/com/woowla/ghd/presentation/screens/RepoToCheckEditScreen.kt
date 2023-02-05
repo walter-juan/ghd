@@ -1,12 +1,15 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +33,7 @@ data class RepoToCheckEditScreen(
     private val repoToCheck: RepoToCheck?,
 ) : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel { RepoToCheckEditViewModel(repoToCheck = repoToCheck) }
@@ -61,12 +65,15 @@ data class RepoToCheckEditScreen(
                     title = i18n.top_bar_title_repos_to_check_edit,
                     navOnClick = onBackClick,
                     actions = {
-                        IconButton(
-                            onClick = {
-                                viewModel.saveRepo()
-                            }
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            onClick = { viewModel.saveRepo() }
                         ) {
-                            Icon(Icons.Filled.Save, contentDescription = i18n.screen_edit_repo_to_check_save)
+                            Icon(
+                                Icons.Filled.Save,
+                                contentDescription = i18n.screen_edit_repo_to_check_save,
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
                         }
                     }
                 )

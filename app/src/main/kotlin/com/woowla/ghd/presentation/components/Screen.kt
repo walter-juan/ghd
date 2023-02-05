@@ -8,42 +8,31 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.FabPosition
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
-import com.woowla.ghd.presentation.app.AppColors
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun ScreenScrollable(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    statusBarText: String? = null,
+    snackbarHost: @Composable () -> Unit = {},
     topBar: @Composable () -> Unit = {},
-    floatingActionButton: @Composable () -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
-    isFloatingActionButtonDocked: Boolean = false,
     scrollState: ScrollState = rememberScrollState(),
     content: @Composable () -> Unit,
 ) {
     ScreenScaffold(
-        scaffoldState = scaffoldState,
-        statusBarText = statusBarText,
         topBar = topBar,
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = floatingActionButtonPosition,
-        isFloatingActionButtonDocked = isFloatingActionButtonDocked,
+        snackbarHost = snackbarHost,
     ) { scaffoldPaddingValues ->
         Box(
             contentAlignment = Alignment.TopCenter
@@ -70,22 +59,16 @@ fun ScreenScrollable(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenScaffold(
-    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    statusBarText: String? = null,
     topBar: @Composable () -> Unit = {},
-    floatingActionButton: @Composable () -> Unit = {},
-    floatingActionButtonPosition: FabPosition = FabPosition.End,
-    isFloatingActionButtonDocked: Boolean = false,
+    snackbarHost: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
-        scaffoldState = scaffoldState,
         topBar = topBar,
-        floatingActionButton = floatingActionButton,
-        floatingActionButtonPosition = floatingActionButtonPosition,
-        isFloatingActionButtonDocked = isFloatingActionButtonDocked,
+        snackbarHost = snackbarHost,
         content = { paddingValues ->
             Box(
                 contentAlignment = Alignment.Center,
@@ -95,27 +78,31 @@ fun ScreenScaffold(
                 content(paddingValues)
             }
         },
-        bottomBar = {
-            if (statusBarText != null) {
-                StatusBar(text = statusBarText)
-            }
-        }
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     title: String,
+    subtitle: String? = null,
     navImageVector: ImageVector = Icons.Filled.ArrowBack,
     navContentDescription: String? = null,
     navOnClick: (() -> Unit)? = null,
     actions: @Composable @ExtensionFunctionType RowScope.() -> Unit = {},
 ) {
     TopAppBar(
-        title = { Text(
-            text = title,
-            style = MaterialTheme.typography.h4,
-        ) },
+        title = {
+            Column {
+                Text(text = title)
+                Text(
+                    text = subtitle ?: "",
+                    style = MaterialTheme.typography.labelSmall,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        },
         navigationIcon = {
             if (navOnClick != null) {
                 IconButton(onClick = navOnClick) {
@@ -123,24 +110,6 @@ fun TopBar(
                 }
             }
         },
-        backgroundColor = AppColors.topBarBackground(),
-        contentColor = AppColors.topBarContent(),
         actions = actions,
-        elevation = 0.dp
     )
-}
-
-@Composable
-fun StatusBar(text: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(AppColors.statusBarBackground())
-            .padding(horizontal = 10.dp, vertical = 5.dp)
-    ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.caption,
-        )
-    }
 }

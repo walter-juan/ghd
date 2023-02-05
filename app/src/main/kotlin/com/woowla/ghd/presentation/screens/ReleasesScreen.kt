@@ -1,9 +1,9 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -21,15 +21,14 @@ class ReleasesScreen : Screen {
     override fun Content() {
         val viewModel = rememberScreenModel { ReleasesViewModel() }
         val state = viewModel.state.collectAsState().value
-        val statusBarText = when(state) {
+        val topBarSubtitle = when(state) {
             is ReleasesViewModel.State.Initializing -> i18n.status_bar_loading
             is ReleasesViewModel.State.Success -> i18n.status_bar_synchronized_at(state.synchronizedAt)
             is ReleasesViewModel.State.Error -> i18n.status_bar_error
         }
 
         ScreenScrollable(
-            topBar = { TopBar(title = i18n.top_bar_title_releases) },
-            statusBarText = statusBarText,
+            topBar = { TopBar(title = i18n.top_bar_title_releases, subtitle = topBarSubtitle) },
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -52,7 +51,7 @@ class ReleasesScreen : Screen {
                                 ) {
                                     Text(
                                         text = groupedReleases.groupName,
-                                        style = MaterialTheme.typography.subtitle1,
+                                        style = MaterialTheme.typography.titleMedium,
                                     )
                                 }
                             }

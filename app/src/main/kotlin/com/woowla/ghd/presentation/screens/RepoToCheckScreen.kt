@@ -2,18 +2,17 @@ package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.FileUpload
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,8 +47,6 @@ class RepoToCheckScreen: Screen {
             navigator.push(RepoToCheckEditScreen(repoToCheck = null))
         }
 
-        val scaffoldState = rememberScaffoldState()
-
         val reposState by viewModel.state.collectAsState()
 
         var isBulkImportFileDialogOpen by remember { mutableStateOf(false) }
@@ -74,7 +71,6 @@ class RepoToCheckScreen: Screen {
         }
 
         ScreenScrollable(
-            scaffoldState = scaffoldState,
             topBar = { TopBar(title = i18n.top_bar_title_repos_to_check) }
         ) {
             Column(
@@ -167,14 +163,14 @@ private fun RepoCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Uni
                 ) {
                     Text(
                         text = "",
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.bodySmall,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         color = MaterialColors.Gray700
                     )
                     Text(
                         text = repoToCheckDecorator.fullRepo,
-                        style = MaterialTheme.typography.subtitle1,
+                        style = MaterialTheme.typography.titleMedium,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -184,18 +180,18 @@ private fun RepoCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Uni
                     ) {
                         Text(
                             text = repoToCheckDecorator.enabledNotifications,
-                            style = MaterialTheme.typography.body2,
+                            style = MaterialTheme.typography.bodyMedium,
                             overflow = TextOverflow.Ellipsis,
                             color = MaterialColors.Gray700
                         )
                     }
                 }
-
+                ButtonDefaults.buttonColors()
                 Button(
                     onClick = {
                         onDeleteClick.invoke(repoToCheck)
                     },
-                    colors = ButtonDefaults.buttonColors(backgroundColor = MaterialColors.Red700),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialColors.Red700),
                     contentPadding = PaddingValues(all = 5.dp),
                     modifier = Modifier.size(30.dp),
                 ) {

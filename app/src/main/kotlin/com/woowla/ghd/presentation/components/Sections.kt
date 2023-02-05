@@ -9,10 +9,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,7 +32,7 @@ fun SectionCategory(
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.titleLarge,
             )
         }
         content()
@@ -54,7 +54,7 @@ fun SectionCategorySwitch(
         ) {
             Text(
                 text = text,
-                style = MaterialTheme.typography.h6
+                style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.weight(1F))
             Switch(
@@ -85,13 +85,13 @@ fun SectionItem(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.titleMedium
             )
         }
         if (description != null) {
             Text(
                 text = description,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
             )
         }
@@ -114,7 +114,7 @@ fun SectionItemSwitch(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.weight(1F))
             Switch(
@@ -126,7 +126,7 @@ fun SectionItemSwitch(
         if (description != null) {
             Text(
                 text = description,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
             )
         }
