@@ -2,10 +2,10 @@ package com.woowla.ghd.presentation.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -91,12 +91,12 @@ private fun newAppVersionDialog(newVersion: String, onCloseRequest: () -> Unit, 
             Text(
                 text = i18n.dialog_new_app_version_current_version,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
             )
             Text(
                 text = i18n.dialog_new_app_version_latest_version(newVersion),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.caption,
+                style = MaterialTheme.typography.bodySmall,
             )
             Spacer(modifier = Modifier.width(10.dp))
             Row(

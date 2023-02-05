@@ -1,11 +1,9 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
@@ -14,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
@@ -91,14 +88,14 @@ class ComponentsSampleScreen : Screen {
                     .padding(AppDimens.contentPaddingAllDp.dp)
                     .width(AppDimens.contentWidthDp.dp)
             ) {
+                Title("Colors")
+                ColorsSample()
                 Title("Typography")
                 TypographySample()
                 Title("SwitchText")
                 SwitchTextSample()
                 Title("Sections")
                 SectionsSample()
-                Title("Chips")
-                ChipsSample()
                 Title("OutlinedSelectField")
                 OutlinedSelectFieldSample()
                 Title("LabelledCheckBox")
@@ -120,7 +117,7 @@ class ComponentsSampleScreen : Screen {
         Spacer(modifier = Modifier.padding(10.dp))
         Text(
             text = text,
-            style = MaterialTheme.typography.body1,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialColors.OnBlueGray200,
             modifier = Modifier
                 .background(color = MaterialColors.BlueGray200, shape = CircleShape)
@@ -140,6 +137,7 @@ class ComponentsSampleScreen : Screen {
         )
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun OutlinedSelectFieldSample() {
         val values = listOf(1 to "One", 2 to "Two", 3 to "Three", 4 to "Four", 5 to "Five")
@@ -161,7 +159,6 @@ class ComponentsSampleScreen : Screen {
     @Composable
     private fun CardListItemSample() {
         val selected = remember { mutableStateOf(false) }
-
         Row {
             Checkbox(
                 checked = selected.value,
@@ -290,106 +287,6 @@ class ComponentsSampleScreen : Screen {
     }
 
     @Composable
-    private fun ChipsSample() {
-        Text(text = "Chips without image")
-        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-            val checkedState1 = remember { mutableStateOf(false) }
-            val checkedState2 = remember { mutableStateOf(true) }
-            val checkedState3 = remember { mutableStateOf(false) }
-            val checkedState4 = remember { mutableStateOf(true) }
-            val checkedState5 = remember { mutableStateOf(true) }
-            val checkedState6 = remember { mutableStateOf(true) }
-            Chip(
-                text = "Chip 1",
-                selected = checkedState1.value,
-                onSelectedChanged = { checkedState1.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            Chip(
-                text = "Chip 2",
-                selected = checkedState3.value,
-                onSelectedChanged = { checkedState3.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            Chip(
-                text = "Chip 2",
-                selected = checkedState2.value,
-                onSelectedChanged = { checkedState2.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            Chip(
-                text = "Chip 3",
-                selected = checkedState4.value,
-                onSelectedChanged = { checkedState4.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            Chip(
-                text = "Chip 4",
-                selected = checkedState5.value,
-                onSelectedChanged = { checkedState5.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            Chip(
-                text = "Chip 5",
-                selected = checkedState6.value,
-                onSelectedChanged = { checkedState6.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-        }
-        Text(text = "Chips with image")
-        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-            val checkedState1 = remember { mutableStateOf(false) }
-            val checkedState2 = remember { mutableStateOf(true) }
-            val checkedState3 = remember { mutableStateOf(false) }
-            val checkedState4 = remember { mutableStateOf(true) }
-            val checkedState5 = remember { mutableStateOf(true) }
-            val checkedState6 = remember { mutableStateOf(true) }
-            ImageChip(
-                text = "Chip 1",
-                painter = rememberVectorPainter(Icons.Default.Home),
-                selected = checkedState1.value,
-                onSelectedChanged = { checkedState1.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            ImageChip(
-                text = "Chip 2",
-                painter = rememberVectorPainter(Icons.Default.Delete),
-                selected = checkedState3.value,
-                onSelectedChanged = { checkedState3.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            ImageChip(
-                text = "Chip 2",
-                painter = rememberVectorPainter(Icons.Default.Settings),
-                selected = checkedState2.value,
-                onSelectedChanged = { checkedState2.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            ImageChip(
-                text = "Chip 3",
-                painter = rememberVectorPainter(Icons.Default.Usb),
-                selected = checkedState4.value,
-                onSelectedChanged = { checkedState4.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            ImageChip(
-                text = "Chip 4",
-                painter = rememberVectorPainter(Icons.Default.Star),
-                selected = checkedState5.value,
-                onSelectedChanged = { checkedState5.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-            ImageChip(
-                text = "Chip 5",
-                painter = rememberVectorPainter(Icons.Default.Stadium),
-                selected = checkedState6.value,
-                onSelectedChanged = { checkedState6.value = it },
-                modifier = Modifier.padding(5.dp)
-            )
-        }
-    }
-
-    @Composable
     private fun SectionsSample() {
         val checkedState1 = remember { mutableStateOf(true) }
         val checkedState2 = remember { mutableStateOf(true) }
@@ -424,61 +321,146 @@ class ComponentsSampleScreen : Screen {
     @Composable
     private fun TypographySample() {
         Text(
-            text = "The main first title to start is the H4",
-            style = MaterialTheme.typography.body1
+            text = "The main first title to start is the Headline Medium (old h4)",
+            style = MaterialTheme.typography.bodyLarge
         )
         Divider()
         Text(
-            text = "Header H1",
-            style = MaterialTheme.typography.h1
+            text = "Display Large",
+            style = MaterialTheme.typography.displayLarge
         )
         Text(
-            text = "Header H2",
-            style = MaterialTheme.typography.h2
+            text = "Display Medium",
+            style = MaterialTheme.typography.displayMedium
         )
         Text(
-            text = "Header H3",
-            style = MaterialTheme.typography.h3
+            text = "Display Small",
+            style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = "Header H4",
-            style = MaterialTheme.typography.h4
+            text = "Headline Large",
+            style = MaterialTheme.typography.headlineLarge
         )
         Text(
-            text = "Header H5",
-            style = MaterialTheme.typography.h5
+            text = "Headline Medium",
+            style = MaterialTheme.typography.headlineMedium
         )
         Text(
-            text = "Header H6",
-            style = MaterialTheme.typography.h6
+            text = "Headline Small",
+            style = MaterialTheme.typography.headlineSmall
         )
         Text(
-            text = "Subtitle1",
-            style = MaterialTheme.typography.subtitle1
+            text = "Title Large",
+            style = MaterialTheme.typography.titleLarge
         )
         Text(
-            text = "Subtitle2",
-            style = MaterialTheme.typography.subtitle2
+            text = "Title Medium",
+            style = MaterialTheme.typography.titleMedium
         )
         Text(
-            text = "Body1",
-            style = MaterialTheme.typography.body1
+            text = "Title Small",
+            style = MaterialTheme.typography.titleSmall
         )
         Text(
-            text = "Body2",
-            style = MaterialTheme.typography.body2
+            text = "Body Large",
+            style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = "Button",
-            style = MaterialTheme.typography.button
+            text = "Body Medium",
+            style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text = "Caption",
-            style = MaterialTheme.typography.caption
+            text = "Body Small",
+            style = MaterialTheme.typography.bodySmall
         )
         Text(
-            text = "Overline",
-            style = MaterialTheme.typography.overline
+            text = "Label large",
+            style = MaterialTheme.typography.labelLarge
         )
+        Text(
+            text = "Label Medium",
+            style = MaterialTheme.typography.labelMedium
+        )
+        Text(
+            text = "Label Small",
+            style = MaterialTheme.typography.labelSmall
+        )
+    }
+
+    @Composable
+    fun ColorsSample() {
+        Text(
+            text = "Color samples",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Divider()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row {
+                ColorBox("Primary", MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.onPrimary)
+                ColorBox("On Primary", MaterialTheme.colorScheme.onPrimary, MaterialTheme.colorScheme.primary)
+                ColorBox("Primary Container", MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.onPrimaryContainer)
+                ColorBox("On Primary Container", MaterialTheme.colorScheme.onPrimaryContainer, MaterialTheme.colorScheme.primaryContainer)
+            }
+            Row {
+                ColorBox("Secondary", MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.onSecondary)
+                ColorBox("On Secondary", MaterialTheme.colorScheme.onSecondary, MaterialTheme.colorScheme.secondary)
+                ColorBox("Secondary Container", MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.onSecondaryContainer)
+                ColorBox("On Secondary Container", MaterialTheme.colorScheme.onSecondaryContainer, MaterialTheme.colorScheme.secondaryContainer)
+            }
+            Row {
+                ColorBox("Tertiary", MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.onTertiary)
+                ColorBox("On Tertiary", MaterialTheme.colorScheme.onTertiary, MaterialTheme.colorScheme.tertiary)
+                ColorBox("Tertiary Container", MaterialTheme.colorScheme.tertiaryContainer, MaterialTheme.colorScheme.onTertiaryContainer)
+                ColorBox("On Tertiary Container", MaterialTheme.colorScheme.onTertiaryContainer, MaterialTheme.colorScheme.tertiaryContainer)
+            }
+            Row {
+                ColorBox("Error", MaterialTheme.colorScheme.error, MaterialTheme.colorScheme.onError)
+                ColorBox("On Error", MaterialTheme.colorScheme.onError, MaterialTheme.colorScheme.error)
+                ColorBox("Error Container", MaterialTheme.colorScheme.errorContainer, MaterialTheme.colorScheme.onErrorContainer)
+                ColorBox("On Error Container", MaterialTheme.colorScheme.onErrorContainer, MaterialTheme.colorScheme.errorContainer)
+            }
+            Row {
+                ColorBox("Surface", MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.onSurface)
+                ColorBox("On Surface", MaterialTheme.colorScheme.onSurface, MaterialTheme.colorScheme.surface)
+                ColorBox("Surface Variant", MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.colorScheme.onSurfaceVariant)
+                ColorBox("On Surface Variant", MaterialTheme.colorScheme.onSurfaceVariant, MaterialTheme.colorScheme.surfaceVariant)
+            }
+            Row {
+                ColorBox("Background", MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.onBackground)
+                ColorBox("On Background", MaterialTheme.colorScheme.onBackground, MaterialTheme.colorScheme.background)
+                ColorBox("Outline", MaterialTheme.colorScheme.outline, MaterialTheme.colorScheme.outlineVariant)
+                ColorBox("Outline variant", MaterialTheme.colorScheme.outlineVariant, MaterialTheme.colorScheme.outline)
+            }
+            Row {
+                ColorBox("Inverse Surface", MaterialTheme.colorScheme.inverseSurface, MaterialTheme.colorScheme.inverseOnSurface)
+                ColorBox("On Inverse Surface", MaterialTheme.colorScheme.inverseOnSurface, MaterialTheme.colorScheme.inverseSurface)
+                ColorBox("Inverse Primary", MaterialTheme.colorScheme.inversePrimary, MaterialTheme.colorScheme.primary)
+                ColorBox("Surface Tint", MaterialTheme.colorScheme.surfaceTint, MaterialTheme.colorScheme.onSurface)
+            }
+            Row {
+                ColorBox("Scrim", MaterialTheme.colorScheme.scrim, MaterialTheme.colorScheme.primary)
+            }
+        }
+    }
+
+    @Composable
+    fun ColorBox(name: String, color: Color, onColor: Color) {
+        Box(
+            contentAlignment = Alignment.TopStart,
+            modifier = Modifier
+                .padding(4.dp)
+                .size(width = 125.dp, height = 50.dp)
+                .background(color)
+        ) {
+            Text(
+                name,
+                style = MaterialTheme.typography.bodySmall,
+                color = onColor,
+                modifier = Modifier.padding(4.dp)
+            )
+        }
     }
 }

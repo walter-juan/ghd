@@ -52,6 +52,8 @@ buildConfig {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+    implementation(compose.material3)
     implementation(compose.materialIconsExtended)
     implementation(libs.kotlinx.coroutines.swing)
     implementation(libs.ktor.serialization.kotlinx.json)

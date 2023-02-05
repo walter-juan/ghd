@@ -1,10 +1,10 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -24,15 +24,14 @@ class PullRequestsScreen : Screen {
     override fun Content() {
         val viewModel = rememberScreenModel { PullRequestsViewModel() }
         val state = viewModel.state.collectAsState().value
-        val statusBarText = when(state) {
+        val topBarSubtitle = when(state) {
             is PullRequestsViewModel.State.Initializing -> i18n.status_bar_loading
             is PullRequestsViewModel.State.Success -> i18n.status_bar_synchronized_at(state.synchronizedAt)
             is PullRequestsViewModel.State.Error -> i18n.status_bar_error
         }
 
         ScreenScrollable(
-            topBar = { TopBar(title = i18n.top_bar_title_pull_requests) },
-            statusBarText = statusBarText,
+            topBar = { TopBar(title = i18n.top_bar_title_pull_requests, subtitle = topBarSubtitle) },
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -61,7 +60,7 @@ class PullRequestsScreen : Screen {
                                 )
                                 Text(
                                     text = pullRequestDecorator.text,
-                                    style = MaterialTheme.typography.subtitle1,
+                                    style = MaterialTheme.typography.titleMedium,
                                 )
                             }
                             groupedPullRequests.pullRequests.forEach { pullRequest ->

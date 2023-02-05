@@ -73,7 +73,6 @@ class LoginViewModel(
         }
     }
 
-
     init {
         coroutineScope.launch {
             val (testConnectionResult,  time) = measureTimedValue {
