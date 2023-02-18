@@ -1,34 +1,38 @@
 package com.woowla.ghd.presentation.app
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import com.woowla.ghd.BuildConfig
 
-object AppIcons {
-    val launcher = if (BuildConfig.DEBUG) {
-        "icons/custom/ic_launcher_debug.svg"
+object AppIconsPainter
+object AppIconsRes
+
+public val AppIconsPainter.Launcher: Painter
+    @Composable
+    get() = painterResource(AppIconsRes.Launcher)
+
+public val AppIconsPainter.TrayIcon: Painter
+    @Composable
+    get() = painterResource(AppIconsRes.TrayIcon)
+
+public val AppIconsPainter.Placeholder: Painter
+    @Composable
+    get() = painterResource(AppIconsRes.Placeholder)
+
+public val AppIconsRes.Launcher: String
+    get() = if (BuildConfig.DEBUG) {
+        "icons/ic_launcher_debug.svg"
     } else {
-        "icons/custom/ic_launcher.svg"
+        "icons/ic_launcher.svg"
     }
-    const val placeholder = "icons/custom/placeholder.png"
-    val trayIcon = if (BuildConfig.DEBUG) {
-        "icons/custom/ic_tray_debug.svg"
+
+public val AppIconsRes.TrayIcon: String
+    get() = if (BuildConfig.DEBUG) {
+        "icons/ic_tray_debug.svg"
     } else {
-        "icons/custom/ic_tray.svg"
+        "icons/ic_tray.svg"
     }
 
-    const val gitHubPrMerged = "icons/octicons/ic_github_git_merge.xml"
-    const val gitHubPrOpen = "icons/octicons/ic_github_git_pull_request.xml"
-    const val gitHubPrClosed = "icons/octicons/ic_github_git_pull_request_closed.xml"
-    const val gitHubPrDraft = "icons/octicons/ic_github_git_pull_request_draft.xml"
-    const val gitHubPrUnknown = "icons/octicons/ic_github_question.xml"
-
-    const val gitPullRequest = "icons/iconoir/ic_git_pull_request.svg"
-    const val infoEmpty = "icons/iconoir/ic_info_empty.svg"
-    const val packages = "icons/iconoir/ic_packages.svg"
-    const val repository = "icons/iconoir/ic_repository.svg"
-    const val settings = "icons/iconoir/ic_settings.svg"
-    const val checkCircledOutline = "icons/iconoir/ic_check_circled_outline.svg"
-    const val warningCircledOutline = "icons/iconoir/ic_warning_circled_outline.svg"
-    const val chatLines = "icons/iconoir/ic_chat_lines.svg"
-
-    const val dotCircle = "icons/custom/ic_dot_circle.svg"
-}
+public val AppIconsRes.Placeholder: String
+    get() = "icons/placeholder.png"

@@ -3,6 +3,7 @@ package com.woowla.ghd.presentation.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,10 +50,18 @@ class AboutScreen(
                         title = "Version",
                         description = "This app version is '${BuildConfig.APP_VERSION}'"
                     )
-                    SectionItem(
-                        title = "Application directory",
-                        description = "This application stores some data into '$appDir' directory"
-                    )
+                    SelectionContainer {
+                        SectionItem(
+                            title = "Application directory",
+                            description = "This application stores some data into '$appDir' directory"
+                        )
+                    }
+                    SelectionContainer {
+                        SectionItem(
+                            title = "Icons",
+                            description = "The icons used are Primer Octicons (https://github.com/primer/octicons) and Remix Icon (https://github.com/Remix-Design/remixicon)"
+                        )
+                    }
                 }
                 if (BuildConfig.DEBUG) {
                     SectionCategory("Debug only sections") {

@@ -4,8 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,6 +21,8 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.woowla.compose.remixicon.DeviceSave2Fill
+import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -70,9 +70,10 @@ data class RepoToCheckEditScreen(
                             onClick = { viewModel.saveRepo() }
                         ) {
                             Icon(
-                                Icons.Filled.Save,
+                                RemixiconPainter.DeviceSave2Fill,
                                 contentDescription = i18n.screen_edit_repo_to_check_save,
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )
                         }
                     }

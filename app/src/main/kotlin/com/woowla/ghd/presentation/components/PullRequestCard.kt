@@ -7,9 +7,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DoneAll
-import androidx.compose.material.icons.filled.RemoveDone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,9 +15,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.woowla.compose.remixicon.CommunicationChat3Line
+import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.remixicon.RemixiconRes
+import com.woowla.compose.remixicon.SystemCheckboxBlankCircleFill
+import com.woowla.compose.remixicon.SystemCheckboxBlankCircleLine
+import com.woowla.compose.remixicon.SystemCheckboxCircleLine
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.presentation.app.AppDimens
-import com.woowla.ghd.presentation.app.AppIcons
+import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.MaterialColors
 import com.woowla.ghd.utils.openWebpage
@@ -54,7 +58,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
                     modifier = Modifier.size(30.dp)
                 ) {
                     Icon(
-                        imageVector = if (seen) { Icons.Default.RemoveDone } else { Icons.Default.DoneAll },
+                        painter = if (seen) { RemixiconPainter.SystemCheckboxCircleLine } else { RemixiconPainter.SystemCheckboxBlankCircleLine },
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize()
                     )
@@ -68,7 +72,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
             ) {
                 if (pullRequestDecorator.totalCommentCount.isNotBlank()) {
                     Icon(
-                        painter = painterResource(AppIcons.chatLines),
+                        painter = RemixiconPainter.CommunicationChat3Line,
                         contentDescription = null,
                         modifier = Modifier.size(15.dp),
                         tint = MaterialColors.Gray700
@@ -97,7 +101,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
                     modifier = Modifier.size(avatarImageSize).clip(CircleShape),
                     onLoading = {
                         Image(
-                            painter = painterResource(AppIcons.placeholder),
+                            painter = AppIconsPainter.Placeholder,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),
@@ -105,7 +109,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
                     },
                     onFailure = {
                         Image(
-                            painter = painterResource(AppIcons.placeholder),
+                            painter = AppIconsPainter.Placeholder,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),

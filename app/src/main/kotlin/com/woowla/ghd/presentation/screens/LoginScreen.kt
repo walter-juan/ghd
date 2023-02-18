@@ -10,9 +10,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -36,6 +33,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.remixicon.SystemEyeFill
+import com.woowla.compose.remixicon.SystemEyeOffFill
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.LabelledCheckBox
@@ -141,9 +141,9 @@ class LoginScreen : Screen {
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             trailingIcon = {
                                 val image = if (passwordVisible) {
-                                    Icons.Filled.Visibility
+                                    RemixiconPainter.SystemEyeFill
                                 } else {
-                                    Icons.Filled.VisibilityOff
+                                    RemixiconPainter.SystemEyeOffFill
                                 }
                                 val description = if (passwordVisible) {
                                     i18n.screen_login_master_password_field_field_hide
@@ -151,7 +151,7 @@ class LoginScreen : Screen {
                                     i18n.screen_login_master_password_field_field_show
                                 }
                                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                    Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
+                                    Icon(painter = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
                                 }
                             },
                             modifier = Modifier.fillMaxWidth(),
@@ -200,9 +200,9 @@ class LoginScreen : Screen {
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         trailingIcon = {
                             val image = if (passwordVisible) {
-                                Icons.Filled.Visibility
+                                RemixiconPainter.SystemEyeFill
                             } else {
-                                Icons.Filled.VisibilityOff
+                                RemixiconPainter.SystemEyeOffFill
                             }
                             val description = if (passwordVisible) {
                                 i18n.screen_login_master_password_field_field_hide
@@ -210,7 +210,7 @@ class LoginScreen : Screen {
                                 i18n.screen_login_master_password_field_field_show
                             }
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
+                                Icon(painter = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
                             }
                         },
                         modifier = Modifier.fillMaxWidth(),

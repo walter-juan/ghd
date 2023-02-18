@@ -16,7 +16,9 @@ import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.presentation.app.App
-import com.woowla.ghd.presentation.app.AppIcons
+import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.Launcher
+import com.woowla.ghd.presentation.app.TrayIcon
 import com.woowla.ghd.presentation.app.i18n
 import kotlinx.coroutines.launch
 
@@ -36,7 +38,7 @@ fun main() {
 
         Window(
             title = i18n.app_name,
-            icon = painterResource(AppIcons.launcher),
+            icon = AppIconsPainter.Launcher,
             visible = isVisible,
             state = rememberWindowState(width = 800.dp, height = 600.dp),
             onCloseRequest = { isVisible = false },
@@ -50,7 +52,7 @@ fun main() {
         }
 
         Tray(
-            painterResource(AppIcons.trayIcon),
+            AppIconsPainter.TrayIcon,
             state = NotificationClient.trayStateInstance,
             tooltip = i18n.tray_tooltip,
             onAction = { isVisible = true },

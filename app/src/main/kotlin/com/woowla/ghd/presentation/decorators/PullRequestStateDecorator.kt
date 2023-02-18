@@ -1,9 +1,14 @@
 package com.woowla.ghd.presentation.decorators
 
 import androidx.compose.ui.graphics.Color
+import com.woowla.compose.octoicons.GitMerge
+import com.woowla.compose.octoicons.GitPullRequest
+import com.woowla.compose.octoicons.GitPullRequestClosed
+import com.woowla.compose.octoicons.GitPullRequestDraft
+import com.woowla.compose.octoicons.OctoiconsRes
+import com.woowla.compose.octoicons.Question
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.presentation.app.AppColors
-import com.woowla.ghd.presentation.app.AppIcons
 import com.woowla.ghd.presentation.app.i18n
 
 class PullRequestStateDecorator(pullRequestState: PullRequestState) {
@@ -16,11 +21,11 @@ class PullRequestStateDecorator(pullRequestState: PullRequestState) {
     }
 
     val iconResPath: String = when(pullRequestState) {
-        PullRequestState.OPEN -> AppIcons.gitHubPrOpen
-        PullRequestState.CLOSED -> AppIcons.gitHubPrClosed
-        PullRequestState.MERGED -> AppIcons.gitHubPrMerged
-        PullRequestState.DRAFT -> AppIcons.gitHubPrDraft
-        PullRequestState.UNKNOWN -> AppIcons.gitHubPrUnknown
+        PullRequestState.OPEN -> OctoiconsRes.GitPullRequest
+        PullRequestState.CLOSED -> OctoiconsRes.GitPullRequestClosed
+        PullRequestState.MERGED -> OctoiconsRes.GitMerge
+        PullRequestState.DRAFT -> OctoiconsRes.GitPullRequestDraft
+        PullRequestState.UNKNOWN -> OctoiconsRes.Question
     }
 
     val iconTint: Color = when(pullRequestState) {
