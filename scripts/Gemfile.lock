@@ -1,0 +1,29 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    date (3.3.3)
+    json (2.6.3)
+    open-uri (0.3.0)
+      stringio
+      time
+      uri
+    rubyzip (2.3.2)
+    stringio (3.0.5)
+    time (0.2.1)
+      date
+    uri (0.12.0)
+
+PLATFORMS
+  x86_64-darwin-20
+
+DEPENDENCIES
+  json (~> 2.6, >= 2.6.3)
+  open-uri (~> 0.3.0)
+  rubyzip (~> 2.3, >= 2.3.2)
+  uri (~> 0.12.0)
+
+RUBY VERSION
+   ruby 2.6.6p146
+
+BUNDLED WITH
+   2.3.8
