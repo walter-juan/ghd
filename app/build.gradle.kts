@@ -51,6 +51,9 @@ buildConfig {
 }
 
 dependencies {
+    implementation(project(":icons:octicons"))
+    implementation(project(":icons:remixicon"))
+
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
@@ -85,14 +88,14 @@ compose.desktop {
             packageVersion = "${project.version}"
             includeAllModules = true
             macOS {
-                iconFile.set(project.file("src/main/resources/icons/custom/ic_launcher.icns"))
+                iconFile.set(project.file("src/main/resources/icons/ic_launcher.icns"))
             }
             windows {
                 menuGroup = ""
-                iconFile.set(project.file("src/main/resources/icons/custom/ic_launcher.ico"))
+                iconFile.set(project.file("src/main/resources/icons/ic_launcher.ico"))
             }
             linux {
-                iconFile.set(project.file("src/main/resources/icons/custom/ic_launcher.png"))
+                iconFile.set(project.file("src/main/resources/icons/ic_launcher.png"))
             }
         }
     }

@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.extensions.toHRString
 import com.woowla.ghd.presentation.app.AppDimens
-import com.woowla.ghd.presentation.app.AppIcons
+import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
@@ -52,7 +53,7 @@ fun ReleaseCard(release: Release) {
                     modifier = Modifier.size(avatarImageSize).clip(CircleShape),
                     onLoading = {
                         Image(
-                            painter = painterResource(AppIcons.placeholder),
+                            painter = AppIconsPainter.Placeholder,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),
@@ -60,7 +61,7 @@ fun ReleaseCard(release: Release) {
                     },
                     onFailure = {
                         Image(
-                            painter = painterResource(AppIcons.placeholder),
+                            painter = AppIconsPainter.Placeholder,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),

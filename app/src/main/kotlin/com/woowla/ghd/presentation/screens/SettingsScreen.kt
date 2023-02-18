@@ -8,16 +8,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Save
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +36,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import com.woowla.compose.remixicon.DeviceSave2Fill
+import com.woowla.compose.remixicon.DeviceSave2Line
+import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.remixicon.SystemEyeFill
+import com.woowla.compose.remixicon.SystemEyeOffFill
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -75,9 +77,10 @@ class SettingsScreen : Screen {
                             onClick = { viewModel.saveSettings() }
                         ) {
                             Icon(
-                                Icons.Filled.Save,
+                                RemixiconPainter.DeviceSave2Fill,
                                 contentDescription = i18n.screen_app_settings_save,
-                                tint = MaterialTheme.colorScheme.onPrimary
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )
                         }
                     }
@@ -127,9 +130,9 @@ class SettingsScreen : Screen {
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                                         trailingIcon = {
                                             val image = if (passwordVisible) {
-                                                Icons.Filled.Visibility
+                                                RemixiconPainter.SystemEyeFill
                                             } else {
-                                                Icons.Filled.VisibilityOff
+                                                RemixiconPainter.SystemEyeOffFill
                                             }
                                             val description = if (passwordVisible) {
                                                 i18n.screen_app_settings_github_field_hide
@@ -137,7 +140,7 @@ class SettingsScreen : Screen {
                                                 i18n.screen_app_settings_github_field_show
                                             }
                                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline)
+                                                Icon(painter = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
                                             }
                                         },
                                         modifier = Modifier.weight(1f)

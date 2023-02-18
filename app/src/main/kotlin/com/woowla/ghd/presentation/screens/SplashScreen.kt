@@ -29,7 +29,8 @@ import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.ghd.presentation.app.AppIcons
+import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,7 @@ class SplashScreen : Screen {
                     exit = fadeOut(animationSpec = tween(durationMillis = 600)) + scaleOut(animationSpec = tween(durationMillis = 600))
                 ) {
                     Image(
-                        painter = painterResource(AppIcons.launcher),
+                        painter = AppIconsPainter.Launcher,
                         contentDescription = null,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier.size(80.dp),

@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
+import com.woowla.compose.remixicon.BuildingsBankFill
+import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestGitHubState
 import com.woowla.ghd.domain.entities.Release
@@ -195,7 +195,7 @@ class ComponentsSampleScreen : Screen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Stadium,
+                        painter = RemixiconPainter.BuildingsBankFill,
                         contentDescription = null,
                         modifier = Modifier.padding(paddingValues)
                     )
@@ -210,7 +210,7 @@ class ComponentsSampleScreen : Screen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Stadium,
+                        painter = RemixiconPainter.BuildingsBankFill,
                         contentDescription = null,
                         modifier = Modifier.padding(paddingValues)
                     )
