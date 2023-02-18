@@ -105,6 +105,22 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew wrapper --gradle-version 7.5.1
     ```
+# Scripts
+
+The folder `scripts` contains some scripts in Ruby:
+
+- Scripts must be executed from the scripts folder
+    ```shell
+    cd scripts
+    ```
+- Download octicons
+    ```shell
+    bundle exec ruby octicons-download.rb
+    ```
+- Download octicons
+    ```shell
+    bundle exec ruby remixicon-download.rb
+    ```
 
 # H2 Database
 
@@ -140,8 +156,8 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
   - [Gurupreet/ComposeCookBook](https://github.com/Gurupreet/ComposeCookBook)
   - [Gurupreet/ComposeSpotifyDesktop](https://github.com/Gurupreet/ComposeSpotifyDesktop)
 - Icons
-  - [Octicons](https://primer.style/octicons/)
-  - [iconoir](https://iconoir.com/)
+  - [Octicons](https://primer.style/octicons/), [Octicons GitHub](https://github.com/primer/octicons/)
+  - [Remix icon](https://remixicon.com/), [Remix icon GitHub](https://github.com/Remix-Design/remixicon/)
   - [Google material icons](https://fonts.google.com/icons)
 - Colors
   - More or less all of them should be in [MaterialColors](app/src/main/kotlin/com/woowla/ghd/utils/MaterialColors.kt)
