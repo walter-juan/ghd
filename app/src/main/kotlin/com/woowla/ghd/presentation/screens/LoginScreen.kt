@@ -3,6 +3,7 @@ package com.woowla.ghd.presentation.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -13,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,20 +38,36 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemEyeFill
 import com.woowla.compose.remixicon.SystemEyeOffFill
+import com.woowla.ghd.domain.services.AppSettingsService
+import com.woowla.ghd.eventbus.Event
+import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.app.AppDimens
+import com.woowla.ghd.presentation.app.AppTheme
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.LabelledCheckBox
 import com.woowla.ghd.presentation.components.OutlinedTextFieldValidation
 import com.woowla.ghd.presentation.components.ScreenScaffold
 import com.woowla.ghd.presentation.decorators.ErrorMessageFactory
 import com.woowla.ghd.presentation.viewmodels.LoginViewModel
+import kotlinx.coroutines.launch
 
 class LoginScreen : Screen {
     @Composable
     override fun Content() {
+        val systemDarkTheme = isSystemInDarkTheme()
+        var darkTheme by remember { mutableStateOf(systemDarkTheme) }
         val navigator = LocalNavigator.currentOrThrow
         val viewModel = rememberScreenModel { LoginViewModel(navigator) }
         val loginState by viewModel.state.collectAsState()
+
+        LaunchedEffect("login-app-theme") {
+            AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+            EventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
+                launch {
+                    AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+                }
+            }
+        }
 
         val lockedLoginState = loginState
         ScreenScaffold {
@@ -74,6 +92,7 @@ class LoginScreen : Screen {
                     }
                     is LoginViewModel.State.LockedDatabase -> {
                         loginDatabaseAlreadyExists(
+                            darkTheme = darkTheme,
                             navigator = navigator,
                             isDbEncrypted = lockedLoginState.isDbEncrypted,
                             error = lockedLoginState.error,
@@ -172,7 +191,7 @@ class LoginScreen : Screen {
     }
 
     @Composable
-    private fun loginDatabaseAlreadyExists(navigator: Navigator, isDbEncrypted: Boolean, error: Throwable? = null, onUnlockDatabase: (password: String?) -> Unit, onDeleteDatabase: () -> Unit) {
+    private fun loginDatabaseAlreadyExists(darkTheme: Boolean, navigator: Navigator, isDbEncrypted: Boolean, error: Throwable? = null, onUnlockDatabase: (password: String?) -> Unit, onDeleteDatabase: () -> Unit) {
         var passwordVisible by remember { mutableStateOf(false) }
         var password by remember { mutableStateOf("") }
         val openConfirmRemoveDatabaseDialog = remember { mutableStateOf(false)  }
@@ -251,6 +270,7 @@ class LoginScreen : Screen {
 
         if (openConfirmRemoveDatabaseDialog.value) {
             deleteDatabaseConfirmationDialog(
+                darkTheme = darkTheme,
                 onCloseRequest = {
                     openConfirmRemoveDatabaseDialog.value = false
                 },
@@ -266,33 +286,35 @@ class LoginScreen : Screen {
     }
 
     @Composable
-    private fun deleteDatabaseConfirmationDialog(onCloseRequest: () -> Unit, onConfirmClick: () -> Unit, onDiscardClick: () -> Unit, ) {
+    private fun deleteDatabaseConfirmationDialog(darkTheme: Boolean, onCloseRequest: () -> Unit, onConfirmClick: () -> Unit, onDiscardClick: () -> Unit, ) {
         Dialog(
             title = i18n.screen_login_fresh_start_confirmation_dialog_title,
             onCloseRequest = onCloseRequest,
             state = rememberDialogState(position = WindowPosition(Alignment.Center)),
         ) {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(5.dp)
-            ) {
-                Text(
-                    text = i18n.screen_login_fresh_start_confirmation_dialog_text,
-                    textAlign = TextAlign.Center,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
+            AppTheme(darkTheme = darkTheme) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    OutlinedButton(
-                        onClick = onConfirmClick
+                    Text(
+                        text = i18n.screen_login_fresh_start_confirmation_dialog_text,
+                        textAlign = TextAlign.Center,
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
-                        Text(i18n.screen_login_fresh_start_confirmation_dialog_yes_button)
-                    }
-                    Button(
-                        onClick = onDiscardClick
-                    ) {
-                        Text(i18n.screen_login_fresh_start_confirmation_dialog_no_button)
+                        OutlinedButton(
+                            onClick = onConfirmClick
+                        ) {
+                            Text(i18n.screen_login_fresh_start_confirmation_dialog_yes_button)
+                        }
+                        Button(
+                            onClick = onDiscardClick
+                        ) {
+                            Text(i18n.screen_login_fresh_start_confirmation_dialog_no_button)
+                        }
                     }
                 }
             }
