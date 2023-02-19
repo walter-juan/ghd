@@ -25,7 +25,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.3.0"
+version = "1.3.1"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 repositories {
