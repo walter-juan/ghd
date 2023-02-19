@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.3.1]
+### Added
+- New card designs for pull requests, releases and repos to check
+- Add new designs feature previews
+### Changed
+- Replace [iconoir](https://iconoir.com/) for [remix icon](https://remixicon.com/)
+- Replace [material icons](https://fonts.google.com/icons) for [remix icon](https://remixicon.com/)
+### Fixed
+- Dialog theme
+
 ## [1.3.0]
 ### Changed
 - Use Material 3
@@ -109,7 +119,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.0...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.1...dev
+[1.3.1]: https://github.com/walter-juan/ghd/releases/tag/v1.3.1
 [1.3.0]: https://github.com/walter-juan/ghd/releases/tag/v1.3.0
 [1.2.6]: https://github.com/walter-juan/ghd/releases/tag/v1.2.6
 [1.2.5]: https://github.com/walter-juan/ghd/releases/tag/v1.2.5
