@@ -38,7 +38,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
     val avatarImageSize = 45.dp
 
     CardListItem(
-        modifier = Modifier.width(AppDimens.contentWidthDp.dp),
+        modifier = Modifier.width(AppDimens.contentWidthDp),
         selected = seen,
         onClick = {
             openWebpage(pullRequest.url)

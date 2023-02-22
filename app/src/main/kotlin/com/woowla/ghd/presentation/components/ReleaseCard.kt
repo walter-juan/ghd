@@ -26,7 +26,7 @@ fun ReleaseCard(release: Release) {
     val avatarImageSize = 45.dp
 
     CardListItem(
-        modifier = Modifier.width(AppDimens.contentWidthDp.dp),
+        modifier = Modifier.width(AppDimens.contentWidthDp),
         onClick = {
             openWebpage(release.url)
         },

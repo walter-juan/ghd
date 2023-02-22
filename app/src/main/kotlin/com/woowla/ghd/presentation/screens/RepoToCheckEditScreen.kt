@@ -82,8 +82,8 @@ data class RepoToCheckEditScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 SectionCategory(i18n.screen_edit_repo_to_check_repository_section) {
                     Row(
