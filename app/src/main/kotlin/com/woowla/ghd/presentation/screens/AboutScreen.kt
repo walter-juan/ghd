@@ -38,8 +38,8 @@ class AboutScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 SectionCategory("Regarding ghd") {
                     SectionItem(

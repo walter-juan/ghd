@@ -74,8 +74,8 @@ class LoginScreen : Screen {
             Column(
                 verticalArrangement = Arrangement.spacedBy(5.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 when(lockedLoginState) {
                     LoginViewModel.State.Initializing -> {

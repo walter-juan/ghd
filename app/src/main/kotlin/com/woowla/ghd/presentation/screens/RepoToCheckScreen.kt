@@ -66,8 +66,8 @@ class RepoToCheckScreen: Screen {
         ) {
             Column(
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 val lockedState = reposState
                 when(lockedState) {

@@ -5,7 +5,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
@@ -16,6 +15,7 @@ import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.presentation.app.App
+import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.app.TrayIcon
@@ -40,7 +40,7 @@ fun main() {
             title = i18n.app_name,
             icon = AppIconsPainter.Launcher,
             visible = isVisible,
-            state = rememberWindowState(width = 800.dp, height = 600.dp),
+            state = rememberWindowState(width = AppDimens.windowWidth, height = AppDimens.windowHeight),
             onCloseRequest = { isVisible = false },
         ) {
             MenuBar {

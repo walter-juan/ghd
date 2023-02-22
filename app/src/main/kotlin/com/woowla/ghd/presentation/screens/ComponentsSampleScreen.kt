@@ -85,8 +85,8 @@ class ComponentsSampleScreen : Screen {
         ) {
             Column(
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 Title("Colors")
                 ColorsSample()

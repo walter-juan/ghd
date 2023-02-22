@@ -33,8 +33,8 @@ class ReleasesScreen : Screen {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp.dp)
-                    .width(AppDimens.contentWidthDp.dp)
+                    .padding(AppDimens.contentPaddingAllDp)
+                    .width(AppDimens.contentWidthDp)
             ) {
                 when(state) {
                     ReleasesViewModel.State.Initializing -> { }
@@ -47,7 +47,7 @@ class ReleasesScreen : Screen {
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                                     verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.width(AppDimens.contentWidthDp.dp)
+                                    modifier = Modifier.width(AppDimens.contentWidthDp)
                                 ) {
                                     Text(
                                         text = groupedReleases.groupName,
@@ -58,7 +58,7 @@ class ReleasesScreen : Screen {
                             groupedReleases.releases.forEach { release ->
                                 ReleaseCard(release)
                             }
-                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp.dp))
+                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }
                     }
                 }
