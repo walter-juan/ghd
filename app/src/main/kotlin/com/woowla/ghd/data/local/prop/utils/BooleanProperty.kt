@@ -3,12 +3,12 @@ package com.woowla.ghd.data.local.prop.utils
 import java.util.*
 import kotlin.reflect.KProperty
 
-class BooleanProperty(private val properties: Properties) {
+class BooleanProperty(private val properties: Properties, private val name: String) {
     operator fun getValue(thisRef: Any?, property: KProperty<*>): Boolean? {
-        return properties.getProperty("darkTheme")?.toBooleanStrictOrNull()
+        return properties.getProperty(name)?.toBooleanStrictOrNull()
     }
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, value: Boolean?) {
-        properties.setProperty("darkTheme", value?.toString() ?: "")
+        properties.setProperty(name, value?.toString() ?: "")
     }
 }

@@ -2,7 +2,9 @@ package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
+import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
@@ -13,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class ReposToCheckViewModel(
     private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
+    private val appSettingsService: AppSettingsService = AppSettingsService(),
 ): ScreenModel {
     private val initialStateValue = State.Initializing
 
@@ -22,6 +25,9 @@ class ReposToCheckViewModel(
     init {
         loadRepos()
         EventBus.subscribe(this, coroutineScope, Event.REPO_TO_CHECK_UPDATED) {
+            reload()
+        }
+        EventBus.subscribe(this, coroutineScope, Event.SETTINGS_UPDATED) {
             reload()
         }
     }
@@ -58,9 +64,11 @@ class ReposToCheckViewModel(
 
     private fun loadRepos() {
         coroutineScope.launch {
+            val appSettings = appSettingsService.get().getOrNull()
+
             repoToCheckService.getAll().fold(
                 onSuccess = {
-                    _state.value = State.Success(reposToCheck = it)
+                    _state.value = State.Success(reposToCheck = it, appSettings = appSettings)
                 },
                 onFailure = {
                     _state.value = State.Error(throwable = it)
@@ -71,7 +79,7 @@ class ReposToCheckViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val reposToCheck: List<RepoToCheck>): State()
+        data class Success(val reposToCheck: List<RepoToCheck>, val appSettings: AppSettings?): State()
         data class Error(val throwable: Throwable): State()
     }
 }
