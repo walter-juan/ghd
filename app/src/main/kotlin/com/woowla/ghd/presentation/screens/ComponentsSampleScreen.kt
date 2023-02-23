@@ -42,10 +42,10 @@ class ComponentsSampleScreen : Screen {
         name = "Version 1.0.2 ",
         tagName = "v1.0.2",
         url = "https://github.com/walter-juan/ghd/releases/tag/v1.0.2",
-        publishedAt = Clock.System.now().minus(67.days),
+        publishedAt = Clock.System.now().minus(12.days),
         authorLogin = "github-actions",
         authorUrl = null,
-        authorAvatarUrl = null,
+        authorAvatarUrl = "https://picsum.photos/200/300",
         repoToCheckId = repoToCheck.id,
         repoToCheck = repoToCheck
     )
@@ -63,7 +63,7 @@ class ComponentsSampleScreen : Screen {
         headRef = null,
         authorLogin = "walter-juan",
         authorUrl = null,
-        authorAvatarUrl = null,
+        authorAvatarUrl = "https://picsum.photos/200/300",
         appSeenAt = Clock.System.now(),
         totalCommentsCount = 3,
         repoToCheckId = repoToCheck.id,
@@ -238,11 +238,20 @@ class ComponentsSampleScreen : Screen {
     @Composable
     private fun RepoToCheckCardSample() {
         RepoToCheckCard(repoToCheck = repoToCheck, onEditClick = {}, onDeleteClick = {})
+        Divider(modifier = Modifier.padding(5.dp))
+        Text(text = "New repo to check card")
+        Divider(modifier = Modifier.padding(5.dp))
+        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = false, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
+        Divider(modifier = Modifier.padding(5.dp))
+        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = true), onEditClick = {}, onDeleteClick = {})
+        Divider(modifier = Modifier.padding(5.dp))
+        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
     }
 
     @Composable
     private fun PullRequestCardSample() {
         val seen = remember { mutableStateOf(false) }
+        val useBoldStyle = remember { mutableStateOf(false) }
         val pr = pullRequest.copy(
             appSeenAt = if (seen.value) {
                 Clock.System.now().minus(2.days)
@@ -251,19 +260,33 @@ class ComponentsSampleScreen : Screen {
             }
         )
 
-        Row {
-            Checkbox(
-                checked = seen.value,
-                onCheckedChange = { seen.value = it }
-            )
-            Text(
-                text = "Click to change the card to 'seen'/'not seen' or hover the car and click to the button",
-                modifier = Modifier.padding(5.dp).background(Color.White)
-            )
-        }
+        SwitchText(
+            text = "mark as 'seen'/'not seen'",
+            checked = seen.value,
+            onCheckedChange = { seen.value = it }
+        )
+        SwitchText(
+            text = "Bold style",
+            checked = useBoldStyle.value,
+            onCheckedChange = { useBoldStyle.value = it }
+        )
+
+        Spacer(modifier = Modifier.size(5.dp))
 
         PullRequestCard(
             pullRequest = pr,
+            onSeenClick = {
+                seen.value = !seen.value
+            }
+        )
+
+        Divider(modifier = Modifier.padding(10.dp))
+        Text(text = "New pull request card")
+        Divider(modifier = Modifier.padding(10.dp))
+
+        PullRequestCardNew(
+            pullRequest = pr,
+            useBoldStyle = useBoldStyle.value,
             onSeenClick = {
                 seen.value = !seen.value
             }
@@ -272,7 +295,22 @@ class ComponentsSampleScreen : Screen {
 
     @Composable
     private fun ReleaseCardSample() {
+        val useBoldStyle = remember { mutableStateOf(false) }
+
+        SwitchText(
+            text = "Bold style",
+            checked = useBoldStyle.value,
+            onCheckedChange = { useBoldStyle.value = it }
+        )
+        Spacer(modifier = Modifier.size(5.dp))
+
         ReleaseCard(release)
+
+        Divider(modifier = Modifier.padding(10.dp))
+        Text(text = "New release card")
+        Divider(modifier = Modifier.padding(10.dp))
+
+        ReleaseCardNew(release = release, useBoldStyle = useBoldStyle.value)
     }
 
     @Composable
