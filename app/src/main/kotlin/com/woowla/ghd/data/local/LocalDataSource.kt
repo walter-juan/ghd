@@ -28,7 +28,9 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             PropAppSettings(
-                darkTheme = appProperties.darkTheme
+                darkTheme = appProperties.darkTheme,
+                featurePreviewNewCards = appProperties.featurePreviewNewCards,
+                featurePreviewNewCardsBoldStyle = appProperties.featurePreviewNewCardsBoldStyle,
             )
         }
     }
@@ -37,6 +39,8 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = upsertRequest.darkTheme
+            appProperties.featurePreviewNewCards = upsertRequest.featurePreviewNewCards
+            appProperties.featurePreviewNewCardsBoldStyle = upsertRequest.featurePreviewNewCardsBoldStyle
             appProperties.store()
         }
     }

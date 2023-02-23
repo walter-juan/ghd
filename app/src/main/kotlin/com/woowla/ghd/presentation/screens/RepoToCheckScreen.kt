@@ -114,15 +114,27 @@ class RepoToCheckScreen: Screen {
                                 description = i18n.screen_app_settings_repositories_item_description(lockedState.reposToCheck.size),
                             ) {
                                 lockedState.reposToCheck.forEach { repoToCheck ->
-                                    RepoToCheckCard(
-                                        repoToCheck = repoToCheck,
-                                        onEditClick = { repoToEdit ->
-                                            onEditRepoClick.invoke(repoToEdit)
-                                        },
-                                        onDeleteClick = { repoToDelete ->
-                                            viewModel.deleteRepo(repoToDelete)
-                                        },
-                                    )
+                                    if (lockedState.appSettings?.featurePreviewNewCards == true) {
+                                        RepoToCheckCardNew(
+                                            repoToCheck = repoToCheck,
+                                            onEditClick = { repoToEdit ->
+                                                onEditRepoClick.invoke(repoToEdit)
+                                            },
+                                            onDeleteClick = { repoToDelete ->
+                                                viewModel.deleteRepo(repoToDelete)
+                                            },
+                                        )
+                                    } else {
+                                        RepoToCheckCard(
+                                            repoToCheck = repoToCheck,
+                                            onEditClick = { repoToEdit ->
+                                                onEditRepoClick.invoke(repoToEdit)
+                                            },
+                                            onDeleteClick = { repoToDelete ->
+                                                viewModel.deleteRepo(repoToDelete)
+                                            },
+                                        )
+                                    }
                                     Spacer(modifier = Modifier.padding(5.dp))
                                 }
                             }

@@ -17,7 +17,9 @@ object AppProperties {
 
     private val properties = Properties()
 
-    var darkTheme: Boolean? by BooleanProperty(properties)
+    var darkTheme: Boolean? by BooleanProperty(properties, "darkTheme")
+    var featurePreviewNewCards: Boolean? by BooleanProperty(properties, "featurePreviewNewCards")
+    var featurePreviewNewCardsBoldStyle: Boolean? by BooleanProperty(properties, "featurePreviewNewCardsBoldStyle")
 
     fun load() {
         FileInputStream(propertiesPath.toString()).use {
