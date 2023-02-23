@@ -1,6 +1,7 @@
 package com.woowla.ghd.presentation.app
 
 import com.woowla.ghd.BuildConfig
+import com.woowla.ghd.extensions.toAgoString
 import com.woowla.ghd.extensions.format
 import com.woowla.ghd.extensions.toHRString
 import kotlinx.datetime.Instant
@@ -13,8 +14,13 @@ object i18n {
     }
     val generic_loading = "Loading"
     val generic_error = "Error"
+    val generic_now =  "now"
+    val generic_delete =  "Delete"
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
     val generic_hours_ago: (Long) -> String = { "$it hours ago" }
+    val generic_days_ago: (Long) -> String = { "$it days ago" }
+    val generic_date_format: (String, String, String, String) -> String = {month, day, year, hour -> "$month $day, $year at $hour" }
+    val generic_unknown = "unknown"
 
     val menu_bar_menu_actions = "Actions"
     val menu_bar_menu_item_synchronize = "Synchronize"
@@ -59,11 +65,17 @@ object i18n {
     val screen_edit_repo_to_check_filter_by_branch_item = "Filter by branch"
     val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
+    val screen_edit_repo_to_all_notifications_enabled = "All notifications enabled"
+    val screen_edit_repo_to_all_notifications_disabled = "No notifications enabled"
+    val screen_edit_repo_to_no_group = "(no group)"
+    val screen_edit_repo_to_all_pull_request_notifications_enabled: (enabled: Boolean) -> String = { "Pull request notifications ${if (it) "enabled" else "disabled"} " }
+    val screen_edit_repo_to_all_releases_notifications_enabled: (enabled: Boolean) -> String = { "Releases notifications ${if (it) "enabled" else "disabled"} " }
 
     val screen_app_settings_saved = "Saved"
     val screen_app_settings_save = "Save"
     val screen_app_settings_synchronization_section = "Synchronization"
     val screen_app_settings_appliation_section = "Application"
+    val screen_app_settings_feature_preview_section = "Feature Preview"
     val screen_app_settings_github_token_field_label = "GitHub PAT token"
     val screen_app_settings_github_field_show = "Show GitHub PAT token"
     val screen_app_settings_github_field_hide = "Hide GitHub PAT token"
@@ -81,6 +93,8 @@ object i18n {
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"
     val screen_app_settings_pull_requests_clean_up_item_description = "Remove closed and merged pull requests after certain amount of time"
+    val screen_app_settings_feature_preview_new_cards = "New cards design"
+    val screen_app_settings_feature_preview_new_cards_bold_style = "New cards design with bold style"
 
     val screen_login_encrypt_data_field_label = "I want to encrypt my data (recommended)."
     val screen_login_master_password_field_label = "Master Password"
@@ -113,6 +127,21 @@ object i18n {
     val pull_request_state_merged = "Merged"
     val pull_request_state_draft = "Draft"
     val pull_request_state_unknown = "Draft"
+    val pull_request_seen = "Seen"
+    val pull_request_unseen = "Unseen"
+    val pull_request_comments: (Long) -> String = {
+        when(it) {
+            1L -> "$it comment"
+            else -> "$it comments"
+        }
+    }
+    val pull_request_opened_by = "opened by"
+    val pull_request_on = "on"
+    val pull_request_updated: (Instant) -> String = { "Updated ${it.toAgoString()}" }
+
+    val release_tag = "Tag"
+    val release_on = "on"
+    val release_published: (Instant) -> String = { "Published ${it.toAgoString()}" }
 
     val app_settings_checkout_time_in_minutes: (Long) -> String = { "$it minutes" }
     val app_settings_checkout_time_unknown = "?"

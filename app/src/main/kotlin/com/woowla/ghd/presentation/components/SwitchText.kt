@@ -3,6 +3,7 @@ package com.woowla.ghd.presentation.components
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +22,7 @@ fun SwitchText(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.height(preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
+        modifier = Modifier.defaultMinSize(minHeight = preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
     ) {
         Text(
             text = text,
