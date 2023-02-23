@@ -117,7 +117,7 @@ The folder `scripts` contains some scripts in Ruby:
     ```shell
     bundle exec ruby octicons-download.rb
     ```
-- Download octicons
+- Download remixicon
     ```shell
     bundle exec ruby remixicon-download.rb
     ```
