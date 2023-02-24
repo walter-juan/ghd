@@ -49,6 +49,7 @@ object DbSettings {
                 .dataSource(dataSource)
                 .baselineOnMigrate(true)
                 .baselineVersion("1")
+                .validateMigrationNaming(true)
                 .load()
             flyway.migrate()
 

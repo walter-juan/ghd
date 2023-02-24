@@ -4,14 +4,14 @@ import kotlinx.datetime.Instant
 
 data class UpsertPullRequestRequest(
     val id: String,
-    val number: Long?,
-    val url: String?,
+    val number: Long,
+    val url: String,
     val state: String?,
     val title: String?,
-    val createdAt: Instant?,
-    val updatedAt: Instant?,
+    val createdAt: Instant,
+    val updatedAt: Instant,
     val mergedAt: Instant?,
-    val draft: Boolean?,
+    val draft: Boolean,
     val baseRef: String?,
     val headRef: String?,
     val authorLogin: String?,
@@ -19,5 +19,7 @@ data class UpsertPullRequestRequest(
     val authorAvatarUrl: String?,
     val appSeenAt: Instant?,
     val totalCommentsCount: Long?,
+    val mergeable: String?,
+    val lastCommitCheckRollupStatus: String?,
     val repoToCheckId: Long
 )

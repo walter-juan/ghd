@@ -56,7 +56,7 @@ class PullRequestsScreen : Screen {
                                     painter = painterResource(pullRequestDecorator.iconResPath),
                                     contentDescription = null,
                                     modifier = Modifier.size(15.dp),
-                                    tint = pullRequestDecorator.iconTint
+                                    tint = pullRequestDecorator.iconTint()
                                 )
                                 Text(
                                     text = pullRequestDecorator.text,

@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.decorators
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.woowla.compose.octoicons.GitMerge
 import com.woowla.compose.octoicons.GitPullRequest
@@ -9,9 +11,13 @@ import com.woowla.compose.octoicons.OctoiconsRes
 import com.woowla.compose.octoicons.Question
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.presentation.app.AppColors
+import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
+import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
+import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
+import com.woowla.ghd.presentation.app.AppColors.gitPrOpen
 import com.woowla.ghd.presentation.app.i18n
 
-class PullRequestStateDecorator(pullRequestState: PullRequestState) {
+class PullRequestStateDecorator(private val pullRequestState: PullRequestState) {
     val text: String = when(pullRequestState) {
         PullRequestState.OPEN -> i18n.pull_request_state_open
         PullRequestState.CLOSED -> i18n.pull_request_state_closed
@@ -28,11 +34,12 @@ class PullRequestStateDecorator(pullRequestState: PullRequestState) {
         PullRequestState.UNKNOWN -> OctoiconsRes.Question
     }
 
-    val iconTint: Color = when(pullRequestState) {
-        PullRequestState.OPEN -> AppColors.gitPrOpen
-        PullRequestState.CLOSED -> AppColors.gitPrClosed
-        PullRequestState.MERGED -> AppColors.gitPrMerged
-        PullRequestState.DRAFT -> AppColors.gitPrDraft
+    @Composable
+    fun iconTint(): Color = when(pullRequestState) {
+        PullRequestState.OPEN -> MaterialTheme.colorScheme.gitPrOpen
+        PullRequestState.CLOSED -> MaterialTheme.colorScheme.gitPrClosed
+        PullRequestState.MERGED -> MaterialTheme.colorScheme.gitPrMerged
+        PullRequestState.DRAFT -> MaterialTheme.colorScheme.gitPrDraft
         PullRequestState.UNKNOWN -> Color.Gray
     }
 }

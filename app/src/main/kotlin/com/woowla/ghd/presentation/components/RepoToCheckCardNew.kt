@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.remixicon.EditorListUnordered
@@ -78,19 +77,16 @@ fun RepoToCheckCardNew(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> U
                 icon = RemixiconPainter.EditorListUnordered
             )
             if (repoToCheck.pullNotificationsEnabled && repoToCheck.releaseNotificationsEnabled) {
-                IconCardSpacer()
                 IconCardRowSmallContent(
                     text = i18n.screen_edit_repo_to_all_notifications_enabled,
                     icon = RemixiconPainter.MediaNotification4Line
                 )
             } else if (!repoToCheck.pullNotificationsEnabled && !repoToCheck.releaseNotificationsEnabled) {
-                IconCardSpacer()
                 IconCardRowSmallContent(
                     text = i18n.screen_edit_repo_to_all_notifications_disabled,
                     icon = RemixiconPainter.MediaNotificationOffLine
                 )
             } else {
-                IconCardSpacer()
                 IconCardRowSmallContent(
                     text = i18n.screen_edit_repo_to_all_pull_request_notifications_enabled(repoToCheck.pullNotificationsEnabled),
                     icon = if (repoToCheck.pullNotificationsEnabled) {
@@ -99,7 +95,6 @@ fun RepoToCheckCardNew(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> U
                         RemixiconPainter.MediaNotificationOffLine
                     }
                 )
-                IconCardSpacer()
                 IconCardRowSmallContent(
                     text = i18n.screen_edit_repo_to_all_releases_notifications_enabled(repoToCheck.releaseNotificationsEnabled),
                     icon = if (repoToCheck.releaseNotificationsEnabled) {

@@ -4,10 +4,12 @@ import com.woowla.ghd.data.local.db.DbSettings
 import com.woowla.ghd.data.local.db.entities.DbPullRequest
 import com.woowla.ghd.data.local.db.entities.DbRelease
 import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
+import com.woowla.ghd.data.local.db.entities.DbReview
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.data.local.db.newDbSuspendedTransaction
 import com.woowla.ghd.data.local.db.tables.DbPullRequestTable
 import com.woowla.ghd.data.local.db.tables.DbReleaseTable
+import com.woowla.ghd.data.local.db.tables.DbReviewTable
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.prop.entities.PropAppSettings
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
@@ -16,6 +18,7 @@ import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.data.local.db.utils.findByIdOrThrow
 import com.woowla.ghd.data.local.db.utils.upsertById
 import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
+import com.woowla.ghd.domain.requests.UpsertReviewRequest
 import com.woowla.ghd.domain.requests.UpsertSyncSettings
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.load
@@ -109,7 +112,7 @@ class LocalDataSource(
     suspend fun getAllPullRequests(): Result<List<DbPullRequest>> {
         return runCatching {
             newDbSuspendedTransaction {
-                DbPullRequest.all().with(DbPullRequest::repoToCheck).toList()
+                DbPullRequest.all().with(DbPullRequest::repoToCheck, DbPullRequest::reviews).toList()
             }
         }
     }
@@ -143,6 +146,8 @@ class LocalDataSource(
                         authorAvatarUrl = upsertRequest.authorAvatarUrl
                         appSeenAt = upsertRequest.appSeenAt
                         totalCommentsCount = upsertRequest.totalCommentsCount
+                        mergeable = upsertRequest.mergeable
+                        lastCommitCheckRollupStatus = upsertRequest.lastCommitCheckRollupStatus
                         repoToCheck = dbRepoToCheck
                     }
                 }
@@ -185,6 +190,32 @@ class LocalDataSource(
         return runCatching {
             newDbSuspendedTransaction {
                 DbRelease.find { DbReleaseTable.repoToCheckId eq repoToCheckId }.forEach { it.delete() }
+            }
+        }
+    }
+
+    suspend fun removeReviewsByPullRequest(pullRequestIds: List<String>): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbReview.find { DbReviewTable.pullRequestId inList pullRequestIds }.forEach { it.delete() }
+            }
+        }
+    }
+    suspend fun upsertReviews(upsertRequests: List<UpsertReviewRequest>): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                upsertRequests.forEach { upsertRequest ->
+                    val dbPullRequest = DbPullRequest.findByIdOrThrow(upsertRequest.pullRequestId)
+                    DbReview.upsertById(upsertRequest.id) {
+                        submittedAt = upsertRequest.submittedAt
+                        url = upsertRequest.url
+                        state = upsertRequest.state
+                        authorLogin = upsertRequest.authorLogin
+                        authorUrl = upsertRequest.authorUrl
+                        authorAvatarUrl = upsertRequest.authorAvatarUrl
+                        pullRequest = dbPullRequest
+                    }
+                }
             }
         }
     }

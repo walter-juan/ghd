@@ -17,15 +17,36 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.compose.remixicon.BuildingsBankFill
 import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestGitHubState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
+import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
+import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
+import com.woowla.ghd.presentation.app.AppColors.gitPrOpen
+import com.woowla.ghd.presentation.app.AppColors.info
+import com.woowla.ghd.presentation.app.AppColors.infoContainer
+import com.woowla.ghd.presentation.app.AppColors.onInfo
+import com.woowla.ghd.presentation.app.AppColors.onInfoContainer
+import com.woowla.ghd.presentation.app.AppColors.onSuccess
+import com.woowla.ghd.presentation.app.AppColors.onSuccessContainer
+import com.woowla.ghd.presentation.app.AppColors.onWarning
+import com.woowla.ghd.presentation.app.AppColors.onWarningContainer
+import com.woowla.ghd.presentation.app.AppColors.success
+import com.woowla.ghd.presentation.app.AppColors.successContainer
+import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.presentation.app.AppColors.warningContainer
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.utils.MaterialColors
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 class ComponentsSampleScreen : Screen {
     private val repoToCheck = RepoToCheck(
@@ -68,6 +89,32 @@ class ComponentsSampleScreen : Screen {
         totalCommentsCount = 3,
         repoToCheckId = repoToCheck.id,
         repoToCheck = repoToCheck,
+        mergeable = MergeableGitHubState.MERGEABLE,
+        lastCommitCheckRollupStatus = CommitCheckRollupStatus.PENDING,
+        reviews = listOf()
+    )
+    private val review = Review(
+        id = "",
+        url = "",
+        submittedAt = Clock.System.now().minus(10.minutes),
+        state = ReviewState.CHANGES_REQUESTED,
+        authorLogin = "walter-juan",
+        authorUrl = null,
+        authorAvatarUrl = "https://picsum.photos/200/300",
+    )
+    private val reviewsSamples = listOf(
+        listOf(),
+        listOf(review.copy(state = ReviewState.COMMENTED), review.copy(state = ReviewState.DISMISSED)),
+        listOf(review.copy(state = ReviewState.CHANGES_REQUESTED), review.copy(state = ReviewState.APPROVED)),
+        listOf(review.copy(state = ReviewState.COMMENTED), review.copy(state = ReviewState.APPROVED)),
+        listOf(review.copy(state = ReviewState.PENDING), review.copy(state = ReviewState.APPROVED)),
+        listOf(review.copy(state = ReviewState.COMMENTED), review.copy(state = ReviewState.CHANGES_REQUESTED)),
+        listOf(review.copy(state = ReviewState.APPROVED)),
+        listOf(review.copy(state = ReviewState.CHANGES_REQUESTED)),
+        listOf(review.copy(state = ReviewState.COMMENTED)),
+        listOf(review.copy(state = ReviewState.DISMISSED)),
+        listOf(review.copy(state = ReviewState.PENDING)),
+        listOf(review.copy(state = ReviewState.UNKNOWN)),
     )
 
     @Composable
@@ -252,12 +299,19 @@ class ComponentsSampleScreen : Screen {
     private fun PullRequestCardSample() {
         val seen = remember { mutableStateOf(false) }
         val useBoldStyle = remember { mutableStateOf(false) }
+        val mergeable = remember { mutableStateOf(0) }
+        val lastCommitCheckRollupStatus = remember { mutableStateOf(0) }
+        val reviewsSample = remember { mutableStateOf(0) }
+
         val pr = pullRequest.copy(
             appSeenAt = if (seen.value) {
                 Clock.System.now().minus(2.days)
             } else {
                 null
-            }
+            },
+            mergeable = MergeableGitHubState.values()[mergeable.value],
+            lastCommitCheckRollupStatus = CommitCheckRollupStatus.values()[lastCommitCheckRollupStatus.value],
+            reviews = reviewsSamples[reviewsSample.value]
         )
 
         SwitchText(
@@ -270,6 +324,49 @@ class ComponentsSampleScreen : Screen {
             checked = useBoldStyle.value,
             onCheckedChange = { useBoldStyle.value = it }
         )
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    val next = mergeable.value + 1
+                    if (next >= MergeableGitHubState.values().size) {
+                        mergeable.value = 0
+                    } else {
+                        mergeable.value = next
+                    }
+                }
+            ) {
+                Text("Change mergeable state")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    val next = lastCommitCheckRollupStatus.value + 1
+                    if (next >= CommitCheckRollupStatus.values().size) {
+                        lastCommitCheckRollupStatus.value = 0
+                    } else {
+                        lastCommitCheckRollupStatus.value = next
+                    }
+                }
+            ) {
+                Text("Change commit check")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    val next = reviewsSample.value + 1
+                    if (next >= reviewsSamples.size) {
+                        reviewsSample.value = 0
+                    } else {
+                        reviewsSample.value = next
+                    }
+                }
+            ) {
+                Text("Change reviews")
+            }
+        }
 
         Spacer(modifier = Modifier.size(5.dp))
 
@@ -428,7 +525,7 @@ class ComponentsSampleScreen : Screen {
     @Composable
     fun ColorsSample() {
         Text(
-            text = "Color samples",
+            text = "Material colors",
             style = MaterialTheme.typography.bodyLarge
         )
         Divider()
@@ -480,6 +577,41 @@ class ComponentsSampleScreen : Screen {
             }
             Row {
                 ColorBox("Scrim", MaterialTheme.colorScheme.scrim, MaterialTheme.colorScheme.primary)
+            }
+        }
+
+        Text(
+            text = "Custom colors",
+            style = MaterialTheme.typography.bodyLarge
+        )
+        Divider()
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row {
+                ColorBox("Git PR draft", MaterialTheme.colorScheme.gitPrDraft, Color.White)
+                ColorBox("Git PR open", MaterialTheme.colorScheme.gitPrOpen, Color.White)
+                ColorBox("Git PR merged", MaterialTheme.colorScheme.gitPrMerged, Color.White)
+                ColorBox("Git PR closed", MaterialTheme.colorScheme.gitPrClosed, Color.White)
+            }
+            Row {
+                ColorBox("Info", MaterialTheme.colorScheme.info, MaterialTheme.colorScheme.onInfo)
+                ColorBox("On Info", MaterialTheme.colorScheme.onInfo, MaterialTheme.colorScheme.info)
+                ColorBox("Info Container", MaterialTheme.colorScheme.infoContainer, MaterialTheme.colorScheme.onInfoContainer)
+                ColorBox("On Info Container", MaterialTheme.colorScheme.onInfoContainer, MaterialTheme.colorScheme.infoContainer)
+            }
+            Row {
+                ColorBox("Success", MaterialTheme.colorScheme.success, MaterialTheme.colorScheme.onSuccess)
+                ColorBox("On Success", MaterialTheme.colorScheme.onSuccess, MaterialTheme.colorScheme.success)
+                ColorBox("Success Container", MaterialTheme.colorScheme.successContainer, MaterialTheme.colorScheme.onSuccessContainer)
+                ColorBox("On Success Container", MaterialTheme.colorScheme.onSuccessContainer, MaterialTheme.colorScheme.successContainer)
+            }
+            Row {
+                ColorBox("Warning", MaterialTheme.colorScheme.warning, MaterialTheme.colorScheme.onWarning)
+                ColorBox("On Warning", MaterialTheme.colorScheme.onWarning, MaterialTheme.colorScheme.warning)
+                ColorBox("Warning Container", MaterialTheme.colorScheme.warningContainer, MaterialTheme.colorScheme.onWarningContainer)
+                ColorBox("On Warning Container", MaterialTheme.colorScheme.onWarningContainer, MaterialTheme.colorScheme.warningContainer)
             }
         }
     }

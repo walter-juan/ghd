@@ -20,6 +20,33 @@ query GetPullRequests($owner: String!, $name: String!, $states: [PullRequestStat
                         login
                         avatarUrl
                     }
+                    mergeable
+                    commits(last: 1) {
+                        edges {
+                            node {
+                                commit {
+                                    statusCheckRollup {
+                                        state
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    latestReviews(last: $last) {
+                        edges {
+                            node {
+                                id
+                                submittedAt
+                                url
+                                state
+                                author {
+                                    url
+                                    login
+                                    avatarUrl
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

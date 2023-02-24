@@ -2,14 +2,13 @@ package com.woowla.ghd.domain.requests
 
 import kotlinx.datetime.Instant
 
-data class UpsertReleaseRequest(
+data class UpsertReviewRequest(
     val id: String,
-    val name: String?,
-    val tagName: String,
+    val state: String?,
     val url: String,
-    val publishedAt: Instant?,
+    val submittedAt: Instant?,
     val authorLogin: String?,
     val authorUrl: String?,
     val authorAvatarUrl: String?,
-    val repoToCheckId: Long
+    val pullRequestId: String
 )
