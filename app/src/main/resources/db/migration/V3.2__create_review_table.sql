@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS review(
+    id CHARACTER VARYING NOT NULL PRIMARY KEY,
+    submitted_at TIMESTAMP(9),
+    url CHARACTER VARYING,
+    state CHARACTER VARYING,
+    author_login CHARACTER VARYING,
+    author_url CHARACTER VARYING,
+    author_avatar_url CHARACTER VARYING,
+    pull_request_id CHARACTER VARYING NOT NULL REFERENCES pull_request(id) ON DELETE CASCADE
+);

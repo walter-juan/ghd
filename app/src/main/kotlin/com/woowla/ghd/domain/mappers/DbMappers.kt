@@ -3,51 +3,97 @@ package com.woowla.ghd.domain.mappers
 import com.woowla.ghd.data.local.db.entities.DbPullRequest
 import com.woowla.ghd.data.local.db.entities.DbRelease
 import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
+import com.woowla.ghd.data.local.db.entities.DbReview
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
-import com.woowla.ghd.domain.entities.SyncSettings
+import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestGitHubState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.factory.Mappers
+import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.SyncSettings
+import com.woowla.ghd.utils.enumValueOfOrDefault
 
-@Mapper(uses = [EntityIdMapper::class, CheckTimeoutMapper::class, PullRequestCleanUpTimeoutMapper::class, PullRequestGitHubStateMapper::class])
-interface DbMappers {
-    companion object {
-        val INSTANCE: DbMappers = Mappers.getMapper(DbMappers::class.java)
-    }
+fun DbSyncSettings.toSyncSettings(): SyncSettings {
+    return SyncSettings(
+        githubPatToken = githubPatToken,
+        checkTimeout = checkTimeoutToValidCheckTimeout(checkTimeout),
+        pullRequestCleanUpTimeout = cleanUpTimeoutToValidCleanUpTimeout(pullRequestCleanUpTimeout),
+        synchronizedAt = synchronizedAt
+    )
+}
 
-    @Mapping(target = "checkTimeout", source = "checkTimeout", qualifiedByName = ["CheckTimeout", "CheckTimeoutToValidCheckTimeout"])
-    @Mapping(target = "pullRequestCleanUpTimeout", source = "pullRequestCleanUpTimeout", qualifiedByName = ["PullRequestCleanUpTimeout", "PullRequestCleanUpTimeoutToValidPullRequestCleanUpTimeout"])
-    fun dbSyncSettingsToSyncSettings(dbSyncSettings: DbSyncSettings): SyncSettings
+fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
+    return RepoToCheck(
+        id = id.value,
+        owner = owner,
+        name = name,
+        pullNotificationsEnabled = pullNotificationsEnabled,
+        releaseNotificationsEnabled = releaseNotificationsEnabled,
+        groupName = groupName,
+        pullBranchRegex = pullBranchRegex
+    )
+}
 
-    @Mapping(target = "pullNotificationsEnabled", defaultValue = "false")
-    @Mapping(target = "releaseNotificationsEnabled", defaultValue = "false")
-    fun dbRepoToCheckToRepoToCheck(dbRepoToCheck: DbRepoToCheck): RepoToCheck
+fun DbPullRequest.toPullRequest(): PullRequest {
+    return PullRequest(
+        id = id.value,
+        number = number,
+        url = url,
+        gitHubState = enumValueOfOrDefault(state, PullRequestGitHubState.UNKNOWN),
+        title = title,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        mergedAt = mergedAt,
+        draft = draft,
+        baseRef = baseRef,
+        headRef = headRef,
+        authorLogin = authorLogin,
+        authorUrl = authorUrl,
+        authorAvatarUrl = authorAvatarUrl,
+        appSeenAt = appSeenAt,
+        totalCommentsCount = totalCommentsCount,
+        repoToCheckId = repoToCheck.id.value,
+        lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
+        mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
+        reviews = reviews.map { it.toReview() },
+        repoToCheck = repoToCheck.toRepoToCheck()
+    )
+}
 
-    @Mapping(target = "pullNotificationsEnabled", defaultValue = "false")
-    @Mapping(target = "releaseNotificationsEnabled", defaultValue = "false")
-    fun dbRepoToCheckToRepoToCheck(dbRepoToCheck: List<DbRepoToCheck>): List<RepoToCheck>
+fun DbReview.toReview(): Review {
+    return Review(
+        id = id.value,
+        url = url,
+        submittedAt = submittedAt,
+        state = enumValueOfOrDefault(state, ReviewState.UNKNOWN),
+        authorLogin = authorLogin,
+        authorUrl = authorUrl,
+        authorAvatarUrl = authorAvatarUrl
+    )
+}
 
-    @Mapping(target = "id", source = "dbPullRequest.id")
-    @Mapping(target = "gitHubState", source = "dbPullRequest.state")
-    @Mapping(target = "repoToCheck", source = "dbPullRequest.repoToCheck")
-    fun dbPullRequestToPullRequest(dbPullRequest: DbPullRequest): PullRequest
+fun DbRelease.toRelease(): Release {
+    return Release(
+        id = id.value,
+        name = name,
+        tagName = tagName,
+        url = url,
+        publishedAt = publishedAt,
+        authorLogin = authorLogin,
+        authorUrl = authorUrl,
+        authorAvatarUrl = authorAvatarUrl,
+        repoToCheckId = repoToCheck.id.value,
+        repoToCheck = repoToCheck.toRepoToCheck()
+    )
+}
 
-    @Mapping(target = "id", source = "dbPullRequest.id")
-    @Mapping(target = "gitHubState", source = "dbPullRequest.state")
-    @Mapping(target = "repoToCheck", source = "dbPullRequest.repoToCheck")
-    fun dbPullRequestToPullRequest(dbPullRequest: List<DbPullRequest>): List<PullRequest>
+private fun checkTimeoutToValidCheckTimeout(checkTimeout: Long?): Long {
+    return SyncSettings.getValidCheckTimeout(checkTimeout)
+}
 
-    @Mapping(target = "id", source = "dbRelease.id")
-    @Mapping(target = "name", source = "dbRelease.name")
-    @Mapping(target = "repoToCheck", source = "dbRelease.repoToCheck")
-    fun dbReleaseToRelease(dbRelease: DbRelease): Release
-
-    @Mapping(target = "id", source = "dbRelease.id")
-    @Mapping(target = "name", source = "dbRelease.name")
-    @Mapping(target = "repoToCheck", source = "dbRelease.repoToCheck")
-    fun dbReleaseToRelease(dbRelease: List<DbRelease>): List<Release>
+private fun cleanUpTimeoutToValidCleanUpTimeout(cleanUpTimeout: Long?): Long {
+    return SyncSettings.getValidPullRequestCleanUpTimeout(cleanUpTimeout)
 }

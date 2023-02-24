@@ -139,6 +139,8 @@ object i18n {
     val pull_request_on = "on"
     val pull_request_updated: (Instant) -> String = { "Updated ${it.toAgoString()}" }
 
+    val review_submitted: (Instant) -> String = { "Submitted ${it.toAgoString()}" }
+
     val release_tag = "Tag"
     val release_on = "on"
     val release_published: (Instant) -> String = { "Published ${it.toAgoString()}" }

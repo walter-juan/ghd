@@ -4,26 +4,61 @@ import com.woowla.ghd.data.remote.GetLastReleaseQuery
 import com.woowla.ghd.data.remote.GetPullRequestsQuery
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
 import com.woowla.ghd.domain.requests.UpsertReleaseRequest
+import com.woowla.ghd.domain.requests.UpsertReviewRequest
 import kotlinx.datetime.Instant
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.factory.Mappers
+import kotlinx.datetime.toInstant
 
-@Mapper(uses = [InstantMapper::class, AuthorMapper::class, AnyMapper::class])
-interface ApiMappers {
-    companion object {
-        val INSTANCE: ApiMappers = Mappers.getMapper(ApiMappers::class.java)
-    }
+fun GetPullRequestsQuery.Node.toUpsertPullRequestRequest(repoToCheckId: Long, appSeenAt: Instant? = null): UpsertPullRequestRequest {
+    return UpsertPullRequestRequest(
+        id = id,
+        number = number.toLong(),
+        url = url.toString(),
+        state = state.toString(),
+        title = title,
+        createdAt = createdAt.toString().toInstant(),
+        updatedAt = updatedAt.toString().toInstant(),
+        mergedAt = mergedAt?.toString()?.toInstant(),
+        draft = isDraft,
+        baseRef = baseRefName,
+        headRef = headRefName,
+        authorLogin = author?.login,
+        authorUrl = author?.url?.toString(),
+        authorAvatarUrl = author?.avatarUrl?.toString(),
+        appSeenAt = appSeenAt,
+        totalCommentsCount = totalCommentsCount?.toLong(),
+        mergeable = mergeable.toString(),
+        lastCommitCheckRollupStatus = commits.edges?.first()?.node?.commit?.statusCheckRollup?.state?.toString(),
+        repoToCheckId = repoToCheckId
+    )
+}
 
-    @Mapping(target = "baseRef", source = "pullRequestNode.baseRefName")
-    @Mapping(target = "headRef", source = "pullRequestNode.headRefName")
-    @Mapping(target = "authorLogin", source = "pullRequestNode.author", qualifiedByName = ["Author", "PullRequestAuthorToLoginString"])
-    @Mapping(target = "authorUrl", source = "pullRequestNode.author", qualifiedByName = ["Author", "PullRequestAuthorToUrlString"])
-    @Mapping(target = "authorAvatarUrl", source = "pullRequestNode.author", qualifiedByName = ["Author", "PullRequestAuthorToAvatarUrlString"])
-    fun pullRequestNodeToUpsertRequest(pullRequestNode: GetPullRequestsQuery.Node, appSeenAt: Instant?, repoToCheckId: Long): UpsertPullRequestRequest
+fun GetLastReleaseQuery.LatestRelease.toUpsertReleaseRequest(repoToCheckId: Long): UpsertReleaseRequest {
+    return UpsertReleaseRequest(
+        id = id,
+        name = name,
+        tagName = tagName,
+        url = url.toString(),
+        publishedAt = publishedAt?.toString()?.toInstant(),
+        authorLogin = author?.login,
+        authorUrl = author?.url?.toString(),
+        authorAvatarUrl = author?.avatarUrl?.toString(),
+        repoToCheckId = repoToCheckId
+    )
+}
 
-    @Mapping(target = "authorLogin", source = "lastRelease.author", qualifiedByName = ["Author", "LastReleaseAuthorToLoginString"])
-    @Mapping(target = "authorUrl", source = "lastRelease.author", qualifiedByName = ["Author", "LastReleaseAuthorToUrlString"])
-    @Mapping(target = "authorAvatarUrl", source = "lastRelease.author", qualifiedByName = ["Author", "LastReleaseAuthorToAvatarUrlString"])
-    fun lastReleaseToUpsertRequest(lastRelease: GetLastReleaseQuery.LatestRelease, repoToCheckId: Long): UpsertReleaseRequest
+fun GetPullRequestsQuery.LatestReviews.toUpsertReviewRequests(pullRequestId: String): List<UpsertReviewRequest> {
+    return edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            UpsertReviewRequest(
+                id = node.id,
+                state = node.state.toString(),
+                url = node.url.toString(),
+                submittedAt = node.submittedAt?.toString()?.toInstant(),
+                authorLogin = node.author?.login,
+                authorUrl = node.author?.url?.toString(),
+                authorAvatarUrl = node.author?.avatarUrl?.toString(),
+                pullRequestId = pullRequestId
+            )
+        }
+    } ?: listOf()
 }

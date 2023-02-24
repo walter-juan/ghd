@@ -5,8 +5,8 @@ import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.mappers.ApiMappers
-import com.woowla.ghd.domain.mappers.DbMappers
+import com.woowla.ghd.domain.mappers.toRelease
+import com.woowla.ghd.domain.mappers.toUpsertReleaseRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
@@ -21,7 +21,7 @@ class ReleaseService(
     suspend fun getAll(): Result<List<Release>> {
         return localDataSource.getAllReleases()
             .mapCatching { dbReleases ->
-                DbMappers.INSTANCE.dbReleaseToRelease(dbReleases)
+                dbReleases.map { it.toRelease() }
             }.mapCatching { releases ->
                 releases.sorted()
             }
@@ -79,8 +79,6 @@ class ReleaseService(
     }
 
     private suspend fun fetchLastReleases(repoToCheck: RepoToCheck) {
-        val apiMappers = ApiMappers.INSTANCE
-
         remoteDataSource
             .getLastRelease(owner = repoToCheck.owner, repo = repoToCheck.name)
             .onSuccess {
@@ -89,7 +87,7 @@ class ReleaseService(
             }
             .onSuccess { apiRelease ->
                 // insert the new one
-                val releaseUpsertRequest = apiMappers.lastReleaseToUpsertRequest(apiRelease, repoToCheck.id)
+                val releaseUpsertRequest = apiRelease.toUpsertReleaseRequest(repoToCheck.id)
                 localDataSource.upsertRelease(releaseUpsertRequest)
             }
     }

@@ -31,7 +31,7 @@ fun ReleaseCard(release: Release) {
             openWebpage(release.url)
         },
         overlineText = {
-            Text(text = release.publishedAt.toHRString(), maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(text = release.publishedAt?.toHRString() ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis)
         },
         headlineText = {
             Text(text = "${release.repoToCheck.owner}/${release.repoToCheck.name}", maxLines = 1, overflow = TextOverflow.Ellipsis)

@@ -22,7 +22,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgeDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -59,7 +62,7 @@ fun IconCard(
     var hover by remember { mutableStateOf(false) }
 
     val alphaAnimationDurationMillis = 150
-    val paddingValues = PaddingValues(10.dp)
+    val paddingValues = PaddingValues(5.dp)
 
     val selectedAlpha: Float by animateFloatAsState(
         targetValue = if (selected) 0.35f else 1f,
@@ -113,13 +116,7 @@ fun IconCard(
     }
 }
 
-@Composable
-fun IconCardSpacer(
-    modifier: Modifier = Modifier.padding(vertical = 2.dp),
-) {
-    Spacer(modifier = modifier)
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowTitle(
     text: String,
@@ -127,16 +124,21 @@ fun IconCardRowTitle(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     IconCardRowTitle(
         text = buildAnnotatedString { append(text) },
         icon = icon,
         iconTint = iconTint,
         iconBackgroundColor = iconBackgroundColor,
-        rowColor = rowColor
+        rowColor = rowColor,
+        showBadge = showBadge,
+        badgeColor = badgeColor,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowTitle(
     text: AnnotatedString,
@@ -144,6 +146,8 @@ fun IconCardRowTitle(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -152,14 +156,21 @@ fun IconCardRowTitle(
             .background(color = rowColor, shape = RoundedCornerShape(5.dp))
     ) {
         val modifier = Modifier
-            .padding(end = 10.dp)
             .background(color = iconBackgroundColor, shape = RoundedCornerShape(5.dp))
             .padding(5.dp)
             .size(20.dp)
-        if (icon == null) {
-            Box(modifier = modifier)
-        } else {
-            Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+        Box(
+            contentAlignment = Alignment.TopEnd,
+            modifier = Modifier.padding(end = 10.dp)
+        ) {
+            if (icon == null) {
+                Box(modifier = modifier)
+            } else {
+                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                if (showBadge) {
+                    Badge(containerColor = badgeColor)
+                }
+            }
         }
         Text(
             text = text,
@@ -170,6 +181,7 @@ fun IconCardRowTitle(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowContent(
     text: String,
@@ -177,16 +189,21 @@ fun IconCardRowContent(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     IconCardRowContent(
         text = buildAnnotatedString { append(text) },
         icon = icon,
         iconTint = iconTint,
         iconBackgroundColor = iconBackgroundColor,
-        rowColor = rowColor
+        rowColor = rowColor,
+        showBadge = showBadge,
+        badgeColor = badgeColor,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowContent(
     text: AnnotatedString,
@@ -194,6 +211,8 @@ fun IconCardRowContent(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -202,14 +221,21 @@ fun IconCardRowContent(
             .background(color = rowColor, shape = RoundedCornerShape(5.dp))
     ) {
         val modifier = Modifier
-            .padding(end = 10.dp)
             .background(color = iconBackgroundColor, shape = RoundedCornerShape(5.dp))
             .padding(5.dp)
             .size(20.dp)
-        if (icon == null) {
-            Box(modifier = modifier)
-        } else {
-            Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+        Box(
+            contentAlignment = Alignment.TopEnd,
+            modifier = Modifier.padding(end = 10.dp)
+        ) {
+            if (icon == null) {
+                Box(modifier = modifier)
+            } else {
+                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                if (showBadge) {
+                    Badge(containerColor = badgeColor)
+                }
+            }
         }
         Text(
             text = text,
@@ -220,6 +246,7 @@ fun IconCardRowContent(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowSmallContent(
     text: String,
@@ -227,16 +254,21 @@ fun IconCardRowSmallContent(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     IconCardRowSmallContent(
         text = buildAnnotatedString { append(text) },
         icon = icon,
         iconTint = iconTint,
         iconBackgroundColor = iconBackgroundColor,
-        rowColor = rowColor
+        rowColor = rowColor,
+        showBadge = showBadge,
+        badgeColor = badgeColor,
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowSmallContent(
     text: AnnotatedString,
@@ -244,6 +276,8 @@ fun IconCardRowSmallContent(
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = BadgeDefaults.containerColor,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -252,14 +286,21 @@ fun IconCardRowSmallContent(
             .background(color = rowColor, shape = RoundedCornerShape(5.dp))
     ) {
         val modifier = Modifier
-            .padding(start = 5.dp, end = 15.dp)
             .background(color = iconBackgroundColor, shape = RoundedCornerShape(5.dp))
             .padding(2.5.dp)
             .size(15.dp)
-        if (icon == null) {
-            Box(modifier = modifier)
-        } else {
-            Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+        Box(
+            contentAlignment = Alignment.TopEnd,
+            modifier = Modifier.padding(start = 5.dp, end = 15.dp)
+        ) {
+            if (icon == null) {
+                Box(modifier = modifier)
+            } else {
+                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                if (showBadge) {
+                    Badge(containerColor = badgeColor)
+                }
+            }
         }
         Text(
             text = text,

@@ -17,5 +17,5 @@ class DbRepoToCheck(id: EntityID<Long>) : LongEntity(id) {
     var pullBranchRegex by DbRepoToCheckTable.pullBranchRegex
 
     val releases by DbRelease referrersOn DbReleaseTable.repoToCheckId
-    val pullRequests by DbPullRequest referrersOn DbPullRequestTable.repoToCheck
+    val pullRequests by DbPullRequest referrersOn DbPullRequestTable.repoToCheckId
 }

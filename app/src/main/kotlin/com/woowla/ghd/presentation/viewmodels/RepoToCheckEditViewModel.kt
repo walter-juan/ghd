@@ -3,7 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.mappers.DomainMappers
+import com.woowla.ghd.domain.mappers.toUpsertRepoToCheckRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.domain.services.RepoToCheckService
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +20,7 @@ class RepoToCheckEditViewModel(
     private val initialStateValue: UpsertRepoToCheckRequest = if (repoToCheck == null) {
         UpsertRepoToCheckRequest.newInstance()
     } else {
-        DomainMappers.INSTANCE.repoToCheckToUpsertRequest(repoToCheck)
+        repoToCheck.toUpsertRepoToCheckRequest()
     }
     private val _updateRequest = MutableStateFlow(initialStateValue)
     val updateRequest: StateFlow<UpsertRepoToCheckRequest> = _updateRequest

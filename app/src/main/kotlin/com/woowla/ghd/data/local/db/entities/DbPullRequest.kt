@@ -1,5 +1,6 @@
 package com.woowla.ghd.data.local.db.entities
 
+import com.woowla.ghd.data.local.db.tables.DbReviewTable
 import com.woowla.ghd.data.local.db.tables.DbPullRequestTable
 import com.woowla.ghd.data.local.db.utils.TextEntity
 import com.woowla.ghd.data.local.db.utils.TextEntityClass
@@ -22,5 +23,8 @@ class DbPullRequest(id: EntityID<String>) : TextEntity(id) {
     var authorAvatarUrl by DbPullRequestTable.authorAvatarUrl
     var appSeenAt by DbPullRequestTable.appSeenAt
     var totalCommentsCount by DbPullRequestTable.totalCommentsCount
-    var repoToCheck by DbRepoToCheck referencedOn DbPullRequestTable.repoToCheck
+    var mergeable by DbPullRequestTable.mergeable
+    var lastCommitCheckRollupStatus by DbPullRequestTable.lastCommitCheckRollupStatus
+    var repoToCheck by DbRepoToCheck referencedOn DbPullRequestTable.repoToCheckId
+    val reviews by DbReview referrersOn DbReviewTable.pullRequestId
 }

@@ -7,14 +7,13 @@ data class Release(
     val name: String?,
     val tagName: String,
     val url: String,
-    val publishedAt: Instant,
+    val publishedAt: Instant?,
     val authorLogin: String?,
     val authorUrl: String?,
     val authorAvatarUrl: String?,
     val repoToCheckId: Long,
     val repoToCheck: RepoToCheck
 ): Comparable<Release> {
-
     companion object {
         val defaultComparator = compareByDescending<Release> { it.publishedAt }
     }

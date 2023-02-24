@@ -7,8 +7,9 @@ import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.mappers.ApiMappers
-import com.woowla.ghd.domain.mappers.DbMappers
+import com.woowla.ghd.domain.mappers.toPullRequest
+import com.woowla.ghd.domain.mappers.toUpsertPullRequestRequest
+import com.woowla.ghd.domain.mappers.toUpsertReviewRequests
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
@@ -26,7 +27,7 @@ class PullRequestService(
     suspend fun getAll(): Result<List<PullRequest>> {
         return localDataSource.getAllPullRequests()
             .mapCatching { dbPullRequests ->
-                DbMappers.INSTANCE.dbPullRequestToPullRequest(dbPullRequests)
+                dbPullRequests.map { it.toPullRequest() }
             }.mapCatching { pullRequests ->
                 pullRequests.sorted()
             }
@@ -133,17 +134,32 @@ class PullRequestService(
     }
 
     private suspend fun fetchPullRequests(repoToCheck: RepoToCheck, state: ApiPullRequestState) {
-        val apiMappers = ApiMappers.INSTANCE
-        remoteDataSource
-            .getPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name, state = state)
+        val pullRequestsResult = remoteDataSource.getPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name, state = state)
+
+        // pull requests
+        pullRequestsResult
             .mapCatching { apiPullRequests ->
                 apiPullRequests.map { apiPullRequest ->
                     val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.appSeenAt
-                    apiMappers.pullRequestNodeToUpsertRequest(pullRequestNode = apiPullRequest, appSeenAt = appSeenAt, repoToCheckId = repoToCheck.id)
+                    apiPullRequest.toUpsertPullRequestRequest(appSeenAt = appSeenAt, repoToCheckId = repoToCheck.id)
                 }
             }
             .onSuccess { pullUpsertRequests ->
                 localDataSource.upsertPullRequests(pullUpsertRequests)
+            }
+
+        // reviews
+        pullRequestsResult
+            .mapCatching { apiPullRequests ->
+                apiPullRequests.map { apiPullRequest ->
+                    apiPullRequest.latestReviews?.toUpsertReviewRequests(pullRequestId = apiPullRequest.id) ?: listOf()
+                }.flatten()
+            }
+            .onSuccess { reviewUpsertRequests ->
+                localDataSource.removeReviewsByPullRequest(reviewUpsertRequests.map { it.pullRequestId })
+            }
+            .onSuccess { reviewUpsertRequests ->
+                localDataSource.upsertReviews(reviewUpsertRequests)
             }
     }
 }

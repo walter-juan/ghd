@@ -32,10 +32,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.remixicon.CommunicationChat3Line
+import com.woowla.compose.remixicon.DevelopmentGitMergeLine
+import com.woowla.compose.remixicon.EditorListCheck2
 import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemCheckboxBlankCircleLine
 import com.woowla.compose.remixicon.SystemCheckboxCircleFill
 import com.woowla.compose.remixicon.SystemHistoryLine
+import com.woowla.compose.remixicon.UserTeamLine
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.presentation.app.AppIconsPainter
@@ -134,7 +137,7 @@ fun PullRequestCardNew(
             IconCardRowTitle(
                 text = pullRequestDecorator.title,
                 icon = painterResource(pullRequestDecorator.state.iconResPath),
-                iconTint = pullRequestDecorator.state.iconTint()
+                iconTint = pullRequestDecorator.state.iconTint(),
             )
             IconCardRowSmallContent(
                 text = buildAnnotatedString {
@@ -163,19 +166,33 @@ fun PullRequestCardNew(
                     }
                 }
             )
-            IconCardSpacer()
             IconCardRowSmallContent(
                 text = pullRequestDecorator.updatedAt,
                 icon = RemixiconPainter.SystemHistoryLine
             )
             if (showExtras) {
-//                IconCardSpacer()
-//                IconCardRowSmallContent(text = "1 of 3 checks have failed", icon = RemixiconPainter.EditorListCheck2)
-//                IconCardSpacer()
-//                IconCardRowSmallContent(text = "Reviewed by xxxx, yyyy", icon = RemixiconPainter.UserTeamLine)
-//                IconCardSpacer()
-//                IconCardRowSmallContent(text = "3 comments, with 2 unseen", icon = RemixiconPainter.CommunicationChat3Line)
-                IconCardSpacer()
+                if (pullRequestDecorator.showMergeableBadge) {
+                    IconCardRowSmallContent(
+                        text = pullRequestDecorator.mergeable,
+                        icon = RemixiconPainter.DevelopmentGitMergeLine,
+                        showBadge = true,
+                        badgeColor = pullRequestDecorator.mergeableBadgeColor(),
+                    )
+                }
+                IconCardRowSmallContent(
+                    text = pullRequestDecorator.commitChecks,
+                    icon = RemixiconPainter.EditorListCheck2,
+                    showBadge = pullRequestDecorator.showCommitsCheckBadge,
+                    badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
+                )
+                if (pullRequest.state == PullRequestState.OPEN) {
+                    IconCardRowSmallContent(
+                        text = pullRequestDecorator.reviews(),
+                        icon = RemixiconPainter.UserTeamLine,
+                        showBadge = pullRequestDecorator.showReviewsBadge,
+                        badgeColor = pullRequestDecorator.reviewsBadgeColor(),
+                    )
+                }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.comments,
                     icon = RemixiconPainter.CommunicationChat3Line
