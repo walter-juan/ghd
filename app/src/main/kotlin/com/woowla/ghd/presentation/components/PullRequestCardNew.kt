@@ -96,7 +96,7 @@ fun PullRequestCardNew(
             }
         },
         leadingContent = { _, _ ->
-            Box(modifier = Modifier.fillMaxHeight().width(5.dp).background(pullRequestDecorator.state.iconTint))
+            Box(modifier = Modifier.fillMaxHeight().width(5.dp).background(pullRequestDecorator.state.iconTint()))
         },
         trailingContent = { paddingValues, hover ->
             Box(modifier = Modifier.padding(paddingValues)) {
@@ -134,7 +134,7 @@ fun PullRequestCardNew(
             IconCardRowTitle(
                 text = pullRequestDecorator.title,
                 icon = painterResource(pullRequestDecorator.state.iconResPath),
-                iconTint = pullRequestDecorator.state.iconTint
+                iconTint = pullRequestDecorator.state.iconTint()
             )
             IconCardRowSmallContent(
                 text = buildAnnotatedString {

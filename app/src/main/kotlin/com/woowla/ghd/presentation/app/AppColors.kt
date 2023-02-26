@@ -1,5 +1,6 @@
 package com.woowla.ghd.presentation.app
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
@@ -8,10 +9,14 @@ import androidx.compose.ui.graphics.Color
  * application colors
  */
 object AppColors {
-    val gitPrMerged = Color(0xff745dd0)
-    val gitPrOpen = Color(0xff679e60)
-    val gitPrClosed = Color(0xffb04040)
-    val gitPrDraft = Color(0xff71777f)
+    val ColorScheme.gitPrMerged: Color
+        get() = Color(0xff745dd0)
+    val ColorScheme.gitPrOpen: Color
+        get() = Color(0xff679e60)
+    val ColorScheme.gitPrClosed: Color
+        get() = Color(0xffb04040)
+    val ColorScheme.gitPrDraft: Color
+        get() = Color(0xff71777f)
 
     val md_theme_light_primary = Color(0xFF724C9E)
     val md_theme_light_onPrimary = Color(0xFFFFFFFF)

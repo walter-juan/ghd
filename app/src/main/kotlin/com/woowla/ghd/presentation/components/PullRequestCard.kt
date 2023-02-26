@@ -44,7 +44,7 @@ fun PullRequestCard(pullRequest: PullRequest, onSeenClick: () -> Unit) {
             openWebpage(pullRequest.url)
         },
         leadingContent = { _ ->
-            Box(modifier = Modifier.fillMaxHeight().width(5.dp).background(pullRequestDecorator.state.iconTint))
+            Box(modifier = Modifier.fillMaxHeight().width(5.dp).background(pullRequestDecorator.state.iconTint()))
         },
         hoverContent = { paddingValues ->
             Row(
