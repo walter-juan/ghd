@@ -1,20 +1,20 @@
 [versions]
-kotlin = "1.8.0"
-apollo3 = "3.7.4"
+kotlin = "1.8.10"
+apollo3 = "3.7.5"
 mapstruct = "1.5.3.Final"
 voyager = "1.0.0-rc02"
-kotest = "5.5.4"
+kotest = "5.5.5"
 exposed = "0.41.1"
-ktor = "2.2.3"
+ktor = "2.2.4"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version = "1.3.0" }
+compose = { id = "org.jetbrains.compose", version = "1.3.1" }
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version = "3.1.0" }
-benmanesversions = { id = "com.github.ben-manes.versions", version = "0.45.0" }
+benmanesversions = { id = "com.github.ben-manes.versions", version = "0.46.0" }
 
 [libraries]
 # kotlin coroutines, needed because we are using the main dispatcher
@@ -36,7 +36,7 @@ exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 # logger
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.5" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.6" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.1" }
 # An annotation processor for generating type-safe bean mappers
@@ -49,11 +49,11 @@ voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-naviga
 voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
 voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 # YAML support for kotlinx.serialization
-kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.51.0" }
+kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.53.0" }
 # Kotlin data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = { group = "net.swiftzer.semver", name = "semver", version = "1.2.0" }
 # Database migration, release notes https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html
-flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "9.14.1" }
+flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "9.16.1" }
 # state machine
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
 
