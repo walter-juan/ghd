@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+
+## [1.3.2]
+### Added
+- Add the reviewers, status and mergeable to pull request card
+### Fixed
+- Some colors
+
 ## [1.3.1]
 ### Added
 - New card designs for pull requests, releases and repos to check
@@ -119,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.1...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.2...dev
+[1.3.2]: https://github.com/walter-juan/ghd/releases/tag/v1.3.2
 [1.3.1]: https://github.com/walter-juan/ghd/releases/tag/v1.3.1
 [1.3.0]: https://github.com/walter-juan/ghd/releases/tag/v1.3.0
 [1.2.6]: https://github.com/walter-juan/ghd/releases/tag/v1.2.6
