@@ -53,7 +53,12 @@ FileUtils.remove_dir("icons/remixicon/src/main/resources/remixicon", true)
 
 Dir.chdir("icons/remixicon/src/main/resources/download/remixicon/icons") {
     Dir.entries('.').select {|f| !f.start_with?('.')}.each { |f|
-      name = f.downcase.gsub('-', '_').gsub(' ', '_')
+      name = f.downcase
+        .gsub(/&/, '_and_') # folder special case
+        .gsub(/\W/, '_')    # clean non word characters
+        .gsub('-', '_')
+        .gsub(' ', '_')
+        .gsub(/_(_)+/, '_')
       File.rename f, name
     }
 }
@@ -61,7 +66,10 @@ Dir.chdir("icons/remixicon/src/main/resources/download/remixicon/icons") {
 Dir.entries("icons/remixicon/src/main/resources/download/remixicon/icons").select {|f| !f.start_with?('.')}.each { |f|
   Dir.chdir("icons/remixicon/src/main/resources/download/remixicon/icons/#{f}") {
     Dir.entries('.').select {|f| !f.start_with?('.')}.each { |f|
-      name = f.downcase.gsub('-', '_').gsub(' ', '_')
+      name = f.downcase
+        .gsub('-', '_')
+        .gsub(' ', '_')
+        .gsub(/_(_)+/, '_')
       File.rename f, name
     }
   }

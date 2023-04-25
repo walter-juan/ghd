@@ -54,7 +54,11 @@ FileUtils.remove_dir("icons/octicons/src/main/resources/octicons", true)
 Dir.chdir("icons/octicons/src/main/resources/download/octicons/icons") {
     Dir.entries('.').select {|f| !f.start_with?('.')}.each { |f|
         if f.end_with?('-24.svg')
-            name = f.downcase.gsub('-', '_').gsub(' ', '_').gsub('_24.svg', '.svg')
+            name = f.downcase
+              .gsub('-', '_')
+              .gsub(' ', '_')
+              .gsub('_24.svg', '.svg')
+              .gsub(/_(_)+/, '_')
             File.rename f, name
         else
             File.delete(f)
