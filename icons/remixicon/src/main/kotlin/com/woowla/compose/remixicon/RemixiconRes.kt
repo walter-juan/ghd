@@ -95,9 +95,6 @@ public val RemixiconRes.DesignScissors2Line: String
 public val RemixiconRes.DesignLayoutLine: String
     get() = "remixicon/design/layout_line.svg"
 
-public val RemixiconRes.DesignDragMoveLine: String
-    get() = "remixicon/design/drag_move_line.svg"
-
 public val RemixiconRes.DesignTBoxFill: String
     get() = "remixicon/design/t_box_fill.svg"
 
@@ -254,9 +251,6 @@ public val RemixiconRes.DesignLayoutTopLine: String
 public val RemixiconRes.DesignPencilRuler2Line: String
     get() = "remixicon/design/pencil_ruler_2_line.svg"
 
-public val RemixiconRes.DesignDragMoveFill: String
-    get() = "remixicon/design/drag_move_fill.svg"
-
 public val RemixiconRes.DesignTBoxLine: String
     get() = "remixicon/design/t_box_line.svg"
 
@@ -380,9 +374,6 @@ public val RemixiconRes.DesignSliceFill: String
 public val RemixiconRes.DesignInputMethodFill: String
     get() = "remixicon/design/input_method_fill.svg"
 
-public val RemixiconRes.DesignDragMove2Fill: String
-    get() = "remixicon/design/drag_move_2_fill.svg"
-
 public val RemixiconRes.DesignClockwise2Line: String
     get() = "remixicon/design/clockwise_2_line.svg"
 
@@ -443,9 +434,6 @@ public val RemixiconRes.DesignGridLine: String
 public val RemixiconRes.DesignScissorsLine: String
     get() = "remixicon/design/scissors_line.svg"
 
-public val RemixiconRes.DesignDragMove2Line: String
-    get() = "remixicon/design/drag_move_2_line.svg"
-
 public val RemixiconRes.DesignInputMethodLine: String
     get() = "remixicon/design/input_method_line.svg"
 
@@ -496,6 +484,9 @@ public val RemixiconRes.DesignLayoutLeft2Fill: String
 
 public val RemixiconRes.BuildingsBuildingLine: String
     get() = "remixicon/buildings/building_line.svg"
+
+public val RemixiconRes.BuildingsHomeOfficeLine: String
+    get() = "remixicon/buildings/home_office_line.svg"
 
 public val RemixiconRes.BuildingsHomeWifiLine: String
     get() = "remixicon/buildings/home_wifi_line.svg"
@@ -554,6 +545,9 @@ public val RemixiconRes.BuildingsHomeHeartFill: String
 public val RemixiconRes.BuildingsBuildingFill: String
     get() = "remixicon/buildings/building_fill.svg"
 
+public val RemixiconRes.BuildingsHomeOfficeFill: String
+    get() = "remixicon/buildings/home_office_fill.svg"
+
 public val RemixiconRes.BuildingsHomeWifiFill: String
     get() = "remixicon/buildings/home_wifi_fill.svg"
 
@@ -589,6 +583,9 @@ public val RemixiconRes.BuildingsHome8Fill: String
 
 public val RemixiconRes.BuildingsHomeSmileLine: String
     get() = "remixicon/buildings/home_smile_line.svg"
+
+public val RemixiconRes.BuildingsSchoolLine: String
+    get() = "remixicon/buildings/school_line.svg"
 
 public val RemixiconRes.BuildingsHome3Fill: String
     get() = "remixicon/buildings/home_3_fill.svg"
@@ -635,6 +632,9 @@ public val RemixiconRes.BuildingsHomeSmileFill: String
 public val RemixiconRes.BuildingsHome8Line: String
     get() = "remixicon/buildings/home_8_line.svg"
 
+public val RemixiconRes.BuildingsSchoolFill: String
+    get() = "remixicon/buildings/school_fill.svg"
+
 public val RemixiconRes.BuildingsAncientPavilionFill: String
     get() = "remixicon/buildings/ancient_pavilion_fill.svg"
 
@@ -671,6 +671,9 @@ public val RemixiconRes.DevelopmentGitRepositoryCommitsFill: String
 public val RemixiconRes.DevelopmentHtml5Line: String
     get() = "remixicon/development/html5_line.svg"
 
+public val RemixiconRes.DevelopmentJavascriptLine: String
+    get() = "remixicon/development/javascript_line.svg"
+
 public val RemixiconRes.DevelopmentGitBranchFill: String
     get() = "remixicon/development/git_branch_fill.svg"
 
@@ -703,6 +706,9 @@ public val RemixiconRes.DevelopmentGitRepositoryCommitsLine: String
 
 public val RemixiconRes.DevelopmentHtml5Fill: String
     get() = "remixicon/development/html5_fill.svg"
+
+public val RemixiconRes.DevelopmentJavascriptFill: String
+    get() = "remixicon/development/javascript_fill.svg"
 
 public val RemixiconRes.DevelopmentGitBranchLine: String
     get() = "remixicon/development/git_branch_line.svg"
@@ -755,6 +761,9 @@ public val RemixiconRes.DevelopmentTerminalWindowLine: String
 public val RemixiconRes.DevelopmentGitMergeFill: String
     get() = "remixicon/development/git_merge_fill.svg"
 
+public val RemixiconRes.DevelopmentGitClosePullRequestLine: String
+    get() = "remixicon/development/git_close_pull_request_line.svg"
+
 public val RemixiconRes.DevelopmentCss3Fill: String
     get() = "remixicon/development/css3_fill.svg"
 
@@ -794,185 +803,8 @@ public val RemixiconRes.DevelopmentCodeSSlashLine: String
 public val RemixiconRes.DevelopmentGitRepositoryPrivateLine: String
     get() = "remixicon/development/git_repository_private_line.svg"
 
-public val RemixiconRes.HealthHeartAddFill: String
-    get() = "remixicon/health/heart_add_fill.svg"
-
-public val RemixiconRes.HealthVirusFill: String
-    get() = "remixicon/health/virus_fill.svg"
-
-public val RemixiconRes.HealthFirstAidKitFill: String
-    get() = "remixicon/health/first_aid_kit_fill.svg"
-
-public val RemixiconRes.HealthHandSanitizerLine: String
-    get() = "remixicon/health/hand_sanitizer_line.svg"
-
-public val RemixiconRes.HealthTestTubeFill: String
-    get() = "remixicon/health/test_tube_fill.svg"
-
-public val RemixiconRes.HealthHeartFill: String
-    get() = "remixicon/health/heart_fill.svg"
-
-public val RemixiconRes.HealthHealthBookFill: String
-    get() = "remixicon/health/health_book_fill.svg"
-
-public val RemixiconRes.HealthMedicineBottleFill: String
-    get() = "remixicon/health/medicine_bottle_fill.svg"
-
-public val RemixiconRes.HealthMentalHealthLine: String
-    get() = "remixicon/health/mental_health_line.svg"
-
-public val RemixiconRes.HealthPsychotherapyFill: String
-    get() = "remixicon/health/psychotherapy_fill.svg"
-
-public val RemixiconRes.HealthDossierFill: String
-    get() = "remixicon/health/dossier_fill.svg"
-
-public val RemixiconRes.HealthMicroscopeFill: String
-    get() = "remixicon/health/microscope_fill.svg"
-
-public val RemixiconRes.HealthSurgicalMaskLine: String
-    get() = "remixicon/health/surgical_mask_line.svg"
-
-public val RemixiconRes.HealthRestTimeLine: String
-    get() = "remixicon/health/rest_time_line.svg"
-
-public val RemixiconRes.HealthHeart3Line: String
-    get() = "remixicon/health/heart_3_line.svg"
-
-public val RemixiconRes.HealthHeart2Line: String
-    get() = "remixicon/health/heart_2_line.svg"
-
-public val RemixiconRes.HealthInfraredThermometerLine: String
-    get() = "remixicon/health/infrared_thermometer_line.svg"
-
-public val RemixiconRes.HealthMedicineBottleLine: String
-    get() = "remixicon/health/medicine_bottle_line.svg"
-
-public val RemixiconRes.HealthMentalHealthFill: String
-    get() = "remixicon/health/mental_health_fill.svg"
-
-public val RemixiconRes.HealthPsychotherapyLine: String
-    get() = "remixicon/health/psychotherapy_line.svg"
-
-public val RemixiconRes.HealthDossierLine: String
-    get() = "remixicon/health/dossier_line.svg"
-
-public val RemixiconRes.HealthHeartAddLine: String
-    get() = "remixicon/health/heart_add_line.svg"
-
-public val RemixiconRes.HealthHandSanitizerFill: String
-    get() = "remixicon/health/hand_sanitizer_fill.svg"
-
-public val RemixiconRes.HealthTestTubeLine: String
-    get() = "remixicon/health/test_tube_line.svg"
-
-public val RemixiconRes.HealthVirusLine: String
-    get() = "remixicon/health/virus_line.svg"
-
-public val RemixiconRes.HealthFirstAidKitLine: String
-    get() = "remixicon/health/first_aid_kit_line.svg"
-
-public val RemixiconRes.HealthHeartLine: String
-    get() = "remixicon/health/heart_line.svg"
-
-public val RemixiconRes.HealthHealthBookLine: String
-    get() = "remixicon/health/health_book_line.svg"
-
-public val RemixiconRes.HealthHeart2Fill: String
-    get() = "remixicon/health/heart_2_fill.svg"
-
-public val RemixiconRes.HealthHeart3Fill: String
-    get() = "remixicon/health/heart_3_fill.svg"
-
-public val RemixiconRes.HealthInfraredThermometerFill: String
-    get() = "remixicon/health/infrared_thermometer_fill.svg"
-
-public val RemixiconRes.HealthMicroscopeLine: String
-    get() = "remixicon/health/microscope_line.svg"
-
-public val RemixiconRes.HealthSurgicalMaskFill: String
-    get() = "remixicon/health/surgical_mask_fill.svg"
-
-public val RemixiconRes.HealthRestTimeFill: String
-    get() = "remixicon/health/rest_time_fill.svg"
-
-public val RemixiconRes.HealthHeartsFill: String
-    get() = "remixicon/health/hearts_fill.svg"
-
-public val RemixiconRes.HealthFlaskLine: String
-    get() = "remixicon/health/flask_line.svg"
-
-public val RemixiconRes.HealthNurseLine: String
-    get() = "remixicon/health/nurse_line.svg"
-
-public val RemixiconRes.HealthDislikeFill: String
-    get() = "remixicon/health/dislike_fill.svg"
-
-public val RemixiconRes.HealthThermometerFill: String
-    get() = "remixicon/health/thermometer_fill.svg"
-
-public val RemixiconRes.HealthZzzFill: String
-    get() = "remixicon/health/zzz_fill.svg"
-
-public val RemixiconRes.HealthCapsuleLine: String
-    get() = "remixicon/health/capsule_line.svg"
-
-public val RemixiconRes.HealthEmpathizeLine: String
-    get() = "remixicon/health/empathize_line.svg"
-
-public val RemixiconRes.HealthLungsFill: String
-    get() = "remixicon/health/lungs_fill.svg"
-
-public val RemixiconRes.HealthSyringeLine: String
-    get() = "remixicon/health/syringe_line.svg"
-
-public val RemixiconRes.HealthStethoscopeFill: String
-    get() = "remixicon/health/stethoscope_fill.svg"
-
-public val RemixiconRes.HealthPulseLine: String
-    get() = "remixicon/health/pulse_line.svg"
-
-public val RemixiconRes.HealthHeartPulseFill: String
-    get() = "remixicon/health/heart_pulse_fill.svg"
-
-public val RemixiconRes.HealthFlaskFill: String
-    get() = "remixicon/health/flask_fill.svg"
-
-public val RemixiconRes.HealthNurseFill: String
-    get() = "remixicon/health/nurse_fill.svg"
-
-public val RemixiconRes.HealthHeartsLine: String
-    get() = "remixicon/health/hearts_line.svg"
-
-public val RemixiconRes.HealthZzzLine: String
-    get() = "remixicon/health/zzz_line.svg"
-
-public val RemixiconRes.HealthDislikeLine: String
-    get() = "remixicon/health/dislike_line.svg"
-
-public val RemixiconRes.HealthThermometerLine: String
-    get() = "remixicon/health/thermometer_line.svg"
-
-public val RemixiconRes.HealthEmpathizeFill: String
-    get() = "remixicon/health/empathize_fill.svg"
-
-public val RemixiconRes.HealthCapsuleFill: String
-    get() = "remixicon/health/capsule_fill.svg"
-
-public val RemixiconRes.HealthPulseFill: String
-    get() = "remixicon/health/pulse_fill.svg"
-
-public val RemixiconRes.HealthStethoscopeLine: String
-    get() = "remixicon/health/stethoscope_line.svg"
-
-public val RemixiconRes.HealthHeartPulseLine: String
-    get() = "remixicon/health/heart_pulse_line.svg"
-
-public val RemixiconRes.HealthSyringeFill: String
-    get() = "remixicon/health/syringe_fill.svg"
-
-public val RemixiconRes.HealthLungsLine: String
-    get() = "remixicon/health/lungs_line.svg"
+public val RemixiconRes.DevelopmentGitClosePullRequestFill: String
+    get() = "remixicon/development/git_close_pull_request_fill.svg"
 
 public val RemixiconRes.BusinessCreativeCommonsByFill: String
     get() = "remixicon/business/creative_commons_by_fill.svg"
@@ -997,6 +829,9 @@ public val RemixiconRes.BusinessRecordMailLine: String
 
 public val RemixiconRes.BusinessCalendar2Line: String
     get() = "remixicon/business/calendar_2_line.svg"
+
+public val RemixiconRes.BusinessSeoLine: String
+    get() = "remixicon/business/seo_line.svg"
 
 public val RemixiconRes.BusinessInboxUnarchiveLine: String
     get() = "remixicon/business/inbox_unarchive_line.svg"
@@ -1051,6 +886,9 @@ public val RemixiconRes.BusinessBookmark2Fill: String
 
 public val RemixiconRes.BusinessCalculatorLine: String
     get() = "remixicon/business/calculator_line.svg"
+
+public val RemixiconRes.BusinessPresentationFill: String
+    get() = "remixicon/business/presentation_fill.svg"
 
 public val RemixiconRes.BusinessCloudFill: String
     get() = "remixicon/business/cloud_fill.svg"
@@ -1145,6 +983,9 @@ public val RemixiconRes.BusinessMailLockFill: String
 public val RemixiconRes.BusinessCalculatorFill: String
     get() = "remixicon/business/calculator_fill.svg"
 
+public val RemixiconRes.BusinessPresentationLine: String
+    get() = "remixicon/business/presentation_line.svg"
+
 public val RemixiconRes.BusinessCloudOffLine: String
     get() = "remixicon/business/cloud_off_line.svg"
 
@@ -1168,6 +1009,9 @@ public val RemixiconRes.BusinessReplyAllFill: String
 
 public val RemixiconRes.BusinessBarChart2Fill: String
     get() = "remixicon/business/bar_chart_2_fill.svg"
+
+public val RemixiconRes.BusinessSeoFill: String
+    get() = "remixicon/business/seo_fill.svg"
 
 public val RemixiconRes.BusinessCalendar2Fill: String
     get() = "remixicon/business/calendar_2_fill.svg"
@@ -1250,11 +1094,20 @@ public val RemixiconRes.BusinessLinksFill: String
 public val RemixiconRes.BusinessAwardLine: String
     get() = "remixicon/business/award_line.svg"
 
+public val RemixiconRes.BusinessPassPendingFill: String
+    get() = "remixicon/business/pass_pending_fill.svg"
+
 public val RemixiconRes.BusinessSendPlaneLine: String
     get() = "remixicon/business/send_plane_line.svg"
 
+public val RemixiconRes.BusinessMegaphoneLine: String
+    get() = "remixicon/business/megaphone_line.svg"
+
 public val RemixiconRes.BusinessPrinterFill: String
     get() = "remixicon/business/printer_fill.svg"
+
+public val RemixiconRes.BusinessPassValidLine: String
+    get() = "remixicon/business/pass_valid_line.svg"
 
 public val RemixiconRes.BusinessProjector2Line: String
     get() = "remixicon/business/projector_2_line.svg"
@@ -1352,6 +1205,12 @@ public val RemixiconRes.BusinessMailSendLine: String
 public val RemixiconRes.BusinessCustomerServiceLine: String
     get() = "remixicon/business/customer_service_line.svg"
 
+public val RemixiconRes.BusinessCalendarCloseFill: String
+    get() = "remixicon/business/calendar_close_fill.svg"
+
+public val RemixiconRes.BusinessPassExpiredLine: String
+    get() = "remixicon/business/pass_expired_line.svg"
+
 public val RemixiconRes.BusinessPieChartBoxLine: String
     get() = "remixicon/business/pie_chart_box_line.svg"
 
@@ -1412,14 +1271,23 @@ public val RemixiconRes.BusinessCopyleftLine: String
 public val RemixiconRes.BusinessLinksLine: String
     get() = "remixicon/business/links_line.svg"
 
+public val RemixiconRes.BusinessPassPendingLine: String
+    get() = "remixicon/business/pass_pending_line.svg"
+
 public val RemixiconRes.BusinessAwardFill: String
     get() = "remixicon/business/award_fill.svg"
 
 public val RemixiconRes.BusinessPrinterLine: String
     get() = "remixicon/business/printer_line.svg"
 
+public val RemixiconRes.BusinessPassValidFill: String
+    get() = "remixicon/business/pass_valid_fill.svg"
+
 public val RemixiconRes.BusinessSendPlaneFill: String
     get() = "remixicon/business/send_plane_fill.svg"
+
+public val RemixiconRes.BusinessMegaphoneFill: String
+    get() = "remixicon/business/megaphone_fill.svg"
 
 public val RemixiconRes.BusinessGlobalLine: String
     get() = "remixicon/business/global_line.svg"
@@ -1429,6 +1297,12 @@ public val RemixiconRes.BusinessCreativeCommonsNdFill: String
 
 public val RemixiconRes.BusinessProjector2Fill: String
     get() = "remixicon/business/projector_2_fill.svg"
+
+public val RemixiconRes.BusinessPassExpiredFill: String
+    get() = "remixicon/business/pass_expired_fill.svg"
+
+public val RemixiconRes.BusinessCalendarCloseLine: String
+    get() = "remixicon/business/calendar_close_line.svg"
 
 public val RemixiconRes.BusinessTrademarkLine: String
     get() = "remixicon/business/trademark_line.svg"
@@ -1535,6 +1409,9 @@ public val RemixiconRes.LogosMastercardFill: String
 public val RemixiconRes.LogosCentosLine: String
     get() = "remixicon/logos/centos_line.svg"
 
+public val RemixiconRes.LogosKickFill: String
+    get() = "remixicon/logos/kick_fill.svg"
+
 public val RemixiconRes.LogosDisqusLine: String
     get() = "remixicon/logos/disqus_line.svg"
 
@@ -1559,11 +1436,17 @@ public val RemixiconRes.LogosBaiduFill: String
 public val RemixiconRes.LogosZhihuLine: String
     get() = "remixicon/logos/zhihu_line.svg"
 
+public val RemixiconRes.LogosWordpressLine: String
+    get() = "remixicon/logos/wordpress_line.svg"
+
 public val RemixiconRes.LogosTrelloLine: String
     get() = "remixicon/logos/trello_line.svg"
 
 public val RemixiconRes.LogosAngularjsLine: String
     get() = "remixicon/logos/angularjs_line.svg"
+
+public val RemixiconRes.LogosBardLine: String
+    get() = "remixicon/logos/bard_line.svg"
 
 public val RemixiconRes.LogosCoreosFill: String
     get() = "remixicon/logos/coreos_fill.svg"
@@ -1580,6 +1463,9 @@ public val RemixiconRes.LogosStackOverflowFill: String
 public val RemixiconRes.LogosZcoolLine: String
     get() = "remixicon/logos/zcool_line.svg"
 
+public val RemixiconRes.LogosWechatChannelsLine: String
+    get() = "remixicon/logos/wechat_channels_line.svg"
+
 public val RemixiconRes.LogosSoundcloudLine: String
     get() = "remixicon/logos/soundcloud_line.svg"
 
@@ -1589,8 +1475,17 @@ public val RemixiconRes.LogosHonorOfKingsFill: String
 public val RemixiconRes.LogosVisaFill: String
     get() = "remixicon/logos/visa_fill.svg"
 
+public val RemixiconRes.LogosBlenderLine: String
+    get() = "remixicon/logos/blender_line.svg"
+
 public val RemixiconRes.LogosAmazonFill: String
     get() = "remixicon/logos/amazon_fill.svg"
+
+public val RemixiconRes.LogosNotionFill: String
+    get() = "remixicon/logos/notion_fill.svg"
+
+public val RemixiconRes.LogosMetaLine: String
+    get() = "remixicon/logos/meta_line.svg"
 
 public val RemixiconRes.LogosFinderLine: String
     get() = "remixicon/logos/finder_line.svg"
@@ -1628,6 +1523,9 @@ public val RemixiconRes.LogosPixelfedFill: String
 public val RemixiconRes.LogosDisqusFill: String
     get() = "remixicon/logos/disqus_fill.svg"
 
+public val RemixiconRes.LogosKickLine: String
+    get() = "remixicon/logos/kick_line.svg"
+
 public val RemixiconRes.LogosMastercardLine: String
     get() = "remixicon/logos/mastercard_line.svg"
 
@@ -1654,6 +1552,12 @@ public val RemixiconRes.LogosZhihuFill: String
 
 public val RemixiconRes.LogosBaiduLine: String
     get() = "remixicon/logos/baidu_line.svg"
+
+public val RemixiconRes.LogosWordpressFill: String
+    get() = "remixicon/logos/wordpress_fill.svg"
+
+public val RemixiconRes.LogosBardFill: String
+    get() = "remixicon/logos/bard_fill.svg"
 
 public val RemixiconRes.LogosAngularjsFill: String
     get() = "remixicon/logos/angularjs_fill.svg"
@@ -1745,14 +1649,26 @@ public val RemixiconRes.LogosZcoolFill: String
 public val RemixiconRes.LogosStackOverflowLine: String
     get() = "remixicon/logos/stack_overflow_line.svg"
 
+public val RemixiconRes.LogosWechatChannelsFill: String
+    get() = "remixicon/logos/wechat_channels_fill.svg"
+
 public val RemixiconRes.LogosVisaLine: String
     get() = "remixicon/logos/visa_line.svg"
 
 public val RemixiconRes.LogosAmazonLine: String
     get() = "remixicon/logos/amazon_line.svg"
 
+public val RemixiconRes.LogosBlenderFill: String
+    get() = "remixicon/logos/blender_fill.svg"
+
+public val RemixiconRes.LogosMetaFill: String
+    get() = "remixicon/logos/meta_fill.svg"
+
 public val RemixiconRes.LogosFinderFill: String
     get() = "remixicon/logos/finder_fill.svg"
+
+public val RemixiconRes.LogosNotionLine: String
+    get() = "remixicon/logos/notion_line.svg"
 
 public val RemixiconRes.LogosSteamLine: String
     get() = "remixicon/logos/steam_line.svg"
@@ -1778,6 +1694,9 @@ public val RemixiconRes.LogosWechatLine: String
 public val RemixiconRes.LogosKakaoTalkFill: String
     get() = "remixicon/logos/kakao_talk_fill.svg"
 
+public val RemixiconRes.LogosCopilotLine: String
+    get() = "remixicon/logos/copilot_line.svg"
+
 public val RemixiconRes.LogosOperaLine: String
     get() = "remixicon/logos/opera_line.svg"
 
@@ -1798,6 +1717,9 @@ public val RemixiconRes.LogosNpmjsFill: String
 
 public val RemixiconRes.LogosVuejsFill: String
     get() = "remixicon/logos/vuejs_fill.svg"
+
+public val RemixiconRes.LogosOpenbaseFill: String
+    get() = "remixicon/logos/openbase_fill.svg"
 
 public val RemixiconRes.LogosSkypeFill: String
     get() = "remixicon/logos/skype_fill.svg"
@@ -1832,6 +1754,9 @@ public val RemixiconRes.LogosIeLine: String
 public val RemixiconRes.LogosDingdingFill: String
     get() = "remixicon/logos/dingding_fill.svg"
 
+public val RemixiconRes.LogosFlickrLine: String
+    get() = "remixicon/logos/flickr_line.svg"
+
 public val RemixiconRes.LogosVimeoLine: String
     get() = "remixicon/logos/vimeo_line.svg"
 
@@ -1847,8 +1772,14 @@ public val RemixiconRes.LogosSwitchFill: String
 public val RemixiconRes.LogosBehanceLine: String
     get() = "remixicon/logos/behance_line.svg"
 
+public val RemixiconRes.LogosMicrosoftLoopLine: String
+    get() = "remixicon/logos/microsoft_loop_line.svg"
+
 public val RemixiconRes.LogosReactjsFill: String
     get() = "remixicon/logos/reactjs_fill.svg"
+
+public val RemixiconRes.LogosEdgeNewFill: String
+    get() = "remixicon/logos/edge_new_fill.svg"
 
 public val RemixiconRes.LogosInstagramFill: String
     get() = "remixicon/logos/instagram_fill.svg"
@@ -1883,6 +1814,9 @@ public val RemixiconRes.LogosQqLine: String
 public val RemixiconRes.LogosBilibiliFill: String
     get() = "remixicon/logos/bilibili_fill.svg"
 
+public val RemixiconRes.LogosOpenaiLine: String
+    get() = "remixicon/logos/openai_line.svg"
+
 public val RemixiconRes.LogosAndroidFill: String
     get() = "remixicon/logos/android_fill.svg"
 
@@ -1895,8 +1829,14 @@ public val RemixiconRes.LogosLinkedinBoxFill: String
 public val RemixiconRes.LogosAppStoreLine: String
     get() = "remixicon/logos/app_store_line.svg"
 
+public val RemixiconRes.LogosBootstrapLine: String
+    get() = "remixicon/logos/bootstrap_line.svg"
+
 public val RemixiconRes.LogosXboxLine: String
     get() = "remixicon/logos/xbox_line.svg"
+
+public val RemixiconRes.LogosTiktokFill: String
+    get() = "remixicon/logos/tiktok_fill.svg"
 
 public val RemixiconRes.LogosWechat2Line: String
     get() = "remixicon/logos/wechat_2_line.svg"
@@ -1934,6 +1874,9 @@ public val RemixiconRes.LogosPaypalLine: String
 public val RemixiconRes.LogosUbuntuFill: String
     get() = "remixicon/logos/ubuntu_fill.svg"
 
+public val RemixiconRes.LogosFlickrFill: String
+    get() = "remixicon/logos/flickr_fill.svg"
+
 public val RemixiconRes.LogosDingdingLine: String
     get() = "remixicon/logos/dingding_line.svg"
 
@@ -1963,6 +1906,9 @@ public val RemixiconRes.LogosAlipayLine: String
 
 public val RemixiconRes.LogosGitlabFill: String
     get() = "remixicon/logos/gitlab_fill.svg"
+
+public val RemixiconRes.LogosCopilotFill: String
+    get() = "remixicon/logos/copilot_fill.svg"
 
 public val RemixiconRes.LogosKakaoTalkLine: String
     get() = "remixicon/logos/kakao_talk_line.svg"
@@ -2000,8 +1946,14 @@ public val RemixiconRes.LogosVuejsLine: String
 public val RemixiconRes.LogosNpmjsLine: String
     get() = "remixicon/logos/npmjs_line.svg"
 
+public val RemixiconRes.LogosOpenbaseLine: String
+    get() = "remixicon/logos/openbase_line.svg"
+
 public val RemixiconRes.LogosAppStoreFill: String
     get() = "remixicon/logos/app_store_fill.svg"
+
+public val RemixiconRes.LogosBootstrapFill: String
+    get() = "remixicon/logos/bootstrap_fill.svg"
 
 public val RemixiconRes.LogosAndroidLine: String
     get() = "remixicon/logos/android_line.svg"
@@ -2015,6 +1967,9 @@ public val RemixiconRes.LogosLinkedinBoxLine: String
 public val RemixiconRes.LogosXboxFill: String
     get() = "remixicon/logos/xbox_fill.svg"
 
+public val RemixiconRes.LogosTiktokLine: String
+    get() = "remixicon/logos/tiktok_line.svg"
+
 public val RemixiconRes.LogosFirefoxLine: String
     get() = "remixicon/logos/firefox_line.svg"
 
@@ -2023,6 +1978,9 @@ public val RemixiconRes.LogosPlaystationFill: String
 
 public val RemixiconRes.LogosWechat2Fill: String
     get() = "remixicon/logos/wechat_2_fill.svg"
+
+public val RemixiconRes.LogosMicrosoftLoopFill: String
+    get() = "remixicon/logos/microsoft_loop_fill.svg"
 
 public val RemixiconRes.LogosReactjsLine: String
     get() = "remixicon/logos/reactjs_line.svg"
@@ -2039,6 +1997,9 @@ public val RemixiconRes.LogosPinterestFill: String
 public val RemixiconRes.LogosDropboxLine: String
     get() = "remixicon/logos/dropbox_line.svg"
 
+public val RemixiconRes.LogosEdgeNewLine: String
+    get() = "remixicon/logos/edge_new_line.svg"
+
 public val RemixiconRes.LogosInvisionFill: String
     get() = "remixicon/logos/invision_fill.svg"
 
@@ -2054,6 +2015,9 @@ public val RemixiconRes.LogosMessengerLine: String
 public val RemixiconRes.LogosBilibiliLine: String
     get() = "remixicon/logos/bilibili_line.svg"
 
+public val RemixiconRes.LogosOpenaiFill: String
+    get() = "remixicon/logos/openai_fill.svg"
+
 public val RemixiconRes.LogosDoubanFill: String
     get() = "remixicon/logos/douban_fill.svg"
 
@@ -2062,6 +2026,9 @@ public val RemixiconRes.LogosQqFill: String
 
 public val RemixiconRes.OthersLightbulbFlashLine: String
     get() = "remixicon/others/lightbulb_flash_line.svg"
+
+public val RemixiconRes.OthersBox1Line: String
+    get() = "remixicon/others/box_1_line.svg"
 
 public val RemixiconRes.OthersReservedFill: String
     get() = "remixicon/others/reserved_fill.svg"
@@ -2105,14 +2072,23 @@ public val RemixiconRes.OthersTShirt2Line: String
 public val RemixiconRes.OthersFootballFill: String
     get() = "remixicon/others/football_fill.svg"
 
+public val RemixiconRes.OthersCrossFill: String
+    get() = "remixicon/others/cross_fill.svg"
+
 public val RemixiconRes.OthersPingPongLine: String
     get() = "remixicon/others/ping_pong_line.svg"
 
 public val RemixiconRes.OthersKnifeBloodLine: String
     get() = "remixicon/others/knife_blood_line.svg"
 
+public val RemixiconRes.OthersCandleFill: String
+    get() = "remixicon/others/candle_fill.svg"
+
 public val RemixiconRes.OthersHandbagFill: String
     get() = "remixicon/others/handbag_fill.svg"
+
+public val RemixiconRes.OthersGraduationCapLine: String
+    get() = "remixicon/others/graduation_cap_line.svg"
 
 public val RemixiconRes.OthersCharacterRecognitionLine: String
     get() = "remixicon/others/character_recognition_line.svg"
@@ -2156,6 +2132,9 @@ public val RemixiconRes.OthersBellFill: String
 public val RemixiconRes.OthersDoorLockLine: String
     get() = "remixicon/others/door_lock_line.svg"
 
+public val RemixiconRes.OthersBox1Fill: String
+    get() = "remixicon/others/box_1_fill.svg"
+
 public val RemixiconRes.OthersLightbulbFlashFill: String
     get() = "remixicon/others/lightbulb_flash_fill.svg"
 
@@ -2189,6 +2168,9 @@ public val RemixiconRes.OthersTShirt2Fill: String
 public val RemixiconRes.OthersFootballLine: String
     get() = "remixicon/others/football_line.svg"
 
+public val RemixiconRes.OthersCrossLine: String
+    get() = "remixicon/others/cross_line.svg"
+
 public val RemixiconRes.OthersPingPongFill: String
     get() = "remixicon/others/ping_pong_fill.svg"
 
@@ -2197,6 +2179,12 @@ public val RemixiconRes.OthersKnifeBloodFill: String
 
 public val RemixiconRes.OthersHandbagLine: String
     get() = "remixicon/others/handbag_line.svg"
+
+public val RemixiconRes.OthersCandleLine: String
+    get() = "remixicon/others/candle_line.svg"
+
+public val RemixiconRes.OthersGraduationCapFill: String
+    get() = "remixicon/others/graduation_cap_fill.svg"
 
 public val RemixiconRes.OthersCactusFill: String
     get() = "remixicon/others/cactus_fill.svg"
@@ -2246,6 +2234,12 @@ public val RemixiconRes.OthersSeedlingLine: String
 public val RemixiconRes.OthersUmbrellaLine: String
     get() = "remixicon/others/umbrella_line.svg"
 
+public val RemixiconRes.OthersBox3Line: String
+    get() = "remixicon/others/box_3_line.svg"
+
+public val RemixiconRes.OthersBox2Line: String
+    get() = "remixicon/others/box_2_line.svg"
+
 public val RemixiconRes.OthersPlug2Fill: String
     get() = "remixicon/others/plug_2_fill.svg"
 
@@ -2291,6 +2285,12 @@ public val RemixiconRes.OthersCactusLine: String
 public val RemixiconRes.OthersTShirtFill: String
     get() = "remixicon/others/t_shirt_fill.svg"
 
+public val RemixiconRes.OthersBox2Fill: String
+    get() = "remixicon/others/box_2_fill.svg"
+
+public val RemixiconRes.OthersBox3Fill: String
+    get() = "remixicon/others/box_3_fill.svg"
+
 public val RemixiconRes.OthersScales2Line: String
     get() = "remixicon/others/scales_2_line.svg"
 
@@ -2329,336 +2329,6 @@ public val RemixiconRes.OthersUmbrellaFill: String
 
 public val RemixiconRes.OthersDoorLockBoxFill: String
     get() = "remixicon/others/door_lock_box_fill.svg"
-
-public val RemixiconRes.UserOpenArmFill: String
-    get() = "remixicon/user/open_arm_fill.svg"
-
-public val RemixiconRes.UserMenLine: String
-    get() = "remixicon/user/men_line.svg"
-
-public val RemixiconRes.UserUserReceivedLine: String
-    get() = "remixicon/user/user_received_line.svg"
-
-public val RemixiconRes.UserUser6Fill: String
-    get() = "remixicon/user/user_6_fill.svg"
-
-public val RemixiconRes.UserUserVoiceLine: String
-    get() = "remixicon/user/user_voice_line.svg"
-
-public val RemixiconRes.UserParentLine: String
-    get() = "remixicon/user/parent_line.svg"
-
-public val RemixiconRes.UserBearSmileFill: String
-    get() = "remixicon/user/bear_smile_fill.svg"
-
-public val RemixiconRes.UserTeamLine: String
-    get() = "remixicon/user/team_line.svg"
-
-public val RemixiconRes.UserAccountCircleFill: String
-    get() = "remixicon/user/account_circle_fill.svg"
-
-public val RemixiconRes.UserUserLine: String
-    get() = "remixicon/user/user_line.svg"
-
-public val RemixiconRes.UserGroupLine: String
-    get() = "remixicon/user/group_line.svg"
-
-public val RemixiconRes.UserEmotionFill: String
-    get() = "remixicon/user/emotion_fill.svg"
-
-public val RemixiconRes.UserGenderlessFill: String
-    get() = "remixicon/user/genderless_fill.svg"
-
-public val RemixiconRes.UserContactsFill: String
-    get() = "remixicon/user/contacts_fill.svg"
-
-public val RemixiconRes.UserUserHeartLine: String
-    get() = "remixicon/user/user_heart_line.svg"
-
-public val RemixiconRes.UserUserUnfollowFill: String
-    get() = "remixicon/user/user_unfollow_fill.svg"
-
-public val RemixiconRes.UserUserFollowFill: String
-    get() = "remixicon/user/user_follow_fill.svg"
-
-public val RemixiconRes.UserUserShared2Line: String
-    get() = "remixicon/user/user_shared_2_line.svg"
-
-public val RemixiconRes.UserCriminalLine: String
-    get() = "remixicon/user/criminal_line.svg"
-
-public val RemixiconRes.UserEmotionLaughFill: String
-    get() = "remixicon/user/emotion_laugh_fill.svg"
-
-public val RemixiconRes.UserGroup2Line: String
-    get() = "remixicon/user/group_2_line.svg"
-
-public val RemixiconRes.UserUserLocationLine: String
-    get() = "remixicon/user/user_location_line.svg"
-
-public val RemixiconRes.UserGhost2Fill: String
-    get() = "remixicon/user/ghost_2_fill.svg"
-
-public val RemixiconRes.UserSkullFill: String
-    get() = "remixicon/user/skull_fill.svg"
-
-public val RemixiconRes.UserMickeyFill: String
-    get() = "remixicon/user/mickey_fill.svg"
-
-public val RemixiconRes.UserTeamFill: String
-    get() = "remixicon/user/team_fill.svg"
-
-public val RemixiconRes.UserParentFill: String
-    get() = "remixicon/user/parent_fill.svg"
-
-public val RemixiconRes.UserBearSmileLine: String
-    get() = "remixicon/user/bear_smile_line.svg"
-
-public val RemixiconRes.UserAccountCircleLine: String
-    get() = "remixicon/user/account_circle_line.svg"
-
-public val RemixiconRes.UserUserFill: String
-    get() = "remixicon/user/user_fill.svg"
-
-public val RemixiconRes.UserOpenArmLine: String
-    get() = "remixicon/user/open_arm_line.svg"
-
-public val RemixiconRes.UserUserReceivedFill: String
-    get() = "remixicon/user/user_received_fill.svg"
-
-public val RemixiconRes.UserUser6Line: String
-    get() = "remixicon/user/user_6_line.svg"
-
-public val RemixiconRes.UserMenFill: String
-    get() = "remixicon/user/men_fill.svg"
-
-public val RemixiconRes.UserUserVoiceFill: String
-    get() = "remixicon/user/user_voice_fill.svg"
-
-public val RemixiconRes.UserUserFollowLine: String
-    get() = "remixicon/user/user_follow_line.svg"
-
-public val RemixiconRes.UserEmotionLaughLine: String
-    get() = "remixicon/user/emotion_laugh_line.svg"
-
-public val RemixiconRes.UserGroup2Fill: String
-    get() = "remixicon/user/group_2_fill.svg"
-
-public val RemixiconRes.UserUserShared2Fill: String
-    get() = "remixicon/user/user_shared_2_fill.svg"
-
-public val RemixiconRes.UserCriminalFill: String
-    get() = "remixicon/user/criminal_fill.svg"
-
-public val RemixiconRes.UserUserLocationFill: String
-    get() = "remixicon/user/user_location_fill.svg"
-
-public val RemixiconRes.UserGhost2Line: String
-    get() = "remixicon/user/ghost_2_line.svg"
-
-public val RemixiconRes.UserMickeyLine: String
-    get() = "remixicon/user/mickey_line.svg"
-
-public val RemixiconRes.UserSkullLine: String
-    get() = "remixicon/user/skull_line.svg"
-
-public val RemixiconRes.UserEmotionLine: String
-    get() = "remixicon/user/emotion_line.svg"
-
-public val RemixiconRes.UserGroupFill: String
-    get() = "remixicon/user/group_fill.svg"
-
-public val RemixiconRes.UserContactsLine: String
-    get() = "remixicon/user/contacts_line.svg"
-
-public val RemixiconRes.UserGenderlessLine: String
-    get() = "remixicon/user/genderless_line.svg"
-
-public val RemixiconRes.UserUserHeartFill: String
-    get() = "remixicon/user/user_heart_fill.svg"
-
-public val RemixiconRes.UserUserUnfollowLine: String
-    get() = "remixicon/user/user_unfollow_line.svg"
-
-public val RemixiconRes.UserEmotionUnhappyFill: String
-    get() = "remixicon/user/emotion_unhappy_fill.svg"
-
-public val RemixiconRes.UserRobotFill: String
-    get() = "remixicon/user/robot_fill.svg"
-
-public val RemixiconRes.UserUser3Line: String
-    get() = "remixicon/user/user_3_line.svg"
-
-public val RemixiconRes.UserUser2Line: String
-    get() = "remixicon/user/user_2_line.svg"
-
-public val RemixiconRes.UserSkull2Line: String
-    get() = "remixicon/user/skull_2_line.svg"
-
-public val RemixiconRes.UserBodyScanFill: String
-    get() = "remixicon/user/body_scan_fill.svg"
-
-public val RemixiconRes.UserUserSharedFill: String
-    get() = "remixicon/user/user_shared_fill.svg"
-
-public val RemixiconRes.UserAdminFill: String
-    get() = "remixicon/user/admin_fill.svg"
-
-public val RemixiconRes.UserGhostSmileLine: String
-    get() = "remixicon/user/ghost_smile_line.svg"
-
-public val RemixiconRes.UserEmotion2Fill: String
-    get() = "remixicon/user/emotion_2_fill.svg"
-
-public val RemixiconRes.UserTravestiLine: String
-    get() = "remixicon/user/travesti_line.svg"
-
-public val RemixiconRes.UserAccountBoxLine: String
-    get() = "remixicon/user/account_box_line.svg"
-
-public val RemixiconRes.UserUserSettingsFill: String
-    get() = "remixicon/user/user_settings_fill.svg"
-
-public val RemixiconRes.UserAliensLine: String
-    get() = "remixicon/user/aliens_line.svg"
-
-public val RemixiconRes.UserSpyLine: String
-    get() = "remixicon/user/spy_line.svg"
-
-public val RemixiconRes.UserAccountPinBoxLine: String
-    get() = "remixicon/user/account_pin_box_line.svg"
-
-public val RemixiconRes.UserEmotionSadFill: String
-    get() = "remixicon/user/emotion_sad_fill.svg"
-
-public val RemixiconRes.UserWomenFill: String
-    get() = "remixicon/user/women_fill.svg"
-
-public val RemixiconRes.UserEmotionNormalFill: String
-    get() = "remixicon/user/emotion_normal_fill.svg"
-
-public val RemixiconRes.UserUserSearchFill: String
-    get() = "remixicon/user/user_search_fill.svg"
-
-public val RemixiconRes.UserUserSmileLine: String
-    get() = "remixicon/user/user_smile_line.svg"
-
-public val RemixiconRes.UserUserAddLine: String
-    get() = "remixicon/user/user_add_line.svg"
-
-public val RemixiconRes.UserEmotionHappyFill: String
-    get() = "remixicon/user/emotion_happy_fill.svg"
-
-public val RemixiconRes.UserGhostFill: String
-    get() = "remixicon/user/ghost_fill.svg"
-
-public val RemixiconRes.UserUser5Fill: String
-    get() = "remixicon/user/user_5_fill.svg"
-
-public val RemixiconRes.UserUser4Fill: String
-    get() = "remixicon/user/user_4_fill.svg"
-
-public val RemixiconRes.UserStarSmileLine: String
-    get() = "remixicon/user/star_smile_line.svg"
-
-public val RemixiconRes.UserAccountPinCircleFill: String
-    get() = "remixicon/user/account_pin_circle_fill.svg"
-
-public val RemixiconRes.UserUserReceived2Line: String
-    get() = "remixicon/user/user_received_2_line.svg"
-
-public val RemixiconRes.UserUserStarFill: String
-    get() = "remixicon/user/user_star_fill.svg"
-
-public val RemixiconRes.UserAccountBoxFill: String
-    get() = "remixicon/user/account_box_fill.svg"
-
-public val RemixiconRes.UserTravestiFill: String
-    get() = "remixicon/user/travesti_fill.svg"
-
-public val RemixiconRes.UserUserSettingsLine: String
-    get() = "remixicon/user/user_settings_line.svg"
-
-public val RemixiconRes.UserAliensFill: String
-    get() = "remixicon/user/aliens_fill.svg"
-
-public val RemixiconRes.UserSpyFill: String
-    get() = "remixicon/user/spy_fill.svg"
-
-public val RemixiconRes.UserRobotLine: String
-    get() = "remixicon/user/robot_line.svg"
-
-public val RemixiconRes.UserEmotionUnhappyLine: String
-    get() = "remixicon/user/emotion_unhappy_line.svg"
-
-public val RemixiconRes.UserSkull2Fill: String
-    get() = "remixicon/user/skull_2_fill.svg"
-
-public val RemixiconRes.UserUser2Fill: String
-    get() = "remixicon/user/user_2_fill.svg"
-
-public val RemixiconRes.UserUser3Fill: String
-    get() = "remixicon/user/user_3_fill.svg"
-
-public val RemixiconRes.UserBodyScanLine: String
-    get() = "remixicon/user/body_scan_line.svg"
-
-public val RemixiconRes.UserUserSharedLine: String
-    get() = "remixicon/user/user_shared_line.svg"
-
-public val RemixiconRes.UserAdminLine: String
-    get() = "remixicon/user/admin_line.svg"
-
-public val RemixiconRes.UserGhostSmileFill: String
-    get() = "remixicon/user/ghost_smile_fill.svg"
-
-public val RemixiconRes.UserEmotion2Line: String
-    get() = "remixicon/user/emotion_2_line.svg"
-
-public val RemixiconRes.UserUserAddFill: String
-    get() = "remixicon/user/user_add_fill.svg"
-
-public val RemixiconRes.UserEmotionHappyLine: String
-    get() = "remixicon/user/emotion_happy_line.svg"
-
-public val RemixiconRes.UserUserSmileFill: String
-    get() = "remixicon/user/user_smile_fill.svg"
-
-public val RemixiconRes.UserUser4Line: String
-    get() = "remixicon/user/user_4_line.svg"
-
-public val RemixiconRes.UserUser5Line: String
-    get() = "remixicon/user/user_5_line.svg"
-
-public val RemixiconRes.UserGhostLine: String
-    get() = "remixicon/user/ghost_line.svg"
-
-public val RemixiconRes.UserStarSmileFill: String
-    get() = "remixicon/user/star_smile_fill.svg"
-
-public val RemixiconRes.UserAccountPinCircleLine: String
-    get() = "remixicon/user/account_pin_circle_line.svg"
-
-public val RemixiconRes.UserUserReceived2Fill: String
-    get() = "remixicon/user/user_received_2_fill.svg"
-
-public val RemixiconRes.UserUserStarLine: String
-    get() = "remixicon/user/user_star_line.svg"
-
-public val RemixiconRes.UserAccountPinBoxFill: String
-    get() = "remixicon/user/account_pin_box_fill.svg"
-
-public val RemixiconRes.UserEmotionNormalLine: String
-    get() = "remixicon/user/emotion_normal_line.svg"
-
-public val RemixiconRes.UserWomenLine: String
-    get() = "remixicon/user/women_line.svg"
-
-public val RemixiconRes.UserEmotionSadLine: String
-    get() = "remixicon/user/emotion_sad_line.svg"
-
-public val RemixiconRes.UserUserSearchLine: String
-    get() = "remixicon/user/user_search_line.svg"
 
 public val RemixiconRes.DocumentNumbersFill: String
     get() = "remixicon/document/numbers_fill.svg"
@@ -3260,6 +2930,336 @@ public val RemixiconRes.DocumentFileList2Line: String
 public val RemixiconRes.DocumentFileList3Line: String
     get() = "remixicon/document/file_list_3_line.svg"
 
+public val RemixiconRes.UserAndFacesOpenArmFill: String
+    get() = "remixicon/user_and_faces/open_arm_fill.svg"
+
+public val RemixiconRes.UserAndFacesMenLine: String
+    get() = "remixicon/user_and_faces/men_line.svg"
+
+public val RemixiconRes.UserAndFacesUserReceivedLine: String
+    get() = "remixicon/user_and_faces/user_received_line.svg"
+
+public val RemixiconRes.UserAndFacesUser6Fill: String
+    get() = "remixicon/user_and_faces/user_6_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserVoiceLine: String
+    get() = "remixicon/user_and_faces/user_voice_line.svg"
+
+public val RemixiconRes.UserAndFacesParentLine: String
+    get() = "remixicon/user_and_faces/parent_line.svg"
+
+public val RemixiconRes.UserAndFacesBearSmileFill: String
+    get() = "remixicon/user_and_faces/bear_smile_fill.svg"
+
+public val RemixiconRes.UserAndFacesTeamLine: String
+    get() = "remixicon/user_and_faces/team_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountCircleFill: String
+    get() = "remixicon/user_and_faces/account_circle_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserLine: String
+    get() = "remixicon/user_and_faces/user_line.svg"
+
+public val RemixiconRes.UserAndFacesGroupLine: String
+    get() = "remixicon/user_and_faces/group_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionFill: String
+    get() = "remixicon/user_and_faces/emotion_fill.svg"
+
+public val RemixiconRes.UserAndFacesGenderlessFill: String
+    get() = "remixicon/user_and_faces/genderless_fill.svg"
+
+public val RemixiconRes.UserAndFacesContactsFill: String
+    get() = "remixicon/user_and_faces/contacts_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserHeartLine: String
+    get() = "remixicon/user_and_faces/user_heart_line.svg"
+
+public val RemixiconRes.UserAndFacesUserUnfollowFill: String
+    get() = "remixicon/user_and_faces/user_unfollow_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserFollowFill: String
+    get() = "remixicon/user_and_faces/user_follow_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserShared2Line: String
+    get() = "remixicon/user_and_faces/user_shared_2_line.svg"
+
+public val RemixiconRes.UserAndFacesCriminalLine: String
+    get() = "remixicon/user_and_faces/criminal_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionLaughFill: String
+    get() = "remixicon/user_and_faces/emotion_laugh_fill.svg"
+
+public val RemixiconRes.UserAndFacesGroup2Line: String
+    get() = "remixicon/user_and_faces/group_2_line.svg"
+
+public val RemixiconRes.UserAndFacesUserLocationLine: String
+    get() = "remixicon/user_and_faces/user_location_line.svg"
+
+public val RemixiconRes.UserAndFacesGhost2Fill: String
+    get() = "remixicon/user_and_faces/ghost_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesSkullFill: String
+    get() = "remixicon/user_and_faces/skull_fill.svg"
+
+public val RemixiconRes.UserAndFacesMickeyFill: String
+    get() = "remixicon/user_and_faces/mickey_fill.svg"
+
+public val RemixiconRes.UserAndFacesTeamFill: String
+    get() = "remixicon/user_and_faces/team_fill.svg"
+
+public val RemixiconRes.UserAndFacesParentFill: String
+    get() = "remixicon/user_and_faces/parent_fill.svg"
+
+public val RemixiconRes.UserAndFacesBearSmileLine: String
+    get() = "remixicon/user_and_faces/bear_smile_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountCircleLine: String
+    get() = "remixicon/user_and_faces/account_circle_line.svg"
+
+public val RemixiconRes.UserAndFacesUserFill: String
+    get() = "remixicon/user_and_faces/user_fill.svg"
+
+public val RemixiconRes.UserAndFacesOpenArmLine: String
+    get() = "remixicon/user_and_faces/open_arm_line.svg"
+
+public val RemixiconRes.UserAndFacesUserReceivedFill: String
+    get() = "remixicon/user_and_faces/user_received_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser6Line: String
+    get() = "remixicon/user_and_faces/user_6_line.svg"
+
+public val RemixiconRes.UserAndFacesMenFill: String
+    get() = "remixicon/user_and_faces/men_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserVoiceFill: String
+    get() = "remixicon/user_and_faces/user_voice_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserFollowLine: String
+    get() = "remixicon/user_and_faces/user_follow_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionLaughLine: String
+    get() = "remixicon/user_and_faces/emotion_laugh_line.svg"
+
+public val RemixiconRes.UserAndFacesGroup2Fill: String
+    get() = "remixicon/user_and_faces/group_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserShared2Fill: String
+    get() = "remixicon/user_and_faces/user_shared_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesCriminalFill: String
+    get() = "remixicon/user_and_faces/criminal_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserLocationFill: String
+    get() = "remixicon/user_and_faces/user_location_fill.svg"
+
+public val RemixiconRes.UserAndFacesGhost2Line: String
+    get() = "remixicon/user_and_faces/ghost_2_line.svg"
+
+public val RemixiconRes.UserAndFacesMickeyLine: String
+    get() = "remixicon/user_and_faces/mickey_line.svg"
+
+public val RemixiconRes.UserAndFacesSkullLine: String
+    get() = "remixicon/user_and_faces/skull_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionLine: String
+    get() = "remixicon/user_and_faces/emotion_line.svg"
+
+public val RemixiconRes.UserAndFacesGroupFill: String
+    get() = "remixicon/user_and_faces/group_fill.svg"
+
+public val RemixiconRes.UserAndFacesContactsLine: String
+    get() = "remixicon/user_and_faces/contacts_line.svg"
+
+public val RemixiconRes.UserAndFacesGenderlessLine: String
+    get() = "remixicon/user_and_faces/genderless_line.svg"
+
+public val RemixiconRes.UserAndFacesUserHeartFill: String
+    get() = "remixicon/user_and_faces/user_heart_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserUnfollowLine: String
+    get() = "remixicon/user_and_faces/user_unfollow_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionUnhappyFill: String
+    get() = "remixicon/user_and_faces/emotion_unhappy_fill.svg"
+
+public val RemixiconRes.UserAndFacesRobotFill: String
+    get() = "remixicon/user_and_faces/robot_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser3Line: String
+    get() = "remixicon/user_and_faces/user_3_line.svg"
+
+public val RemixiconRes.UserAndFacesUser2Line: String
+    get() = "remixicon/user_and_faces/user_2_line.svg"
+
+public val RemixiconRes.UserAndFacesSkull2Line: String
+    get() = "remixicon/user_and_faces/skull_2_line.svg"
+
+public val RemixiconRes.UserAndFacesBodyScanFill: String
+    get() = "remixicon/user_and_faces/body_scan_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserSharedFill: String
+    get() = "remixicon/user_and_faces/user_shared_fill.svg"
+
+public val RemixiconRes.UserAndFacesAdminFill: String
+    get() = "remixicon/user_and_faces/admin_fill.svg"
+
+public val RemixiconRes.UserAndFacesGhostSmileLine: String
+    get() = "remixicon/user_and_faces/ghost_smile_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotion2Fill: String
+    get() = "remixicon/user_and_faces/emotion_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesTravestiLine: String
+    get() = "remixicon/user_and_faces/travesti_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountBoxLine: String
+    get() = "remixicon/user_and_faces/account_box_line.svg"
+
+public val RemixiconRes.UserAndFacesUserSettingsFill: String
+    get() = "remixicon/user_and_faces/user_settings_fill.svg"
+
+public val RemixiconRes.UserAndFacesAliensLine: String
+    get() = "remixicon/user_and_faces/aliens_line.svg"
+
+public val RemixiconRes.UserAndFacesSpyLine: String
+    get() = "remixicon/user_and_faces/spy_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountPinBoxLine: String
+    get() = "remixicon/user_and_faces/account_pin_box_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionSadFill: String
+    get() = "remixicon/user_and_faces/emotion_sad_fill.svg"
+
+public val RemixiconRes.UserAndFacesWomenFill: String
+    get() = "remixicon/user_and_faces/women_fill.svg"
+
+public val RemixiconRes.UserAndFacesEmotionNormalFill: String
+    get() = "remixicon/user_and_faces/emotion_normal_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserSearchFill: String
+    get() = "remixicon/user_and_faces/user_search_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserSmileLine: String
+    get() = "remixicon/user_and_faces/user_smile_line.svg"
+
+public val RemixiconRes.UserAndFacesUserAddLine: String
+    get() = "remixicon/user_and_faces/user_add_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionHappyFill: String
+    get() = "remixicon/user_and_faces/emotion_happy_fill.svg"
+
+public val RemixiconRes.UserAndFacesGhostFill: String
+    get() = "remixicon/user_and_faces/ghost_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser5Fill: String
+    get() = "remixicon/user_and_faces/user_5_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser4Fill: String
+    get() = "remixicon/user_and_faces/user_4_fill.svg"
+
+public val RemixiconRes.UserAndFacesStarSmileLine: String
+    get() = "remixicon/user_and_faces/star_smile_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountPinCircleFill: String
+    get() = "remixicon/user_and_faces/account_pin_circle_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserReceived2Line: String
+    get() = "remixicon/user_and_faces/user_received_2_line.svg"
+
+public val RemixiconRes.UserAndFacesUserStarFill: String
+    get() = "remixicon/user_and_faces/user_star_fill.svg"
+
+public val RemixiconRes.UserAndFacesAccountBoxFill: String
+    get() = "remixicon/user_and_faces/account_box_fill.svg"
+
+public val RemixiconRes.UserAndFacesTravestiFill: String
+    get() = "remixicon/user_and_faces/travesti_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserSettingsLine: String
+    get() = "remixicon/user_and_faces/user_settings_line.svg"
+
+public val RemixiconRes.UserAndFacesAliensFill: String
+    get() = "remixicon/user_and_faces/aliens_fill.svg"
+
+public val RemixiconRes.UserAndFacesSpyFill: String
+    get() = "remixicon/user_and_faces/spy_fill.svg"
+
+public val RemixiconRes.UserAndFacesRobotLine: String
+    get() = "remixicon/user_and_faces/robot_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionUnhappyLine: String
+    get() = "remixicon/user_and_faces/emotion_unhappy_line.svg"
+
+public val RemixiconRes.UserAndFacesSkull2Fill: String
+    get() = "remixicon/user_and_faces/skull_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser2Fill: String
+    get() = "remixicon/user_and_faces/user_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser3Fill: String
+    get() = "remixicon/user_and_faces/user_3_fill.svg"
+
+public val RemixiconRes.UserAndFacesBodyScanLine: String
+    get() = "remixicon/user_and_faces/body_scan_line.svg"
+
+public val RemixiconRes.UserAndFacesUserSharedLine: String
+    get() = "remixicon/user_and_faces/user_shared_line.svg"
+
+public val RemixiconRes.UserAndFacesAdminLine: String
+    get() = "remixicon/user_and_faces/admin_line.svg"
+
+public val RemixiconRes.UserAndFacesGhostSmileFill: String
+    get() = "remixicon/user_and_faces/ghost_smile_fill.svg"
+
+public val RemixiconRes.UserAndFacesEmotion2Line: String
+    get() = "remixicon/user_and_faces/emotion_2_line.svg"
+
+public val RemixiconRes.UserAndFacesUserAddFill: String
+    get() = "remixicon/user_and_faces/user_add_fill.svg"
+
+public val RemixiconRes.UserAndFacesEmotionHappyLine: String
+    get() = "remixicon/user_and_faces/emotion_happy_line.svg"
+
+public val RemixiconRes.UserAndFacesUserSmileFill: String
+    get() = "remixicon/user_and_faces/user_smile_fill.svg"
+
+public val RemixiconRes.UserAndFacesUser4Line: String
+    get() = "remixicon/user_and_faces/user_4_line.svg"
+
+public val RemixiconRes.UserAndFacesUser5Line: String
+    get() = "remixicon/user_and_faces/user_5_line.svg"
+
+public val RemixiconRes.UserAndFacesGhostLine: String
+    get() = "remixicon/user_and_faces/ghost_line.svg"
+
+public val RemixiconRes.UserAndFacesStarSmileFill: String
+    get() = "remixicon/user_and_faces/star_smile_fill.svg"
+
+public val RemixiconRes.UserAndFacesAccountPinCircleLine: String
+    get() = "remixicon/user_and_faces/account_pin_circle_line.svg"
+
+public val RemixiconRes.UserAndFacesUserReceived2Fill: String
+    get() = "remixicon/user_and_faces/user_received_2_fill.svg"
+
+public val RemixiconRes.UserAndFacesUserStarLine: String
+    get() = "remixicon/user_and_faces/user_star_line.svg"
+
+public val RemixiconRes.UserAndFacesAccountPinBoxFill: String
+    get() = "remixicon/user_and_faces/account_pin_box_fill.svg"
+
+public val RemixiconRes.UserAndFacesEmotionNormalLine: String
+    get() = "remixicon/user_and_faces/emotion_normal_line.svg"
+
+public val RemixiconRes.UserAndFacesWomenLine: String
+    get() = "remixicon/user_and_faces/women_line.svg"
+
+public val RemixiconRes.UserAndFacesEmotionSadLine: String
+    get() = "remixicon/user_and_faces/emotion_sad_line.svg"
+
+public val RemixiconRes.UserAndFacesUserSearchLine: String
+    get() = "remixicon/user_and_faces/user_search_line.svg"
+
 public val RemixiconRes.SystemTimeFill: String
     get() = "remixicon/system/time_fill.svg"
 
@@ -3278,9 +3278,6 @@ public val RemixiconRes.SystemZoomInLine: String
 public val RemixiconRes.SystemShareBoxFill: String
     get() = "remixicon/system/share_box_fill.svg"
 
-public val RemixiconRes.SystemArrowUpLine: String
-    get() = "remixicon/system/arrow_up_line.svg"
-
 public val RemixiconRes.SystemCloseCircleLine: String
     get() = "remixicon/system/close_circle_line.svg"
 
@@ -3289,9 +3286,6 @@ public val RemixiconRes.SystemDeleteBin3Fill: String
 
 public val RemixiconRes.SystemDeleteBin2Fill: String
     get() = "remixicon/system/delete_bin_2_fill.svg"
-
-public val RemixiconRes.SystemArrowGoForwardLine: String
-    get() = "remixicon/system/arrow_go_forward_line.svg"
 
 public val RemixiconRes.SystemCloseFill: String
     get() = "remixicon/system/close_fill.svg"
@@ -3305,9 +3299,6 @@ public val RemixiconRes.SystemLoader5Line: String
 public val RemixiconRes.SystemLoader4Line: String
     get() = "remixicon/system/loader_4_line.svg"
 
-public val RemixiconRes.SystemArrowLeftFill: String
-    get() = "remixicon/system/arrow_left_fill.svg"
-
 public val RemixiconRes.SystemTimer2Fill: String
     get() = "remixicon/system/timer_2_fill.svg"
 
@@ -3319,12 +3310,6 @@ public val RemixiconRes.SystemShareCircleFill: String
 
 public val RemixiconRes.SystemAddBoxLine: String
     get() = "remixicon/system/add_box_line.svg"
-
-public val RemixiconRes.SystemArrowLeftDownLine: String
-    get() = "remixicon/system/arrow_left_down_line.svg"
-
-public val RemixiconRes.SystemArrowDownCircleFill: String
-    get() = "remixicon/system/arrow_down_circle_fill.svg"
 
 public val RemixiconRes.SystemCheckboxBlankCircleFill: String
     get() = "remixicon/system/checkbox_blank_circle_fill.svg"
@@ -3344,14 +3329,8 @@ public val RemixiconRes.SystemEye2Fill: String
 public val RemixiconRes.SystemUploadCloudFill: String
     get() = "remixicon/system/upload_cloud_fill.svg"
 
-public val RemixiconRes.SystemArrowRightFill: String
-    get() = "remixicon/system/arrow_right_fill.svg"
-
 public val RemixiconRes.SystemLogoutBoxLine: String
     get() = "remixicon/system/logout_box_line.svg"
-
-public val RemixiconRes.SystemArrowRightUpLine: String
-    get() = "remixicon/system/arrow_right_up_line.svg"
 
 public val RemixiconRes.SystemThumbDownFill: String
     get() = "remixicon/system/thumb_down_fill.svg"
@@ -3386,29 +3365,17 @@ public val RemixiconRes.SystemHistoryFill: String
 public val RemixiconRes.SystemLoaderLine: String
     get() = "remixicon/system/loader_line.svg"
 
-public val RemixiconRes.SystemArrowUpSLine: String
-    get() = "remixicon/system/arrow_up_s_line.svg"
-
-public val RemixiconRes.SystemArrowDownSFill: String
-    get() = "remixicon/system/arrow_down_s_fill.svg"
-
 public val RemixiconRes.SystemAppsLine: String
     get() = "remixicon/system/apps_line.svg"
 
 public val RemixiconRes.SystemExternalLinkFill: String
     get() = "remixicon/system/external_link_fill.svg"
 
-public val RemixiconRes.SystemArrowLeftUpLine: String
-    get() = "remixicon/system/arrow_left_up_line.svg"
-
-public val RemixiconRes.SystemArrowUpDownFill: String
-    get() = "remixicon/system/arrow_up_down_fill.svg"
+public val RemixiconRes.SystemProhibitedFill: String
+    get() = "remixicon/system/prohibited_fill.svg"
 
 public val RemixiconRes.SystemMore2Line: String
     get() = "remixicon/system/more_2_line.svg"
-
-public val RemixiconRes.SystemArrowDropDownLine: String
-    get() = "remixicon/system/arrow_drop_down_line.svg"
 
 public val RemixiconRes.SystemApps2Fill: String
     get() = "remixicon/system/apps_2_fill.svg"
@@ -3467,9 +3434,6 @@ public val RemixiconRes.SystemShieldFill: String
 public val RemixiconRes.SystemLoginBoxFill: String
     get() = "remixicon/system/login_box_fill.svg"
 
-public val RemixiconRes.SystemArrowRightDownLine: String
-    get() = "remixicon/system/arrow_right_down_line.svg"
-
 public val RemixiconRes.SystemLockFill: String
     get() = "remixicon/system/lock_fill.svg"
 
@@ -3509,15 +3473,6 @@ public val RemixiconRes.SystemShareCircleLine: String
 public val RemixiconRes.SystemAddBoxFill: String
     get() = "remixicon/system/add_box_fill.svg"
 
-public val RemixiconRes.SystemArrowLeftDownFill: String
-    get() = "remixicon/system/arrow_left_down_fill.svg"
-
-public val RemixiconRes.SystemArrowDownCircleLine: String
-    get() = "remixicon/system/arrow_down_circle_line.svg"
-
-public val RemixiconRes.SystemArrowLeftLine: String
-    get() = "remixicon/system/arrow_left_line.svg"
-
 public val RemixiconRes.SystemAlarmWarningLine: String
     get() = "remixicon/system/alarm_warning_line.svg"
 
@@ -3535,9 +3490,6 @@ public val RemixiconRes.SystemRadioButtonFill: String
 
 public val RemixiconRes.SystemUploadCloudLine: String
     get() = "remixicon/system/upload_cloud_line.svg"
-
-public val RemixiconRes.SystemArrowRightLine: String
-    get() = "remixicon/system/arrow_right_line.svg"
 
 public val RemixiconRes.SystemLockPasswordLine: String
     get() = "remixicon/system/lock_password_line.svg"
@@ -3559,9 +3511,6 @@ public val RemixiconRes.SystemFilterFill: String
 
 public val RemixiconRes.SystemLogoutCircleRFill: String
     get() = "remixicon/system/logout_circle_r_fill.svg"
-
-public val RemixiconRes.SystemArrowRightUpFill: String
-    get() = "remixicon/system/arrow_right_up_fill.svg"
 
 public val RemixiconRes.SystemLogoutBoxFill: String
     get() = "remixicon/system/logout_box_fill.svg"
@@ -3587,9 +3536,6 @@ public val RemixiconRes.SystemInformationFill: String
 public val RemixiconRes.SystemZoomInFill: String
     get() = "remixicon/system/zoom_in_fill.svg"
 
-public val RemixiconRes.SystemArrowGoForwardFill: String
-    get() = "remixicon/system/arrow_go_forward_fill.svg"
-
 public val RemixiconRes.SystemQuestionLine: String
     get() = "remixicon/system/question_line.svg"
 
@@ -3598,9 +3544,6 @@ public val RemixiconRes.SystemCloseLine: String
 
 public val RemixiconRes.SystemCloseCircleFill: String
     get() = "remixicon/system/close_circle_fill.svg"
-
-public val RemixiconRes.SystemArrowUpFill: String
-    get() = "remixicon/system/arrow_up_fill.svg"
 
 public val RemixiconRes.SystemDeleteBin2Line: String
     get() = "remixicon/system/delete_bin_2_line.svg"
@@ -3650,9 +3593,6 @@ public val RemixiconRes.SystemThumbUpLine: String
 public val RemixiconRes.SystemLoginBoxLine: String
     get() = "remixicon/system/login_box_line.svg"
 
-public val RemixiconRes.SystemArrowRightDownFill: String
-    get() = "remixicon/system/arrow_right_down_fill.svg"
-
 public val RemixiconRes.SystemLockLine: String
     get() = "remixicon/system/lock_line.svg"
 
@@ -3701,17 +3641,11 @@ public val RemixiconRes.SystemAppsFill: String
 public val RemixiconRes.SystemLoaderFill: String
     get() = "remixicon/system/loader_fill.svg"
 
-public val RemixiconRes.SystemArrowUpSFill: String
-    get() = "remixicon/system/arrow_up_s_fill.svg"
-
-public val RemixiconRes.SystemArrowDownSLine: String
-    get() = "remixicon/system/arrow_down_s_line.svg"
+public val RemixiconRes.SystemProhibitedLine: String
+    get() = "remixicon/system/prohibited_line.svg"
 
 public val RemixiconRes.SystemExternalLinkLine: String
     get() = "remixicon/system/external_link_line.svg"
-
-public val RemixiconRes.SystemArrowLeftUpFill: String
-    get() = "remixicon/system/arrow_left_up_fill.svg"
 
 public val RemixiconRes.SystemSettings3Line: String
     get() = "remixicon/system/settings_3_line.svg"
@@ -3728,14 +3662,8 @@ public val RemixiconRes.SystemSettings2Line: String
 public val RemixiconRes.SystemApps2Line: String
     get() = "remixicon/system/apps_2_line.svg"
 
-public val RemixiconRes.SystemArrowDropDownFill: String
-    get() = "remixicon/system/arrow_drop_down_fill.svg"
-
 public val RemixiconRes.SystemMore2Fill: String
     get() = "remixicon/system/more_2_fill.svg"
-
-public val RemixiconRes.SystemArrowUpDownLine: String
-    get() = "remixicon/system/arrow_up_down_line.svg"
 
 public val RemixiconRes.SystemFindReplaceLine: String
     get() = "remixicon/system/find_replace_line.svg"
@@ -3757,9 +3685,6 @@ public val RemixiconRes.SystemFunctionLine: String
 
 public val RemixiconRes.SystemSearch2Line: String
     get() = "remixicon/system/search_2_line.svg"
-
-public val RemixiconRes.SystemArrowRightSFill: String
-    get() = "remixicon/system/arrow_right_s_fill.svg"
 
 public val RemixiconRes.SystemUpload2Fill: String
     get() = "remixicon/system/upload_2_fill.svg"
@@ -3788,17 +3713,14 @@ public val RemixiconRes.SystemDeleteBin7Line: String
 public val RemixiconRes.SystemDeleteBack2Line: String
     get() = "remixicon/system/delete_back_2_line.svg"
 
+public val RemixiconRes.SystemHourglass2Fill: String
+    get() = "remixicon/system/hourglass_2_fill.svg"
+
 public val RemixiconRes.SystemStarLine: String
     get() = "remixicon/system/star_line.svg"
 
 public val RemixiconRes.SystemLockUnlockFill: String
     get() = "remixicon/system/lock_unlock_fill.svg"
-
-public val RemixiconRes.SystemArrowDropUpFill: String
-    get() = "remixicon/system/arrow_drop_up_fill.svg"
-
-public val RemixiconRes.SystemArrowDropRightFill: String
-    get() = "remixicon/system/arrow_drop_right_fill.svg"
 
 public val RemixiconRes.SystemListSettingsLine: String
     get() = "remixicon/system/list_settings_line.svg"
@@ -3806,17 +3728,8 @@ public val RemixiconRes.SystemListSettingsLine: String
 public val RemixiconRes.SystemShieldKeyholeFill: String
     get() = "remixicon/system/shield_keyhole_fill.svg"
 
-public val RemixiconRes.SystemArrowLeftSFill: String
-    get() = "remixicon/system/arrow_left_s_fill.svg"
-
-public val RemixiconRes.SystemArrowDownFill: String
-    get() = "remixicon/system/arrow_down_fill.svg"
-
 public val RemixiconRes.SystemLogoutBoxRFill: String
     get() = "remixicon/system/logout_box_r_fill.svg"
-
-public val RemixiconRes.SystemArrowUpCircleFill: String
-    get() = "remixicon/system/arrow_up_circle_fill.svg"
 
 public val RemixiconRes.SystemMenuLine: String
     get() = "remixicon/system/menu_line.svg"
@@ -3839,8 +3752,8 @@ public val RemixiconRes.SystemCheckboxIndeterminateLine: String
 public val RemixiconRes.SystemCheckLine: String
     get() = "remixicon/system/check_line.svg"
 
-public val RemixiconRes.SystemArrowLeftRightFill: String
-    get() = "remixicon/system/arrow_left_right_fill.svg"
+public val RemixiconRes.SystemHourglassLine: String
+    get() = "remixicon/system/hourglass_line.svg"
 
 public val RemixiconRes.SystemDeleteBinLine: String
     get() = "remixicon/system/delete_bin_line.svg"
@@ -3875,9 +3788,6 @@ public val RemixiconRes.SystemTimerFill: String
 public val RemixiconRes.SystemToggleFill: String
     get() = "remixicon/system/toggle_fill.svg"
 
-public val RemixiconRes.SystemArrowRightCircleLine: String
-    get() = "remixicon/system/arrow_right_circle_line.svg"
-
 public val RemixiconRes.SystemDeleteBackLine: String
     get() = "remixicon/system/delete_back_line.svg"
 
@@ -3896,12 +3806,6 @@ public val RemixiconRes.SystemDownload2Line: String
 public val RemixiconRes.SystemRefreshFill: String
     get() = "remixicon/system/refresh_fill.svg"
 
-public val RemixiconRes.SystemArrowDropLeftLine: String
-    get() = "remixicon/system/arrow_drop_left_line.svg"
-
-public val RemixiconRes.SystemArrowLeftCircleFill: String
-    get() = "remixicon/system/arrow_left_circle_fill.svg"
-
 public val RemixiconRes.SystemSettings6Line: String
     get() = "remixicon/system/settings_6_line.svg"
 
@@ -3911,8 +3815,17 @@ public val RemixiconRes.SystemSettingsFill: String
 public val RemixiconRes.SystemShareFill: String
     get() = "remixicon/system/share_fill.svg"
 
+public val RemixiconRes.SystemEqualFill: String
+    get() = "remixicon/system/equal_fill.svg"
+
+public val RemixiconRes.SystemLoopRightLine: String
+    get() = "remixicon/system/loop_right_line.svg"
+
 public val RemixiconRes.SystemLogoutCircleLine: String
     get() = "remixicon/system/logout_circle_line.svg"
+
+public val RemixiconRes.SystemLoopLeftFill: String
+    get() = "remixicon/system/loop_left_fill.svg"
 
 public val RemixiconRes.SystemUploadCloud2Line: String
     get() = "remixicon/system/upload_cloud_2_line.svg"
@@ -3935,9 +3848,6 @@ public val RemixiconRes.SystemSpam2Line: String
 public val RemixiconRes.SystemSpam3Line: String
     get() = "remixicon/system/spam_3_line.svg"
 
-public val RemixiconRes.SystemArrowGoBackFill: String
-    get() = "remixicon/system/arrow_go_back_fill.svg"
-
 public val RemixiconRes.SystemIndeterminateCircleFill: String
     get() = "remixicon/system/indeterminate_circle_fill.svg"
 
@@ -3950,14 +3860,8 @@ public val RemixiconRes.SystemMoreLine: String
 public val RemixiconRes.SystemTimerFlashFill: String
     get() = "remixicon/system/timer_flash_fill.svg"
 
-public val RemixiconRes.SystemArrowUpCircleLine: String
-    get() = "remixicon/system/arrow_up_circle_line.svg"
-
 public val RemixiconRes.SystemMenuFill: String
     get() = "remixicon/system/menu_fill.svg"
-
-public val RemixiconRes.SystemArrowDownLine: String
-    get() = "remixicon/system/arrow_down_line.svg"
 
 public val RemixiconRes.SystemLogoutBoxRLine: String
     get() = "remixicon/system/logout_box_r_line.svg"
@@ -3967,9 +3871,6 @@ public val RemixiconRes.SystemCheckboxIndeterminateFill: String
 
 public val RemixiconRes.SystemCheckFill: String
     get() = "remixicon/system/check_fill.svg"
-
-public val RemixiconRes.SystemArrowLeftRightLine: String
-    get() = "remixicon/system/arrow_left_right_line.svg"
 
 public val RemixiconRes.SystemZoomOutFill: String
     get() = "remixicon/system/zoom_out_fill.svg"
@@ -3988,6 +3889,9 @@ public val RemixiconRes.SystemDeleteBinFill: String
 
 public val RemixiconRes.SystemCheckboxMultipleLine: String
     get() = "remixicon/system/checkbox_multiple_line.svg"
+
+public val RemixiconRes.SystemHourglassFill: String
+    get() = "remixicon/system/hourglass_fill.svg"
 
 public val RemixiconRes.SystemDownloadCloud2Fill: String
     get() = "remixicon/system/download_cloud_2_fill.svg"
@@ -4010,9 +3914,6 @@ public val RemixiconRes.SystemSearchLine: String
 public val RemixiconRes.SystemLock2Line: String
     get() = "remixicon/system/lock_2_line.svg"
 
-public val RemixiconRes.SystemArrowRightSLine: String
-    get() = "remixicon/system/arrow_right_s_line.svg"
-
 public val RemixiconRes.SystemUpload2Line: String
     get() = "remixicon/system/upload_2_line.svg"
 
@@ -4024,12 +3925,6 @@ public val RemixiconRes.SystemMenu2Line: String
 
 public val RemixiconRes.SystemLockUnlockLine: String
     get() = "remixicon/system/lock_unlock_line.svg"
-
-public val RemixiconRes.SystemArrowDropRightLine: String
-    get() = "remixicon/system/arrow_drop_right_line.svg"
-
-public val RemixiconRes.SystemArrowDropUpLine: String
-    get() = "remixicon/system/arrow_drop_up_line.svg"
 
 public val RemixiconRes.SystemEyeFill: String
     get() = "remixicon/system/eye_fill.svg"
@@ -4052,8 +3947,8 @@ public val RemixiconRes.SystemDeleteBin6Fill: String
 public val RemixiconRes.SystemStarFill: String
     get() = "remixicon/system/star_fill.svg"
 
-public val RemixiconRes.SystemArrowLeftSLine: String
-    get() = "remixicon/system/arrow_left_s_line.svg"
+public val RemixiconRes.SystemHourglass2Line: String
+    get() = "remixicon/system/hourglass_2_line.svg"
 
 public val RemixiconRes.SystemShieldKeyholeLine: String
     get() = "remixicon/system/shield_keyhole_line.svg"
@@ -4061,11 +3956,17 @@ public val RemixiconRes.SystemShieldKeyholeLine: String
 public val RemixiconRes.SystemListSettingsFill: String
     get() = "remixicon/system/list_settings_fill.svg"
 
+public val RemixiconRes.SystemEqualLine: String
+    get() = "remixicon/system/equal_line.svg"
+
 public val RemixiconRes.SystemSettingsLine: String
     get() = "remixicon/system/settings_line.svg"
 
 public val RemixiconRes.SystemShareLine: String
     get() = "remixicon/system/share_line.svg"
+
+public val RemixiconRes.SystemLoopLeftLine: String
+    get() = "remixicon/system/loop_left_line.svg"
 
 public val RemixiconRes.SystemUploadCloud2Fill: String
     get() = "remixicon/system/upload_cloud_2_fill.svg"
@@ -4079,11 +3980,11 @@ public val RemixiconRes.SystemAddLine: String
 public val RemixiconRes.SystemMenu4Fill: String
     get() = "remixicon/system/menu_4_fill.svg"
 
+public val RemixiconRes.SystemLoopRightFill: String
+    get() = "remixicon/system/loop_right_fill.svg"
+
 public val RemixiconRes.SystemLogoutCircleFill: String
     get() = "remixicon/system/logout_circle_fill.svg"
-
-public val RemixiconRes.SystemArrowGoBackLine: String
-    get() = "remixicon/system/arrow_go_back_line.svg"
 
 public val RemixiconRes.SystemIndeterminateCircleLine: String
     get() = "remixicon/system/indeterminate_circle_line.svg"
@@ -4133,9 +4034,6 @@ public val RemixiconRes.SystemShareForwardLine: String
 public val RemixiconRes.SystemDownload2Fill: String
     get() = "remixicon/system/download_2_fill.svg"
 
-public val RemixiconRes.SystemArrowRightCircleFill: String
-    get() = "remixicon/system/arrow_right_circle_fill.svg"
-
 public val RemixiconRes.SystemShieldStarFill: String
     get() = "remixicon/system/shield_star_fill.svg"
 
@@ -4144,12 +4042,6 @@ public val RemixiconRes.SystemDeleteBackFill: String
 
 public val RemixiconRes.SystemSettings6Fill: String
     get() = "remixicon/system/settings_6_fill.svg"
-
-public val RemixiconRes.SystemArrowLeftCircleLine: String
-    get() = "remixicon/system/arrow_left_circle_line.svg"
-
-public val RemixiconRes.SystemArrowDropLeftFill: String
-    get() = "remixicon/system/arrow_drop_left_fill.svg"
 
 public val RemixiconRes.SystemRefreshLine: String
     get() = "remixicon/system/refresh_line.svg"
@@ -4186,6 +4078,9 @@ public val RemixiconRes.MapBus2Fill: String
 
 public val RemixiconRes.MapSuitcaseLine: String
     get() = "remixicon/map/suitcase_line.svg"
+
+public val RemixiconRes.MapUnpinLine: String
+    get() = "remixicon/map/unpin_line.svg"
 
 public val RemixiconRes.MapMotorbikeFill: String
     get() = "remixicon/map/motorbike_fill.svg"
@@ -4282,6 +4177,9 @@ public val RemixiconRes.MapEBikeFill: String
 
 public val RemixiconRes.MapSuitcaseFill: String
     get() = "remixicon/map/suitcase_fill.svg"
+
+public val RemixiconRes.MapUnpinFill: String
+    get() = "remixicon/map/unpin_fill.svg"
 
 public val RemixiconRes.MapRunLine: String
     get() = "remixicon/map/run_line.svg"
@@ -4508,6 +4406,9 @@ public val RemixiconRes.MapEBike2Fill: String
 public val RemixiconRes.MapCompassFill: String
     get() = "remixicon/map/compass_fill.svg"
 
+public val RemixiconRes.MapPlanetLine: String
+    get() = "remixicon/map/planet_line.svg"
+
 public val RemixiconRes.MapNavigationFill: String
     get() = "remixicon/map/navigation_fill.svg"
 
@@ -4610,6 +4511,9 @@ public val RemixiconRes.MapTrainWifiFill: String
 public val RemixiconRes.MapNavigationLine: String
     get() = "remixicon/map/navigation_line.svg"
 
+public val RemixiconRes.MapPlanetFill: String
+    get() = "remixicon/map/planet_fill.svg"
+
 public val RemixiconRes.MapShip2Line: String
     get() = "remixicon/map/ship_2_line.svg"
 
@@ -4687,6 +4591,9 @@ public val RemixiconRes.FinanceSwapBoxLine: String
 
 public val RemixiconRes.FinanceShoppingCart2Line: String
     get() = "remixicon/finance/shopping_cart_2_line.svg"
+
+public val RemixiconRes.FinanceTokenSwapLine: String
+    get() = "remixicon/finance/token_swap_line.svg"
 
 public val RemixiconRes.FinanceTrophyLine: String
     get() = "remixicon/finance/trophy_line.svg"
@@ -4802,6 +4709,9 @@ public val RemixiconRes.FinanceShoppingCart2Fill: String
 public val RemixiconRes.FinanceSwapBoxFill: String
     get() = "remixicon/finance/swap_box_fill.svg"
 
+public val RemixiconRes.FinanceTokenSwapFill: String
+    get() = "remixicon/finance/token_swap_fill.svg"
+
 public val RemixiconRes.FinanceMoneyEuroBoxFill: String
     get() = "remixicon/finance/money_euro_box_fill.svg"
 
@@ -4868,6 +4778,9 @@ public val RemixiconRes.FinanceCoupon5Line: String
 public val RemixiconRes.FinanceExchangeDollarLine: String
     get() = "remixicon/finance/exchange_dollar_line.svg"
 
+public val RemixiconRes.FinanceCashLine: String
+    get() = "remixicon/finance/cash_line.svg"
+
 public val RemixiconRes.FinanceShoppingBag2Line: String
     get() = "remixicon/finance/shopping_bag_2_line.svg"
 
@@ -4882,6 +4795,9 @@ public val RemixiconRes.FinanceIncreaseDecreaseLine: String
 
 public val RemixiconRes.FinanceSafe2Fill: String
     get() = "remixicon/finance/safe_2_fill.svg"
+
+public val RemixiconRes.FinanceNftFill: String
+    get() = "remixicon/finance/nft_fill.svg"
 
 public val RemixiconRes.FinanceCoinLine: String
     get() = "remixicon/finance/coin_line.svg"
@@ -4937,6 +4853,9 @@ public val RemixiconRes.FinanceGiftLine: String
 public val RemixiconRes.FinanceMoneyDollarBoxLine: String
     get() = "remixicon/finance/money_dollar_box_line.svg"
 
+public val RemixiconRes.FinanceP2pFill: String
+    get() = "remixicon/finance/p2p_fill.svg"
+
 public val RemixiconRes.FinanceSafeLine: String
     get() = "remixicon/finance/safe_line.svg"
 
@@ -4961,6 +4880,9 @@ public val RemixiconRes.FinanceIncreaseDecreaseFill: String
 public val RemixiconRes.FinanceRedPacketLine: String
     get() = "remixicon/finance/red_packet_line.svg"
 
+public val RemixiconRes.FinanceCashFill: String
+    get() = "remixicon/finance/cash_fill.svg"
+
 public val RemixiconRes.FinanceShoppingBag3Fill: String
     get() = "remixicon/finance/shopping_bag_3_fill.svg"
 
@@ -4978,6 +4900,9 @@ public val RemixiconRes.FinanceCoinFill: String
 
 public val RemixiconRes.FinanceMoneyCnyCircleLine: String
     get() = "remixicon/finance/money_cny_circle_line.svg"
+
+public val RemixiconRes.FinanceNftLine: String
+    get() = "remixicon/finance/nft_line.svg"
 
 public val RemixiconRes.FinanceCopperCoinLine: String
     get() = "remixicon/finance/copper_coin_line.svg"
@@ -5017,6 +4942,9 @@ public val RemixiconRes.FinanceWaterFlashFill: String
 
 public val RemixiconRes.FinanceMoneyDollarBoxFill: String
     get() = "remixicon/finance/money_dollar_box_fill.svg"
+
+public val RemixiconRes.FinanceP2pLine: String
+    get() = "remixicon/finance/p2p_line.svg"
 
 public val RemixiconRes.FinanceSafeFill: String
     get() = "remixicon/finance/safe_fill.svg"
@@ -5099,8 +5027,14 @@ public val RemixiconRes.DeviceSignalWifiOffFill: String
 public val RemixiconRes.DeviceSignalWifiFill: String
     get() = "remixicon/device/signal_wifi_fill.svg"
 
+public val RemixiconRes.DeviceHardDrive3Line: String
+    get() = "remixicon/device/hard_drive_3_line.svg"
+
 public val RemixiconRes.DeviceHardDrive2Line: String
     get() = "remixicon/device/hard_drive_2_line.svg"
+
+public val RemixiconRes.DeviceInstanceLine: String
+    get() = "remixicon/device/instance_line.svg"
 
 public val RemixiconRes.DevicePhoneFindFill: String
     get() = "remixicon/device/phone_find_fill.svg"
@@ -5204,11 +5138,17 @@ public val RemixiconRes.DeviceSignalWifiLine: String
 public val RemixiconRes.DeviceHardDrive2Fill: String
     get() = "remixicon/device/hard_drive_2_fill.svg"
 
+public val RemixiconRes.DeviceHardDrive3Fill: String
+    get() = "remixicon/device/hard_drive_3_fill.svg"
+
 public val RemixiconRes.DeviceSignalWifi3Fill: String
     get() = "remixicon/device/signal_wifi_3_fill.svg"
 
 public val RemixiconRes.DeviceSignalWifi2Fill: String
     get() = "remixicon/device/signal_wifi_2_fill.svg"
+
+public val RemixiconRes.DeviceInstanceFill: String
+    get() = "remixicon/device/instance_fill.svg"
 
 public val RemixiconRes.DevicePhoneFindLine: String
     get() = "remixicon/device/phone_find_line.svg"
@@ -5546,6 +5486,9 @@ public val RemixiconRes.WeatherHailLine: String
 public val RemixiconRes.WeatherTempHotFill: String
     get() = "remixicon/weather/temp_hot_fill.svg"
 
+public val RemixiconRes.WeatherSparklingLine: String
+    get() = "remixicon/weather/sparkling_line.svg"
+
 public val RemixiconRes.WeatherFloodLine: String
     get() = "remixicon/weather/flood_line.svg"
 
@@ -5564,6 +5507,9 @@ public val RemixiconRes.WeatherHeavyShowersFill: String
 public val RemixiconRes.WeatherFahrenheitLine: String
     get() = "remixicon/weather/fahrenheit_line.svg"
 
+public val RemixiconRes.WeatherShining2Line: String
+    get() = "remixicon/weather/shining_2_line.svg"
+
 public val RemixiconRes.WeatherDrizzleLine: String
     get() = "remixicon/weather/drizzle_line.svg"
 
@@ -5572,6 +5518,9 @@ public val RemixiconRes.WeatherFoggyLine: String
 
 public val RemixiconRes.WeatherSunFoggyLine: String
     get() = "remixicon/weather/sun_foggy_line.svg"
+
+public val RemixiconRes.WeatherSparkling2Fill: String
+    get() = "remixicon/weather/sparkling_2_fill.svg"
 
 public val RemixiconRes.WeatherMoonCloudyLine: String
     get() = "remixicon/weather/moon_cloudy_line.svg"
@@ -5599,6 +5548,9 @@ public val RemixiconRes.WeatherHeavyShowersLine: String
 
 public val RemixiconRes.WeatherTempHotLine: String
     get() = "remixicon/weather/temp_hot_line.svg"
+
+public val RemixiconRes.WeatherSparklingFill: String
+    get() = "remixicon/weather/sparkling_fill.svg"
 
 public val RemixiconRes.WeatherHailFill: String
     get() = "remixicon/weather/hail_fill.svg"
@@ -5630,11 +5582,17 @@ public val RemixiconRes.WeatherSnowyFill: String
 public val RemixiconRes.WeatherDrizzleFill: String
     get() = "remixicon/weather/drizzle_fill.svg"
 
+public val RemixiconRes.WeatherShining2Fill: String
+    get() = "remixicon/weather/shining_2_fill.svg"
+
 public val RemixiconRes.WeatherSunFoggyFill: String
     get() = "remixicon/weather/sun_foggy_fill.svg"
 
 public val RemixiconRes.WeatherFoggyFill: String
     get() = "remixicon/weather/foggy_fill.svg"
+
+public val RemixiconRes.WeatherSparkling2Line: String
+    get() = "remixicon/weather/sparkling_2_line.svg"
 
 public val RemixiconRes.WeatherHazeLine: String
     get() = "remixicon/weather/haze_line.svg"
@@ -5683,6 +5641,9 @@ public val RemixiconRes.WeatherRainbowFill: String
 
 public val RemixiconRes.WeatherFireLine: String
     get() = "remixicon/weather/fire_line.svg"
+
+public val RemixiconRes.WeatherShiningFill: String
+    get() = "remixicon/weather/shining_fill.svg"
 
 public val RemixiconRes.WeatherThunderstormsLine: String
     get() = "remixicon/weather/thunderstorms_line.svg"
@@ -5735,6 +5696,9 @@ public val RemixiconRes.WeatherThunderstormsFill: String
 public val RemixiconRes.WeatherSunLine: String
     get() = "remixicon/weather/sun_line.svg"
 
+public val RemixiconRes.WeatherShiningLine: String
+    get() = "remixicon/weather/shining_line.svg"
+
 public val RemixiconRes.WeatherTornadoLine: String
     get() = "remixicon/weather/tornado_line.svg"
 
@@ -5749,6 +5713,330 @@ public val RemixiconRes.WeatherMoonFoggyLine: String
 
 public val RemixiconRes.WeatherCloudWindyFill: String
     get() = "remixicon/weather/cloud_windy_fill.svg"
+
+public val RemixiconRes.ArrowsCornerLeftDownLine: String
+    get() = "remixicon/arrows/corner_left_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowDownDoubleLine: String
+    get() = "remixicon/arrows/arrow_down_double_line.svg"
+
+public val RemixiconRes.ArrowsExpandUpDownLine: String
+    get() = "remixicon/arrows/expand_up_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpLine: String
+    get() = "remixicon/arrows/arrow_up_line.svg"
+
+public val RemixiconRes.ArrowsArrowGoForwardLine: String
+    get() = "remixicon/arrows/arrow_go_forward_line.svg"
+
+public val RemixiconRes.ArrowsSkipUpFill: String
+    get() = "remixicon/arrows/skip_up_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftFill: String
+    get() = "remixicon/arrows/arrow_left_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftDownLine: String
+    get() = "remixicon/arrows/arrow_left_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowDownCircleFill: String
+    get() = "remixicon/arrows/arrow_down_circle_fill.svg"
+
+public val RemixiconRes.ArrowsCornerDownRightLine: String
+    get() = "remixicon/arrows/corner_down_right_line.svg"
+
+public val RemixiconRes.ArrowsCornerLeftUpLine: String
+    get() = "remixicon/arrows/corner_left_up_line.svg"
+
+public val RemixiconRes.ArrowsArrowTurnBackFill: String
+    get() = "remixicon/arrows/arrow_turn_back_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightFill: String
+    get() = "remixicon/arrows/arrow_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightUpLine: String
+    get() = "remixicon/arrows/arrow_right_up_line.svg"
+
+public val RemixiconRes.ArrowsSkipLeftFill: String
+    get() = "remixicon/arrows/skip_left_fill.svg"
+
+public val RemixiconRes.ArrowsCornerRightUpLine: String
+    get() = "remixicon/arrows/corner_right_up_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpSLine: String
+    get() = "remixicon/arrows/arrow_up_s_line.svg"
+
+public val RemixiconRes.ArrowsArrowDownSFill: String
+    get() = "remixicon/arrows/arrow_down_s_fill.svg"
+
+public val RemixiconRes.ArrowsContractLeftFill: String
+    get() = "remixicon/arrows/contract_left_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftUpLine: String
+    get() = "remixicon/arrows/arrow_left_up_line.svg"
+
+public val RemixiconRes.ArrowsDragMoveLine: String
+    get() = "remixicon/arrows/drag_move_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpDownFill: String
+    get() = "remixicon/arrows/arrow_up_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDropDownLine: String
+    get() = "remixicon/arrows/arrow_drop_down_line.svg"
+
+public val RemixiconRes.ArrowsCornerRightDownLine: String
+    get() = "remixicon/arrows/corner_right_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightDownLine: String
+    get() = "remixicon/arrows/arrow_right_down_line.svg"
+
+public val RemixiconRes.ArrowsCornerUpRightDoubleLine: String
+    get() = "remixicon/arrows/corner_up_right_double_line.svg"
+
+public val RemixiconRes.ArrowsExpandLeftRightLine: String
+    get() = "remixicon/arrows/expand_left_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftDownFill: String
+    get() = "remixicon/arrows/arrow_left_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDownCircleLine: String
+    get() = "remixicon/arrows/arrow_down_circle_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftLine: String
+    get() = "remixicon/arrows/arrow_left_line.svg"
+
+public val RemixiconRes.ArrowsCornerLeftUpFill: String
+    get() = "remixicon/arrows/corner_left_up_fill.svg"
+
+public val RemixiconRes.ArrowsCornerDownRightFill: String
+    get() = "remixicon/arrows/corner_down_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightLine: String
+    get() = "remixicon/arrows/arrow_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowTurnBackLine: String
+    get() = "remixicon/arrows/arrow_turn_back_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightUpFill: String
+    get() = "remixicon/arrows/arrow_right_up_fill.svg"
+
+public val RemixiconRes.ArrowsSkipLeftLine: String
+    get() = "remixicon/arrows/skip_left_line.svg"
+
+public val RemixiconRes.ArrowsCornerLeftDownFill: String
+    get() = "remixicon/arrows/corner_left_down_fill.svg"
+
+public val RemixiconRes.ArrowsExpandUpDownFill: String
+    get() = "remixicon/arrows/expand_up_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDownDoubleFill: String
+    get() = "remixicon/arrows/arrow_down_double_fill.svg"
+
+public val RemixiconRes.ArrowsArrowGoForwardFill: String
+    get() = "remixicon/arrows/arrow_go_forward_fill.svg"
+
+public val RemixiconRes.ArrowsArrowUpFill: String
+    get() = "remixicon/arrows/arrow_up_fill.svg"
+
+public val RemixiconRes.ArrowsSkipUpLine: String
+    get() = "remixicon/arrows/skip_up_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightDownFill: String
+    get() = "remixicon/arrows/arrow_right_down_fill.svg"
+
+public val RemixiconRes.ArrowsExpandLeftRightFill: String
+    get() = "remixicon/arrows/expand_left_right_fill.svg"
+
+public val RemixiconRes.ArrowsCornerUpRightDoubleFill: String
+    get() = "remixicon/arrows/corner_up_right_double_fill.svg"
+
+public val RemixiconRes.ArrowsCornerRightUpFill: String
+    get() = "remixicon/arrows/corner_right_up_fill.svg"
+
+public val RemixiconRes.ArrowsArrowUpSFill: String
+    get() = "remixicon/arrows/arrow_up_s_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDownSLine: String
+    get() = "remixicon/arrows/arrow_down_s_line.svg"
+
+public val RemixiconRes.ArrowsDragMoveFill: String
+    get() = "remixicon/arrows/drag_move_fill.svg"
+
+public val RemixiconRes.ArrowsContractLeftLine: String
+    get() = "remixicon/arrows/contract_left_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftUpFill: String
+    get() = "remixicon/arrows/arrow_left_up_fill.svg"
+
+public val RemixiconRes.ArrowsCornerRightDownFill: String
+    get() = "remixicon/arrows/corner_right_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDropDownFill: String
+    get() = "remixicon/arrows/arrow_drop_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowUpDownLine: String
+    get() = "remixicon/arrows/arrow_up_down_line.svg"
+
+public val RemixiconRes.ArrowsExpandRightLine: String
+    get() = "remixicon/arrows/expand_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpDoubleLine: String
+    get() = "remixicon/arrows/arrow_up_double_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightSFill: String
+    get() = "remixicon/arrows/arrow_right_s_fill.svg"
+
+public val RemixiconRes.ArrowsContractRightLine: String
+    get() = "remixicon/arrows/contract_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowDropUpFill: String
+    get() = "remixicon/arrows/arrow_drop_up_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDropRightFill: String
+    get() = "remixicon/arrows/arrow_drop_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftSFill: String
+    get() = "remixicon/arrows/arrow_left_s_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDownFill: String
+    get() = "remixicon/arrows/arrow_down_fill.svg"
+
+public val RemixiconRes.ArrowsCornerUpLeftFill: String
+    get() = "remixicon/arrows/corner_up_left_fill.svg"
+
+public val RemixiconRes.ArrowsArrowUpCircleFill: String
+    get() = "remixicon/arrows/arrow_up_circle_fill.svg"
+
+public val RemixiconRes.ArrowsContractUpDownFill: String
+    get() = "remixicon/arrows/contract_up_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftRightFill: String
+    get() = "remixicon/arrows/arrow_left_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowTurnForwardFill: String
+    get() = "remixicon/arrows/arrow_turn_forward_fill.svg"
+
+public val RemixiconRes.ArrowsSkipDownFill: String
+    get() = "remixicon/arrows/skip_down_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightCircleLine: String
+    get() = "remixicon/arrows/arrow_right_circle_line.svg"
+
+public val RemixiconRes.ArrowsSkipRightFill: String
+    get() = "remixicon/arrows/skip_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDropLeftLine: String
+    get() = "remixicon/arrows/arrow_drop_left_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftCircleFill: String
+    get() = "remixicon/arrows/arrow_left_circle_fill.svg"
+
+public val RemixiconRes.ArrowsCornerUpLeftDoubleFill: String
+    get() = "remixicon/arrows/corner_up_left_double_fill.svg"
+
+public val RemixiconRes.ArrowsCornerDownLeftLine: String
+    get() = "remixicon/arrows/corner_down_left_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftDoubleLine: String
+    get() = "remixicon/arrows/arrow_left_double_line.svg"
+
+public val RemixiconRes.ArrowsDragMove2Fill: String
+    get() = "remixicon/arrows/drag_move_2_fill.svg"
+
+public val RemixiconRes.ArrowsArrowGoBackFill: String
+    get() = "remixicon/arrows/arrow_go_back_fill.svg"
+
+public val RemixiconRes.ArrowsContractLeftRightLine: String
+    get() = "remixicon/arrows/contract_left_right_line.svg"
+
+public val RemixiconRes.ArrowsExpandLeftFill: String
+    get() = "remixicon/arrows/expand_left_fill.svg"
+
+public val RemixiconRes.ArrowsCornerUpRightLine: String
+    get() = "remixicon/arrows/corner_up_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightDoubleFill: String
+    get() = "remixicon/arrows/arrow_right_double_fill.svg"
+
+public val RemixiconRes.ArrowsCornerUpLeftLine: String
+    get() = "remixicon/arrows/corner_up_left_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpCircleLine: String
+    get() = "remixicon/arrows/arrow_up_circle_line.svg"
+
+public val RemixiconRes.ArrowsArrowDownLine: String
+    get() = "remixicon/arrows/arrow_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowLeftRightLine: String
+    get() = "remixicon/arrows/arrow_left_right_line.svg"
+
+public val RemixiconRes.ArrowsContractUpDownLine: String
+    get() = "remixicon/arrows/contract_up_down_line.svg"
+
+public val RemixiconRes.ArrowsArrowTurnForwardLine: String
+    get() = "remixicon/arrows/arrow_turn_forward_line.svg"
+
+public val RemixiconRes.ArrowsSkipDownLine: String
+    get() = "remixicon/arrows/skip_down_line.svg"
+
+public val RemixiconRes.ArrowsExpandRightFill: String
+    get() = "remixicon/arrows/expand_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightSLine: String
+    get() = "remixicon/arrows/arrow_right_s_line.svg"
+
+public val RemixiconRes.ArrowsArrowUpDoubleFill: String
+    get() = "remixicon/arrows/arrow_up_double_fill.svg"
+
+public val RemixiconRes.ArrowsArrowDropRightLine: String
+    get() = "remixicon/arrows/arrow_drop_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowDropUpLine: String
+    get() = "remixicon/arrows/arrow_drop_up_line.svg"
+
+public val RemixiconRes.ArrowsContractRightFill: String
+    get() = "remixicon/arrows/contract_right_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftSLine: String
+    get() = "remixicon/arrows/arrow_left_s_line.svg"
+
+public val RemixiconRes.ArrowsCornerUpLeftDoubleLine: String
+    get() = "remixicon/arrows/corner_up_left_double_line.svg"
+
+public val RemixiconRes.ArrowsArrowGoBackLine: String
+    get() = "remixicon/arrows/arrow_go_back_line.svg"
+
+public val RemixiconRes.ArrowsDragMove2Line: String
+    get() = "remixicon/arrows/drag_move_2_line.svg"
+
+public val RemixiconRes.ArrowsContractLeftRightFill: String
+    get() = "remixicon/arrows/contract_left_right_fill.svg"
+
+public val RemixiconRes.ArrowsExpandLeftLine: String
+    get() = "remixicon/arrows/expand_left_line.svg"
+
+public val RemixiconRes.ArrowsCornerDownLeftFill: String
+    get() = "remixicon/arrows/corner_down_left_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftDoubleFill: String
+    get() = "remixicon/arrows/arrow_left_double_fill.svg"
+
+public val RemixiconRes.ArrowsArrowRightDoubleLine: String
+    get() = "remixicon/arrows/arrow_right_double_line.svg"
+
+public val RemixiconRes.ArrowsCornerUpRightFill: String
+    get() = "remixicon/arrows/corner_up_right_fill.svg"
+
+public val RemixiconRes.ArrowsSkipRightLine: String
+    get() = "remixicon/arrows/skip_right_line.svg"
+
+public val RemixiconRes.ArrowsArrowRightCircleFill: String
+    get() = "remixicon/arrows/arrow_right_circle_fill.svg"
+
+public val RemixiconRes.ArrowsArrowLeftCircleLine: String
+    get() = "remixicon/arrows/arrow_left_circle_line.svg"
+
+public val RemixiconRes.ArrowsArrowDropLeftFill: String
+    get() = "remixicon/arrows/arrow_drop_left_fill.svg"
 
 public val RemixiconRes.CommunicationQuestionnaireLine: String
     get() = "remixicon/communication/questionnaire_line.svg"
@@ -5804,8 +6092,14 @@ public val RemixiconRes.CommunicationVideoChatLine: String
 public val RemixiconRes.CommunicationChatHeartFill: String
     get() = "remixicon/communication/chat_heart_fill.svg"
 
+public val RemixiconRes.CommunicationEmojiStickerLine: String
+    get() = "remixicon/communication/emoji_sticker_line.svg"
+
 public val RemixiconRes.CommunicationChatPrivateLine: String
     get() = "remixicon/communication/chat_private_line.svg"
+
+public val RemixiconRes.CommunicationSpeakFill: String
+    get() = "remixicon/communication/speak_fill.svg"
 
 public val RemixiconRes.CommunicationChatVoiceLine: String
     get() = "remixicon/communication/chat_voice_line.svg"
@@ -5852,8 +6146,14 @@ public val RemixiconRes.CommunicationMessageFill: String
 public val RemixiconRes.CommunicationChatHeartLine: String
     get() = "remixicon/communication/chat_heart_line.svg"
 
+public val RemixiconRes.CommunicationEmojiStickerFill: String
+    get() = "remixicon/communication/emoji_sticker_fill.svg"
+
 public val RemixiconRes.CommunicationChatPrivateFill: String
     get() = "remixicon/communication/chat_private_fill.svg"
+
+public val RemixiconRes.CommunicationSpeakLine: String
+    get() = "remixicon/communication/speak_line.svg"
 
 public val RemixiconRes.CommunicationChat2Fill: String
     get() = "remixicon/communication/chat_2_fill.svg"
@@ -5930,11 +6230,200 @@ public val RemixiconRes.CommunicationChatSmileLine: String
 public val RemixiconRes.CommunicationChatCheckFill: String
     get() = "remixicon/communication/chat_check_fill.svg"
 
+public val RemixiconRes.HealthAndMedicalHeartAddFill: String
+    get() = "remixicon/health_and_medical/heart_add_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalVirusFill: String
+    get() = "remixicon/health_and_medical/virus_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalFirstAidKitFill: String
+    get() = "remixicon/health_and_medical/first_aid_kit_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHandSanitizerLine: String
+    get() = "remixicon/health_and_medical/hand_sanitizer_line.svg"
+
+public val RemixiconRes.HealthAndMedicalTestTubeFill: String
+    get() = "remixicon/health_and_medical/test_tube_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartFill: String
+    get() = "remixicon/health_and_medical/heart_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHealthBookFill: String
+    get() = "remixicon/health_and_medical/health_book_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalMedicineBottleFill: String
+    get() = "remixicon/health_and_medical/medicine_bottle_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalMentalHealthLine: String
+    get() = "remixicon/health_and_medical/mental_health_line.svg"
+
+public val RemixiconRes.HealthAndMedicalPsychotherapyFill: String
+    get() = "remixicon/health_and_medical/psychotherapy_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalDossierFill: String
+    get() = "remixicon/health_and_medical/dossier_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalMicroscopeFill: String
+    get() = "remixicon/health_and_medical/microscope_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalSurgicalMaskLine: String
+    get() = "remixicon/health_and_medical/surgical_mask_line.svg"
+
+public val RemixiconRes.HealthAndMedicalRestTimeLine: String
+    get() = "remixicon/health_and_medical/rest_time_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeart3Line: String
+    get() = "remixicon/health_and_medical/heart_3_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeart2Line: String
+    get() = "remixicon/health_and_medical/heart_2_line.svg"
+
+public val RemixiconRes.HealthAndMedicalInfraredThermometerLine: String
+    get() = "remixicon/health_and_medical/infrared_thermometer_line.svg"
+
+public val RemixiconRes.HealthAndMedicalMedicineBottleLine: String
+    get() = "remixicon/health_and_medical/medicine_bottle_line.svg"
+
+public val RemixiconRes.HealthAndMedicalMentalHealthFill: String
+    get() = "remixicon/health_and_medical/mental_health_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalPsychotherapyLine: String
+    get() = "remixicon/health_and_medical/psychotherapy_line.svg"
+
+public val RemixiconRes.HealthAndMedicalDossierLine: String
+    get() = "remixicon/health_and_medical/dossier_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartAddLine: String
+    get() = "remixicon/health_and_medical/heart_add_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHandSanitizerFill: String
+    get() = "remixicon/health_and_medical/hand_sanitizer_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalTestTubeLine: String
+    get() = "remixicon/health_and_medical/test_tube_line.svg"
+
+public val RemixiconRes.HealthAndMedicalVirusLine: String
+    get() = "remixicon/health_and_medical/virus_line.svg"
+
+public val RemixiconRes.HealthAndMedicalFirstAidKitLine: String
+    get() = "remixicon/health_and_medical/first_aid_kit_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartLine: String
+    get() = "remixicon/health_and_medical/heart_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHealthBookLine: String
+    get() = "remixicon/health_and_medical/health_book_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeart2Fill: String
+    get() = "remixicon/health_and_medical/heart_2_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHeart3Fill: String
+    get() = "remixicon/health_and_medical/heart_3_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalInfraredThermometerFill: String
+    get() = "remixicon/health_and_medical/infrared_thermometer_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalMicroscopeLine: String
+    get() = "remixicon/health_and_medical/microscope_line.svg"
+
+public val RemixiconRes.HealthAndMedicalSurgicalMaskFill: String
+    get() = "remixicon/health_and_medical/surgical_mask_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalRestTimeFill: String
+    get() = "remixicon/health_and_medical/rest_time_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartsFill: String
+    get() = "remixicon/health_and_medical/hearts_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalFlaskLine: String
+    get() = "remixicon/health_and_medical/flask_line.svg"
+
+public val RemixiconRes.HealthAndMedicalNurseLine: String
+    get() = "remixicon/health_and_medical/nurse_line.svg"
+
+public val RemixiconRes.HealthAndMedicalDislikeFill: String
+    get() = "remixicon/health_and_medical/dislike_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalThermometerFill: String
+    get() = "remixicon/health_and_medical/thermometer_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalZzzFill: String
+    get() = "remixicon/health_and_medical/zzz_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalCapsuleLine: String
+    get() = "remixicon/health_and_medical/capsule_line.svg"
+
+public val RemixiconRes.HealthAndMedicalEmpathizeLine: String
+    get() = "remixicon/health_and_medical/empathize_line.svg"
+
+public val RemixiconRes.HealthAndMedicalLungsFill: String
+    get() = "remixicon/health_and_medical/lungs_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalSyringeLine: String
+    get() = "remixicon/health_and_medical/syringe_line.svg"
+
+public val RemixiconRes.HealthAndMedicalStethoscopeFill: String
+    get() = "remixicon/health_and_medical/stethoscope_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalPulseLine: String
+    get() = "remixicon/health_and_medical/pulse_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartPulseFill: String
+    get() = "remixicon/health_and_medical/heart_pulse_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalBrainLine: String
+    get() = "remixicon/health_and_medical/brain_line.svg"
+
+public val RemixiconRes.HealthAndMedicalFlaskFill: String
+    get() = "remixicon/health_and_medical/flask_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalNurseFill: String
+    get() = "remixicon/health_and_medical/nurse_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartsLine: String
+    get() = "remixicon/health_and_medical/hearts_line.svg"
+
+public val RemixiconRes.HealthAndMedicalZzzLine: String
+    get() = "remixicon/health_and_medical/zzz_line.svg"
+
+public val RemixiconRes.HealthAndMedicalDislikeLine: String
+    get() = "remixicon/health_and_medical/dislike_line.svg"
+
+public val RemixiconRes.HealthAndMedicalThermometerLine: String
+    get() = "remixicon/health_and_medical/thermometer_line.svg"
+
+public val RemixiconRes.HealthAndMedicalEmpathizeFill: String
+    get() = "remixicon/health_and_medical/empathize_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalCapsuleFill: String
+    get() = "remixicon/health_and_medical/capsule_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalPulseFill: String
+    get() = "remixicon/health_and_medical/pulse_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalStethoscopeLine: String
+    get() = "remixicon/health_and_medical/stethoscope_line.svg"
+
+public val RemixiconRes.HealthAndMedicalHeartPulseLine: String
+    get() = "remixicon/health_and_medical/heart_pulse_line.svg"
+
+public val RemixiconRes.HealthAndMedicalBrainFill: String
+    get() = "remixicon/health_and_medical/brain_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalSyringeFill: String
+    get() = "remixicon/health_and_medical/syringe_fill.svg"
+
+public val RemixiconRes.HealthAndMedicalLungsLine: String
+    get() = "remixicon/health_and_medical/lungs_line.svg"
+
 public val RemixiconRes.EditorUnderline: String
     get() = "remixicon/editor/underline.svg"
 
 public val RemixiconRes.EditorInsertColumnRight: String
     get() = "remixicon/editor/insert_column_right.svg"
+
+public val RemixiconRes.EditorAiGenerate: String
+    get() = "remixicon/editor/ai_generate.svg"
 
 public val RemixiconRes.EditorTextSpacing: String
     get() = "remixicon/editor/text_spacing.svg"
@@ -5954,6 +6443,9 @@ public val RemixiconRes.EditorWubiInput: String
 public val RemixiconRes.EditorSubscript: String
     get() = "remixicon/editor/subscript.svg"
 
+public val RemixiconRes.EditorFontSansSerif: String
+    get() = "remixicon/editor/font_sans_serif.svg"
+
 public val RemixiconRes.EditorIndentIncrease: String
     get() = "remixicon/editor/indent_increase.svg"
 
@@ -5969,8 +6461,14 @@ public val RemixiconRes.EditorTranslate2: String
 public val RemixiconRes.EditorTranslate: String
     get() = "remixicon/editor/translate.svg"
 
+public val RemixiconRes.EditorSlashCommands: String
+    get() = "remixicon/editor/slash_commands.svg"
+
 public val RemixiconRes.EditorOmega: String
     get() = "remixicon/editor/omega.svg"
+
+public val RemixiconRes.EditorDraggable: String
+    get() = "remixicon/editor/draggable.svg"
 
 public val RemixiconRes.EditorIndentDecrease: String
     get() = "remixicon/editor/indent_decrease.svg"
@@ -5984,11 +6482,17 @@ public val RemixiconRes.EditorStrikethrough: String
 public val RemixiconRes.EditorAlignBottom: String
     get() = "remixicon/editor/align_bottom.svg"
 
+public val RemixiconRes.EditorFontSans: String
+    get() = "remixicon/editor/font_sans.svg"
+
 public val RemixiconRes.EditorSendBackward: String
     get() = "remixicon/editor/send_backward.svg"
 
 public val RemixiconRes.EditorStrikethrough2: String
     get() = "remixicon/editor/strikethrough_2.svg"
+
+public val RemixiconRes.EditorQuoteText: String
+    get() = "remixicon/editor/quote_text.svg"
 
 public val RemixiconRes.EditorNumber9: String
     get() = "remixicon/editor/number_9.svg"
@@ -5998,6 +6502,9 @@ public val RemixiconRes.EditorNumber8: String
 
 public val RemixiconRes.EditorInsertRowTop: String
     get() = "remixicon/editor/insert_row_top.svg"
+
+public val RemixiconRes.EditorFontMono: String
+    get() = "remixicon/editor/font_mono.svg"
 
 public val RemixiconRes.EditorInsertColumnLeft: String
     get() = "remixicon/editor/insert_column_left.svg"
@@ -6029,8 +6536,14 @@ public val RemixiconRes.EditorMindMap: String
 public val RemixiconRes.EditorQuestionMark: String
     get() = "remixicon/editor/question_mark.svg"
 
+public val RemixiconRes.EditorListCheck3: String
+    get() = "remixicon/editor/list_check_3.svg"
+
 public val RemixiconRes.EditorBringForward: String
     get() = "remixicon/editor/bring_forward.svg"
+
+public val RemixiconRes.EditorOverline: String
+    get() = "remixicon/editor/overline.svg"
 
 public val RemixiconRes.EditorSplitCellsHorizontal: String
     get() = "remixicon/editor/split_cells_horizontal.svg"
@@ -6074,6 +6587,9 @@ public val RemixiconRes.EditorNodeTree: String
 public val RemixiconRes.EditorFunctions: String
     get() = "remixicon/editor/functions.svg"
 
+public val RemixiconRes.EditorSketching: String
+    get() = "remixicon/editor/sketching.svg"
+
 public val RemixiconRes.EditorPinyinInput: String
     get() = "remixicon/editor/pinyin_input.svg"
 
@@ -6082,6 +6598,9 @@ public val RemixiconRes.EditorText: String
 
 public val RemixiconRes.EditorSingleQuotesR: String
     get() = "remixicon/editor/single_quotes_r.svg"
+
+public val RemixiconRes.EditorFontFamily: String
+    get() = "remixicon/editor/font_family.svg"
 
 public val RemixiconRes.EditorSuperscript: String
     get() = "remixicon/editor/superscript.svg"
@@ -6125,6 +6644,9 @@ public val RemixiconRes.EditorSuperscript2: String
 public val RemixiconRes.EditorFontColor: String
     get() = "remixicon/editor/font_color.svg"
 
+public val RemixiconRes.EditorListOrdered2: String
+    get() = "remixicon/editor/list_ordered_2.svg"
+
 public val RemixiconRes.EditorAlignVertically: String
     get() = "remixicon/editor/align_vertically.svg"
 
@@ -6157,6 +6679,9 @@ public val RemixiconRes.EditorFontSize: String
 
 public val RemixiconRes.EditorH2: String
     get() = "remixicon/editor/h_2.svg"
+
+public val RemixiconRes.EditorListRadio: String
+    get() = "remixicon/editor/list_radio.svg"
 
 public val RemixiconRes.EditorItalic: String
     get() = "remixicon/editor/italic.svg"
@@ -6196,6 +6721,9 @@ public val RemixiconRes.EditorNumber3: String
 
 public val RemixiconRes.EditorNumber2: String
     get() = "remixicon/editor/number_2.svg"
+
+public val RemixiconRes.EditorListIndefinite: String
+    get() = "remixicon/editor/list_indefinite.svg"
 
 public val RemixiconRes.EditorH6: String
     get() = "remixicon/editor/h_6.svg"
@@ -6290,6 +6818,9 @@ public val RemixiconRes.MediaMusicLine: String
 public val RemixiconRes.MediaVideoLine: String
     get() = "remixicon/media/video_line.svg"
 
+public val RemixiconRes.MediaReplay10Fill: String
+    get() = "remixicon/media/replay_10_fill.svg"
+
 public val RemixiconRes.MediaGalleryFill: String
     get() = "remixicon/media/gallery_fill.svg"
 
@@ -6344,6 +6875,9 @@ public val RemixiconRes.MediaRewindFill: String
 public val RemixiconRes.MediaMovie2Fill: String
     get() = "remixicon/media/movie_2_fill.svg"
 
+public val RemixiconRes.MediaMemoriesFill: String
+    get() = "remixicon/media/memories_fill.svg"
+
 public val RemixiconRes.MediaPictureInPictureFill: String
     get() = "remixicon/media/picture_in_picture_fill.svg"
 
@@ -6374,11 +6908,17 @@ public val RemixiconRes.MediaSpeedMiniLine: String
 public val RemixiconRes.MediaNotificationOffLine: String
     get() = "remixicon/media/notification_off_line.svg"
 
+public val RemixiconRes.MediaForward10Fill: String
+    get() = "remixicon/media/forward_10_fill.svg"
+
 public val RemixiconRes.MediaPlayLine: String
     get() = "remixicon/media/play_line.svg"
 
 public val RemixiconRes.MediaSurroundSoundFill: String
     get() = "remixicon/media/surround_sound_fill.svg"
+
+public val RemixiconRes.MediaForward5Fill: String
+    get() = "remixicon/media/forward_5_fill.svg"
 
 public val RemixiconRes.MediaRewindMiniLine: String
     get() = "remixicon/media/rewind_mini_line.svg"
@@ -6394,6 +6934,9 @@ public val RemixiconRes.MediaCamera3Fill: String
 
 public val RemixiconRes.MediaCamera2Fill: String
     get() = "remixicon/media/camera_2_fill.svg"
+
+public val RemixiconRes.MediaReplay5Line: String
+    get() = "remixicon/media/replay_5_line.svg"
 
 public val RemixiconRes.MediaVidiconFill: String
     get() = "remixicon/media/vidicon_fill.svg"
@@ -6421,6 +6964,9 @@ public val RemixiconRes.MediaPauseFill: String
 
 public val RemixiconRes.MediaVideoFill: String
     get() = "remixicon/media/video_fill.svg"
+
+public val RemixiconRes.MediaReplay10Line: String
+    get() = "remixicon/media/replay_10_line.svg"
 
 public val RemixiconRes.MediaGalleryLine: String
     get() = "remixicon/media/gallery_line.svg"
@@ -6485,6 +7031,9 @@ public val RemixiconRes.MediaPlayFill: String
 public val RemixiconRes.MediaNotificationOffFill: String
     get() = "remixicon/media/notification_off_fill.svg"
 
+public val RemixiconRes.MediaForward10Line: String
+    get() = "remixicon/media/forward_10_line.svg"
+
 public val RemixiconRes.MediaVolumeDownFill: String
     get() = "remixicon/media/volume_down_fill.svg"
 
@@ -6493,6 +7042,12 @@ public val RemixiconRes.MediaSurroundSoundLine: String
 
 public val RemixiconRes.MediaRewindMiniFill: String
     get() = "remixicon/media/rewind_mini_fill.svg"
+
+public val RemixiconRes.MediaForward5Line: String
+    get() = "remixicon/media/forward_5_line.svg"
+
+public val RemixiconRes.MediaReplay5Fill: String
+    get() = "remixicon/media/replay_5_fill.svg"
 
 public val RemixiconRes.MediaVidiconLine: String
     get() = "remixicon/media/vidicon_line.svg"
@@ -6538,6 +7093,9 @@ public val RemixiconRes.MediaMvLine: String
 
 public val RemixiconRes.MediaVidicon2Fill: String
     get() = "remixicon/media/vidicon_2_fill.svg"
+
+public val RemixiconRes.MediaMemoriesLine: String
+    get() = "remixicon/media/memories_line.svg"
 
 public val RemixiconRes.MediaMovie2Line: String
     get() = "remixicon/media/movie_2_line.svg"
@@ -6599,6 +7157,9 @@ public val RemixiconRes.MediaPlayListAddLine: String
 public val RemixiconRes.MediaSoundModuleLine: String
     get() = "remixicon/media/sound_module_line.svg"
 
+public val RemixiconRes.MediaSpeedUpFill: String
+    get() = "remixicon/media/speed_up_fill.svg"
+
 public val RemixiconRes.MediaMusic2Fill: String
     get() = "remixicon/media/music_2_fill.svg"
 
@@ -6620,6 +7181,9 @@ public val RemixiconRes.MediaPlayMiniLine: String
 public val RemixiconRes.MediaVolumeUpFill: String
     get() = "remixicon/media/volume_up_fill.svg"
 
+public val RemixiconRes.MediaReplay30Fill: String
+    get() = "remixicon/media/replay_30_fill.svg"
+
 public val RemixiconRes.MediaDvFill: String
     get() = "remixicon/media/dv_fill.svg"
 
@@ -6628,6 +7192,9 @@ public val RemixiconRes.MediaPhoneCameraLine: String
 
 public val RemixiconRes.MediaSkipForwardLine: String
     get() = "remixicon/media/skip_forward_line.svg"
+
+public val RemixiconRes.MediaReplay15Line: String
+    get() = "remixicon/media/replay_15_line.svg"
 
 public val RemixiconRes.MediaMicOffLine: String
     get() = "remixicon/media/mic_off_line.svg"
@@ -6665,11 +7232,17 @@ public val RemixiconRes.MediaPlayList2Fill: String
 public val RemixiconRes.MediaSkipBackFill: String
     get() = "remixicon/media/skip_back_fill.svg"
 
+public val RemixiconRes.MediaSlowDownFill: String
+    get() = "remixicon/media/slow_down_fill.svg"
+
 public val RemixiconRes.MediaPauseMiniLine: String
     get() = "remixicon/media/pause_mini_line.svg"
 
 public val RemixiconRes.MediaDvdLine: String
     get() = "remixicon/media/dvd_line.svg"
+
+public val RemixiconRes.MediaForward15Line: String
+    get() = "remixicon/media/forward_15_line.svg"
 
 public val RemixiconRes.MediaStopFill: String
     get() = "remixicon/media/stop_fill.svg"
@@ -6685,6 +7258,9 @@ public val RemixiconRes.MediaVideoDownloadFill: String
 
 public val RemixiconRes.MediaPictureInPicture2Fill: String
     get() = "remixicon/media/picture_in_picture_2_fill.svg"
+
+public val RemixiconRes.MediaForward30Fill: String
+    get() = "remixicon/media/forward_30_fill.svg"
 
 public val RemixiconRes.MediaRadio2Line: String
     get() = "remixicon/media/radio_2_line.svg"
@@ -6719,11 +7295,17 @@ public val RemixiconRes.MediaPhoneCameraFill: String
 public val RemixiconRes.MediaVolumeUpLine: String
     get() = "remixicon/media/volume_up_line.svg"
 
+public val RemixiconRes.MediaReplay30Line: String
+    get() = "remixicon/media/replay_30_line.svg"
+
 public val RemixiconRes.MediaSkipForwardFill: String
     get() = "remixicon/media/skip_forward_fill.svg"
 
 public val RemixiconRes.MediaMicOffFill: String
     get() = "remixicon/media/mic_off_fill.svg"
+
+public val RemixiconRes.MediaReplay15Fill: String
+    get() = "remixicon/media/replay_15_fill.svg"
 
 public val RemixiconRes.MediaAspectRatioFill: String
     get() = "remixicon/media/aspect_ratio_fill.svg"
@@ -6746,6 +7328,9 @@ public val RemixiconRes.MediaPlayListAddFill: String
 public val RemixiconRes.MediaHdLine: String
     get() = "remixicon/media/hd_line.svg"
 
+public val RemixiconRes.MediaSpeedUpLine: String
+    get() = "remixicon/media/speed_up_line.svg"
+
 public val RemixiconRes.MediaSoundModuleFill: String
     get() = "remixicon/media/sound_module_fill.svg"
 
@@ -6754,6 +7339,9 @@ public val RemixiconRes.MediaRhythmFill: String
 
 public val RemixiconRes.MediaTapeFill: String
     get() = "remixicon/media/tape_fill.svg"
+
+public val RemixiconRes.MediaSlowDownLine: String
+    get() = "remixicon/media/slow_down_line.svg"
 
 public val RemixiconRes.MediaPauseMiniFill: String
     get() = "remixicon/media/pause_mini_fill.svg"
@@ -6766,6 +7354,9 @@ public val RemixiconRes.MediaStopLine: String
 
 public val RemixiconRes.MediaDvdFill: String
     get() = "remixicon/media/dvd_fill.svg"
+
+public val RemixiconRes.MediaForward15Fill: String
+    get() = "remixicon/media/forward_15_fill.svg"
 
 public val RemixiconRes.MediaFullscreenExitFill: String
     get() = "remixicon/media/fullscreen_exit_fill.svg"
@@ -6781,6 +7372,9 @@ public val RemixiconRes.MediaVolumeOffVibrateLine: String
 
 public val RemixiconRes.MediaVideoDownloadLine: String
     get() = "remixicon/media/video_download_line.svg"
+
+public val RemixiconRes.MediaForward30Line: String
+    get() = "remixicon/media/forward_30_line.svg"
 
 public val RemixiconRes.MediaPictureInPicture2Line: String
     get() = "remixicon/media/picture_in_picture_2_line.svg"
