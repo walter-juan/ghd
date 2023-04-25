@@ -13,10 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
-
 ## [1.3.2]
 ### Added
 - Add the reviewers, status and mergeable to pull request card
+### Changed
+- Background colors
 ### Fixed
 - Some colors
 
