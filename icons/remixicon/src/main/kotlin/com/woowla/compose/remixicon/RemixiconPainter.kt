@@ -130,10 +130,6 @@ public val RemixiconPainter.DesignLayoutLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignLayoutLine)
 
-public val RemixiconPainter.DesignDragMoveLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.DesignDragMoveLine)
-
 public val RemixiconPainter.DesignTBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignTBoxFill)
@@ -342,10 +338,6 @@ public val RemixiconPainter.DesignPencilRuler2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignPencilRuler2Line)
 
-public val RemixiconPainter.DesignDragMoveFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.DesignDragMoveFill)
-
 public val RemixiconPainter.DesignTBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignTBoxLine)
@@ -510,10 +502,6 @@ public val RemixiconPainter.DesignInputMethodFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignInputMethodFill)
 
-public val RemixiconPainter.DesignDragMove2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.DesignDragMove2Fill)
-
 public val RemixiconPainter.DesignClockwise2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignClockwise2Line)
@@ -594,10 +582,6 @@ public val RemixiconPainter.DesignScissorsLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignScissorsLine)
 
-public val RemixiconPainter.DesignDragMove2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.DesignDragMove2Line)
-
 public val RemixiconPainter.DesignInputMethodLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.DesignInputMethodLine)
@@ -665,6 +649,10 @@ public val RemixiconPainter.DesignLayoutLeft2Fill: Painter
 public val RemixiconPainter.BuildingsBuildingLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsBuildingLine)
+
+public val RemixiconPainter.BuildingsHomeOfficeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BuildingsHomeOfficeLine)
 
 public val RemixiconPainter.BuildingsHomeWifiLine: Painter
     @Composable
@@ -742,6 +730,10 @@ public val RemixiconPainter.BuildingsBuildingFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsBuildingFill)
 
+public val RemixiconPainter.BuildingsHomeOfficeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BuildingsHomeOfficeFill)
+
 public val RemixiconPainter.BuildingsHomeWifiFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsHomeWifiFill)
@@ -789,6 +781,10 @@ public val RemixiconPainter.BuildingsHome8Fill: Painter
 public val RemixiconPainter.BuildingsHomeSmileLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsHomeSmileLine)
+
+public val RemixiconPainter.BuildingsSchoolLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BuildingsSchoolLine)
 
 public val RemixiconPainter.BuildingsHome3Fill: Painter
     @Composable
@@ -850,6 +846,10 @@ public val RemixiconPainter.BuildingsHome8Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsHome8Line)
 
+public val RemixiconPainter.BuildingsSchoolFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BuildingsSchoolFill)
+
 public val RemixiconPainter.BuildingsAncientPavilionFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BuildingsAncientPavilionFill)
@@ -898,6 +898,10 @@ public val RemixiconPainter.DevelopmentHtml5Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentHtml5Line)
 
+public val RemixiconPainter.DevelopmentJavascriptLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DevelopmentJavascriptLine)
+
 public val RemixiconPainter.DevelopmentGitBranchFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentGitBranchFill)
@@ -941,6 +945,10 @@ public val RemixiconPainter.DevelopmentGitRepositoryCommitsLine: Painter
 public val RemixiconPainter.DevelopmentHtml5Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentHtml5Fill)
+
+public val RemixiconPainter.DevelopmentJavascriptFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DevelopmentJavascriptFill)
 
 public val RemixiconPainter.DevelopmentGitBranchLine: Painter
     @Composable
@@ -1010,6 +1018,10 @@ public val RemixiconPainter.DevelopmentGitMergeFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentGitMergeFill)
 
+public val RemixiconPainter.DevelopmentGitClosePullRequestLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DevelopmentGitClosePullRequestLine)
+
 public val RemixiconPainter.DevelopmentCss3Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentCss3Fill)
@@ -1062,245 +1074,9 @@ public val RemixiconPainter.DevelopmentGitRepositoryPrivateLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.DevelopmentGitRepositoryPrivateLine)
 
-public val RemixiconPainter.HealthHeartAddFill: Painter
+public val RemixiconPainter.DevelopmentGitClosePullRequestFill: Painter
     @Composable
-    get() = painterResource(RemixiconRes.HealthHeartAddFill)
-
-public val RemixiconPainter.HealthVirusFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthVirusFill)
-
-public val RemixiconPainter.HealthFirstAidKitFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthFirstAidKitFill)
-
-public val RemixiconPainter.HealthHandSanitizerLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHandSanitizerLine)
-
-public val RemixiconPainter.HealthTestTubeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthTestTubeFill)
-
-public val RemixiconPainter.HealthHeartFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartFill)
-
-public val RemixiconPainter.HealthHealthBookFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHealthBookFill)
-
-public val RemixiconPainter.HealthMedicineBottleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMedicineBottleFill)
-
-public val RemixiconPainter.HealthMentalHealthLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMentalHealthLine)
-
-public val RemixiconPainter.HealthPsychotherapyFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthPsychotherapyFill)
-
-public val RemixiconPainter.HealthDossierFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthDossierFill)
-
-public val RemixiconPainter.HealthMicroscopeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMicroscopeFill)
-
-public val RemixiconPainter.HealthSurgicalMaskLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthSurgicalMaskLine)
-
-public val RemixiconPainter.HealthRestTimeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthRestTimeLine)
-
-public val RemixiconPainter.HealthHeart3Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeart3Line)
-
-public val RemixiconPainter.HealthHeart2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeart2Line)
-
-public val RemixiconPainter.HealthInfraredThermometerLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthInfraredThermometerLine)
-
-public val RemixiconPainter.HealthMedicineBottleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMedicineBottleLine)
-
-public val RemixiconPainter.HealthMentalHealthFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMentalHealthFill)
-
-public val RemixiconPainter.HealthPsychotherapyLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthPsychotherapyLine)
-
-public val RemixiconPainter.HealthDossierLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthDossierLine)
-
-public val RemixiconPainter.HealthHeartAddLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartAddLine)
-
-public val RemixiconPainter.HealthHandSanitizerFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHandSanitizerFill)
-
-public val RemixiconPainter.HealthTestTubeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthTestTubeLine)
-
-public val RemixiconPainter.HealthVirusLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthVirusLine)
-
-public val RemixiconPainter.HealthFirstAidKitLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthFirstAidKitLine)
-
-public val RemixiconPainter.HealthHeartLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartLine)
-
-public val RemixiconPainter.HealthHealthBookLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHealthBookLine)
-
-public val RemixiconPainter.HealthHeart2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeart2Fill)
-
-public val RemixiconPainter.HealthHeart3Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeart3Fill)
-
-public val RemixiconPainter.HealthInfraredThermometerFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthInfraredThermometerFill)
-
-public val RemixiconPainter.HealthMicroscopeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthMicroscopeLine)
-
-public val RemixiconPainter.HealthSurgicalMaskFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthSurgicalMaskFill)
-
-public val RemixiconPainter.HealthRestTimeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthRestTimeFill)
-
-public val RemixiconPainter.HealthHeartsFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartsFill)
-
-public val RemixiconPainter.HealthFlaskLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthFlaskLine)
-
-public val RemixiconPainter.HealthNurseLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthNurseLine)
-
-public val RemixiconPainter.HealthDislikeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthDislikeFill)
-
-public val RemixiconPainter.HealthThermometerFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthThermometerFill)
-
-public val RemixiconPainter.HealthZzzFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthZzzFill)
-
-public val RemixiconPainter.HealthCapsuleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthCapsuleLine)
-
-public val RemixiconPainter.HealthEmpathizeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthEmpathizeLine)
-
-public val RemixiconPainter.HealthLungsFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthLungsFill)
-
-public val RemixiconPainter.HealthSyringeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthSyringeLine)
-
-public val RemixiconPainter.HealthStethoscopeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthStethoscopeFill)
-
-public val RemixiconPainter.HealthPulseLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthPulseLine)
-
-public val RemixiconPainter.HealthHeartPulseFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartPulseFill)
-
-public val RemixiconPainter.HealthFlaskFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthFlaskFill)
-
-public val RemixiconPainter.HealthNurseFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthNurseFill)
-
-public val RemixiconPainter.HealthHeartsLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartsLine)
-
-public val RemixiconPainter.HealthZzzLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthZzzLine)
-
-public val RemixiconPainter.HealthDislikeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthDislikeLine)
-
-public val RemixiconPainter.HealthThermometerLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthThermometerLine)
-
-public val RemixiconPainter.HealthEmpathizeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthEmpathizeFill)
-
-public val RemixiconPainter.HealthCapsuleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthCapsuleFill)
-
-public val RemixiconPainter.HealthPulseFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthPulseFill)
-
-public val RemixiconPainter.HealthStethoscopeLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthStethoscopeLine)
-
-public val RemixiconPainter.HealthHeartPulseLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthHeartPulseLine)
-
-public val RemixiconPainter.HealthSyringeFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthSyringeFill)
-
-public val RemixiconPainter.HealthLungsLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.HealthLungsLine)
+    get() = painterResource(RemixiconRes.DevelopmentGitClosePullRequestFill)
 
 public val RemixiconPainter.BusinessCreativeCommonsByFill: Painter
     @Composable
@@ -1333,6 +1109,10 @@ public val RemixiconPainter.BusinessRecordMailLine: Painter
 public val RemixiconPainter.BusinessCalendar2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessCalendar2Line)
+
+public val RemixiconPainter.BusinessSeoLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessSeoLine)
 
 public val RemixiconPainter.BusinessInboxUnarchiveLine: Painter
     @Composable
@@ -1405,6 +1185,10 @@ public val RemixiconPainter.BusinessBookmark2Fill: Painter
 public val RemixiconPainter.BusinessCalculatorLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessCalculatorLine)
+
+public val RemixiconPainter.BusinessPresentationFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPresentationFill)
 
 public val RemixiconPainter.BusinessCloudFill: Painter
     @Composable
@@ -1530,6 +1314,10 @@ public val RemixiconPainter.BusinessCalculatorFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessCalculatorFill)
 
+public val RemixiconPainter.BusinessPresentationLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPresentationLine)
+
 public val RemixiconPainter.BusinessCloudOffLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessCloudOffLine)
@@ -1561,6 +1349,10 @@ public val RemixiconPainter.BusinessReplyAllFill: Painter
 public val RemixiconPainter.BusinessBarChart2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessBarChart2Fill)
+
+public val RemixiconPainter.BusinessSeoFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessSeoFill)
 
 public val RemixiconPainter.BusinessCalendar2Fill: Painter
     @Composable
@@ -1670,13 +1462,25 @@ public val RemixiconPainter.BusinessAwardLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessAwardLine)
 
+public val RemixiconPainter.BusinessPassPendingFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassPendingFill)
+
 public val RemixiconPainter.BusinessSendPlaneLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessSendPlaneLine)
 
+public val RemixiconPainter.BusinessMegaphoneLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessMegaphoneLine)
+
 public val RemixiconPainter.BusinessPrinterFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessPrinterFill)
+
+public val RemixiconPainter.BusinessPassValidLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassValidLine)
 
 public val RemixiconPainter.BusinessProjector2Line: Painter
     @Composable
@@ -1806,6 +1610,14 @@ public val RemixiconPainter.BusinessCustomerServiceLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessCustomerServiceLine)
 
+public val RemixiconPainter.BusinessCalendarCloseFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessCalendarCloseFill)
+
+public val RemixiconPainter.BusinessPassExpiredLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassExpiredLine)
+
 public val RemixiconPainter.BusinessPieChartBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessPieChartBoxLine)
@@ -1886,6 +1698,10 @@ public val RemixiconPainter.BusinessLinksLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessLinksLine)
 
+public val RemixiconPainter.BusinessPassPendingLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassPendingLine)
+
 public val RemixiconPainter.BusinessAwardFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessAwardFill)
@@ -1894,9 +1710,17 @@ public val RemixiconPainter.BusinessPrinterLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessPrinterLine)
 
+public val RemixiconPainter.BusinessPassValidFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassValidFill)
+
 public val RemixiconPainter.BusinessSendPlaneFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessSendPlaneFill)
+
+public val RemixiconPainter.BusinessMegaphoneFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessMegaphoneFill)
 
 public val RemixiconPainter.BusinessGlobalLine: Painter
     @Composable
@@ -1909,6 +1733,14 @@ public val RemixiconPainter.BusinessCreativeCommonsNdFill: Painter
 public val RemixiconPainter.BusinessProjector2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.BusinessProjector2Fill)
+
+public val RemixiconPainter.BusinessPassExpiredFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessPassExpiredFill)
+
+public val RemixiconPainter.BusinessCalendarCloseLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.BusinessCalendarCloseLine)
 
 public val RemixiconPainter.BusinessTrademarkLine: Painter
     @Composable
@@ -2050,6 +1882,10 @@ public val RemixiconPainter.LogosCentosLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosCentosLine)
 
+public val RemixiconPainter.LogosKickFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosKickFill)
+
 public val RemixiconPainter.LogosDisqusLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDisqusLine)
@@ -2082,6 +1918,10 @@ public val RemixiconPainter.LogosZhihuLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosZhihuLine)
 
+public val RemixiconPainter.LogosWordpressLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosWordpressLine)
+
 public val RemixiconPainter.LogosTrelloLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosTrelloLine)
@@ -2089,6 +1929,10 @@ public val RemixiconPainter.LogosTrelloLine: Painter
 public val RemixiconPainter.LogosAngularjsLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAngularjsLine)
+
+public val RemixiconPainter.LogosBardLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBardLine)
 
 public val RemixiconPainter.LogosCoreosFill: Painter
     @Composable
@@ -2110,6 +1954,10 @@ public val RemixiconPainter.LogosZcoolLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosZcoolLine)
 
+public val RemixiconPainter.LogosWechatChannelsLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosWechatChannelsLine)
+
 public val RemixiconPainter.LogosSoundcloudLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosSoundcloudLine)
@@ -2122,9 +1970,21 @@ public val RemixiconPainter.LogosVisaFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosVisaFill)
 
+public val RemixiconPainter.LogosBlenderLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBlenderLine)
+
 public val RemixiconPainter.LogosAmazonFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAmazonFill)
+
+public val RemixiconPainter.LogosNotionFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosNotionFill)
+
+public val RemixiconPainter.LogosMetaLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosMetaLine)
 
 public val RemixiconPainter.LogosFinderLine: Painter
     @Composable
@@ -2174,6 +2034,10 @@ public val RemixiconPainter.LogosDisqusFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDisqusFill)
 
+public val RemixiconPainter.LogosKickLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosKickLine)
+
 public val RemixiconPainter.LogosMastercardLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosMastercardLine)
@@ -2209,6 +2073,14 @@ public val RemixiconPainter.LogosZhihuFill: Painter
 public val RemixiconPainter.LogosBaiduLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosBaiduLine)
+
+public val RemixiconPainter.LogosWordpressFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosWordpressFill)
+
+public val RemixiconPainter.LogosBardFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBardFill)
 
 public val RemixiconPainter.LogosAngularjsFill: Painter
     @Composable
@@ -2330,6 +2202,10 @@ public val RemixiconPainter.LogosStackOverflowLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosStackOverflowLine)
 
+public val RemixiconPainter.LogosWechatChannelsFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosWechatChannelsFill)
+
 public val RemixiconPainter.LogosVisaLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosVisaLine)
@@ -2338,9 +2214,21 @@ public val RemixiconPainter.LogosAmazonLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAmazonLine)
 
+public val RemixiconPainter.LogosBlenderFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBlenderFill)
+
+public val RemixiconPainter.LogosMetaFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosMetaFill)
+
 public val RemixiconPainter.LogosFinderFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosFinderFill)
+
+public val RemixiconPainter.LogosNotionLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosNotionLine)
 
 public val RemixiconPainter.LogosSteamLine: Painter
     @Composable
@@ -2374,6 +2262,10 @@ public val RemixiconPainter.LogosKakaoTalkFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosKakaoTalkFill)
 
+public val RemixiconPainter.LogosCopilotLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosCopilotLine)
+
 public val RemixiconPainter.LogosOperaLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosOperaLine)
@@ -2401,6 +2293,10 @@ public val RemixiconPainter.LogosNpmjsFill: Painter
 public val RemixiconPainter.LogosVuejsFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosVuejsFill)
+
+public val RemixiconPainter.LogosOpenbaseFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosOpenbaseFill)
 
 public val RemixiconPainter.LogosSkypeFill: Painter
     @Composable
@@ -2446,6 +2342,10 @@ public val RemixiconPainter.LogosDingdingFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDingdingFill)
 
+public val RemixiconPainter.LogosFlickrLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosFlickrLine)
+
 public val RemixiconPainter.LogosVimeoLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosVimeoLine)
@@ -2466,9 +2366,17 @@ public val RemixiconPainter.LogosBehanceLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosBehanceLine)
 
+public val RemixiconPainter.LogosMicrosoftLoopLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosMicrosoftLoopLine)
+
 public val RemixiconPainter.LogosReactjsFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosReactjsFill)
+
+public val RemixiconPainter.LogosEdgeNewFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosEdgeNewFill)
 
 public val RemixiconPainter.LogosInstagramFill: Painter
     @Composable
@@ -2514,6 +2422,10 @@ public val RemixiconPainter.LogosBilibiliFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosBilibiliFill)
 
+public val RemixiconPainter.LogosOpenaiLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosOpenaiLine)
+
 public val RemixiconPainter.LogosAndroidFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAndroidFill)
@@ -2530,9 +2442,17 @@ public val RemixiconPainter.LogosAppStoreLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAppStoreLine)
 
+public val RemixiconPainter.LogosBootstrapLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBootstrapLine)
+
 public val RemixiconPainter.LogosXboxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosXboxLine)
+
+public val RemixiconPainter.LogosTiktokFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosTiktokFill)
 
 public val RemixiconPainter.LogosWechat2Line: Painter
     @Composable
@@ -2582,6 +2502,10 @@ public val RemixiconPainter.LogosUbuntuFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosUbuntuFill)
 
+public val RemixiconPainter.LogosFlickrFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosFlickrFill)
+
 public val RemixiconPainter.LogosDingdingLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDingdingLine)
@@ -2621,6 +2545,10 @@ public val RemixiconPainter.LogosAlipayLine: Painter
 public val RemixiconPainter.LogosGitlabFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosGitlabFill)
+
+public val RemixiconPainter.LogosCopilotFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosCopilotFill)
 
 public val RemixiconPainter.LogosKakaoTalkLine: Painter
     @Composable
@@ -2670,9 +2598,17 @@ public val RemixiconPainter.LogosNpmjsLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosNpmjsLine)
 
+public val RemixiconPainter.LogosOpenbaseLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosOpenbaseLine)
+
 public val RemixiconPainter.LogosAppStoreFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosAppStoreFill)
+
+public val RemixiconPainter.LogosBootstrapFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosBootstrapFill)
 
 public val RemixiconPainter.LogosAndroidLine: Painter
     @Composable
@@ -2690,6 +2626,10 @@ public val RemixiconPainter.LogosXboxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosXboxFill)
 
+public val RemixiconPainter.LogosTiktokLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosTiktokLine)
+
 public val RemixiconPainter.LogosFirefoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosFirefoxLine)
@@ -2701,6 +2641,10 @@ public val RemixiconPainter.LogosPlaystationFill: Painter
 public val RemixiconPainter.LogosWechat2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosWechat2Fill)
+
+public val RemixiconPainter.LogosMicrosoftLoopFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosMicrosoftLoopFill)
 
 public val RemixiconPainter.LogosReactjsLine: Painter
     @Composable
@@ -2722,6 +2666,10 @@ public val RemixiconPainter.LogosDropboxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDropboxLine)
 
+public val RemixiconPainter.LogosEdgeNewLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosEdgeNewLine)
+
 public val RemixiconPainter.LogosInvisionFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosInvisionFill)
@@ -2742,6 +2690,10 @@ public val RemixiconPainter.LogosBilibiliLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosBilibiliLine)
 
+public val RemixiconPainter.LogosOpenaiFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.LogosOpenaiFill)
+
 public val RemixiconPainter.LogosDoubanFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.LogosDoubanFill)
@@ -2753,6 +2705,10 @@ public val RemixiconPainter.LogosQqFill: Painter
 public val RemixiconPainter.OthersLightbulbFlashLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersLightbulbFlashLine)
+
+public val RemixiconPainter.OthersBox1Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox1Line)
 
 public val RemixiconPainter.OthersReservedFill: Painter
     @Composable
@@ -2810,6 +2766,10 @@ public val RemixiconPainter.OthersFootballFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersFootballFill)
 
+public val RemixiconPainter.OthersCrossFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersCrossFill)
+
 public val RemixiconPainter.OthersPingPongLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersPingPongLine)
@@ -2818,9 +2778,17 @@ public val RemixiconPainter.OthersKnifeBloodLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersKnifeBloodLine)
 
+public val RemixiconPainter.OthersCandleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersCandleFill)
+
 public val RemixiconPainter.OthersHandbagFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersHandbagFill)
+
+public val RemixiconPainter.OthersGraduationCapLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersGraduationCapLine)
 
 public val RemixiconPainter.OthersCharacterRecognitionLine: Painter
     @Composable
@@ -2878,6 +2846,10 @@ public val RemixiconPainter.OthersDoorLockLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersDoorLockLine)
 
+public val RemixiconPainter.OthersBox1Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox1Fill)
+
 public val RemixiconPainter.OthersLightbulbFlashFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersLightbulbFlashFill)
@@ -2922,6 +2894,10 @@ public val RemixiconPainter.OthersFootballLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersFootballLine)
 
+public val RemixiconPainter.OthersCrossLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersCrossLine)
+
 public val RemixiconPainter.OthersPingPongFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersPingPongFill)
@@ -2933,6 +2909,14 @@ public val RemixiconPainter.OthersKnifeBloodFill: Painter
 public val RemixiconPainter.OthersHandbagLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersHandbagLine)
+
+public val RemixiconPainter.OthersCandleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersCandleLine)
+
+public val RemixiconPainter.OthersGraduationCapFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersGraduationCapFill)
 
 public val RemixiconPainter.OthersCactusFill: Painter
     @Composable
@@ -2998,6 +2982,14 @@ public val RemixiconPainter.OthersUmbrellaLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersUmbrellaLine)
 
+public val RemixiconPainter.OthersBox3Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox3Line)
+
+public val RemixiconPainter.OthersBox2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox2Line)
+
 public val RemixiconPainter.OthersPlug2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersPlug2Fill)
@@ -3058,6 +3050,14 @@ public val RemixiconPainter.OthersTShirtFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersTShirtFill)
 
+public val RemixiconPainter.OthersBox2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox2Fill)
+
+public val RemixiconPainter.OthersBox3Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.OthersBox3Fill)
+
 public val RemixiconPainter.OthersScales2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersScales2Line)
@@ -3109,446 +3109,6 @@ public val RemixiconPainter.OthersUmbrellaFill: Painter
 public val RemixiconPainter.OthersDoorLockBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.OthersDoorLockBoxFill)
-
-public val RemixiconPainter.UserOpenArmFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserOpenArmFill)
-
-public val RemixiconPainter.UserMenLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserMenLine)
-
-public val RemixiconPainter.UserUserReceivedLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserReceivedLine)
-
-public val RemixiconPainter.UserUser6Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser6Fill)
-
-public val RemixiconPainter.UserUserVoiceLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserVoiceLine)
-
-public val RemixiconPainter.UserParentLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserParentLine)
-
-public val RemixiconPainter.UserBearSmileFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserBearSmileFill)
-
-public val RemixiconPainter.UserTeamLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserTeamLine)
-
-public val RemixiconPainter.UserAccountCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountCircleFill)
-
-public val RemixiconPainter.UserUserLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserLine)
-
-public val RemixiconPainter.UserGroupLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGroupLine)
-
-public val RemixiconPainter.UserEmotionFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionFill)
-
-public val RemixiconPainter.UserGenderlessFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGenderlessFill)
-
-public val RemixiconPainter.UserContactsFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserContactsFill)
-
-public val RemixiconPainter.UserUserHeartLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserHeartLine)
-
-public val RemixiconPainter.UserUserUnfollowFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserUnfollowFill)
-
-public val RemixiconPainter.UserUserFollowFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserFollowFill)
-
-public val RemixiconPainter.UserUserShared2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserShared2Line)
-
-public val RemixiconPainter.UserCriminalLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserCriminalLine)
-
-public val RemixiconPainter.UserEmotionLaughFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionLaughFill)
-
-public val RemixiconPainter.UserGroup2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGroup2Line)
-
-public val RemixiconPainter.UserUserLocationLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserLocationLine)
-
-public val RemixiconPainter.UserGhost2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhost2Fill)
-
-public val RemixiconPainter.UserSkullFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSkullFill)
-
-public val RemixiconPainter.UserMickeyFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserMickeyFill)
-
-public val RemixiconPainter.UserTeamFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserTeamFill)
-
-public val RemixiconPainter.UserParentFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserParentFill)
-
-public val RemixiconPainter.UserBearSmileLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserBearSmileLine)
-
-public val RemixiconPainter.UserAccountCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountCircleLine)
-
-public val RemixiconPainter.UserUserFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserFill)
-
-public val RemixiconPainter.UserOpenArmLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserOpenArmLine)
-
-public val RemixiconPainter.UserUserReceivedFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserReceivedFill)
-
-public val RemixiconPainter.UserUser6Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser6Line)
-
-public val RemixiconPainter.UserMenFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserMenFill)
-
-public val RemixiconPainter.UserUserVoiceFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserVoiceFill)
-
-public val RemixiconPainter.UserUserFollowLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserFollowLine)
-
-public val RemixiconPainter.UserEmotionLaughLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionLaughLine)
-
-public val RemixiconPainter.UserGroup2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGroup2Fill)
-
-public val RemixiconPainter.UserUserShared2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserShared2Fill)
-
-public val RemixiconPainter.UserCriminalFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserCriminalFill)
-
-public val RemixiconPainter.UserUserLocationFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserLocationFill)
-
-public val RemixiconPainter.UserGhost2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhost2Line)
-
-public val RemixiconPainter.UserMickeyLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserMickeyLine)
-
-public val RemixiconPainter.UserSkullLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSkullLine)
-
-public val RemixiconPainter.UserEmotionLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionLine)
-
-public val RemixiconPainter.UserGroupFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGroupFill)
-
-public val RemixiconPainter.UserContactsLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserContactsLine)
-
-public val RemixiconPainter.UserGenderlessLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGenderlessLine)
-
-public val RemixiconPainter.UserUserHeartFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserHeartFill)
-
-public val RemixiconPainter.UserUserUnfollowLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserUnfollowLine)
-
-public val RemixiconPainter.UserEmotionUnhappyFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionUnhappyFill)
-
-public val RemixiconPainter.UserRobotFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserRobotFill)
-
-public val RemixiconPainter.UserUser3Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser3Line)
-
-public val RemixiconPainter.UserUser2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser2Line)
-
-public val RemixiconPainter.UserSkull2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSkull2Line)
-
-public val RemixiconPainter.UserBodyScanFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserBodyScanFill)
-
-public val RemixiconPainter.UserUserSharedFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSharedFill)
-
-public val RemixiconPainter.UserAdminFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAdminFill)
-
-public val RemixiconPainter.UserGhostSmileLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhostSmileLine)
-
-public val RemixiconPainter.UserEmotion2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotion2Fill)
-
-public val RemixiconPainter.UserTravestiLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserTravestiLine)
-
-public val RemixiconPainter.UserAccountBoxLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountBoxLine)
-
-public val RemixiconPainter.UserUserSettingsFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSettingsFill)
-
-public val RemixiconPainter.UserAliensLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAliensLine)
-
-public val RemixiconPainter.UserSpyLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSpyLine)
-
-public val RemixiconPainter.UserAccountPinBoxLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountPinBoxLine)
-
-public val RemixiconPainter.UserEmotionSadFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionSadFill)
-
-public val RemixiconPainter.UserWomenFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserWomenFill)
-
-public val RemixiconPainter.UserEmotionNormalFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionNormalFill)
-
-public val RemixiconPainter.UserUserSearchFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSearchFill)
-
-public val RemixiconPainter.UserUserSmileLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSmileLine)
-
-public val RemixiconPainter.UserUserAddLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserAddLine)
-
-public val RemixiconPainter.UserEmotionHappyFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionHappyFill)
-
-public val RemixiconPainter.UserGhostFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhostFill)
-
-public val RemixiconPainter.UserUser5Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser5Fill)
-
-public val RemixiconPainter.UserUser4Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser4Fill)
-
-public val RemixiconPainter.UserStarSmileLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserStarSmileLine)
-
-public val RemixiconPainter.UserAccountPinCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountPinCircleFill)
-
-public val RemixiconPainter.UserUserReceived2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserReceived2Line)
-
-public val RemixiconPainter.UserUserStarFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserStarFill)
-
-public val RemixiconPainter.UserAccountBoxFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountBoxFill)
-
-public val RemixiconPainter.UserTravestiFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserTravestiFill)
-
-public val RemixiconPainter.UserUserSettingsLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSettingsLine)
-
-public val RemixiconPainter.UserAliensFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAliensFill)
-
-public val RemixiconPainter.UserSpyFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSpyFill)
-
-public val RemixiconPainter.UserRobotLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserRobotLine)
-
-public val RemixiconPainter.UserEmotionUnhappyLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionUnhappyLine)
-
-public val RemixiconPainter.UserSkull2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserSkull2Fill)
-
-public val RemixiconPainter.UserUser2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser2Fill)
-
-public val RemixiconPainter.UserUser3Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser3Fill)
-
-public val RemixiconPainter.UserBodyScanLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserBodyScanLine)
-
-public val RemixiconPainter.UserUserSharedLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSharedLine)
-
-public val RemixiconPainter.UserAdminLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAdminLine)
-
-public val RemixiconPainter.UserGhostSmileFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhostSmileFill)
-
-public val RemixiconPainter.UserEmotion2Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotion2Line)
-
-public val RemixiconPainter.UserUserAddFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserAddFill)
-
-public val RemixiconPainter.UserEmotionHappyLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionHappyLine)
-
-public val RemixiconPainter.UserUserSmileFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSmileFill)
-
-public val RemixiconPainter.UserUser4Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser4Line)
-
-public val RemixiconPainter.UserUser5Line: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUser5Line)
-
-public val RemixiconPainter.UserGhostLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserGhostLine)
-
-public val RemixiconPainter.UserStarSmileFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserStarSmileFill)
-
-public val RemixiconPainter.UserAccountPinCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountPinCircleLine)
-
-public val RemixiconPainter.UserUserReceived2Fill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserReceived2Fill)
-
-public val RemixiconPainter.UserUserStarLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserStarLine)
-
-public val RemixiconPainter.UserAccountPinBoxFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserAccountPinBoxFill)
-
-public val RemixiconPainter.UserEmotionNormalLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionNormalLine)
-
-public val RemixiconPainter.UserWomenLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserWomenLine)
-
-public val RemixiconPainter.UserEmotionSadLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserEmotionSadLine)
-
-public val RemixiconPainter.UserUserSearchLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.UserUserSearchLine)
 
 public val RemixiconPainter.DocumentNumbersFill: Painter
     @Composable
@@ -4350,6 +3910,446 @@ public val RemixiconPainter.DocumentFileList3Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.DocumentFileList3Line)
 
+public val RemixiconPainter.UserAndFacesOpenArmFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesOpenArmFill)
+
+public val RemixiconPainter.UserAndFacesMenLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesMenLine)
+
+public val RemixiconPainter.UserAndFacesUserReceivedLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserReceivedLine)
+
+public val RemixiconPainter.UserAndFacesUser6Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser6Fill)
+
+public val RemixiconPainter.UserAndFacesUserVoiceLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserVoiceLine)
+
+public val RemixiconPainter.UserAndFacesParentLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesParentLine)
+
+public val RemixiconPainter.UserAndFacesBearSmileFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesBearSmileFill)
+
+public val RemixiconPainter.UserAndFacesTeamLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesTeamLine)
+
+public val RemixiconPainter.UserAndFacesAccountCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountCircleFill)
+
+public val RemixiconPainter.UserAndFacesUserLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserLine)
+
+public val RemixiconPainter.UserAndFacesGroupLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGroupLine)
+
+public val RemixiconPainter.UserAndFacesEmotionFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionFill)
+
+public val RemixiconPainter.UserAndFacesGenderlessFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGenderlessFill)
+
+public val RemixiconPainter.UserAndFacesContactsFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesContactsFill)
+
+public val RemixiconPainter.UserAndFacesUserHeartLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserHeartLine)
+
+public val RemixiconPainter.UserAndFacesUserUnfollowFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserUnfollowFill)
+
+public val RemixiconPainter.UserAndFacesUserFollowFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserFollowFill)
+
+public val RemixiconPainter.UserAndFacesUserShared2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserShared2Line)
+
+public val RemixiconPainter.UserAndFacesCriminalLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesCriminalLine)
+
+public val RemixiconPainter.UserAndFacesEmotionLaughFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionLaughFill)
+
+public val RemixiconPainter.UserAndFacesGroup2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGroup2Line)
+
+public val RemixiconPainter.UserAndFacesUserLocationLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserLocationLine)
+
+public val RemixiconPainter.UserAndFacesGhost2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhost2Fill)
+
+public val RemixiconPainter.UserAndFacesSkullFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSkullFill)
+
+public val RemixiconPainter.UserAndFacesMickeyFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesMickeyFill)
+
+public val RemixiconPainter.UserAndFacesTeamFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesTeamFill)
+
+public val RemixiconPainter.UserAndFacesParentFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesParentFill)
+
+public val RemixiconPainter.UserAndFacesBearSmileLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesBearSmileLine)
+
+public val RemixiconPainter.UserAndFacesAccountCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountCircleLine)
+
+public val RemixiconPainter.UserAndFacesUserFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserFill)
+
+public val RemixiconPainter.UserAndFacesOpenArmLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesOpenArmLine)
+
+public val RemixiconPainter.UserAndFacesUserReceivedFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserReceivedFill)
+
+public val RemixiconPainter.UserAndFacesUser6Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser6Line)
+
+public val RemixiconPainter.UserAndFacesMenFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesMenFill)
+
+public val RemixiconPainter.UserAndFacesUserVoiceFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserVoiceFill)
+
+public val RemixiconPainter.UserAndFacesUserFollowLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserFollowLine)
+
+public val RemixiconPainter.UserAndFacesEmotionLaughLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionLaughLine)
+
+public val RemixiconPainter.UserAndFacesGroup2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGroup2Fill)
+
+public val RemixiconPainter.UserAndFacesUserShared2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserShared2Fill)
+
+public val RemixiconPainter.UserAndFacesCriminalFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesCriminalFill)
+
+public val RemixiconPainter.UserAndFacesUserLocationFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserLocationFill)
+
+public val RemixiconPainter.UserAndFacesGhost2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhost2Line)
+
+public val RemixiconPainter.UserAndFacesMickeyLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesMickeyLine)
+
+public val RemixiconPainter.UserAndFacesSkullLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSkullLine)
+
+public val RemixiconPainter.UserAndFacesEmotionLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionLine)
+
+public val RemixiconPainter.UserAndFacesGroupFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGroupFill)
+
+public val RemixiconPainter.UserAndFacesContactsLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesContactsLine)
+
+public val RemixiconPainter.UserAndFacesGenderlessLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGenderlessLine)
+
+public val RemixiconPainter.UserAndFacesUserHeartFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserHeartFill)
+
+public val RemixiconPainter.UserAndFacesUserUnfollowLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserUnfollowLine)
+
+public val RemixiconPainter.UserAndFacesEmotionUnhappyFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionUnhappyFill)
+
+public val RemixiconPainter.UserAndFacesRobotFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesRobotFill)
+
+public val RemixiconPainter.UserAndFacesUser3Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser3Line)
+
+public val RemixiconPainter.UserAndFacesUser2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser2Line)
+
+public val RemixiconPainter.UserAndFacesSkull2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSkull2Line)
+
+public val RemixiconPainter.UserAndFacesBodyScanFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesBodyScanFill)
+
+public val RemixiconPainter.UserAndFacesUserSharedFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSharedFill)
+
+public val RemixiconPainter.UserAndFacesAdminFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAdminFill)
+
+public val RemixiconPainter.UserAndFacesGhostSmileLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhostSmileLine)
+
+public val RemixiconPainter.UserAndFacesEmotion2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotion2Fill)
+
+public val RemixiconPainter.UserAndFacesTravestiLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesTravestiLine)
+
+public val RemixiconPainter.UserAndFacesAccountBoxLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountBoxLine)
+
+public val RemixiconPainter.UserAndFacesUserSettingsFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSettingsFill)
+
+public val RemixiconPainter.UserAndFacesAliensLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAliensLine)
+
+public val RemixiconPainter.UserAndFacesSpyLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSpyLine)
+
+public val RemixiconPainter.UserAndFacesAccountPinBoxLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountPinBoxLine)
+
+public val RemixiconPainter.UserAndFacesEmotionSadFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionSadFill)
+
+public val RemixiconPainter.UserAndFacesWomenFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesWomenFill)
+
+public val RemixiconPainter.UserAndFacesEmotionNormalFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionNormalFill)
+
+public val RemixiconPainter.UserAndFacesUserSearchFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSearchFill)
+
+public val RemixiconPainter.UserAndFacesUserSmileLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSmileLine)
+
+public val RemixiconPainter.UserAndFacesUserAddLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserAddLine)
+
+public val RemixiconPainter.UserAndFacesEmotionHappyFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionHappyFill)
+
+public val RemixiconPainter.UserAndFacesGhostFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhostFill)
+
+public val RemixiconPainter.UserAndFacesUser5Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser5Fill)
+
+public val RemixiconPainter.UserAndFacesUser4Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser4Fill)
+
+public val RemixiconPainter.UserAndFacesStarSmileLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesStarSmileLine)
+
+public val RemixiconPainter.UserAndFacesAccountPinCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountPinCircleFill)
+
+public val RemixiconPainter.UserAndFacesUserReceived2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserReceived2Line)
+
+public val RemixiconPainter.UserAndFacesUserStarFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserStarFill)
+
+public val RemixiconPainter.UserAndFacesAccountBoxFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountBoxFill)
+
+public val RemixiconPainter.UserAndFacesTravestiFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesTravestiFill)
+
+public val RemixiconPainter.UserAndFacesUserSettingsLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSettingsLine)
+
+public val RemixiconPainter.UserAndFacesAliensFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAliensFill)
+
+public val RemixiconPainter.UserAndFacesSpyFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSpyFill)
+
+public val RemixiconPainter.UserAndFacesRobotLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesRobotLine)
+
+public val RemixiconPainter.UserAndFacesEmotionUnhappyLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionUnhappyLine)
+
+public val RemixiconPainter.UserAndFacesSkull2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesSkull2Fill)
+
+public val RemixiconPainter.UserAndFacesUser2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser2Fill)
+
+public val RemixiconPainter.UserAndFacesUser3Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser3Fill)
+
+public val RemixiconPainter.UserAndFacesBodyScanLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesBodyScanLine)
+
+public val RemixiconPainter.UserAndFacesUserSharedLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSharedLine)
+
+public val RemixiconPainter.UserAndFacesAdminLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAdminLine)
+
+public val RemixiconPainter.UserAndFacesGhostSmileFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhostSmileFill)
+
+public val RemixiconPainter.UserAndFacesEmotion2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotion2Line)
+
+public val RemixiconPainter.UserAndFacesUserAddFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserAddFill)
+
+public val RemixiconPainter.UserAndFacesEmotionHappyLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionHappyLine)
+
+public val RemixiconPainter.UserAndFacesUserSmileFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSmileFill)
+
+public val RemixiconPainter.UserAndFacesUser4Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser4Line)
+
+public val RemixiconPainter.UserAndFacesUser5Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUser5Line)
+
+public val RemixiconPainter.UserAndFacesGhostLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesGhostLine)
+
+public val RemixiconPainter.UserAndFacesStarSmileFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesStarSmileFill)
+
+public val RemixiconPainter.UserAndFacesAccountPinCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountPinCircleLine)
+
+public val RemixiconPainter.UserAndFacesUserReceived2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserReceived2Fill)
+
+public val RemixiconPainter.UserAndFacesUserStarLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserStarLine)
+
+public val RemixiconPainter.UserAndFacesAccountPinBoxFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesAccountPinBoxFill)
+
+public val RemixiconPainter.UserAndFacesEmotionNormalLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionNormalLine)
+
+public val RemixiconPainter.UserAndFacesWomenLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesWomenLine)
+
+public val RemixiconPainter.UserAndFacesEmotionSadLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesEmotionSadLine)
+
+public val RemixiconPainter.UserAndFacesUserSearchLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.UserAndFacesUserSearchLine)
+
 public val RemixiconPainter.SystemTimeFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemTimeFill)
@@ -4374,10 +4374,6 @@ public val RemixiconPainter.SystemShareBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemShareBoxFill)
 
-public val RemixiconPainter.SystemArrowUpLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpLine)
-
 public val RemixiconPainter.SystemCloseCircleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemCloseCircleLine)
@@ -4389,10 +4385,6 @@ public val RemixiconPainter.SystemDeleteBin3Fill: Painter
 public val RemixiconPainter.SystemDeleteBin2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemDeleteBin2Fill)
-
-public val RemixiconPainter.SystemArrowGoForwardLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowGoForwardLine)
 
 public val RemixiconPainter.SystemCloseFill: Painter
     @Composable
@@ -4410,10 +4402,6 @@ public val RemixiconPainter.SystemLoader4Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLoader4Line)
 
-public val RemixiconPainter.SystemArrowLeftFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftFill)
-
 public val RemixiconPainter.SystemTimer2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemTimer2Fill)
@@ -4429,14 +4417,6 @@ public val RemixiconPainter.SystemShareCircleFill: Painter
 public val RemixiconPainter.SystemAddBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemAddBoxLine)
-
-public val RemixiconPainter.SystemArrowLeftDownLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftDownLine)
-
-public val RemixiconPainter.SystemArrowDownCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownCircleFill)
 
 public val RemixiconPainter.SystemCheckboxBlankCircleFill: Painter
     @Composable
@@ -4462,17 +4442,9 @@ public val RemixiconPainter.SystemUploadCloudFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemUploadCloudFill)
 
-public val RemixiconPainter.SystemArrowRightFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightFill)
-
 public val RemixiconPainter.SystemLogoutBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLogoutBoxLine)
-
-public val RemixiconPainter.SystemArrowRightUpLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightUpLine)
 
 public val RemixiconPainter.SystemThumbDownFill: Painter
     @Composable
@@ -4518,14 +4490,6 @@ public val RemixiconPainter.SystemLoaderLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLoaderLine)
 
-public val RemixiconPainter.SystemArrowUpSLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpSLine)
-
-public val RemixiconPainter.SystemArrowDownSFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownSFill)
-
 public val RemixiconPainter.SystemAppsLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemAppsLine)
@@ -4534,21 +4498,13 @@ public val RemixiconPainter.SystemExternalLinkFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemExternalLinkFill)
 
-public val RemixiconPainter.SystemArrowLeftUpLine: Painter
+public val RemixiconPainter.SystemProhibitedFill: Painter
     @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftUpLine)
-
-public val RemixiconPainter.SystemArrowUpDownFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpDownFill)
+    get() = painterResource(RemixiconRes.SystemProhibitedFill)
 
 public val RemixiconPainter.SystemMore2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemMore2Line)
-
-public val RemixiconPainter.SystemArrowDropDownLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropDownLine)
 
 public val RemixiconPainter.SystemApps2Fill: Painter
     @Composable
@@ -4626,10 +4582,6 @@ public val RemixiconPainter.SystemLoginBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLoginBoxFill)
 
-public val RemixiconPainter.SystemArrowRightDownLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightDownLine)
-
 public val RemixiconPainter.SystemLockFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLockFill)
@@ -4682,18 +4634,6 @@ public val RemixiconPainter.SystemAddBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemAddBoxFill)
 
-public val RemixiconPainter.SystemArrowLeftDownFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftDownFill)
-
-public val RemixiconPainter.SystemArrowDownCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownCircleLine)
-
-public val RemixiconPainter.SystemArrowLeftLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftLine)
-
 public val RemixiconPainter.SystemAlarmWarningLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemAlarmWarningLine)
@@ -4717,10 +4657,6 @@ public val RemixiconPainter.SystemRadioButtonFill: Painter
 public val RemixiconPainter.SystemUploadCloudLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemUploadCloudLine)
-
-public val RemixiconPainter.SystemArrowRightLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightLine)
 
 public val RemixiconPainter.SystemLockPasswordLine: Painter
     @Composable
@@ -4749,10 +4685,6 @@ public val RemixiconPainter.SystemFilterFill: Painter
 public val RemixiconPainter.SystemLogoutCircleRFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLogoutCircleRFill)
-
-public val RemixiconPainter.SystemArrowRightUpFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightUpFill)
 
 public val RemixiconPainter.SystemLogoutBoxFill: Painter
     @Composable
@@ -4786,10 +4718,6 @@ public val RemixiconPainter.SystemZoomInFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemZoomInFill)
 
-public val RemixiconPainter.SystemArrowGoForwardFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowGoForwardFill)
-
 public val RemixiconPainter.SystemQuestionLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemQuestionLine)
@@ -4801,10 +4729,6 @@ public val RemixiconPainter.SystemCloseLine: Painter
 public val RemixiconPainter.SystemCloseCircleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemCloseCircleFill)
-
-public val RemixiconPainter.SystemArrowUpFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpFill)
 
 public val RemixiconPainter.SystemDeleteBin2Line: Painter
     @Composable
@@ -4870,10 +4794,6 @@ public val RemixiconPainter.SystemLoginBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLoginBoxLine)
 
-public val RemixiconPainter.SystemArrowRightDownFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightDownFill)
-
 public val RemixiconPainter.SystemLockLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLockLine)
@@ -4938,21 +4858,13 @@ public val RemixiconPainter.SystemLoaderFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLoaderFill)
 
-public val RemixiconPainter.SystemArrowUpSFill: Painter
+public val RemixiconPainter.SystemProhibitedLine: Painter
     @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpSFill)
-
-public val RemixiconPainter.SystemArrowDownSLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownSLine)
+    get() = painterResource(RemixiconRes.SystemProhibitedLine)
 
 public val RemixiconPainter.SystemExternalLinkLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemExternalLinkLine)
-
-public val RemixiconPainter.SystemArrowLeftUpFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftUpFill)
 
 public val RemixiconPainter.SystemSettings3Line: Painter
     @Composable
@@ -4974,17 +4886,9 @@ public val RemixiconPainter.SystemApps2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemApps2Line)
 
-public val RemixiconPainter.SystemArrowDropDownFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropDownFill)
-
 public val RemixiconPainter.SystemMore2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemMore2Fill)
-
-public val RemixiconPainter.SystemArrowUpDownLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpDownLine)
 
 public val RemixiconPainter.SystemFindReplaceLine: Painter
     @Composable
@@ -5013,10 +4917,6 @@ public val RemixiconPainter.SystemFunctionLine: Painter
 public val RemixiconPainter.SystemSearch2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemSearch2Line)
-
-public val RemixiconPainter.SystemArrowRightSFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightSFill)
 
 public val RemixiconPainter.SystemUpload2Fill: Painter
     @Composable
@@ -5054,6 +4954,10 @@ public val RemixiconPainter.SystemDeleteBack2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemDeleteBack2Line)
 
+public val RemixiconPainter.SystemHourglass2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemHourglass2Fill)
+
 public val RemixiconPainter.SystemStarLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemStarLine)
@@ -5061,14 +4965,6 @@ public val RemixiconPainter.SystemStarLine: Painter
 public val RemixiconPainter.SystemLockUnlockFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLockUnlockFill)
-
-public val RemixiconPainter.SystemArrowDropUpFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropUpFill)
-
-public val RemixiconPainter.SystemArrowDropRightFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropRightFill)
 
 public val RemixiconPainter.SystemListSettingsLine: Painter
     @Composable
@@ -5078,21 +4974,9 @@ public val RemixiconPainter.SystemShieldKeyholeFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemShieldKeyholeFill)
 
-public val RemixiconPainter.SystemArrowLeftSFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftSFill)
-
-public val RemixiconPainter.SystemArrowDownFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownFill)
-
 public val RemixiconPainter.SystemLogoutBoxRFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLogoutBoxRFill)
-
-public val RemixiconPainter.SystemArrowUpCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpCircleFill)
 
 public val RemixiconPainter.SystemMenuLine: Painter
     @Composable
@@ -5122,9 +5006,9 @@ public val RemixiconPainter.SystemCheckLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemCheckLine)
 
-public val RemixiconPainter.SystemArrowLeftRightFill: Painter
+public val RemixiconPainter.SystemHourglassLine: Painter
     @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftRightFill)
+    get() = painterResource(RemixiconRes.SystemHourglassLine)
 
 public val RemixiconPainter.SystemDeleteBinLine: Painter
     @Composable
@@ -5170,10 +5054,6 @@ public val RemixiconPainter.SystemToggleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemToggleFill)
 
-public val RemixiconPainter.SystemArrowRightCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightCircleLine)
-
 public val RemixiconPainter.SystemDeleteBackLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemDeleteBackLine)
@@ -5198,14 +5078,6 @@ public val RemixiconPainter.SystemRefreshFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemRefreshFill)
 
-public val RemixiconPainter.SystemArrowDropLeftLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropLeftLine)
-
-public val RemixiconPainter.SystemArrowLeftCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftCircleFill)
-
 public val RemixiconPainter.SystemSettings6Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemSettings6Line)
@@ -5218,9 +5090,21 @@ public val RemixiconPainter.SystemShareFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemShareFill)
 
+public val RemixiconPainter.SystemEqualFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemEqualFill)
+
+public val RemixiconPainter.SystemLoopRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemLoopRightLine)
+
 public val RemixiconPainter.SystemLogoutCircleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLogoutCircleLine)
+
+public val RemixiconPainter.SystemLoopLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemLoopLeftFill)
 
 public val RemixiconPainter.SystemUploadCloud2Line: Painter
     @Composable
@@ -5250,10 +5134,6 @@ public val RemixiconPainter.SystemSpam3Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemSpam3Line)
 
-public val RemixiconPainter.SystemArrowGoBackFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowGoBackFill)
-
 public val RemixiconPainter.SystemIndeterminateCircleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemIndeterminateCircleFill)
@@ -5270,17 +5150,9 @@ public val RemixiconPainter.SystemTimerFlashFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemTimerFlashFill)
 
-public val RemixiconPainter.SystemArrowUpCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowUpCircleLine)
-
 public val RemixiconPainter.SystemMenuFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemMenuFill)
-
-public val RemixiconPainter.SystemArrowDownLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDownLine)
 
 public val RemixiconPainter.SystemLogoutBoxRLine: Painter
     @Composable
@@ -5293,10 +5165,6 @@ public val RemixiconPainter.SystemCheckboxIndeterminateFill: Painter
 public val RemixiconPainter.SystemCheckFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemCheckFill)
-
-public val RemixiconPainter.SystemArrowLeftRightLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftRightLine)
 
 public val RemixiconPainter.SystemZoomOutFill: Painter
     @Composable
@@ -5321,6 +5189,10 @@ public val RemixiconPainter.SystemDeleteBinFill: Painter
 public val RemixiconPainter.SystemCheckboxMultipleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemCheckboxMultipleLine)
+
+public val RemixiconPainter.SystemHourglassFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemHourglassFill)
 
 public val RemixiconPainter.SystemDownloadCloud2Fill: Painter
     @Composable
@@ -5350,10 +5222,6 @@ public val RemixiconPainter.SystemLock2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLock2Line)
 
-public val RemixiconPainter.SystemArrowRightSLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightSLine)
-
 public val RemixiconPainter.SystemUpload2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemUpload2Line)
@@ -5369,14 +5237,6 @@ public val RemixiconPainter.SystemMenu2Line: Painter
 public val RemixiconPainter.SystemLockUnlockLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLockUnlockLine)
-
-public val RemixiconPainter.SystemArrowDropRightLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropRightLine)
-
-public val RemixiconPainter.SystemArrowDropUpLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropUpLine)
 
 public val RemixiconPainter.SystemEyeFill: Painter
     @Composable
@@ -5406,9 +5266,9 @@ public val RemixiconPainter.SystemStarFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemStarFill)
 
-public val RemixiconPainter.SystemArrowLeftSLine: Painter
+public val RemixiconPainter.SystemHourglass2Line: Painter
     @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftSLine)
+    get() = painterResource(RemixiconRes.SystemHourglass2Line)
 
 public val RemixiconPainter.SystemShieldKeyholeLine: Painter
     @Composable
@@ -5418,6 +5278,10 @@ public val RemixiconPainter.SystemListSettingsFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemListSettingsFill)
 
+public val RemixiconPainter.SystemEqualLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemEqualLine)
+
 public val RemixiconPainter.SystemSettingsLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemSettingsLine)
@@ -5425,6 +5289,10 @@ public val RemixiconPainter.SystemSettingsLine: Painter
 public val RemixiconPainter.SystemShareLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemShareLine)
+
+public val RemixiconPainter.SystemLoopLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemLoopLeftLine)
 
 public val RemixiconPainter.SystemUploadCloud2Fill: Painter
     @Composable
@@ -5442,13 +5310,13 @@ public val RemixiconPainter.SystemMenu4Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemMenu4Fill)
 
+public val RemixiconPainter.SystemLoopRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.SystemLoopRightFill)
+
 public val RemixiconPainter.SystemLogoutCircleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemLogoutCircleFill)
-
-public val RemixiconPainter.SystemArrowGoBackLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowGoBackLine)
 
 public val RemixiconPainter.SystemIndeterminateCircleLine: Painter
     @Composable
@@ -5514,10 +5382,6 @@ public val RemixiconPainter.SystemDownload2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemDownload2Fill)
 
-public val RemixiconPainter.SystemArrowRightCircleFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowRightCircleFill)
-
 public val RemixiconPainter.SystemShieldStarFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemShieldStarFill)
@@ -5529,14 +5393,6 @@ public val RemixiconPainter.SystemDeleteBackFill: Painter
 public val RemixiconPainter.SystemSettings6Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.SystemSettings6Fill)
-
-public val RemixiconPainter.SystemArrowLeftCircleLine: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowLeftCircleLine)
-
-public val RemixiconPainter.SystemArrowDropLeftFill: Painter
-    @Composable
-    get() = painterResource(RemixiconRes.SystemArrowDropLeftFill)
 
 public val RemixiconPainter.SystemRefreshLine: Painter
     @Composable
@@ -5585,6 +5441,10 @@ public val RemixiconPainter.MapBus2Fill: Painter
 public val RemixiconPainter.MapSuitcaseLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapSuitcaseLine)
+
+public val RemixiconPainter.MapUnpinLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MapUnpinLine)
 
 public val RemixiconPainter.MapMotorbikeFill: Painter
     @Composable
@@ -5713,6 +5573,10 @@ public val RemixiconPainter.MapEBikeFill: Painter
 public val RemixiconPainter.MapSuitcaseFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapSuitcaseFill)
+
+public val RemixiconPainter.MapUnpinFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MapUnpinFill)
 
 public val RemixiconPainter.MapRunLine: Painter
     @Composable
@@ -6014,6 +5878,10 @@ public val RemixiconPainter.MapCompassFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapCompassFill)
 
+public val RemixiconPainter.MapPlanetLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MapPlanetLine)
+
 public val RemixiconPainter.MapNavigationFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapNavigationFill)
@@ -6150,6 +6018,10 @@ public val RemixiconPainter.MapNavigationLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapNavigationLine)
 
+public val RemixiconPainter.MapPlanetFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MapPlanetFill)
+
 public val RemixiconPainter.MapShip2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.MapShip2Line)
@@ -6253,6 +6125,10 @@ public val RemixiconPainter.FinanceSwapBoxLine: Painter
 public val RemixiconPainter.FinanceShoppingCart2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceShoppingCart2Line)
+
+public val RemixiconPainter.FinanceTokenSwapLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceTokenSwapLine)
 
 public val RemixiconPainter.FinanceTrophyLine: Painter
     @Composable
@@ -6406,6 +6282,10 @@ public val RemixiconPainter.FinanceSwapBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceSwapBoxFill)
 
+public val RemixiconPainter.FinanceTokenSwapFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceTokenSwapFill)
+
 public val RemixiconPainter.FinanceMoneyEuroBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceMoneyEuroBoxFill)
@@ -6494,6 +6374,10 @@ public val RemixiconPainter.FinanceExchangeDollarLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceExchangeDollarLine)
 
+public val RemixiconPainter.FinanceCashLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceCashLine)
+
 public val RemixiconPainter.FinanceShoppingBag2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceShoppingBag2Line)
@@ -6513,6 +6397,10 @@ public val RemixiconPainter.FinanceIncreaseDecreaseLine: Painter
 public val RemixiconPainter.FinanceSafe2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceSafe2Fill)
+
+public val RemixiconPainter.FinanceNftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceNftFill)
 
 public val RemixiconPainter.FinanceCoinLine: Painter
     @Composable
@@ -6586,6 +6474,10 @@ public val RemixiconPainter.FinanceMoneyDollarBoxLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceMoneyDollarBoxLine)
 
+public val RemixiconPainter.FinanceP2pFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceP2pFill)
+
 public val RemixiconPainter.FinanceSafeLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceSafeLine)
@@ -6618,6 +6510,10 @@ public val RemixiconPainter.FinanceRedPacketLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceRedPacketLine)
 
+public val RemixiconPainter.FinanceCashFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceCashFill)
+
 public val RemixiconPainter.FinanceShoppingBag3Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceShoppingBag3Fill)
@@ -6641,6 +6537,10 @@ public val RemixiconPainter.FinanceCoinFill: Painter
 public val RemixiconPainter.FinanceMoneyCnyCircleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceMoneyCnyCircleLine)
+
+public val RemixiconPainter.FinanceNftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceNftLine)
 
 public val RemixiconPainter.FinanceCopperCoinLine: Painter
     @Composable
@@ -6693,6 +6593,10 @@ public val RemixiconPainter.FinanceWaterFlashFill: Painter
 public val RemixiconPainter.FinanceMoneyDollarBoxFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.FinanceMoneyDollarBoxFill)
+
+public val RemixiconPainter.FinanceP2pLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.FinanceP2pLine)
 
 public val RemixiconPainter.FinanceSafeFill: Painter
     @Composable
@@ -6802,9 +6706,17 @@ public val RemixiconPainter.DeviceSignalWifiFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DeviceSignalWifiFill)
 
+public val RemixiconPainter.DeviceHardDrive3Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DeviceHardDrive3Line)
+
 public val RemixiconPainter.DeviceHardDrive2Line: Painter
     @Composable
     get() = painterResource(RemixiconRes.DeviceHardDrive2Line)
+
+public val RemixiconPainter.DeviceInstanceLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DeviceInstanceLine)
 
 public val RemixiconPainter.DevicePhoneFindFill: Painter
     @Composable
@@ -6942,6 +6854,10 @@ public val RemixiconPainter.DeviceHardDrive2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DeviceHardDrive2Fill)
 
+public val RemixiconPainter.DeviceHardDrive3Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DeviceHardDrive3Fill)
+
 public val RemixiconPainter.DeviceSignalWifi3Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DeviceSignalWifi3Fill)
@@ -6949,6 +6865,10 @@ public val RemixiconPainter.DeviceSignalWifi3Fill: Painter
 public val RemixiconPainter.DeviceSignalWifi2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.DeviceSignalWifi2Fill)
+
+public val RemixiconPainter.DeviceInstanceFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.DeviceInstanceFill)
 
 public val RemixiconPainter.DevicePhoneFindLine: Painter
     @Composable
@@ -7398,6 +7318,10 @@ public val RemixiconPainter.WeatherTempHotFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherTempHotFill)
 
+public val RemixiconPainter.WeatherSparklingLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherSparklingLine)
+
 public val RemixiconPainter.WeatherFloodLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherFloodLine)
@@ -7422,6 +7346,10 @@ public val RemixiconPainter.WeatherFahrenheitLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherFahrenheitLine)
 
+public val RemixiconPainter.WeatherShining2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherShining2Line)
+
 public val RemixiconPainter.WeatherDrizzleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherDrizzleLine)
@@ -7433,6 +7361,10 @@ public val RemixiconPainter.WeatherFoggyLine: Painter
 public val RemixiconPainter.WeatherSunFoggyLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherSunFoggyLine)
+
+public val RemixiconPainter.WeatherSparkling2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherSparkling2Fill)
 
 public val RemixiconPainter.WeatherMoonCloudyLine: Painter
     @Composable
@@ -7469,6 +7401,10 @@ public val RemixiconPainter.WeatherHeavyShowersLine: Painter
 public val RemixiconPainter.WeatherTempHotLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherTempHotLine)
+
+public val RemixiconPainter.WeatherSparklingFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherSparklingFill)
 
 public val RemixiconPainter.WeatherHailFill: Painter
     @Composable
@@ -7510,6 +7446,10 @@ public val RemixiconPainter.WeatherDrizzleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherDrizzleFill)
 
+public val RemixiconPainter.WeatherShining2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherShining2Fill)
+
 public val RemixiconPainter.WeatherSunFoggyFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherSunFoggyFill)
@@ -7517,6 +7457,10 @@ public val RemixiconPainter.WeatherSunFoggyFill: Painter
 public val RemixiconPainter.WeatherFoggyFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherFoggyFill)
+
+public val RemixiconPainter.WeatherSparkling2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherSparkling2Line)
 
 public val RemixiconPainter.WeatherHazeLine: Painter
     @Composable
@@ -7581,6 +7525,10 @@ public val RemixiconPainter.WeatherRainbowFill: Painter
 public val RemixiconPainter.WeatherFireLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherFireLine)
+
+public val RemixiconPainter.WeatherShiningFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherShiningFill)
 
 public val RemixiconPainter.WeatherThunderstormsLine: Painter
     @Composable
@@ -7650,6 +7598,10 @@ public val RemixiconPainter.WeatherSunLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherSunLine)
 
+public val RemixiconPainter.WeatherShiningLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.WeatherShiningLine)
+
 public val RemixiconPainter.WeatherTornadoLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherTornadoLine)
@@ -7669,6 +7621,438 @@ public val RemixiconPainter.WeatherMoonFoggyLine: Painter
 public val RemixiconPainter.WeatherCloudWindyFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.WeatherCloudWindyFill)
+
+public val RemixiconPainter.ArrowsCornerLeftDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerLeftDownLine)
+
+public val RemixiconPainter.ArrowsArrowDownDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownDoubleLine)
+
+public val RemixiconPainter.ArrowsExpandUpDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandUpDownLine)
+
+public val RemixiconPainter.ArrowsArrowUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpLine)
+
+public val RemixiconPainter.ArrowsArrowGoForwardLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowGoForwardLine)
+
+public val RemixiconPainter.ArrowsSkipUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipUpFill)
+
+public val RemixiconPainter.ArrowsArrowLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftFill)
+
+public val RemixiconPainter.ArrowsArrowLeftDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftDownLine)
+
+public val RemixiconPainter.ArrowsArrowDownCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownCircleFill)
+
+public val RemixiconPainter.ArrowsCornerDownRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerDownRightLine)
+
+public val RemixiconPainter.ArrowsCornerLeftUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerLeftUpLine)
+
+public val RemixiconPainter.ArrowsArrowTurnBackFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowTurnBackFill)
+
+public val RemixiconPainter.ArrowsArrowRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightFill)
+
+public val RemixiconPainter.ArrowsArrowRightUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightUpLine)
+
+public val RemixiconPainter.ArrowsSkipLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipLeftFill)
+
+public val RemixiconPainter.ArrowsCornerRightUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerRightUpLine)
+
+public val RemixiconPainter.ArrowsArrowUpSLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpSLine)
+
+public val RemixiconPainter.ArrowsArrowDownSFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownSFill)
+
+public val RemixiconPainter.ArrowsContractLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractLeftFill)
+
+public val RemixiconPainter.ArrowsArrowLeftUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftUpLine)
+
+public val RemixiconPainter.ArrowsDragMoveLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsDragMoveLine)
+
+public val RemixiconPainter.ArrowsArrowUpDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpDownFill)
+
+public val RemixiconPainter.ArrowsArrowDropDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropDownLine)
+
+public val RemixiconPainter.ArrowsCornerRightDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerRightDownLine)
+
+public val RemixiconPainter.ArrowsArrowRightDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightDownLine)
+
+public val RemixiconPainter.ArrowsCornerUpRightDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpRightDoubleLine)
+
+public val RemixiconPainter.ArrowsExpandLeftRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandLeftRightLine)
+
+public val RemixiconPainter.ArrowsArrowLeftDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftDownFill)
+
+public val RemixiconPainter.ArrowsArrowDownCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownCircleLine)
+
+public val RemixiconPainter.ArrowsArrowLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftLine)
+
+public val RemixiconPainter.ArrowsCornerLeftUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerLeftUpFill)
+
+public val RemixiconPainter.ArrowsCornerDownRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerDownRightFill)
+
+public val RemixiconPainter.ArrowsArrowRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightLine)
+
+public val RemixiconPainter.ArrowsArrowTurnBackLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowTurnBackLine)
+
+public val RemixiconPainter.ArrowsArrowRightUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightUpFill)
+
+public val RemixiconPainter.ArrowsSkipLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipLeftLine)
+
+public val RemixiconPainter.ArrowsCornerLeftDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerLeftDownFill)
+
+public val RemixiconPainter.ArrowsExpandUpDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandUpDownFill)
+
+public val RemixiconPainter.ArrowsArrowDownDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownDoubleFill)
+
+public val RemixiconPainter.ArrowsArrowGoForwardFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowGoForwardFill)
+
+public val RemixiconPainter.ArrowsArrowUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpFill)
+
+public val RemixiconPainter.ArrowsSkipUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipUpLine)
+
+public val RemixiconPainter.ArrowsArrowRightDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightDownFill)
+
+public val RemixiconPainter.ArrowsExpandLeftRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandLeftRightFill)
+
+public val RemixiconPainter.ArrowsCornerUpRightDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpRightDoubleFill)
+
+public val RemixiconPainter.ArrowsCornerRightUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerRightUpFill)
+
+public val RemixiconPainter.ArrowsArrowUpSFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpSFill)
+
+public val RemixiconPainter.ArrowsArrowDownSLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownSLine)
+
+public val RemixiconPainter.ArrowsDragMoveFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsDragMoveFill)
+
+public val RemixiconPainter.ArrowsContractLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractLeftLine)
+
+public val RemixiconPainter.ArrowsArrowLeftUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftUpFill)
+
+public val RemixiconPainter.ArrowsCornerRightDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerRightDownFill)
+
+public val RemixiconPainter.ArrowsArrowDropDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropDownFill)
+
+public val RemixiconPainter.ArrowsArrowUpDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpDownLine)
+
+public val RemixiconPainter.ArrowsExpandRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandRightLine)
+
+public val RemixiconPainter.ArrowsArrowUpDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpDoubleLine)
+
+public val RemixiconPainter.ArrowsArrowRightSFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightSFill)
+
+public val RemixiconPainter.ArrowsContractRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractRightLine)
+
+public val RemixiconPainter.ArrowsArrowDropUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropUpFill)
+
+public val RemixiconPainter.ArrowsArrowDropRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropRightFill)
+
+public val RemixiconPainter.ArrowsArrowLeftSFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftSFill)
+
+public val RemixiconPainter.ArrowsArrowDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownFill)
+
+public val RemixiconPainter.ArrowsCornerUpLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpLeftFill)
+
+public val RemixiconPainter.ArrowsArrowUpCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpCircleFill)
+
+public val RemixiconPainter.ArrowsContractUpDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractUpDownFill)
+
+public val RemixiconPainter.ArrowsArrowLeftRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftRightFill)
+
+public val RemixiconPainter.ArrowsArrowTurnForwardFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowTurnForwardFill)
+
+public val RemixiconPainter.ArrowsSkipDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipDownFill)
+
+public val RemixiconPainter.ArrowsArrowRightCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightCircleLine)
+
+public val RemixiconPainter.ArrowsSkipRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipRightFill)
+
+public val RemixiconPainter.ArrowsArrowDropLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropLeftLine)
+
+public val RemixiconPainter.ArrowsArrowLeftCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftCircleFill)
+
+public val RemixiconPainter.ArrowsCornerUpLeftDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpLeftDoubleFill)
+
+public val RemixiconPainter.ArrowsCornerDownLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerDownLeftLine)
+
+public val RemixiconPainter.ArrowsArrowLeftDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftDoubleLine)
+
+public val RemixiconPainter.ArrowsDragMove2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsDragMove2Fill)
+
+public val RemixiconPainter.ArrowsArrowGoBackFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowGoBackFill)
+
+public val RemixiconPainter.ArrowsContractLeftRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractLeftRightLine)
+
+public val RemixiconPainter.ArrowsExpandLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandLeftFill)
+
+public val RemixiconPainter.ArrowsCornerUpRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpRightLine)
+
+public val RemixiconPainter.ArrowsArrowRightDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightDoubleFill)
+
+public val RemixiconPainter.ArrowsCornerUpLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpLeftLine)
+
+public val RemixiconPainter.ArrowsArrowUpCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpCircleLine)
+
+public val RemixiconPainter.ArrowsArrowDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDownLine)
+
+public val RemixiconPainter.ArrowsArrowLeftRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftRightLine)
+
+public val RemixiconPainter.ArrowsContractUpDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractUpDownLine)
+
+public val RemixiconPainter.ArrowsArrowTurnForwardLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowTurnForwardLine)
+
+public val RemixiconPainter.ArrowsSkipDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipDownLine)
+
+public val RemixiconPainter.ArrowsExpandRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandRightFill)
+
+public val RemixiconPainter.ArrowsArrowRightSLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightSLine)
+
+public val RemixiconPainter.ArrowsArrowUpDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowUpDoubleFill)
+
+public val RemixiconPainter.ArrowsArrowDropRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropRightLine)
+
+public val RemixiconPainter.ArrowsArrowDropUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropUpLine)
+
+public val RemixiconPainter.ArrowsContractRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractRightFill)
+
+public val RemixiconPainter.ArrowsArrowLeftSLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftSLine)
+
+public val RemixiconPainter.ArrowsCornerUpLeftDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpLeftDoubleLine)
+
+public val RemixiconPainter.ArrowsArrowGoBackLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowGoBackLine)
+
+public val RemixiconPainter.ArrowsDragMove2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsDragMove2Line)
+
+public val RemixiconPainter.ArrowsContractLeftRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsContractLeftRightFill)
+
+public val RemixiconPainter.ArrowsExpandLeftLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsExpandLeftLine)
+
+public val RemixiconPainter.ArrowsCornerDownLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerDownLeftFill)
+
+public val RemixiconPainter.ArrowsArrowLeftDoubleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftDoubleFill)
+
+public val RemixiconPainter.ArrowsArrowRightDoubleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightDoubleLine)
+
+public val RemixiconPainter.ArrowsCornerUpRightFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsCornerUpRightFill)
+
+public val RemixiconPainter.ArrowsSkipRightLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsSkipRightLine)
+
+public val RemixiconPainter.ArrowsArrowRightCircleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowRightCircleFill)
+
+public val RemixiconPainter.ArrowsArrowLeftCircleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowLeftCircleLine)
+
+public val RemixiconPainter.ArrowsArrowDropLeftFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.ArrowsArrowDropLeftFill)
 
 public val RemixiconPainter.CommunicationQuestionnaireLine: Painter
     @Composable
@@ -7742,9 +8126,17 @@ public val RemixiconPainter.CommunicationChatHeartFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.CommunicationChatHeartFill)
 
+public val RemixiconPainter.CommunicationEmojiStickerLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.CommunicationEmojiStickerLine)
+
 public val RemixiconPainter.CommunicationChatPrivateLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.CommunicationChatPrivateLine)
+
+public val RemixiconPainter.CommunicationSpeakFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.CommunicationSpeakFill)
 
 public val RemixiconPainter.CommunicationChatVoiceLine: Painter
     @Composable
@@ -7806,9 +8198,17 @@ public val RemixiconPainter.CommunicationChatHeartLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.CommunicationChatHeartLine)
 
+public val RemixiconPainter.CommunicationEmojiStickerFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.CommunicationEmojiStickerFill)
+
 public val RemixiconPainter.CommunicationChatPrivateFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.CommunicationChatPrivateFill)
+
+public val RemixiconPainter.CommunicationSpeakLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.CommunicationSpeakLine)
 
 public val RemixiconPainter.CommunicationChat2Fill: Painter
     @Composable
@@ -7910,6 +8310,254 @@ public val RemixiconPainter.CommunicationChatCheckFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.CommunicationChatCheckFill)
 
+public val RemixiconPainter.HealthAndMedicalHeartAddFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartAddFill)
+
+public val RemixiconPainter.HealthAndMedicalVirusFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalVirusFill)
+
+public val RemixiconPainter.HealthAndMedicalFirstAidKitFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalFirstAidKitFill)
+
+public val RemixiconPainter.HealthAndMedicalHandSanitizerLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHandSanitizerLine)
+
+public val RemixiconPainter.HealthAndMedicalTestTubeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalTestTubeFill)
+
+public val RemixiconPainter.HealthAndMedicalHeartFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartFill)
+
+public val RemixiconPainter.HealthAndMedicalHealthBookFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHealthBookFill)
+
+public val RemixiconPainter.HealthAndMedicalMedicineBottleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMedicineBottleFill)
+
+public val RemixiconPainter.HealthAndMedicalMentalHealthLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMentalHealthLine)
+
+public val RemixiconPainter.HealthAndMedicalPsychotherapyFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalPsychotherapyFill)
+
+public val RemixiconPainter.HealthAndMedicalDossierFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalDossierFill)
+
+public val RemixiconPainter.HealthAndMedicalMicroscopeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMicroscopeFill)
+
+public val RemixiconPainter.HealthAndMedicalSurgicalMaskLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalSurgicalMaskLine)
+
+public val RemixiconPainter.HealthAndMedicalRestTimeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalRestTimeLine)
+
+public val RemixiconPainter.HealthAndMedicalHeart3Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeart3Line)
+
+public val RemixiconPainter.HealthAndMedicalHeart2Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeart2Line)
+
+public val RemixiconPainter.HealthAndMedicalInfraredThermometerLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalInfraredThermometerLine)
+
+public val RemixiconPainter.HealthAndMedicalMedicineBottleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMedicineBottleLine)
+
+public val RemixiconPainter.HealthAndMedicalMentalHealthFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMentalHealthFill)
+
+public val RemixiconPainter.HealthAndMedicalPsychotherapyLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalPsychotherapyLine)
+
+public val RemixiconPainter.HealthAndMedicalDossierLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalDossierLine)
+
+public val RemixiconPainter.HealthAndMedicalHeartAddLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartAddLine)
+
+public val RemixiconPainter.HealthAndMedicalHandSanitizerFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHandSanitizerFill)
+
+public val RemixiconPainter.HealthAndMedicalTestTubeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalTestTubeLine)
+
+public val RemixiconPainter.HealthAndMedicalVirusLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalVirusLine)
+
+public val RemixiconPainter.HealthAndMedicalFirstAidKitLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalFirstAidKitLine)
+
+public val RemixiconPainter.HealthAndMedicalHeartLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartLine)
+
+public val RemixiconPainter.HealthAndMedicalHealthBookLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHealthBookLine)
+
+public val RemixiconPainter.HealthAndMedicalHeart2Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeart2Fill)
+
+public val RemixiconPainter.HealthAndMedicalHeart3Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeart3Fill)
+
+public val RemixiconPainter.HealthAndMedicalInfraredThermometerFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalInfraredThermometerFill)
+
+public val RemixiconPainter.HealthAndMedicalMicroscopeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalMicroscopeLine)
+
+public val RemixiconPainter.HealthAndMedicalSurgicalMaskFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalSurgicalMaskFill)
+
+public val RemixiconPainter.HealthAndMedicalRestTimeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalRestTimeFill)
+
+public val RemixiconPainter.HealthAndMedicalHeartsFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartsFill)
+
+public val RemixiconPainter.HealthAndMedicalFlaskLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalFlaskLine)
+
+public val RemixiconPainter.HealthAndMedicalNurseLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalNurseLine)
+
+public val RemixiconPainter.HealthAndMedicalDislikeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalDislikeFill)
+
+public val RemixiconPainter.HealthAndMedicalThermometerFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalThermometerFill)
+
+public val RemixiconPainter.HealthAndMedicalZzzFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalZzzFill)
+
+public val RemixiconPainter.HealthAndMedicalCapsuleLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalCapsuleLine)
+
+public val RemixiconPainter.HealthAndMedicalEmpathizeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalEmpathizeLine)
+
+public val RemixiconPainter.HealthAndMedicalLungsFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalLungsFill)
+
+public val RemixiconPainter.HealthAndMedicalSyringeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalSyringeLine)
+
+public val RemixiconPainter.HealthAndMedicalStethoscopeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalStethoscopeFill)
+
+public val RemixiconPainter.HealthAndMedicalPulseLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalPulseLine)
+
+public val RemixiconPainter.HealthAndMedicalHeartPulseFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartPulseFill)
+
+public val RemixiconPainter.HealthAndMedicalBrainLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalBrainLine)
+
+public val RemixiconPainter.HealthAndMedicalFlaskFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalFlaskFill)
+
+public val RemixiconPainter.HealthAndMedicalNurseFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalNurseFill)
+
+public val RemixiconPainter.HealthAndMedicalHeartsLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartsLine)
+
+public val RemixiconPainter.HealthAndMedicalZzzLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalZzzLine)
+
+public val RemixiconPainter.HealthAndMedicalDislikeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalDislikeLine)
+
+public val RemixiconPainter.HealthAndMedicalThermometerLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalThermometerLine)
+
+public val RemixiconPainter.HealthAndMedicalEmpathizeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalEmpathizeFill)
+
+public val RemixiconPainter.HealthAndMedicalCapsuleFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalCapsuleFill)
+
+public val RemixiconPainter.HealthAndMedicalPulseFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalPulseFill)
+
+public val RemixiconPainter.HealthAndMedicalStethoscopeLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalStethoscopeLine)
+
+public val RemixiconPainter.HealthAndMedicalHeartPulseLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalHeartPulseLine)
+
+public val RemixiconPainter.HealthAndMedicalBrainFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalBrainFill)
+
+public val RemixiconPainter.HealthAndMedicalSyringeFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalSyringeFill)
+
+public val RemixiconPainter.HealthAndMedicalLungsLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.HealthAndMedicalLungsLine)
+
 public val RemixiconPainter.EditorUnderline: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorUnderline)
@@ -7917,6 +8565,10 @@ public val RemixiconPainter.EditorUnderline: Painter
 public val RemixiconPainter.EditorInsertColumnRight: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorInsertColumnRight)
+
+public val RemixiconPainter.EditorAiGenerate: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorAiGenerate)
 
 public val RemixiconPainter.EditorTextSpacing: Painter
     @Composable
@@ -7942,6 +8594,10 @@ public val RemixiconPainter.EditorSubscript: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorSubscript)
 
+public val RemixiconPainter.EditorFontSansSerif: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorFontSansSerif)
+
 public val RemixiconPainter.EditorIndentIncrease: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorIndentIncrease)
@@ -7962,9 +8618,17 @@ public val RemixiconPainter.EditorTranslate: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorTranslate)
 
+public val RemixiconPainter.EditorSlashCommands: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorSlashCommands)
+
 public val RemixiconPainter.EditorOmega: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorOmega)
+
+public val RemixiconPainter.EditorDraggable: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorDraggable)
 
 public val RemixiconPainter.EditorIndentDecrease: Painter
     @Composable
@@ -7982,6 +8646,10 @@ public val RemixiconPainter.EditorAlignBottom: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorAlignBottom)
 
+public val RemixiconPainter.EditorFontSans: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorFontSans)
+
 public val RemixiconPainter.EditorSendBackward: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorSendBackward)
@@ -7989,6 +8657,10 @@ public val RemixiconPainter.EditorSendBackward: Painter
 public val RemixiconPainter.EditorStrikethrough2: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorStrikethrough2)
+
+public val RemixiconPainter.EditorQuoteText: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorQuoteText)
 
 public val RemixiconPainter.EditorNumber9: Painter
     @Composable
@@ -8001,6 +8673,10 @@ public val RemixiconPainter.EditorNumber8: Painter
 public val RemixiconPainter.EditorInsertRowTop: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorInsertRowTop)
+
+public val RemixiconPainter.EditorFontMono: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorFontMono)
 
 public val RemixiconPainter.EditorInsertColumnLeft: Painter
     @Composable
@@ -8042,9 +8718,17 @@ public val RemixiconPainter.EditorQuestionMark: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorQuestionMark)
 
+public val RemixiconPainter.EditorListCheck3: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorListCheck3)
+
 public val RemixiconPainter.EditorBringForward: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorBringForward)
+
+public val RemixiconPainter.EditorOverline: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorOverline)
 
 public val RemixiconPainter.EditorSplitCellsHorizontal: Painter
     @Composable
@@ -8102,6 +8786,10 @@ public val RemixiconPainter.EditorFunctions: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorFunctions)
 
+public val RemixiconPainter.EditorSketching: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorSketching)
+
 public val RemixiconPainter.EditorPinyinInput: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorPinyinInput)
@@ -8113,6 +8801,10 @@ public val RemixiconPainter.EditorText: Painter
 public val RemixiconPainter.EditorSingleQuotesR: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorSingleQuotesR)
+
+public val RemixiconPainter.EditorFontFamily: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorFontFamily)
 
 public val RemixiconPainter.EditorSuperscript: Painter
     @Composable
@@ -8170,6 +8862,10 @@ public val RemixiconPainter.EditorFontColor: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorFontColor)
 
+public val RemixiconPainter.EditorListOrdered2: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorListOrdered2)
+
 public val RemixiconPainter.EditorAlignVertically: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorAlignVertically)
@@ -8213,6 +8909,10 @@ public val RemixiconPainter.EditorFontSize: Painter
 public val RemixiconPainter.EditorH2: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorH2)
+
+public val RemixiconPainter.EditorListRadio: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorListRadio)
 
 public val RemixiconPainter.EditorItalic: Painter
     @Composable
@@ -8265,6 +8965,10 @@ public val RemixiconPainter.EditorNumber3: Painter
 public val RemixiconPainter.EditorNumber2: Painter
     @Composable
     get() = painterResource(RemixiconRes.EditorNumber2)
+
+public val RemixiconPainter.EditorListIndefinite: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.EditorListIndefinite)
 
 public val RemixiconPainter.EditorH6: Painter
     @Composable
@@ -8390,6 +9094,10 @@ public val RemixiconPainter.MediaVideoLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVideoLine)
 
+public val RemixiconPainter.MediaReplay10Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay10Fill)
+
 public val RemixiconPainter.MediaGalleryFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaGalleryFill)
@@ -8462,6 +9170,10 @@ public val RemixiconPainter.MediaMovie2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaMovie2Fill)
 
+public val RemixiconPainter.MediaMemoriesFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaMemoriesFill)
+
 public val RemixiconPainter.MediaPictureInPictureFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaPictureInPictureFill)
@@ -8502,6 +9214,10 @@ public val RemixiconPainter.MediaNotificationOffLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaNotificationOffLine)
 
+public val RemixiconPainter.MediaForward10Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward10Fill)
+
 public val RemixiconPainter.MediaPlayLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaPlayLine)
@@ -8509,6 +9225,10 @@ public val RemixiconPainter.MediaPlayLine: Painter
 public val RemixiconPainter.MediaSurroundSoundFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSurroundSoundFill)
+
+public val RemixiconPainter.MediaForward5Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward5Fill)
 
 public val RemixiconPainter.MediaRewindMiniLine: Painter
     @Composable
@@ -8529,6 +9249,10 @@ public val RemixiconPainter.MediaCamera3Fill: Painter
 public val RemixiconPainter.MediaCamera2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaCamera2Fill)
+
+public val RemixiconPainter.MediaReplay5Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay5Line)
 
 public val RemixiconPainter.MediaVidiconFill: Painter
     @Composable
@@ -8565,6 +9289,10 @@ public val RemixiconPainter.MediaPauseFill: Painter
 public val RemixiconPainter.MediaVideoFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVideoFill)
+
+public val RemixiconPainter.MediaReplay10Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay10Line)
 
 public val RemixiconPainter.MediaGalleryLine: Painter
     @Composable
@@ -8650,6 +9378,10 @@ public val RemixiconPainter.MediaNotificationOffFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaNotificationOffFill)
 
+public val RemixiconPainter.MediaForward10Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward10Line)
+
 public val RemixiconPainter.MediaVolumeDownFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVolumeDownFill)
@@ -8661,6 +9393,14 @@ public val RemixiconPainter.MediaSurroundSoundLine: Painter
 public val RemixiconPainter.MediaRewindMiniFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaRewindMiniFill)
+
+public val RemixiconPainter.MediaForward5Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward5Line)
+
+public val RemixiconPainter.MediaReplay5Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay5Fill)
 
 public val RemixiconPainter.MediaVidiconLine: Painter
     @Composable
@@ -8721,6 +9461,10 @@ public val RemixiconPainter.MediaMvLine: Painter
 public val RemixiconPainter.MediaVidicon2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVidicon2Fill)
+
+public val RemixiconPainter.MediaMemoriesLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaMemoriesLine)
 
 public val RemixiconPainter.MediaMovie2Line: Painter
     @Composable
@@ -8802,6 +9546,10 @@ public val RemixiconPainter.MediaSoundModuleLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSoundModuleLine)
 
+public val RemixiconPainter.MediaSpeedUpFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaSpeedUpFill)
+
 public val RemixiconPainter.MediaMusic2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaMusic2Fill)
@@ -8830,6 +9578,10 @@ public val RemixiconPainter.MediaVolumeUpFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVolumeUpFill)
 
+public val RemixiconPainter.MediaReplay30Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay30Fill)
+
 public val RemixiconPainter.MediaDvFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaDvFill)
@@ -8841,6 +9593,10 @@ public val RemixiconPainter.MediaPhoneCameraLine: Painter
 public val RemixiconPainter.MediaSkipForwardLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSkipForwardLine)
+
+public val RemixiconPainter.MediaReplay15Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay15Line)
 
 public val RemixiconPainter.MediaMicOffLine: Painter
     @Composable
@@ -8890,6 +9646,10 @@ public val RemixiconPainter.MediaSkipBackFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSkipBackFill)
 
+public val RemixiconPainter.MediaSlowDownFill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaSlowDownFill)
+
 public val RemixiconPainter.MediaPauseMiniLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaPauseMiniLine)
@@ -8897,6 +9657,10 @@ public val RemixiconPainter.MediaPauseMiniLine: Painter
 public val RemixiconPainter.MediaDvdLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaDvdLine)
+
+public val RemixiconPainter.MediaForward15Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward15Line)
 
 public val RemixiconPainter.MediaStopFill: Painter
     @Composable
@@ -8917,6 +9681,10 @@ public val RemixiconPainter.MediaVideoDownloadFill: Painter
 public val RemixiconPainter.MediaPictureInPicture2Fill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaPictureInPicture2Fill)
+
+public val RemixiconPainter.MediaForward30Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward30Fill)
 
 public val RemixiconPainter.MediaRadio2Line: Painter
     @Composable
@@ -8962,6 +9730,10 @@ public val RemixiconPainter.MediaVolumeUpLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVolumeUpLine)
 
+public val RemixiconPainter.MediaReplay30Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay30Line)
+
 public val RemixiconPainter.MediaSkipForwardFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSkipForwardFill)
@@ -8969,6 +9741,10 @@ public val RemixiconPainter.MediaSkipForwardFill: Painter
 public val RemixiconPainter.MediaMicOffFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaMicOffFill)
+
+public val RemixiconPainter.MediaReplay15Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaReplay15Fill)
 
 public val RemixiconPainter.MediaAspectRatioFill: Painter
     @Composable
@@ -8998,6 +9774,10 @@ public val RemixiconPainter.MediaHdLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaHdLine)
 
+public val RemixiconPainter.MediaSpeedUpLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaSpeedUpLine)
+
 public val RemixiconPainter.MediaSoundModuleFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaSoundModuleFill)
@@ -9009,6 +9789,10 @@ public val RemixiconPainter.MediaRhythmFill: Painter
 public val RemixiconPainter.MediaTapeFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaTapeFill)
+
+public val RemixiconPainter.MediaSlowDownLine: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaSlowDownLine)
 
 public val RemixiconPainter.MediaPauseMiniFill: Painter
     @Composable
@@ -9025,6 +9809,10 @@ public val RemixiconPainter.MediaStopLine: Painter
 public val RemixiconPainter.MediaDvdFill: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaDvdFill)
+
+public val RemixiconPainter.MediaForward15Fill: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward15Fill)
 
 public val RemixiconPainter.MediaFullscreenExitFill: Painter
     @Composable
@@ -9045,6 +9833,10 @@ public val RemixiconPainter.MediaVolumeOffVibrateLine: Painter
 public val RemixiconPainter.MediaVideoDownloadLine: Painter
     @Composable
     get() = painterResource(RemixiconRes.MediaVideoDownloadLine)
+
+public val RemixiconPainter.MediaForward30Line: Painter
+    @Composable
+    get() = painterResource(RemixiconRes.MediaForward30Line)
 
 public val RemixiconPainter.MediaPictureInPicture2Line: Painter
     @Composable
