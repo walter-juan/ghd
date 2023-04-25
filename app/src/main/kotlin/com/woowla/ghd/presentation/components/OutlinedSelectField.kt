@@ -26,9 +26,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.woowla.compose.remixicon.ArrowsArrowDownSLine
+import com.woowla.compose.remixicon.ArrowsArrowUpSLine
 import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemArrowDownSLine
-import com.woowla.compose.remixicon.SystemArrowUpSLine
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,9 +48,9 @@ fun <T: Any?> OutlinedSelectField(
     var textFieldText by remember { mutableStateOf(selectedText) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val textFieldTrailingIcon = if (dropDownExpanded) {
-        RemixiconPainter.SystemArrowUpSLine
+        RemixiconPainter.ArrowsArrowUpSLine
     } else {
-        RemixiconPainter.SystemArrowDownSLine
+        RemixiconPainter.ArrowsArrowDownSLine
     }
 
     Column(
