@@ -14,8 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.3.3]
+### Changed
+- Update the octicons and remixicon
+### Fixed
+- From download icon scripts, strip non word characters from folders
 ### Security
-- Update Ruby Gems
+- Update Ruby Gems (reported as security risks by GitHub)
 
 ## [1.3.2]
 ### Added
