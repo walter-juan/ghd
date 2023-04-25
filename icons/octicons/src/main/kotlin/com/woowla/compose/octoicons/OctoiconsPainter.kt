@@ -118,6 +118,10 @@ public val OctoiconsPainter.ClockFill: Painter
     @Composable
     get() = painterResource(OctoiconsRes.ClockFill)
 
+public val OctoiconsPainter.DiscussionOutdated: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.DiscussionOutdated)
+
 public val OctoiconsPainter.Heading: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Heading)
@@ -466,6 +470,10 @@ public val OctoiconsPainter.Stop: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Stop)
 
+public val OctoiconsPainter.IssueTracks: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.IssueTracks)
+
 public val OctoiconsPainter.GitBranch: Painter
     @Composable
     get() = painterResource(OctoiconsRes.GitBranch)
@@ -598,6 +606,10 @@ public val OctoiconsPainter.Grabber: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Grabber)
 
+public val OctoiconsPainter.DiscussionClosed: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.DiscussionClosed)
+
 public val OctoiconsPainter.BookmarkSlashFill: Painter
     @Composable
     get() = painterResource(OctoiconsRes.BookmarkSlashFill)
@@ -633,6 +645,10 @@ public val OctoiconsPainter.Table: Painter
 public val OctoiconsPainter.ScreenNormal: Painter
     @Composable
     get() = painterResource(OctoiconsRes.ScreenNormal)
+
+public val OctoiconsPainter.ProjectTemplate: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.ProjectTemplate)
 
 public val OctoiconsPainter.Workflow: Painter
     @Composable
@@ -798,6 +814,10 @@ public val OctoiconsPainter.Codespaces: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Codespaces)
 
+public val OctoiconsPainter.PasskeyFill: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.PasskeyFill)
+
 public val OctoiconsPainter.Rows: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Rows)
@@ -805,6 +825,10 @@ public val OctoiconsPainter.Rows: Painter
 public val OctoiconsPainter.Sync: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Sync)
+
+public val OctoiconsPainter.ShieldSlash: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.ShieldSlash)
 
 public val OctoiconsPainter.Blocked: Painter
     @Composable
@@ -978,6 +1002,10 @@ public val OctoiconsPainter.ZoomOut: Painter
     @Composable
     get() = painterResource(OctoiconsRes.ZoomOut)
 
+public val OctoiconsPainter.DiscussionDuplicate: Painter
+    @Composable
+    get() = painterResource(OctoiconsRes.DiscussionDuplicate)
+
 public val OctoiconsPainter.Mirror: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Mirror)
@@ -1013,10 +1041,6 @@ public val OctoiconsPainter.Moon: Painter
 public val OctoiconsPainter.Codescan: Painter
     @Composable
     get() = painterResource(OctoiconsRes.Codescan)
-
-public val OctoiconsPainter.IssueTrackedIn: Painter
-    @Composable
-    get() = painterResource(OctoiconsRes.IssueTrackedIn)
 
 public val OctoiconsPainter.IssueOpened: Painter
     @Composable

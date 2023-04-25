@@ -86,6 +86,9 @@ public val OctoiconsRes.Alert: String
 public val OctoiconsRes.ClockFill: String
     get() = "octicons/clock_fill.svg"
 
+public val OctoiconsRes.DiscussionOutdated: String
+    get() = "octicons/discussion_outdated.svg"
+
 public val OctoiconsRes.Heading: String
     get() = "octicons/heading.svg"
 
@@ -347,6 +350,9 @@ public val OctoiconsRes.SignIn: String
 public val OctoiconsRes.Stop: String
     get() = "octicons/stop.svg"
 
+public val OctoiconsRes.IssueTracks: String
+    get() = "octicons/issue_tracks.svg"
+
 public val OctoiconsRes.GitBranch: String
     get() = "octicons/git_branch.svg"
 
@@ -446,6 +452,9 @@ public val OctoiconsRes.Broadcast: String
 public val OctoiconsRes.Grabber: String
     get() = "octicons/grabber.svg"
 
+public val OctoiconsRes.DiscussionClosed: String
+    get() = "octicons/discussion_closed.svg"
+
 public val OctoiconsRes.BookmarkSlashFill: String
     get() = "octicons/bookmark_slash_fill.svg"
 
@@ -472,6 +481,9 @@ public val OctoiconsRes.Table: String
 
 public val OctoiconsRes.ScreenNormal: String
     get() = "octicons/screen_normal.svg"
+
+public val OctoiconsRes.ProjectTemplate: String
+    get() = "octicons/project_template.svg"
 
 public val OctoiconsRes.Workflow: String
     get() = "octicons/workflow.svg"
@@ -596,11 +608,17 @@ public val OctoiconsRes.CodescanCheckmark: String
 public val OctoiconsRes.Codespaces: String
     get() = "octicons/codespaces.svg"
 
+public val OctoiconsRes.PasskeyFill: String
+    get() = "octicons/passkey_fill.svg"
+
 public val OctoiconsRes.Rows: String
     get() = "octicons/rows.svg"
 
 public val OctoiconsRes.Sync: String
     get() = "octicons/sync.svg"
+
+public val OctoiconsRes.ShieldSlash: String
+    get() = "octicons/shield_slash.svg"
 
 public val OctoiconsRes.Blocked: String
     get() = "octicons/blocked.svg"
@@ -731,6 +749,9 @@ public val OctoiconsRes.PersonAdd: String
 public val OctoiconsRes.ZoomOut: String
     get() = "octicons/zoom_out.svg"
 
+public val OctoiconsRes.DiscussionDuplicate: String
+    get() = "octicons/discussion_duplicate.svg"
+
 public val OctoiconsRes.Mirror: String
     get() = "octicons/mirror.svg"
 
@@ -757,9 +778,6 @@ public val OctoiconsRes.Moon: String
 
 public val OctoiconsRes.Codescan: String
     get() = "octicons/codescan.svg"
-
-public val OctoiconsRes.IssueTrackedIn: String
-    get() = "octicons/issue_tracked_in.svg"
 
 public val OctoiconsRes.IssueOpened: String
     get() = "octicons/issue_opened.svg"
