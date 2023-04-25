@@ -22,8 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.woowla.compose.remixicon.ArrowsArrowLeftLine
 import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemArrowLeftLine
 
 @Composable
 fun ScreenScrollable(
@@ -88,7 +88,7 @@ fun ScreenScaffold(
 fun TopBar(
     title: String,
     subtitle: String? = null,
-    navImagePainter: Painter = RemixiconPainter.SystemArrowLeftLine,
+    navImagePainter: Painter = RemixiconPainter.ArrowsArrowLeftLine,
     navContentDescription: String? = null,
     navOnClick: (() -> Unit)? = null,
     actions: @Composable @ExtensionFunctionType RowScope.() -> Unit = {},

@@ -38,7 +38,7 @@ import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemCheckboxBlankCircleLine
 import com.woowla.compose.remixicon.SystemCheckboxCircleFill
 import com.woowla.compose.remixicon.SystemHistoryLine
-import com.woowla.compose.remixicon.UserTeamLine
+import com.woowla.compose.remixicon.UserAndFacesTeamLine
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.presentation.app.AppIconsPainter
@@ -188,7 +188,7 @@ fun PullRequestCardNew(
                 if (pullRequest.state == PullRequestState.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
-                        icon = RemixiconPainter.UserTeamLine,
+                        icon = RemixiconPainter.UserAndFacesTeamLine,
                         showBadge = pullRequestDecorator.showReviewsBadge,
                         badgeColor = pullRequestDecorator.reviewsBadgeColor(),
                     )
