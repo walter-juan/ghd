@@ -11,6 +11,7 @@ import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
 import com.github.benmanes.gradle.versions.reporter.AbstractReporter
 import com.github.benmanes.gradle.versions.reporter.print
 import com.github.benmanes.gradle.versions.reporter.println
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.OutputStream
 import java.io.PrintStream
 
@@ -100,7 +101,7 @@ compose.desktop {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "16"
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 }
 
 tasks.withType<Test>().configureEach {
