@@ -25,7 +25,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.3.3"
+version = "1.3.4"
 val debug = (extra["debugConfig"] as String).toBoolean()
 
 repositories {
@@ -67,8 +67,6 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
-    implementation(libs.mapstruct.core)
-    kapt(libs.mapstruct.processor)
     implementation(libs.kamel)
     implementation(libs.bundles.voyager)
     implementation(libs.kaml)

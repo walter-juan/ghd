@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.3.4]
+### Changed
+- Update dependencies
+- Hide the extras from a PR when it's mark as seen
+
 ## [1.3.3]
 ### Changed
 - Update the octicons and remixicon
@@ -135,8 +140,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.3...dev
-[1.3.2]: https://github.com/walter-juan/ghd/releases/tag/v1.3.3
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.4...dev
+[1.3.4]: https://github.com/walter-juan/ghd/releases/tag/v1.3.4
+[1.3.3]: https://github.com/walter-juan/ghd/releases/tag/v1.3.3
 [1.3.2]: https://github.com/walter-juan/ghd/releases/tag/v1.3.2
 [1.3.1]: https://github.com/walter-juan/ghd/releases/tag/v1.3.1
 [1.3.0]: https://github.com/walter-juan/ghd/releases/tag/v1.3.0
