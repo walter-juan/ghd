@@ -15,7 +15,7 @@ jobs:
         uses: actions/setup-java@v3.6.0
         with:
           distribution: 'temurin'
-          java-version: '16'
+          java-version: '17'
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.0.5
       - name: Build and test
