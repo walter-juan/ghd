@@ -67,8 +67,6 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
-    implementation(libs.mapstruct.core)
-    kapt(libs.mapstruct.processor)
     implementation(libs.kamel)
     implementation(libs.bundles.voyager)
     implementation(libs.kaml)
