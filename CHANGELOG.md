@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update dependencies
 - Hide the extras from a PR when it's mark as seen
+### Security
+- Resolve a high severity [Dependabot alert](https://github.com/walter-juan/ghd/security/dependabot/5) on `gradle/gradle-build-action`.
 
 ## [1.3.3]
 ### Changed
