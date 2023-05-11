@@ -59,7 +59,7 @@ fun PullRequestCardNew(
     val avatarImageSize = 45.dp
     val pullRequestDecorator = PullRequestDecoratorNew(pullRequest)
     val seen = pullRequest.appSeen
-    val showExtras = pullRequest.state == PullRequestState.OPEN || pullRequest.state == PullRequestState.DRAFT
+    val showExtras = !seen && (pullRequest.state == PullRequestState.OPEN || pullRequest.state == PullRequestState.DRAFT)
 
     IconCard(
         selected = seen,
