@@ -11,16 +11,17 @@ GEM
     stringio (3.0.6)
     time (0.2.2)
       date
-    uri (0.12.1)
+    uri (0.12.2)
 
 PLATFORMS
   x86_64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
   json (~> 2.6, >= 2.6.3)
   open-uri (~> 0.3.0)
   rubyzip (~> 2.3, >= 2.3.2)
-  uri (~> 0.12.1)
+  uri (~> 0.12.2)
 
 RUBY VERSION
    ruby 2.6.6p146
