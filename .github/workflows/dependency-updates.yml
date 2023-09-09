@@ -2,8 +2,6 @@ name: Dependency updates
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 8 * * 1' # every Monday at 8:00
 
 jobs:
   check-versions:
