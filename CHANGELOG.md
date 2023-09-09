@@ -15,9 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.5]
 ### Changed
+- Update dependencies and Ruby version
 - Sort pull request first by seen, then by state and finally by the created date
 ### Removed
 - Dependency updates scheduled workflow, now only the manual one is available
+### Security
+- Resolve a high severity [Dependabot alert](https://github.com/walter-juan/ghd/security/dependabot/6)
 
 ## [1.3.4]
 ### Changed

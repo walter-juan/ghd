@@ -8,22 +8,23 @@ GEM
       time
       uri
     rubyzip (2.3.2)
-    stringio (3.0.6)
+    stringio (3.0.8)
     time (0.2.2)
       date
-    uri (0.12.1)
+    uri (0.12.2)
 
 PLATFORMS
+  x64-mingw-ucrt
   x86_64-darwin-20
 
 DEPENDENCIES
   json (~> 2.6, >= 2.6.3)
   open-uri (~> 0.3.0)
   rubyzip (~> 2.3, >= 2.3.2)
-  uri (~> 0.12.1)
+  uri (~> 0.12.2)
 
 RUBY VERSION
-   ruby 2.6.6p146
+   ruby 3.2.2p53
 
 BUNDLED WITH
    2.3.8
