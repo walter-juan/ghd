@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.3.5]
+### Changed
+- Sort pull request first by seen, then by state and finally by the created date
+
 ## [1.3.4]
 ### Changed
 - Update dependencies
@@ -143,7 +147,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.4...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.3.5...dev
+[1.3.5]: https://github.com/walter-juan/ghd/releases/tag/v1.3.5
 [1.3.4]: https://github.com/walter-juan/ghd/releases/tag/v1.3.4
 [1.3.3]: https://github.com/walter-juan/ghd/releases/tag/v1.3.3
 [1.3.2]: https://github.com/walter-juan/ghd/releases/tag/v1.3.2
