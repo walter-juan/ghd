@@ -139,6 +139,12 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
 # Links
 - GitHub
   - [GitHub Actions runner images](https://github.com/actions/runner-images)
+- Compose Multiplatform
+  - [Landing page](https://www.jetbrains.com/lp/compose-multiplatform/)
+  - [GitHub repo](https://github.com/JetBrains/compose-multiplatform)
+  - [Desktop template](https://github.com/JetBrains/compose-multiplatform-desktop-template/)
+  - [Samples](https://github.com/JetBrains/compose-multiplatform/blob/master/examples/README.md)
+  - [Tutorials](https://github.com/JetBrains/compose-multiplatform/blob/master/tutorials/README.md)
 - Android official
   - [Material Design Components](https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary) code documentation, the package `androidx.compose.material`
   - [Material Design 3 Components](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary) code documentation, the package `androidx.compose.material3`
