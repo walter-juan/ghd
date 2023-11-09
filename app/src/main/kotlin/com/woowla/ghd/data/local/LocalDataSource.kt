@@ -32,6 +32,7 @@ class LocalDataSource(
             appProperties.load()
             PropAppSettings(
                 darkTheme = appProperties.darkTheme,
+                encryptedDatabase = appProperties.encryptedDatabase,
                 featurePreviewNewCards = appProperties.featurePreviewNewCards,
                 featurePreviewNewCardsBoldStyle = appProperties.featurePreviewNewCardsBoldStyle,
             )
@@ -42,6 +43,7 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = upsertRequest.darkTheme
+            appProperties.encryptedDatabase = upsertRequest.encryptedDatabase
             appProperties.featurePreviewNewCards = upsertRequest.featurePreviewNewCards
             appProperties.featurePreviewNewCardsBoldStyle = upsertRequest.featurePreviewNewCardsBoldStyle
             appProperties.store()

@@ -94,7 +94,7 @@ class LoginScreen : Screen {
                         loginDatabaseAlreadyExists(
                             darkTheme = darkTheme,
                             navigator = navigator,
-                            isDbEncrypted = lockedLoginState.isDbEncrypted,
+                            isDbEncrypted = lockedLoginState.appSettings.encryptedDatabase,
                             error = lockedLoginState.error,
                             onUnlockDatabase = { password ->
                                 viewModel.onUnlockDatabase(password = password)
