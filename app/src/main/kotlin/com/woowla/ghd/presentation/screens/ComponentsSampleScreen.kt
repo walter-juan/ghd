@@ -58,8 +58,6 @@ class ComponentsSampleScreen : Screen {
         id = 12,
         owner = "walter-juan",
         name = "ghd",
-        pullNotificationsEnabled = false,
-        releaseNotificationsEnabled = false,
         groupName = "applications",
         pullBranchRegex = null
     )
@@ -373,11 +371,7 @@ class ComponentsSampleScreen : Screen {
 
     @Composable
     private fun RepoToCheckCardSample() {
-        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = false, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
-        Divider(modifier = Modifier.padding(5.dp))
-        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = true), onEditClick = {}, onDeleteClick = {})
-        Divider(modifier = Modifier.padding(5.dp))
-        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
+        RepoToCheckCard(repoToCheck = repoToCheck, onEditClick = {}, onDeleteClick = {})
     }
 
     @Composable

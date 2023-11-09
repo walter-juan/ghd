@@ -54,9 +54,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             owner = "the owner",
             name = "the repo name",
             groupName = "the group",
-            pullNotificationsEnabled = true,
             pullBranchRegex = "the regex",
-            releaseNotificationsEnabled = true,
         )
     }
 
@@ -76,9 +74,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             owner = "the owner",
             name = "the repo name",
             groupName = null,
-            pullNotificationsEnabled = false,
             pullBranchRegex = null,
-            releaseNotificationsEnabled = false,
         )
     }
 
@@ -112,18 +108,14 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             owner = "the owner",
             name = "the repo name",
             groupName = "the group",
-            pullNotificationsEnabled = true,
             pullBranchRegex = "the regex",
-            releaseNotificationsEnabled = true,
         )
         repos[1] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
             owner = "the second owner",
             name = "the repo name of the second",
             groupName = "the group 2",
-            pullNotificationsEnabled = false,
             pullBranchRegex = "another regex",
-            releaseNotificationsEnabled = true,
         )
     }
 
@@ -141,8 +133,6 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 id = 23L,
                 owner = "walter",
                 name = "ghd",
-                pullNotificationsEnabled = true,
-                releaseNotificationsEnabled = false,
                 groupName = null,
                 pullBranchRegex = null
             ),
@@ -150,8 +140,6 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 id = 23L,
                 owner = "alvaro",
                 name = "ghd",
-                pullNotificationsEnabled = true,
-                releaseNotificationsEnabled = true,
                 groupName = "name of the group",
                 pullBranchRegex = "the regex"
             ),

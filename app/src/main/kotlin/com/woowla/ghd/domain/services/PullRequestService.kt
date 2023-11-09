@@ -2,6 +2,7 @@ package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.data.remote.type.PullRequestState as ApiPullRequestState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
@@ -23,6 +24,7 @@ class PullRequestService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
     private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
     private val notificationsSender: NotificationsSender = NotificationsSender(),
+    private val appSettingsService: AppSettingsService = AppSettingsService(),
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<PullRequest>> {
         return localDataSource.getAllPullRequests()
@@ -59,7 +61,9 @@ class PullRequestService(
         }
 
         val pullRequestsAfter = getAll().getOrDefault(listOf())
-        sendNotifications(oldPullRequests = pullRequestsBefore, newPullRequests = pullRequestsAfter)
+        appSettingsService.get().onSuccess {  appSettings ->
+            sendNotifications(appSettings = appSettings, oldPullRequests = pullRequestsBefore, newPullRequests = pullRequestsAfter)
+        }
     }
 
     suspend fun cleanUp(syncSettings: SyncSettings) {
@@ -94,41 +98,39 @@ class PullRequestService(
             }
     }
 
-    suspend fun sendNotifications(oldPullRequests: List<PullRequest>, newPullRequests: List<PullRequest>): Result<Unit> {
+    suspend fun sendNotifications(appSettings: AppSettings, oldPullRequests: List<PullRequest>, newPullRequests: List<PullRequest>): Result<Unit> {
         val oldPullRequestIds = oldPullRequests.map { it.id }
 
         // notification for a new pull requests
-        newPullRequests
-            .filter {
-                it.repoToCheck.pullNotificationsEnabled
-            }
-            .filterNot {
-                oldPullRequestIds.contains(it.id)
-            }
-            .forEach {
-                notificationsSender.newPullRequest(it)
-            }
+        if (appSettings.newPullRequestsNotificationsEnabled) {
+            newPullRequests
+                .filterNot {
+                    oldPullRequestIds.contains(it.id)
+                }
+                .forEach {
+                    notificationsSender.newPullRequest(it)
+                }
+        }
 
         // notification for an update
-        newPullRequests
-            .filter {
-                it.repoToCheck.pullNotificationsEnabled
-            }
-            .filter {
-                !it.appSeen
-            }
-            .filter { newPull ->
-                val oldRelease = oldPullRequests.firstOrNull { it.id == newPull.id }
-
-                if (oldRelease != null) {
-                    oldRelease.updatedAt != newPull.updatedAt
-                } else {
-                    false
+        if (appSettings.updatedPullRequestsNotificationsEnabled) {
+            newPullRequests
+                .filter {
+                    !it.appSeen
                 }
-            }
-            .forEach { newPull ->
-                notificationsSender.updatePullRequest(newPull)
-            }
+                .filter { newPull ->
+                    val oldRelease = oldPullRequests.firstOrNull { it.id == newPull.id }
+
+                    if (oldRelease != null) {
+                        oldRelease.updatedAt != newPull.updatedAt
+                    } else {
+                        false
+                    }
+                }
+                .forEach { newPull ->
+                    notificationsSender.updatePullRequest(newPull)
+                }
+        }
 
         return Result.success(Unit)
     }

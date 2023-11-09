@@ -36,14 +36,6 @@ class RepoToCheckEditViewModel(
         _updateRequest.value = _updateRequest.value.copy(name = value)
     }
 
-    fun pullNotificationsEnabledUpdated(value: Boolean) {
-        _updateRequest.value = _updateRequest.value.copy(pullNotificationsEnabled = value)
-    }
-
-    fun releaseNotificationsEnabledUpdated(value: Boolean) {
-        _updateRequest.value = _updateRequest.value.copy(releaseNotificationsEnabled = value)
-    }
-
     fun groupUpdated(value: String) {
         _updateRequest.value = _updateRequest.value.copy(groupName = value)
     }

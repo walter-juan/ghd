@@ -19,8 +19,6 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.remixicon.EditorListUnordered
-import com.woowla.compose.remixicon.MediaNotification4Line
-import com.woowla.compose.remixicon.MediaNotificationOffLine
 import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemDeleteBinLine
 import com.woowla.ghd.domain.entities.RepoToCheck
@@ -74,34 +72,6 @@ fun RepoToCheckCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Unit
                 },
                 icon = RemixiconPainter.EditorListUnordered
             )
-            if (repoToCheck.pullNotificationsEnabled && repoToCheck.releaseNotificationsEnabled) {
-                IconCardRowSmallContent(
-                    text = i18n.screen_edit_repo_to_all_notifications_enabled,
-                    icon = RemixiconPainter.MediaNotification4Line
-                )
-            } else if (!repoToCheck.pullNotificationsEnabled && !repoToCheck.releaseNotificationsEnabled) {
-                IconCardRowSmallContent(
-                    text = i18n.screen_edit_repo_to_all_notifications_disabled,
-                    icon = RemixiconPainter.MediaNotificationOffLine
-                )
-            } else {
-                IconCardRowSmallContent(
-                    text = i18n.screen_edit_repo_to_all_pull_request_notifications_enabled(repoToCheck.pullNotificationsEnabled),
-                    icon = if (repoToCheck.pullNotificationsEnabled) {
-                        RemixiconPainter.MediaNotification4Line
-                    } else {
-                        RemixiconPainter.MediaNotificationOffLine
-                    }
-                )
-                IconCardRowSmallContent(
-                    text = i18n.screen_edit_repo_to_all_releases_notifications_enabled(repoToCheck.releaseNotificationsEnabled),
-                    icon = if (repoToCheck.releaseNotificationsEnabled) {
-                        RemixiconPainter.MediaNotification4Line
-                    } else {
-                        RemixiconPainter.MediaNotificationOffLine
-                    }
-                )
-            }
         }
     )
 }

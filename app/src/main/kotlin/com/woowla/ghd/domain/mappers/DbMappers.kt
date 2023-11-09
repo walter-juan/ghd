@@ -30,8 +30,6 @@ fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
         id = id.value,
         owner = owner,
         name = name,
-        pullNotificationsEnabled = pullNotificationsEnabled,
-        releaseNotificationsEnabled = releaseNotificationsEnabled,
         groupName = groupName,
         pullBranchRegex = pullBranchRegex
     )

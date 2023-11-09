@@ -33,6 +33,10 @@ class LocalDataSource(
             PropAppSettings(
                 darkTheme = appProperties.darkTheme,
                 encryptedDatabase = appProperties.encryptedDatabase,
+                newPullRequestsNotificationsEnabled = appProperties.newPullRequestsNotificationsEnabled,
+                updatedPullRequestsNotificationsEnabled = appProperties.updatedPullRequestsNotificationsEnabled,
+                newReleaseNotificationsEnabled = appProperties.newReleaseNotificationsEnabled,
+                updatedReleaseNotificationsEnabled = appProperties.updatedReleaseNotificationsEnabled,
             )
         }
     }
@@ -42,6 +46,10 @@ class LocalDataSource(
             appProperties.load()
             appProperties.darkTheme = upsertRequest.darkTheme
             appProperties.encryptedDatabase = upsertRequest.encryptedDatabase
+            appProperties.newPullRequestsNotificationsEnabled = upsertRequest.newPullRequestsNotificationsEnabled
+            appProperties.updatedPullRequestsNotificationsEnabled = upsertRequest.updatedPullRequestsNotificationsEnabled
+            appProperties.newReleaseNotificationsEnabled = upsertRequest.newReleaseNotificationsEnabled
+            appProperties.updatedReleaseNotificationsEnabled = upsertRequest.updatedReleaseNotificationsEnabled
             appProperties.store()
         }
     }
@@ -84,8 +92,6 @@ class LocalDataSource(
                 DbRepoToCheck.upsertById(upsertRequest.id) {
                     owner = upsertRequest.owner
                     name = upsertRequest.name
-                    pullNotificationsEnabled = upsertRequest.pullNotificationsEnabled
-                    releaseNotificationsEnabled = upsertRequest.releaseNotificationsEnabled
                     groupName = upsertRequest.groupName
                     pullBranchRegex = upsertRequest.pullBranchRegex
                 }
