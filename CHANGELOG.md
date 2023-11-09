@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update dependencies and Ruby version
 - Sort pull request first by seen, then by state and finally by the created date
 - Notifications now are joined all together in the settings screen
+- Decrement the retrieved pull requests from 50 to 10 to improve the performance
 - ⚠️ ⚠️ Change how to know if the DB is encrypted. This will require a fresh start removing the old database ⚠️ ⚠️
 ### Removed
 - Dependency updates scheduled workflow, now only the manual one is available
