@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ⚠️ ⚠️ Change how to know if the DB is encrypted. This will require a fresh start removing the old database ⚠️ ⚠️
 ### Removed
 - Dependency updates scheduled workflow, now only the manual one is available
+- Feature previews removed
 ### Security
 - Resolve a high severity [Dependabot alert](https://github.com/walter-juan/ghd/security/dependabot/6)
 

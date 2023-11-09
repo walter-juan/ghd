@@ -64,18 +64,10 @@ class PullRequestsScreen : Screen {
                                 )
                             }
                             groupedPullRequests.pullRequests.forEach { pullRequest ->
-                                if (state.appSettings?.featurePreviewNewCards == true) {
-                                    PullRequestCardNew(
-                                        pullRequest = pullRequest,
-                                        useBoldStyle = state?.appSettings?.featurePreviewNewCardsBoldStyle ?: false,
-                                        onSeenClick = { viewModel.markAsSeen(pullRequest) }
-                                    )
-                                } else {
-                                    PullRequestCard(
-                                        pullRequest = pullRequest,
-                                        onSeenClick = { viewModel.markAsSeen(pullRequest) }
-                                    )
-                                }
+                                PullRequestCard(
+                                    pullRequest = pullRequest,
+                                    onSeenClick = { viewModel.markAsSeen(pullRequest) }
+                                )
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }

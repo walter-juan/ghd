@@ -23,8 +23,6 @@ object AppProperties {
 
     var darkTheme: Boolean? by BooleanProperty(properties, "darkTheme")
     var encryptedDatabase: Boolean by BooleanPropertyOrDefault(properties, "encryptedDatabase", false)
-    var featurePreviewNewCards: Boolean? by BooleanProperty(properties, "featurePreviewNewCards")
-    var featurePreviewNewCardsBoldStyle: Boolean? by BooleanProperty(properties, "featurePreviewNewCardsBoldStyle")
 
     fun load() {
         FileInputStream(propertiesPath.toString()).use {

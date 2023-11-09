@@ -33,8 +33,6 @@ class LocalDataSource(
             PropAppSettings(
                 darkTheme = appProperties.darkTheme,
                 encryptedDatabase = appProperties.encryptedDatabase,
-                featurePreviewNewCards = appProperties.featurePreviewNewCards,
-                featurePreviewNewCardsBoldStyle = appProperties.featurePreviewNewCardsBoldStyle,
             )
         }
     }
@@ -44,8 +42,6 @@ class LocalDataSource(
             appProperties.load()
             appProperties.darkTheme = upsertRequest.darkTheme
             appProperties.encryptedDatabase = upsertRequest.encryptedDatabase
-            appProperties.featurePreviewNewCards = upsertRequest.featurePreviewNewCards
-            appProperties.featurePreviewNewCardsBoldStyle = upsertRequest.featurePreviewNewCardsBoldStyle
             appProperties.store()
         }
     }

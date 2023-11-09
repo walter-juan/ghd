@@ -1,45 +1,47 @@
 package com.woowla.ghd.presentation.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.woowla.compose.octoicons.OctoiconsPainter
+import com.woowla.compose.octoicons.Tag
+import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.remixicon.SystemTimeLine
 import com.woowla.ghd.domain.entities.Release
-import com.woowla.ghd.extensions.toHRString
-import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
+import com.woowla.ghd.presentation.app.i18n
+import com.woowla.ghd.presentation.decorators.ReleaseDecorator
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
 @Composable
 fun ReleaseCard(release: Release) {
+    val releaseDecorator = ReleaseDecorator(release)
     val avatarImageSize = 45.dp
 
-    CardListItem(
-        modifier = Modifier.width(AppDimens.contentWidthDp),
+    IconCard(
+        modifier = Modifier.fillMaxWidth(),
         onClick = {
             openWebpage(release.url)
         },
-        overlineText = {
-            Text(text = release.publishedAt?.toHRString() ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis)
-        },
-        headlineText = {
-            Text(text = "${release.repoToCheck.owner}/${release.repoToCheck.name}", maxLines = 1, overflow = TextOverflow.Ellipsis)
-        },
-        supportingText = {
-            Text(text = "${release.name} (${release.tagName}) - ${release.authorLogin}", maxLines = 1, overflow = TextOverflow.Ellipsis)
-        },
-        trailingContent = { paddingValues ->
+        trailingContent = { paddingValues, _ ->
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -70,5 +72,21 @@ fun ReleaseCard(release: Release) {
                 )
             }
         },
+        content = {
+            IconCardRowTitle(text = releaseDecorator.name, icon = OctoiconsPainter.Tag)
+            IconCardRowSmallContent(
+                text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(release.tagName)
+                    }
+                    append(" ${i18n.release_on} ")
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(releaseDecorator.fullRepo)
+                    }
+                },
+            )
+            Spacer(modifier = Modifier.padding(vertical = 2.dp))
+            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = RemixiconPainter.SystemTimeLine)
+        }
     )
 }
