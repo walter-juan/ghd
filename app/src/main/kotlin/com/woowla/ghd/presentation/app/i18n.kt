@@ -88,8 +88,6 @@ object i18n {
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"
     val screen_app_settings_pull_requests_clean_up_item_description = "Remove closed and merged pull requests after certain amount of time"
-    val screen_app_settings_feature_preview_new_cards = "New cards design"
-    val screen_app_settings_feature_preview_new_cards_bold_style = "New cards design with bold style"
 
     val screen_login_encrypt_data_field_label = "I want to encrypt my data (recommended)."
     val screen_login_master_password_field_label = "Master Password"
