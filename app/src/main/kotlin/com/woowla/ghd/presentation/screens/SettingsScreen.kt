@@ -102,6 +102,11 @@ class SettingsScreen : Screen {
                         var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken ?: "") }
                         var passwordVisible by remember { mutableStateOf(false) }
 
+                        var newPullRequestsNotificationsEnabled by remember { mutableStateOf(successState.appSettings.newPullRequestsNotificationsEnabled) }
+                        var updatedPullRequestsNotificationsEnabled by remember { mutableStateOf(successState.appSettings.updatedPullRequestsNotificationsEnabled) }
+                        var newReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.newReleaseNotificationsEnabled) }
+                        var updatedReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.updatedReleaseNotificationsEnabled) }
+
                         SectionCategory(i18n.screen_app_settings_synchronization_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_github_token_item,
@@ -198,6 +203,41 @@ class SettingsScreen : Screen {
                                     viewModel.appThemeUpdated(appDarkTheme = value)
                                 }
                             }
+                        }
+
+                        SectionCategory(i18n.screen_app_settings_notifications_section) {
+                            SwitchText(
+                                text = "Pull request created",
+                                checked = newPullRequestsNotificationsEnabled,
+                                onCheckedChange = {
+                                    newPullRequestsNotificationsEnabled = it
+                                    viewModel.newPullRequestsNotificationsEnabledUpdated(it)
+                                },
+                            )
+                            SwitchText(
+                                text = "Pull request updated",
+                                checked = updatedPullRequestsNotificationsEnabled,
+                                onCheckedChange = {
+                                    updatedPullRequestsNotificationsEnabled = it
+                                    viewModel.updatedPullRequestsNotificationsEnabledUpdated(it)
+                                },
+                            )
+                            SwitchText(
+                                text = "Release created",
+                                checked = newReleaseNotificationsEnabled,
+                                onCheckedChange = {
+                                    newReleaseNotificationsEnabled = it
+                                    viewModel.newReleaseNotificationsEnabledUpdated(it)
+                                },
+                            )
+                            SwitchText(
+                                text = "Release updated",
+                                checked = updatedReleaseNotificationsEnabled,
+                                onCheckedChange = {
+                                    updatedReleaseNotificationsEnabled = it
+                                    viewModel.updatedReleaseNotificationsEnabledUpdated(it)
+                                },
+                            )
                         }
                     }
                 }

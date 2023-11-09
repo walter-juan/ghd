@@ -46,8 +46,6 @@ class RepoToCheckService(
                 UpsertRepoToCheckRequest.newInstance().copy(
                     owner = repo.owner,
                     name = repo.name,
-                    pullNotificationsEnabled = repo.pullNotificationsEnabled,
-                    releaseNotificationsEnabled = repo.releaseNotificationsEnabled,
                     groupName = repo.groupName,
                     pullBranchRegex = repo.pullBranchRegex,
                 )

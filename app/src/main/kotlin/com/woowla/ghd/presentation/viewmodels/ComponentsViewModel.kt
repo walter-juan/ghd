@@ -42,8 +42,6 @@ class ComponentsViewModel(
             id = 3818,
             owner = "accusata",
             name = "Rusty Saunders",
-            pullNotificationsEnabled = false,
-            releaseNotificationsEnabled = false,
             groupName = null,
             pullBranchRegex = null
         )
@@ -63,8 +61,6 @@ class ComponentsViewModel(
             id = 9154,
             owner = "hendrerit",
             name = "Serena Levine",
-            pullNotificationsEnabled = false,
-            releaseNotificationsEnabled = false,
             groupName = null,
             pullBranchRegex = null
         )

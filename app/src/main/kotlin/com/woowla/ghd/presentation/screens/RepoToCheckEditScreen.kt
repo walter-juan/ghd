@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -33,7 +32,6 @@ data class RepoToCheckEditScreen(
     private val repoToCheck: RepoToCheck?,
 ) : Screen {
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel { RepoToCheckEditViewModel(repoToCheck = repoToCheck) }
@@ -46,8 +44,6 @@ data class RepoToCheckEditScreen(
         var name by remember { mutableStateOf(updateRequestState.value.name) }
         var releaseGroup by remember { mutableStateOf(updateRequestState.value.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(updateRequestState.value.pullBranchRegex ?: "") }
-        var enablePullNotifications by remember { mutableStateOf(updateRequestState.value.pullNotificationsEnabled) }
-        var enableReleaseNotifications by remember { mutableStateOf(updateRequestState.value.releaseNotificationsEnabled) }
 
         LaunchedEffect(key1 = Unit) {
             viewModel.events.collect { event ->
@@ -127,15 +123,6 @@ data class RepoToCheckEditScreen(
                 }
 
                 SectionCategory(i18n.screen_edit_repo_to_check_pull_request_section) {
-                    SwitchText(
-                        text = i18n.screen_edit_repo_to_check_enable_notifications_item,
-                        checked = enablePullNotifications,
-                        onCheckedChange = {
-                            enablePullNotifications = it
-                            viewModel.pullNotificationsEnabledUpdated(it)
-                        },
-                    )
-
                     SectionItem(
                         title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
                         description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description
@@ -151,17 +138,6 @@ data class RepoToCheckEditScreen(
                             singleLine = true
                         )
                     }
-                }
-
-                SectionCategory(i18n.screen_edit_repo_to_check_releaes_section) {
-                    SwitchText(
-                        text = i18n.screen_edit_repo_to_check_enable_notifications_item,
-                        checked = enableReleaseNotifications,
-                        onCheckedChange = {
-                            enableReleaseNotifications = it
-                            viewModel.releaseNotificationsEnabledUpdated(it)
-                        },
-                    )
                 }
             }
         }

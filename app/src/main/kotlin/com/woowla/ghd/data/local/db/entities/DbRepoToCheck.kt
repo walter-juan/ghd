@@ -11,8 +11,6 @@ class DbRepoToCheck(id: EntityID<Long>) : LongEntity(id) {
     companion object : LongEntityClass<DbRepoToCheck>(DbRepoToCheckTable)
     var owner by DbRepoToCheckTable.owner
     var name by DbRepoToCheckTable.name
-    var pullNotificationsEnabled by DbRepoToCheckTable.pullNotificationsEnabled
-    var releaseNotificationsEnabled by DbRepoToCheckTable.releaseNotificationsEnabled
     var groupName by DbRepoToCheckTable.groupName
     var pullBranchRegex by DbRepoToCheckTable.pullBranchRegex
 

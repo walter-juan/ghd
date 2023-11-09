@@ -17,6 +17,10 @@ fun AppSettings.toUpsertAppSettingsRequest(): UpsertAppSettingsRequest {
     return UpsertAppSettingsRequest(
         darkTheme = darkTheme,
         encryptedDatabase = encryptedDatabase,
+        newPullRequestsNotificationsEnabled = newPullRequestsNotificationsEnabled,
+        updatedPullRequestsNotificationsEnabled = updatedPullRequestsNotificationsEnabled,
+        newReleaseNotificationsEnabled = newReleaseNotificationsEnabled,
+        updatedReleaseNotificationsEnabled = updatedReleaseNotificationsEnabled
     )
 }
 
@@ -72,8 +76,6 @@ fun RepoToCheck.toUpsertRepoToCheckRequest(): UpsertRepoToCheckRequest {
         id = id,
         owner = owner,
         name = name,
-        pullNotificationsEnabled = pullNotificationsEnabled,
-        releaseNotificationsEnabled = releaseNotificationsEnabled,
         groupName = groupName,
         pullBranchRegex = pullBranchRegex
     )

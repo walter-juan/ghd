@@ -52,6 +52,32 @@ class SettingsViewModel(
         }
     }
 
+    fun newPullRequestsNotificationsEnabledUpdated(value: Boolean) {
+        _state.on<State.Success> {
+            _state.value = it.copy(appSettings = it.appSettings.copy(newPullRequestsNotificationsEnabled = value))
+        }
+    }
+
+    fun updatedPullRequestsNotificationsEnabledUpdated(value: Boolean) {
+        _state.on<State.Success> {
+            _state.value = it.copy(appSettings = it.appSettings.copy(updatedPullRequestsNotificationsEnabled = value))
+        }
+    }
+
+    fun newReleaseNotificationsEnabledUpdated(value: Boolean) {
+
+        _state.on<State.Success> {
+            _state.value = it.copy(appSettings = it.appSettings.copy(newReleaseNotificationsEnabled = value))
+        }
+    }
+
+    fun updatedReleaseNotificationsEnabledUpdated(value: Boolean) {
+
+        _state.on<State.Success> {
+            _state.value = it.copy(appSettings = it.appSettings.copy(updatedReleaseNotificationsEnabled = value))
+        }
+    }
+
     fun saveSettings() {
         _state.on<State.Success> {
             coroutineScope.launch {

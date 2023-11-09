@@ -60,21 +60,16 @@ object i18n {
     val screen_edit_repo_to_check_group_item_description = "Group name in case you want the releases grouped"
     val screen_edit_repo_to_check_group_name_label = "Group name"
     val screen_edit_repo_to_check_pull_request_section = "Pull request options"
-    val screen_edit_repo_to_check_releaes_section = "Releases options"
-    val screen_edit_repo_to_check_enable_notifications_item = "Enable notifications"
     val screen_edit_repo_to_check_filter_by_branch_item = "Filter by branch"
     val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
-    val screen_edit_repo_to_all_notifications_enabled = "All notifications enabled"
-    val screen_edit_repo_to_all_notifications_disabled = "No notifications enabled"
     val screen_edit_repo_to_no_group = "(no group)"
-    val screen_edit_repo_to_all_pull_request_notifications_enabled: (enabled: Boolean) -> String = { "Pull request notifications ${if (it) "enabled" else "disabled"} " }
-    val screen_edit_repo_to_all_releases_notifications_enabled: (enabled: Boolean) -> String = { "Releases notifications ${if (it) "enabled" else "disabled"} " }
 
     val screen_app_settings_saved = "Saved"
     val screen_app_settings_save = "Save"
     val screen_app_settings_synchronization_section = "Synchronization"
     val screen_app_settings_appliation_section = "Application"
+    val screen_app_settings_notifications_section = "Notifications"
     val screen_app_settings_feature_preview_section = "Feature Preview"
     val screen_app_settings_github_token_field_label = "GitHub PAT token"
     val screen_app_settings_github_field_show = "Show GitHub PAT token"

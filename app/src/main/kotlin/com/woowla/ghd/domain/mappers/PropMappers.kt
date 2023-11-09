@@ -6,6 +6,10 @@ import com.woowla.ghd.domain.entities.AppSettings
 fun PropAppSettings.toAppSettings(): AppSettings {
     return AppSettings(
         darkTheme = darkTheme,
-        encryptedDatabase = encryptedDatabase ?: false,
+        encryptedDatabase = encryptedDatabase,
+        newPullRequestsNotificationsEnabled = newPullRequestsNotificationsEnabled,
+        updatedPullRequestsNotificationsEnabled = updatedPullRequestsNotificationsEnabled,
+        newReleaseNotificationsEnabled = newReleaseNotificationsEnabled,
+        updatedReleaseNotificationsEnabled = updatedReleaseNotificationsEnabled
     )
 }
