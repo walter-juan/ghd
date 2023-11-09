@@ -93,6 +93,10 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew clean
     ```
+- Clean the debug app folder
+    ```shell
+    ./gradlew ghdCleanDebugAppFolder
+    ```
 - Create the packages
     ```shell
     ./gradlew packageDistributionForCurrentOS

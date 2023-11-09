@@ -28,6 +28,7 @@ plugins {
 group = "com.woowla"
 version = "1.3.5"
 val debug = (extra["debugConfig"] as String).toBoolean()
+val debugAppFolder = "ghd-debug"
 
 repositories {
     google()
@@ -46,6 +47,7 @@ buildConfig {
     packageName("com.woowla.ghd")
     buildConfigField("String", "APP_VERSION", provider { "\"${project.version}\"" })
     buildConfigField("boolean", "DEBUG", provider { "$debug" })
+    buildConfigField("String", "DEBUG_APP_FOLDER", provider { "\"${debugAppFolder}\"" })
     buildConfigField("String", "GH_GHD_OWNER", "\"walter-juan\"")
     buildConfigField("String", "GH_GHD_REPO", "\"ghd\"")
     buildConfigField("String", "GH_GHD_LATEST_RELEASE_URL", "\"https://github.com/walter-juan/ghd/releases/latest\"")
@@ -96,6 +98,17 @@ compose.desktop {
             linux {
                 iconFile.set(project.file("src/main/resources/icons/ic_launcher.png"))
             }
+        }
+    }
+}
+
+tasks.register("ghdCleanDebugAppFolder") {
+    description = "Clean the debug app folder"
+    group = "GHD"
+    doLast {
+        val file = rootProject.file(debugAppFolder)
+        if (file.exists()) {
+            file.deleteRecursively()
         }
     }
 }
