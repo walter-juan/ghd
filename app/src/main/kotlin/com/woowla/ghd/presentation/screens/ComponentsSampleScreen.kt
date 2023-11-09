@@ -284,21 +284,16 @@ class ComponentsSampleScreen : Screen {
 
     @Composable
     private fun RepoToCheckCardSample() {
-        RepoToCheckCard(repoToCheck = repoToCheck, onEditClick = {}, onDeleteClick = {})
+        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = false, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
         Divider(modifier = Modifier.padding(5.dp))
-        Text(text = "New repo to check card")
+        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = true), onEditClick = {}, onDeleteClick = {})
         Divider(modifier = Modifier.padding(5.dp))
-        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = false, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
-        Divider(modifier = Modifier.padding(5.dp))
-        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = true), onEditClick = {}, onDeleteClick = {})
-        Divider(modifier = Modifier.padding(5.dp))
-        RepoToCheckCardNew(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
+        RepoToCheckCard(repoToCheck = repoToCheck.copy(pullNotificationsEnabled = true, releaseNotificationsEnabled = false), onEditClick = {}, onDeleteClick = {})
     }
 
     @Composable
     private fun PullRequestCardSample() {
         val seen = remember { mutableStateOf(false) }
-        val useBoldStyle = remember { mutableStateOf(false) }
         val mergeable = remember { mutableStateOf(0) }
         val lastCommitCheckRollupStatus = remember { mutableStateOf(0) }
         val reviewsSample = remember { mutableStateOf(0) }
@@ -318,11 +313,6 @@ class ComponentsSampleScreen : Screen {
             text = "mark as 'seen'/'not seen'",
             checked = seen.value,
             onCheckedChange = { seen.value = it }
-        )
-        SwitchText(
-            text = "Bold style",
-            checked = useBoldStyle.value,
-            onCheckedChange = { useBoldStyle.value = it }
         )
         Row(
             horizontalArrangement = Arrangement.Center,
@@ -376,38 +366,11 @@ class ComponentsSampleScreen : Screen {
                 seen.value = !seen.value
             }
         )
-
-        Divider(modifier = Modifier.padding(10.dp))
-        Text(text = "New pull request card")
-        Divider(modifier = Modifier.padding(10.dp))
-
-        PullRequestCardNew(
-            pullRequest = pr,
-            useBoldStyle = useBoldStyle.value,
-            onSeenClick = {
-                seen.value = !seen.value
-            }
-        )
     }
 
     @Composable
     private fun ReleaseCardSample() {
-        val useBoldStyle = remember { mutableStateOf(false) }
-
-        SwitchText(
-            text = "Bold style",
-            checked = useBoldStyle.value,
-            onCheckedChange = { useBoldStyle.value = it }
-        )
-        Spacer(modifier = Modifier.size(5.dp))
-
-        ReleaseCard(release)
-
-        Divider(modifier = Modifier.padding(10.dp))
-        Text(text = "New release card")
-        Divider(modifier = Modifier.padding(10.dp))
-
-        ReleaseCardNew(release = release, useBoldStyle = useBoldStyle.value)
+        ReleaseCard(release = release)
     }
 
     @Composable

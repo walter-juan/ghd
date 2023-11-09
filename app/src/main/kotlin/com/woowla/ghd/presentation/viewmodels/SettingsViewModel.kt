@@ -52,18 +52,6 @@ class SettingsViewModel(
         }
     }
 
-    fun featurePreviewNewCardsUpdated(featurePreviewNewCards: Boolean?) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(featurePreviewNewCards = featurePreviewNewCards))
-        }
-    }
-
-    fun featurePreviewNewCardsBoldStyleUpdated(featurePreviewNewCardsBoldStyle: Boolean?) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(featurePreviewNewCardsBoldStyle = featurePreviewNewCardsBoldStyle))
-        }
-    }
-
     fun saveSettings() {
         _state.on<State.Success> {
             coroutineScope.launch {

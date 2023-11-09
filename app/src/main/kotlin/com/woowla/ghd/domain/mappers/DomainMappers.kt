@@ -17,8 +17,6 @@ fun AppSettings.toUpsertAppSettingsRequest(): UpsertAppSettingsRequest {
     return UpsertAppSettingsRequest(
         darkTheme = darkTheme,
         encryptedDatabase = encryptedDatabase,
-        featurePreviewNewCards = featurePreviewNewCards,
-        featurePreviewNewCardsBoldStyle = featurePreviewNewCardsBoldStyle
     )
 }
 

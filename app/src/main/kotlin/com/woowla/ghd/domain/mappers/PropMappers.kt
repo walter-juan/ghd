@@ -7,7 +7,5 @@ fun PropAppSettings.toAppSettings(): AppSettings {
     return AppSettings(
         darkTheme = darkTheme,
         encryptedDatabase = encryptedDatabase ?: false,
-        featurePreviewNewCards = featurePreviewNewCards,
-        featurePreviewNewCardsBoldStyle = featurePreviewNewCardsBoldStyle,
     )
 }

@@ -56,11 +56,7 @@ class ReleasesScreen : Screen {
                                 }
                             }
                             groupedReleases.releases.forEach { release ->
-                                if (state?.appSettings?.featurePreviewNewCards == true) {
-                                    ReleaseCardNew(release = release, useBoldStyle = state?.appSettings?.featurePreviewNewCardsBoldStyle ?: false)
-                                } else {
-                                    ReleaseCard(release)
-                                }
+                                ReleaseCard(release = release)
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }

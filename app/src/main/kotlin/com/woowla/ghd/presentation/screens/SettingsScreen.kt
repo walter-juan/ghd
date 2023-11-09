@@ -102,9 +102,6 @@ class SettingsScreen : Screen {
                         var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken ?: "") }
                         var passwordVisible by remember { mutableStateOf(false) }
 
-                        var enableFeaturePreviewNewCards by remember { mutableStateOf(successState.appSettings.featurePreviewNewCards ?: false) }
-                        var enableFeaturePreviewNewCardsBoldStyle by remember { mutableStateOf(successState.appSettings.featurePreviewNewCardsBoldStyle ?: false) }
-
                         SectionCategory(i18n.screen_app_settings_synchronization_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_github_token_item,
@@ -201,26 +198,6 @@ class SettingsScreen : Screen {
                                     viewModel.appThemeUpdated(appDarkTheme = value)
                                 }
                             }
-                        }
-
-                        SectionCategory(i18n.screen_app_settings_feature_preview_section) {
-                            SwitchText(
-                                text = i18n.screen_app_settings_feature_preview_new_cards,
-                                checked = enableFeaturePreviewNewCards,
-                                onCheckedChange = {
-                                    enableFeaturePreviewNewCards = it
-                                    viewModel.featurePreviewNewCardsUpdated(it)
-                                },
-                            )
-
-                            SwitchText(
-                                text = i18n.screen_app_settings_feature_preview_new_cards_bold_style,
-                                checked = enableFeaturePreviewNewCardsBoldStyle,
-                                onCheckedChange = {
-                                    enableFeaturePreviewNewCardsBoldStyle = it
-                                    viewModel.featurePreviewNewCardsBoldStyleUpdated(it)
-                                },
-                            )
                         }
                     }
                 }
