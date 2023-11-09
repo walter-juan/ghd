@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.3.5]
+### Added
+- Add the `ghdCleanDebugAppFolder` gradle task to clean the debug app folder
 ### Changed
 - Update dependencies and Ruby version
 - Sort pull request first by seen, then by state and finally by the created date
