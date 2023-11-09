@@ -6,7 +6,8 @@ import com.woowla.ghd.domain.entities.AppSettings
 fun PropAppSettings.toAppSettings(): AppSettings {
     return AppSettings(
         darkTheme = darkTheme,
+        encryptedDatabase = encryptedDatabase ?: false,
         featurePreviewNewCards = featurePreviewNewCards,
-        featurePreviewNewCardsBoldStyle = featurePreviewNewCardsBoldStyle
+        featurePreviewNewCardsBoldStyle = featurePreviewNewCardsBoldStyle,
     )
 }

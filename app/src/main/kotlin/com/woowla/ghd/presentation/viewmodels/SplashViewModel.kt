@@ -28,7 +28,6 @@ class SplashViewModel(
             _state.value = State.Started
             val timeMillis = measureTimeMillis {
                 AppFolderFactory.createFolder()
-                AppProperties.createFile()
             }
             delay(MIN_LOADING_TIME - timeMillis)
             navigateToLogin()

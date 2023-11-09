@@ -19,7 +19,7 @@ object EventBus {
     private val events = MutableSharedFlow<Event>()
     private val subscriberJobs by lazy { mutableMapOf<Any, Set<Job>>() }
 
-    suspend fun publish(event: Event) {
+    fun publish(event: Event) {
         eventBusScope.launch { events.emit(event) }
     }
 

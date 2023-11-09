@@ -2,6 +2,7 @@ package com.woowla.ghd.data.local.prop
 
 import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.data.local.prop.utils.BooleanProperty
+import com.woowla.ghd.data.local.prop.utils.BooleanPropertyOrDefault
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.*
@@ -15,9 +16,13 @@ object AppProperties {
     }
     private val propertiesPath by lazy { propFolderPath.resolve(propName) }
 
-    private val properties = Properties()
+    private val properties: Properties by lazy {
+        createFile()
+        Properties()
+    }
 
     var darkTheme: Boolean? by BooleanProperty(properties, "darkTheme")
+    var encryptedDatabase: Boolean by BooleanPropertyOrDefault(properties, "encryptedDatabase", false)
     var featurePreviewNewCards: Boolean? by BooleanProperty(properties, "featurePreviewNewCards")
     var featurePreviewNewCardsBoldStyle: Boolean? by BooleanProperty(properties, "featurePreviewNewCardsBoldStyle")
 
@@ -33,7 +38,7 @@ object AppProperties {
         }
     }
 
-    suspend fun createFile() {
+    private fun createFile() {
         val folder = propFolderPath.toFile()
         if (!folder.exists()) {
             folder.mkdirs()

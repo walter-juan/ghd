@@ -58,6 +58,26 @@ object DbSettings {
     }
 
     /**
+     * Close the database connection
+     */
+    suspend fun closeDb() {
+        INSTANCE?.let { db -> TransactionManager.closeAndUnregister(db) }
+        INSTANCE = null
+    }
+
+    /**
+     * Check if the database exists
+     */
+    suspend fun dbExists(): Boolean {
+        val dbFolderFile = dbFolderPath.toFile()
+        return if (dbFolderFile.exists() && dbFolderFile.isDirectory) {
+            dbFolderFile.listFiles()?.isNotEmpty() ?: false
+        } else {
+            false
+        }
+    }
+
+    /**
      * Test the database connection
      * @param filePassword The password file to use or null to not use password
      * @param createIfNotExists If this is true the database will be created. Usually this should be used as true
@@ -76,8 +96,7 @@ object DbSettings {
      * @return `true` if the database files has been deleted correctly
      */
     suspend fun deleteDb(): Boolean {
-        INSTANCE?.let { db -> TransactionManager.closeAndUnregister(db) }
-        INSTANCE = null
+        closeDb()
         return dbFolderPath.toFile().deleteRecursively()
     }
 
