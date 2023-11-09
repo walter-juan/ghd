@@ -136,7 +136,7 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
 
 1. Download H2 console app:
    - The `Platform-Independent Zip` from [the website](https://www.h2database.com/html/download.html)
-   - Or `h2-<versuin>.jar` from [the GitHub releases](https://github.com/h2database/h2database/releases)
+   - Or `h2-<version>.jar` from [the GitHub releases](https://github.com/h2database/h2database/releases)
 2. From terminal run the h2 `$ java -jar h2*.jar` and the web browser will be opened.
 3. In the [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt) you can find all the data required like the URL, driver, user and password
 
