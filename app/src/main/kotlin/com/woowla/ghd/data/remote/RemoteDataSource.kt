@@ -36,7 +36,7 @@ class RemoteDataSource(
 
     suspend fun getPullRequests(owner: String, repo: String, state: PullRequestState): Result<List<GetPullRequestsQuery.Node>> {
         return runCatching {
-            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 50)
+            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 10)
             val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
             pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.edges?.mapNotNull { it?.node } ?: listOf()
         }
