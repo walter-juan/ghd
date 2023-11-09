@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -25,6 +26,8 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.notifications.NotificationType
+import com.woowla.ghd.notifications.NotificationsSender
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
@@ -43,6 +46,8 @@ import com.woowla.ghd.presentation.app.AppColors.warning
 import com.woowla.ghd.presentation.app.AppColors.warningContainer
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.viewmodels.ComponentsViewModel
+import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import com.woowla.ghd.utils.MaterialColors
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
@@ -121,6 +126,7 @@ class ComponentsSampleScreen : Screen {
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
         val onBackClick: (() -> Unit) = { navigator.pop() }
+        val viewModel = rememberScreenModel { ComponentsViewModel() }
 
         ScreenScrollable(
             topBar = {
@@ -155,6 +161,89 @@ class ComponentsSampleScreen : Screen {
                 PullRequestCardSample()
                 Title("Release card")
                 ReleaseCardSample()
+                Title("Test Notifications")
+                TestNotifications(viewModel)
+            }
+        }
+    }
+
+    @Composable
+    private fun TestNotifications(viewModel: ComponentsViewModel) {
+        Text(text = "Try notification by type")
+        Spacer(modifier = Modifier.size(5.dp))
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    viewModel.sendByType(NotificationType.NONE)
+                }
+            ) {
+                Text("None")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendByType(NotificationType.INFO)
+                }
+            ) {
+                Text("Info")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendByType(NotificationType.WARNING)
+                }
+            ) {
+                Text("Warning")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendByType(NotificationType.ERROR)
+                }
+            ) {
+                Text("Error")
+            }
+        }
+
+        Text(text = "Try app notification")
+        Spacer(modifier = Modifier.size(5.dp))
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    viewModel.sendNewPullRequest()
+                }
+            ) {
+                Text("New pull request")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendUpdatedPullRequest()
+                }
+            ) {
+                Text("Updated pull request")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendNewRelease()
+                }
+            ) {
+                Text("New release")
+            }
+            Spacer(modifier = Modifier.size(5.dp))
+            Button(
+                onClick = {
+                    viewModel.sendUpdatedRelease()
+                }
+            ) {
+                Text("Updated release")
             }
         }
     }
