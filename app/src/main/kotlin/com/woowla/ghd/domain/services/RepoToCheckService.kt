@@ -43,11 +43,14 @@ class RepoToCheckService(
                 allReposToCheck.none { it.owner == repoToCheck.owner && it.name == repoToCheck.name }
             }
             .map { repo ->
-                UpsertRepoToCheckRequest.newInstance().copy(
+                UpsertRepoToCheckRequest(
+                    id = null,
                     owner = repo.owner,
                     name = repo.name,
                     groupName = repo.groupName,
                     pullBranchRegex = repo.pullBranchRegex,
+                    arePullRequestsEnabled = repo.arePullRequestsEnabled,
+                    areReleasesEnabled = repo.areReleasesEnabled,
                 )
             }
             .forEach { upsertRequest ->

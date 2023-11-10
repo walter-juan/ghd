@@ -5,7 +5,9 @@ data class UpsertRepoToCheckRequest(
     val owner: String,
     val name: String,
     val groupName: String?,
-    val pullBranchRegex: String?
+    val pullBranchRegex: String?,
+    val arePullRequestsEnabled: Boolean,
+    val areReleasesEnabled: Boolean,
 ) {
     companion object {
         fun newInstance(): UpsertRepoToCheckRequest {
@@ -14,7 +16,9 @@ data class UpsertRepoToCheckRequest(
                 owner = "",
                 name = "",
                 groupName = null,
-                pullBranchRegex = null
+                pullBranchRegex = null,
+                arePullRequestsEnabled = true,
+                areReleasesEnabled = true,
             )
         }
     }

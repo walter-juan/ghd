@@ -44,6 +44,8 @@ data class RepoToCheckEditScreen(
         var name by remember { mutableStateOf(updateRequestState.value.name) }
         var releaseGroup by remember { mutableStateOf(updateRequestState.value.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(updateRequestState.value.pullBranchRegex ?: "") }
+        var arePullRequestsEnabled by remember { mutableStateOf(updateRequestState.value.arePullRequestsEnabled) }
+        var areReleasesEnabled by remember { mutableStateOf(updateRequestState.value.areReleasesEnabled) }
 
         LaunchedEffect(key1 = Unit) {
             viewModel.events.collect { event ->
@@ -123,6 +125,15 @@ data class RepoToCheckEditScreen(
                 }
 
                 SectionCategory(i18n.screen_edit_repo_to_check_pull_request_section) {
+                    SwitchText(
+                        text = i18n.screen_edit_repo_to_check_enable_pull_requests_item,
+                        checked = arePullRequestsEnabled,
+                        onCheckedChange = {
+                            arePullRequestsEnabled = it
+                            viewModel.arePullRequestsEnabledUpdated(it)
+                        },
+                    )
+
                     SectionItem(
                         title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
                         description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description
@@ -138,6 +149,17 @@ data class RepoToCheckEditScreen(
                             singleLine = true
                         )
                     }
+                }
+
+                SectionCategory(i18n.screen_edit_repo_to_check_releaes_section) {
+                    SwitchText(
+                        text = i18n.screen_edit_repo_to_check_enable_releases_item,
+                        checked = areReleasesEnabled,
+                        onCheckedChange = {
+                            areReleasesEnabled = it
+                            viewModel.areReleasesEnabledUpdated(it)
+                        },
+                    )
                 }
             }
         }

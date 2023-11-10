@@ -5,5 +5,7 @@ data class RepoToCheck(
     val owner: String,
     val name: String,
     val groupName: String?,
-    val pullBranchRegex: String?
+    val pullBranchRegex: String?,
+    val arePullRequestsEnabled: Boolean,
+    val areReleasesEnabled: Boolean,
 )

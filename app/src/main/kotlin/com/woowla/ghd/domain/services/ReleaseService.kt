@@ -35,13 +35,18 @@ class ReleaseService(
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
         val releasesBefore = getAll().getOrDefault(listOf())
+        val enabledRepoToCheckList = repoToCheckList.filter { it.areReleasesEnabled }
 
         val syncApiResults = coroutineScope {
-            repoToCheckList
+            val results = enabledRepoToCheckList
                 .map { dbRepoToCheck ->
                     async { fetchLastReleases(syncResultId, dbRepoToCheck) }
                 }
                 .awaitAll()
+
+            cleanUp()
+
+            results
         }
 
         val releasesAfter = getAll().getOrDefault(listOf())
@@ -50,6 +55,23 @@ class ReleaseService(
         }
 
         return syncApiResults
+    }
+
+    suspend fun cleanUp() {
+        getAll()
+            .mapCatching { releases ->
+                releases.filter { release ->
+                    val releasesNotEnabled = !release.repoToCheck.areReleasesEnabled
+
+                    releasesNotEnabled
+                }
+            }
+            .mapCatching { releases ->
+                releases.map { it.id }
+            }
+            .onSuccess { releasesIds ->
+                localDataSource.removeReleases(releasesIds)
+            }
     }
 
     suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<Release>, newReleases: List<Release>): Result<Unit> {

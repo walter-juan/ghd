@@ -43,7 +43,9 @@ class ComponentsViewModel(
             owner = "accusata",
             name = "Rusty Saunders",
             groupName = null,
-            pullBranchRegex = null
+            pullBranchRegex = null,
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = true
         )
     )
 
@@ -62,7 +64,9 @@ class ComponentsViewModel(
             owner = "hendrerit",
             name = "Serena Levine",
             groupName = null,
-            pullBranchRegex = null
+            pullBranchRegex = null,
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = true
         )
 
     )

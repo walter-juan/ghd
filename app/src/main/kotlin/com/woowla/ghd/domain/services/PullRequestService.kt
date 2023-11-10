@@ -44,15 +44,16 @@ class PullRequestService(
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
         val pullRequestsBefore = getAll().getOrDefault(listOf())
+        val enabledRepoToCheckList = repoToCheckList.filter { it.arePullRequestsEnabled }
 
         val syncApiResults = coroutineScope {
-            val fetchOpenPullRequests = repoToCheckList.map { repoToCheck ->
+            val fetchOpenPullRequests = enabledRepoToCheckList.map { repoToCheck ->
                 async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.OPEN) }
             }
-            val fetchMergedPullRequests = repoToCheckList.map { repoToCheck ->
+            val fetchMergedPullRequests = enabledRepoToCheckList.map { repoToCheck ->
                 async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.MERGED) }
             }
-            val fetchClosedPullRequests = repoToCheckList.map { repoToCheck ->
+            val fetchClosedPullRequests = enabledRepoToCheckList.map { repoToCheck ->
                 async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.CLOSED) }
             }
 
@@ -94,7 +95,9 @@ class PullRequestService(
                             false
                         }
 
-                        isOld || hasBranchToExclude
+                        val pullsNotEnabled = !pullRequest.repoToCheck.arePullRequestsEnabled
+
+                        isOld || hasBranchToExclude || pullsNotEnabled
                     }
             }
             .mapCatching { pullRequests ->

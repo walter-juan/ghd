@@ -37,10 +37,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 name: the repo name
                 group: the group
                 pulls:
-                  notifications-enabled: true
+                  enabled: true
                   branch-regex: "the regex"
                 releases:
-                  notifications-enabled: true
+                  enabled: false
 
 
         """.trimIndent()
@@ -55,6 +55,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             name = "the repo name",
             groupName = "the group",
             pullBranchRegex = "the regex",
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = false
         )
     }
 
@@ -75,6 +77,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             name = "the repo name",
             groupName = null,
             pullBranchRegex = null,
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = true
         )
     }
 
@@ -85,18 +89,18 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 name: the repo name
                 group: the group
                 pulls:
-                  notifications-enabled: true
+                  enabled: true
                   branch-regex: "the regex"
                 releases:
-                  notifications-enabled: true
+                  enabled: true
               - owner: the second owner
                 name: the repo name of the second
                 group: the group 2
                 pulls:
-                  notifications-enabled: false
+                  enabled: false
                   branch-regex: "another regex"
                 releases:
-                  notifications-enabled: true
+                  enabled: true
         """.trimIndent()
 
         val parser = YamlRepoToCheckFileParser()
@@ -109,6 +113,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             name = "the repo name",
             groupName = "the group",
             pullBranchRegex = "the regex",
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = true
         )
         repos[1] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
@@ -116,6 +122,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             name = "the repo name of the second",
             groupName = "the group 2",
             pullBranchRegex = "another regex",
+            arePullRequestsEnabled = false,
+            areReleasesEnabled = true
         )
     }
 
@@ -134,14 +142,18 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 owner = "walter",
                 name = "ghd",
                 groupName = null,
-                pullBranchRegex = null
+                pullBranchRegex = null,
+                arePullRequestsEnabled = false,
+                areReleasesEnabled = true
             ),
             RepoToCheck(
                 id = 23L,
                 owner = "alvaro",
                 name = "ghd",
                 groupName = "name of the group",
-                pullBranchRegex = "the regex"
+                pullBranchRegex = "the regex",
+                arePullRequestsEnabled = true,
+                areReleasesEnabled = true
             ),
         )
         val parser = YamlRepoToCheckFileParser()

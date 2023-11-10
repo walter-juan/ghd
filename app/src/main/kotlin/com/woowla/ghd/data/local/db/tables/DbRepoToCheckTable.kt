@@ -7,4 +7,6 @@ object DbRepoToCheckTable : LongIdTable(name = "repo_to_check") {
     val name = text("name")
     val groupName = text("group_name").nullable()
     val pullBranchRegex = text("pull_branch_regex").nullable()
+    val arePullRequestsEnabled = bool("are_pull_requests_enabled")
+    val areReleasesEnabled = bool("are_releases_enabled")
 }

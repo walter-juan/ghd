@@ -57,7 +57,9 @@ class ComponentsSampleScreen : Screen {
         owner = "walter-juan",
         name = "ghd",
         groupName = "applications",
-        pullBranchRegex = null
+        pullBranchRegex = null,
+        arePullRequestsEnabled = true,
+        areReleasesEnabled = true,
     )
     private val release = Release(
         id = "8u8wuw93u",

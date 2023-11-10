@@ -67,7 +67,9 @@ fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
         owner = owner,
         name = name,
         groupName = groupName,
-        pullBranchRegex = pullBranchRegex
+        pullBranchRegex = pullBranchRegex,
+        arePullRequestsEnabled = arePullRequestsEnabled,
+        areReleasesEnabled = areReleasesEnabled,
     )
 }
 
