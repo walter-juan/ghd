@@ -63,7 +63,7 @@ class PullRequestsScreen : Screen {
                     }
                     is PullRequestsViewModel.State.Success -> {
                         state.groupedPullRequests.forEach { groupedPullRequests ->
-                            val pullRequestDecorator = PullRequestStateDecorator(groupedPullRequests.pullRequestState)
+                            val pullRequestDecorator = PullRequestStateDecorator(groupedPullRequests.pullRequestStateWithDraft)
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                                 verticalAlignment = Alignment.CenterVertically,

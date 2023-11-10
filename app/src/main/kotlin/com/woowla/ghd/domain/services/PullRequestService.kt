@@ -5,7 +5,7 @@ import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.data.remote.type.PullRequestState as ApiPullRequestState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
@@ -79,7 +79,7 @@ class PullRequestService(
             .mapCatching { pullRequests ->
                 pullRequests
                     .filter { pullRequest ->
-                        val isOld = if (pullRequest.state == PullRequestState.CLOSED || pullRequest.state == PullRequestState.MERGED) {
+                        val isOld = if (pullRequest.stateWithDraft == PullRequestStateWithDraft.CLOSED || pullRequest.stateWithDraft == PullRequestStateWithDraft.MERGED) {
                             val duration: Duration = Clock.System.now() - pullRequest.updatedAt
                             duration.inWholeHours > cleanUpTimeout
                         } else {

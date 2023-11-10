@@ -11,7 +11,7 @@ data class UpsertPullRequestRequest(
     val createdAt: Instant,
     val updatedAt: Instant,
     val mergedAt: Instant?,
-    val draft: Boolean,
+    val isDraft: Boolean,
     val baseRef: String?,
     val headRef: String?,
     val authorLogin: String?,

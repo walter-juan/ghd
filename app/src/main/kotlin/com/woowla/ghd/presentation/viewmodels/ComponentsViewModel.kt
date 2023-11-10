@@ -4,7 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestGitHubState
+import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.notifications.NotificationClient
@@ -21,12 +21,12 @@ class ComponentsViewModel(
         id = "magna",
         number = 3592,
         url = "http://www.bing.com/search?q=mandamus",
-        gitHubState = PullRequestGitHubState.CLOSED,
+        state = PullRequestState.CLOSED,
         title = "awesome pull request",
         createdAt = Clock.System.now(),
         updatedAt = Clock.System.now().plus(1.hours),
         mergedAt = null,
-        draft = false,
+        isDraft = false,
         baseRef = null,
         headRef = null,
         authorLogin = "janine",

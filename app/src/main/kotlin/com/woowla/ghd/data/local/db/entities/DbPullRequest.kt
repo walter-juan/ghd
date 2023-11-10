@@ -15,7 +15,7 @@ class DbPullRequest(id: EntityID<String>) : TextEntity(id) {
     var createdAt by DbPullRequestTable.createdAt
     var updatedAt by DbPullRequestTable.updatedAt
     var mergedAt by DbPullRequestTable.mergedAt
-    var draft by DbPullRequestTable.draft
+    var isDraft by DbPullRequestTable.isDraft
     var baseRef by DbPullRequestTable.baseRef
     var headRef by DbPullRequestTable.headRef
     var authorLogin by DbPullRequestTable.authorLogin

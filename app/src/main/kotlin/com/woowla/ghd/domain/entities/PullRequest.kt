@@ -8,12 +8,12 @@ data class PullRequest(
     val id: String,
     val number: Long,
     val url: String,
-    val gitHubState: PullRequestGitHubState,
+    val state: PullRequestState,
     val title: String?,
     val createdAt: Instant,
     val updatedAt: Instant,
     val mergedAt: Instant?,
-    val draft: Boolean,
+    val isDraft: Boolean,
     val baseRef: String?,
     val headRef: String?,
     val authorLogin: String?,
@@ -28,7 +28,7 @@ data class PullRequest(
     val repoToCheck: RepoToCheck
 ): Comparable<PullRequest> {
     companion object {
-        val defaultComparator = compareBy<PullRequest> { it.appSeen }.thenByDescending { it.state }.thenByDescending { it.createdAt }
+        val defaultComparator = compareBy<PullRequest> { it.stateWithDraft }.thenBy { it.appSeen }.thenByDescending { it.createdAt }
     }
 
     val appSeen: Boolean = appSeenAt?.after(updatedAt) ?: false
@@ -41,7 +41,7 @@ data class PullRequest(
 
     val canBeMerged = canBeMergedByMergeable && canBeMergedByReviews
 
-    val state: PullRequestState = gitHubState.toPullRequestState(isDraft = draft)
+    val stateWithDraft: PullRequestStateWithDraft = state.toPullRequestState(isDraft = isDraft)
 
     override fun compareTo(other: PullRequest): Int {
         return defaultComparator.compare(this, other)

@@ -21,13 +21,12 @@ import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestGitHubState
+import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.notifications.NotificationType
-import com.woowla.ghd.notifications.NotificationsSender
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
@@ -47,7 +46,6 @@ import com.woowla.ghd.presentation.app.AppColors.warningContainer
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.ComponentsViewModel
-import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import com.woowla.ghd.utils.MaterialColors
 import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
@@ -77,12 +75,12 @@ class ComponentsSampleScreen : Screen {
         id = "jdf9skw4",
         number = 3,
         url = "https://github.com/walter-juan/ghd/pull/3",
-        gitHubState = PullRequestGitHubState.OPEN,
+        state = PullRequestState.OPEN,
         title = "v1.0.4",
         createdAt = Clock.System.now().minus(78.days),
         updatedAt = Clock.System.now().minus(2.days),
         mergedAt = null,
-        draft = false,
+        isDraft = false,
         baseRef = null,
         headRef = null,
         authorLogin = "walter-juan",
