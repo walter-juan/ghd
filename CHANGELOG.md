@@ -16,10 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.0]
 ### ⚠️ IMPORTANT ⚠️
 - The database has been replaced. Before upgrading export the repositories and update the exported YAML to import them later.
-- To remove the old database:
-  1. Open the app and to the About section, here you will see the application folder where all the data is stored
-  2. From this folder go to `db` folder
-  3. The new database starts with `ghd-v2`, the old with `ghd`, all files without `-v2` can be removed.
+- After updating the app, it will prompt you to "open" it, as if a database already exists, but that won't be the case. Instead, you should click the "fresh start" button to reset everything.
 ### Added
 - Add the `ghdCleanDebugAppFolder` gradle task to clean the debug app folder
 - Error handling during synchronization
