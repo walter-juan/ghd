@@ -126,9 +126,13 @@ The folder `scripts` contains some scripts in Ruby:
     bundle exec ruby remixicon-download.rb
     ```
 
-# H2 Database
+# Database
 
 The database used in this project is [H2](https://www.h2database.com/) because of encryption support + embedded. As the database is encrypted a user and password is required, you can find it in [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt).
+
+**H2 Commands**
+
+- [`SCRIPT`](https://www.h2database.com/html/commands.html#script): Creates a SQL script from the database.
 
 **H2 Console**
 
