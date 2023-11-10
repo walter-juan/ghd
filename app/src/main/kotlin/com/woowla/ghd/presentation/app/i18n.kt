@@ -35,6 +35,7 @@ object i18n {
     val top_bar_title_releases = "Releases"
     val top_bar_title_repos_to_check = "Repos"
     val top_bar_title_repos_to_check_edit = "Repos"
+    val top_bar_title_repos_to_check_bulk_sample = "Bulk file sample"
     val top_bar_title_settings = "Settings"
     val top_bar_title_synchronization_results = "Synchronization results"
     val top_bar_title_synchronization_result_entries = "Synchronization result entries"
@@ -53,6 +54,7 @@ object i18n {
 
     val screen_repos_to_check_new_repositories_section = "New repositories"
     val screen_repos_to_check_add_new_repository_item = "Add new repository"
+    val screen_repos_to_check_add_new_repository_item_description = "Add manually a new repository"
     val screen_repos_to_check_repositories_section = "Repositories"
 
     val screen_edit_repo_to_check_save = "Save"
@@ -85,10 +87,36 @@ object i18n {
     val screen_app_settings_repositories_item_description: (Int) -> String = { "There are $it which will be checked every time for a new release or pull request status." }
     val screen_app_settings_checkout_timeout_item = "Refresh timeout"
     val screen_app_settings_checkout_timeout_item_description = "The timeout in minutes each time the pull requests and releases are checked"
-    val screen_repos_to_check_bulk_import_item = "Bulk import"
-    val screen_repos_to_check_export_item = "Export"
-    val screen_repos_to_check_export_item_description = "A YML file will be created with all repositories"
-    val screen_repos_to_check_bulk_import_item_description = "Choose a file which should contain a list of repositories in YML format"
+
+    val screen_repos_to_check_bulk_item = "Bulk import/export"
+    val screen_repos_to_check_bulk_item_description = "Import or export a list of repositories in YML format"
+    val screen_repos_to_check_bulk_example = "Example"
+    val screen_repos_to_check_bulk_import = "Import"
+    val screen_repos_to_check_bulk_export = "Export"
+
+    val screen_repos_to_check_bulk_sample_sample_file = """
+#
+# The only required values are the owner and name 
+# and by default the pull requests and releases are enabled
+# 
+# This example has 2 repositories, the first one has all available 
+# values and the second only the minimum ones
+#
+repositories:
+- owner: "owner-1"
+  name: "project-1"
+  group: "my group"
+  pulls:
+    enabled: false
+    branch-regex: "XXXX"
+  releases:
+    enabled: true
+- owner: "owner-1"
+  name: "project-2"
+- owner: "owner-2"
+  name: "project-1"
+    """.trimIndent()
+
     val screen_app_settings_theme_item = "Theme"
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"

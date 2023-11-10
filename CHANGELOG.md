@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add the `ghdCleanDebugAppFolder` gradle task to clean the debug app folder
 - Error handling during synchronization
 - Enable pull requests or releases features from repos
+- New screen with an example of the YAML file used for the bulk import of repositories
 ### Changed
 - Update dependencies and Ruby version
 - Sort pull request first by seen, then by state and finally by the created date
