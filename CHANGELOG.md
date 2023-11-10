@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.4.0]
 ### ⚠️ IMPORTANT ⚠️
-- The database has been replaced. Export the repositories to import them later before upgrading.
+- The database has been replaced. Before upgrading export the repositories and update the exported YAML to import them later.
 - To remove the old database:
   1. Open the app and to the About section, here you will see the application folder where all the data is stored
   2. From this folder go to `db` folder
