@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New screen with an example of the YAML file used for the bulk import of repositories
 ### Changed
 - Update dependencies and Ruby version
-- Sort pull request first by seen, then by state and finally by the created date
+- Sort pull request first by state, then by seen and finally by the created date
 - Notifications now are joined all together in the settings screen
 - Decrement the retrieved pull requests from 50 to 10 to improve the performance
 - Change how to know if the DB is encrypted
