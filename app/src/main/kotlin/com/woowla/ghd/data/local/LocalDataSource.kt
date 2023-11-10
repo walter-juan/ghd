@@ -228,7 +228,7 @@ class LocalDataSource(
                         createdAt = upsertRequest.createdAt
                         updatedAt = upsertRequest.updatedAt
                         mergedAt = upsertRequest.mergedAt
-                        draft = upsertRequest.draft
+                        isDraft = upsertRequest.isDraft
                         baseRef = upsertRequest.baseRef
                         headRef = upsertRequest.headRef
                         authorLogin = upsertRequest.authorLogin

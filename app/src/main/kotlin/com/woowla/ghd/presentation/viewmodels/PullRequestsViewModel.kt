@@ -2,9 +2,10 @@ package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.PullRequestService
@@ -61,8 +62,8 @@ class PullRequestsViewModel(
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests
-                            .groupBy { it.state }
-                            .map { GroupedPullRequests(pullRequestState = it.key, pullRequests = it.value) }
+                            .groupBy { it.stateWithDraft }
+                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequests = it.value) }
                         _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResult = syncResult, appSettings = appSettings)
                     },
                     onFailure = {
@@ -78,5 +79,5 @@ class PullRequestsViewModel(
         data class  Error(val throwable: Throwable): State()
     }
 
-    data class GroupedPullRequests(val pullRequestState: PullRequestState, val pullRequests: List<PullRequest>)
+    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequests: List<PullRequest>)
 }

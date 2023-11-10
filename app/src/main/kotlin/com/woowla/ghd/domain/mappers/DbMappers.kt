@@ -10,7 +10,7 @@ import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestGitHubState
+import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
@@ -76,12 +76,12 @@ fun DbPullRequest.toPullRequest(): PullRequest {
         id = id.value,
         number = number,
         url = url,
-        gitHubState = enumValueOfOrDefault(state, PullRequestGitHubState.UNKNOWN),
+        state = enumValueOfOrDefault(state, PullRequestState.UNKNOWN),
         title = title,
         createdAt = createdAt,
         updatedAt = updatedAt,
         mergedAt = mergedAt,
-        draft = draft,
+        isDraft = isDraft,
         baseRef = baseRef,
         headRef = headRef,
         authorLogin = authorLogin,

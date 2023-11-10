@@ -18,7 +18,7 @@ fun GetPullRequestsQuery.Node.toUpsertPullRequestRequest(repoToCheckId: Long, ap
         createdAt = createdAt.toString().toInstant(),
         updatedAt = updatedAt.toString().toInstant(),
         mergedAt = mergedAt?.toString()?.toInstant(),
-        draft = isDraft,
+        isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
         authorLogin = author?.login,

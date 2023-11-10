@@ -39,7 +39,7 @@ import com.woowla.compose.remixicon.SystemCheckboxCircleFill
 import com.woowla.compose.remixicon.SystemHistoryLine
 import com.woowla.compose.remixicon.UserAndFacesTeamLine
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
@@ -56,7 +56,7 @@ fun PullRequestCard(
     val avatarImageSize = 45.dp
     val pullRequestDecorator = PullRequestDecorator(pullRequest)
     val seen = pullRequest.appSeen
-    val showExtras = !seen && (pullRequest.state == PullRequestState.OPEN || pullRequest.state == PullRequestState.DRAFT)
+    val showExtras = !seen && (pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN || pullRequest.stateWithDraft == PullRequestStateWithDraft.DRAFT)
 
     IconCard(
         selected = seen,
@@ -170,7 +170,7 @@ fun PullRequestCard(
                     showBadge = pullRequestDecorator.showCommitsCheckBadge,
                     badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
                 )
-                if (pullRequest.state == PullRequestState.OPEN) {
+                if (pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
                         icon = RemixiconPainter.UserAndFacesTeamLine,

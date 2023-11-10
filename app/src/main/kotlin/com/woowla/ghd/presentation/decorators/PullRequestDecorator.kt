@@ -16,7 +16,7 @@ class PullRequestDecorator(val pullRequest: PullRequest) {
     val updatedAt = i18n.pull_request_updated(pullRequest.updatedAt)
     val title = pullRequest.title ?: i18n.generic_unknown
     val authorLogin = pullRequest.authorLogin ?: i18n.generic_unknown
-    val state = PullRequestStateDecorator(pullRequest.state)
+    val state = PullRequestStateDecorator(pullRequest.stateWithDraft)
     val comments = i18n.pull_request_comments(pullRequest.totalCommentsCount ?: 0L)
     val commitChecks = when(pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.ERROR -> "One or more checks failed"

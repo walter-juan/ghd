@@ -2,19 +2,15 @@ package com.woowla.ghd.domain.mappers
 
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestGitHubState
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
 import com.woowla.ghd.domain.requests.UpsertReleaseRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
 import com.woowla.ghd.domain.requests.UpsertSyncSettingsRequest
 
 fun AppSettings.toUpsertAppSettingsRequest(): UpsertAppSettingsRequest {
@@ -41,12 +37,12 @@ fun PullRequest.toUpsertPullRequestRequest(): UpsertPullRequestRequest {
         id = id,
         number = number,
         url = url,
-        state = gitHubState.toString(),
+        state = state.toString(),
         title = title,
         createdAt = createdAt,
         updatedAt = updatedAt,
         mergedAt = mergedAt,
-        draft = draft,
+        isDraft = isDraft,
         baseRef = baseRef,
         headRef = headRef,
         authorLogin = authorLogin,
@@ -84,15 +80,15 @@ fun RepoToCheck.toUpsertRepoToCheckRequest(): UpsertRepoToCheckRequest {
     )
 }
 
-fun PullRequestGitHubState.toPullRequestState(isDraft: Boolean): PullRequestState {
+fun PullRequestState.toPullRequestState(isDraft: Boolean): PullRequestStateWithDraft {
     return when (this) {
-        PullRequestGitHubState.OPEN -> if (isDraft) {
-            PullRequestState.DRAFT
+        PullRequestState.OPEN -> if (isDraft) {
+            PullRequestStateWithDraft.DRAFT
         } else {
-            PullRequestState.OPEN
+            PullRequestStateWithDraft.OPEN
         }
-        PullRequestGitHubState.MERGED -> PullRequestState.MERGED
-        PullRequestGitHubState.CLOSED -> PullRequestState.CLOSED
-        PullRequestGitHubState.UNKNOWN, null -> PullRequestState.UNKNOWN
+        PullRequestState.MERGED -> PullRequestStateWithDraft.MERGED
+        PullRequestState.CLOSED -> PullRequestStateWithDraft.CLOSED
+        PullRequestState.UNKNOWN, null -> PullRequestStateWithDraft.UNKNOWN
     }
 }
