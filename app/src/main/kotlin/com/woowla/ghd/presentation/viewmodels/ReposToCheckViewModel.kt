@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.AppSettingsService
@@ -24,16 +24,16 @@ class ReposToCheckViewModel(
 
     init {
         loadRepos()
-        EventBus.subscribe(this, coroutineScope, Event.REPO_TO_CHECK_UPDATED) {
+        EventBus.subscribe(this, screenModelScope, Event.REPO_TO_CHECK_UPDATED) {
             reload()
         }
-        EventBus.subscribe(this, coroutineScope, Event.SETTINGS_UPDATED) {
+        EventBus.subscribe(this, screenModelScope, Event.SETTINGS_UPDATED) {
             reload()
         }
     }
 
     fun bulkImportRepo(file: File?) {
-        coroutineScope.launch {
+        screenModelScope.launch {
             if (file != null) {
                 val content = file.readText()
                 repoToCheckService.import(content)
@@ -42,7 +42,7 @@ class ReposToCheckViewModel(
     }
 
     fun bulkExportRepo(file: File?) {
-        coroutineScope.launch {
+        screenModelScope.launch {
             if (file != null) {
                 repoToCheckService.export().onSuccess { content ->
                     file.writeText(content)
@@ -52,7 +52,7 @@ class ReposToCheckViewModel(
     }
 
     fun deleteRepo(repoToCheck: RepoToCheck) {
-        coroutineScope.launch {
+        screenModelScope.launch {
             repoToCheckService.delete(repoToCheck.id)
             reload()
         }
@@ -63,7 +63,7 @@ class ReposToCheckViewModel(
     }
 
     private fun loadRepos() {
-        coroutineScope.launch {
+        screenModelScope.launch {
             val appSettings = appSettingsService.get().getOrNull()
 
             repoToCheckService.getAll().fold(

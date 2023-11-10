@@ -61,7 +61,6 @@ fun ScreenScrollable(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenScaffold(
     topBar: @Composable () -> Unit = {},
@@ -88,6 +87,7 @@ fun ScreenScaffold(
 fun TopBar(
     title: String,
     subtitle: String? = null,
+    subtitleOnClick: (() -> Unit)? = null,
     navImagePainter: Painter = RemixiconPainter.ArrowsArrowLeftLine,
     navContentDescription: String? = null,
     navOnClick: (() -> Unit)? = null,
@@ -101,7 +101,8 @@ fun TopBar(
                     text = subtitle ?: "",
                     style = MaterialTheme.typography.labelSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.clickable(enabled = subtitleOnClick != null, onClick = { subtitleOnClick?.invoke() })
                 )
             }
         },

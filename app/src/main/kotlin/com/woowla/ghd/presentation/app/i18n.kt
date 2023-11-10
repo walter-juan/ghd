@@ -36,11 +36,14 @@ object i18n {
     val top_bar_title_repos_to_check = "Repos"
     val top_bar_title_repos_to_check_edit = "Repos"
     val top_bar_title_settings = "Settings"
+    val top_bar_title_synchronization_results = "Synchronization results"
+    val top_bar_title_synchronization_result_entries = "Synchronization result entries"
+    val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
 
     val status_bar_loading = ""
     val status_bar_error = "Error"
-    val status_bar_synchronized_at: (Instant?) -> String = { "Synchronized at ${it?.format() ?: "unknown"}" }
+    val status_bar_synchronized_at_unknown = "Synchronized at unknown"
 
     val tab_title_pull_requests = "Pulls"
     val tab_title_releases = "Releases"
@@ -70,7 +73,6 @@ object i18n {
     val screen_app_settings_synchronization_section = "Synchronization"
     val screen_app_settings_appliation_section = "Application"
     val screen_app_settings_notifications_section = "Notifications"
-    val screen_app_settings_feature_preview_section = "Feature Preview"
     val screen_app_settings_github_token_field_label = "GitHub PAT token"
     val screen_app_settings_github_field_show = "Show GitHub PAT token"
     val screen_app_settings_github_field_hide = "Hide GitHub PAT token"
@@ -88,6 +90,8 @@ object i18n {
     val screen_app_settings_theme_item_description = "Select the theme you want to use"
     val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"
     val screen_app_settings_pull_requests_clean_up_item_description = "Remove closed and merged pull requests after certain amount of time"
+    val screen_app_settings_last_synchronization_results_item = "Latest synchronization results"
+    val screen_app_settings_last_synchronization_results_button = "See the latest synchronization results"
 
     val screen_login_encrypt_data_field_label = "I want to encrypt my data (recommended)."
     val screen_login_master_password_field_label = "Master Password"
@@ -102,6 +106,13 @@ object i18n {
     val screen_login_fresh_start_confirmation_dialog_text = "A fresh start will erase your data, are you sure?"
     val screen_login_fresh_start_confirmation_dialog_yes_button = "Yes"
     val screen_login_fresh_start_confirmation_dialog_no_button = "No"
+
+    val screen_sync_results_in_progress = "Sync in progress"
+    val screen_sync_results_took_seconds: (seconds: Double) -> String = { "$it seconds" }
+    val screen_sync_results_start_at: (instant: Instant) -> String = { "Synchronization started at ${it.format()}" }
+    val screen_sync_results_end_at: (emoji: String, percentage: Int, total: Int) -> String = { emoji, percentage, total ->  "$emoji ${percentage}% errors out of a total of $total" }
+
+    val screen_sync_result_entries_took_seconds: (seconds: Double) -> String = { "Took $it seconds" }
 
     val dialog_new_app_version_title = "Update available"
     val dialog_new_app_version_ignore_button = "Ignore"
@@ -142,6 +153,9 @@ object i18n {
     val app_settings_checkout_time_unknown = "?"
     val app_settings_pr_cleanup_in_hours: (Long) -> String = { "$it hours" }
     val app_settings_pr_cleanup_unknown = "?"
+
+
+    val sync_result_title: (instant: Instant, emoji: String) -> String = { instant, emoji -> "$emoji Synchronized at ${instant.format()}" }
 
     val file_dialog_choose_file = "Choose a file"
     val file_dialog_save_file = "Save a file"

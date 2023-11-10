@@ -7,10 +7,13 @@ import com.woowla.ghd.data.remote.type.PullRequestState as ApiPullRequestState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.mappers.toPullRequest
 import com.woowla.ghd.domain.mappers.toUpsertPullRequestRequest
 import com.woowla.ghd.domain.mappers.toUpsertReviewRequests
+import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.requests.toUpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
@@ -39,31 +42,35 @@ class PullRequestService(
         return localDataSource.updateAppSeenAt(id = id, appSeenAt = appSeenAt)
     }
 
-    override suspend fun synchronize(syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>) {
+    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
         val pullRequestsBefore = getAll().getOrDefault(listOf())
 
-        coroutineScope {
+        val syncApiResults = coroutineScope {
             val fetchOpenPullRequests = repoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(repoToCheck, ApiPullRequestState.OPEN) }
+                async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.OPEN) }
             }
             val fetchMergedPullRequests = repoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(repoToCheck, ApiPullRequestState.MERGED) }
+                async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.MERGED) }
             }
             val fetchClosedPullRequests = repoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(repoToCheck, ApiPullRequestState.CLOSED) }
+                async { fetchPullRequests(syncResultId, repoToCheck, ApiPullRequestState.CLOSED) }
             }
 
-            fetchOpenPullRequests.awaitAll()
-            fetchMergedPullRequests.awaitAll()
-            fetchClosedPullRequests.awaitAll()
+            val openSyncApiResults = fetchOpenPullRequests.awaitAll()
+            val mergedSyncApiResults = fetchMergedPullRequests.awaitAll()
+            val closedSyncApiResults = fetchClosedPullRequests.awaitAll()
 
             cleanUp(syncSettings)
+
+            openSyncApiResults + mergedSyncApiResults + closedSyncApiResults
         }
 
         val pullRequestsAfter = getAll().getOrDefault(listOf())
         appSettingsService.get().onSuccess {  appSettings ->
             sendNotifications(appSettings = appSettings, oldPullRequests = pullRequestsBefore, newPullRequests = pullRequestsAfter)
         }
+
+        return syncApiResults
     }
 
     suspend fun cleanUp(syncSettings: SyncSettings) {
@@ -135,7 +142,8 @@ class PullRequestService(
         return Result.success(Unit)
     }
 
-    private suspend fun fetchPullRequests(repoToCheck: RepoToCheck, state: ApiPullRequestState) {
+    private suspend fun fetchPullRequests(syncResultId: Long, repoToCheck: RepoToCheck, state: ApiPullRequestState): UpsertSyncResultEntryRequest {
+        val startAt = Clock.System.now()
         val pullRequestsResult = remoteDataSource.getPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name, state = state)
 
         // pull requests
@@ -163,5 +171,12 @@ class PullRequestService(
             .onSuccess { reviewUpsertRequests ->
                 localDataSource.upsertReviews(reviewUpsertRequests)
             }
+
+        return pullRequestsResult.toUpsertSyncResultEntryRequest(
+            syncResultId = syncResultId,
+            repoToCheckId = repoToCheck.id,
+            origin = SyncResultEntry.Origin.PULL,
+            startAt = startAt
+        )
     }
 }

@@ -109,7 +109,6 @@ class LoginScreen : Screen {
         }
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun loginDatabaseNoExists(navigator: Navigator, error: Throwable? = null, onCreateNewDatabase: (encryt: Boolean, passsword: String?) -> Unit) {
         var encryptDatabase by remember { mutableStateOf(false) }

@@ -20,7 +20,7 @@ import javax.sql.DataSource
 
 object DbSettings {
     private const val dbFolder = "db"
-    private const val dbName = "ghd.h2"
+    private const val dbName = "ghd-v2.h2"
     private const val dbUser = "ghd-user"
     private const val dbPwd = "ghd-pwd"
     private val dbFolderPath by lazy {
@@ -54,6 +54,9 @@ object DbSettings {
             flyway.migrate()
 
             INSTANCE = Database.connect(datasource = dataSource, databaseConfig = dbConfig)
+//            newDbSuspendedTransaction {
+//                SchemaUtils.create(DbPullRequestTable, DbReleaseTable, DbRepoToCheckTable, DbReviewTable, DbSyncResultTable, DbSyncResultEntryTable, DbSyncSettingsTable)
+//            }
         }
     }
 

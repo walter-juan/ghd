@@ -6,12 +6,16 @@ import com.woowla.ghd.domain.entities.PullRequestGitHubState
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
 import com.woowla.ghd.domain.requests.UpsertReleaseRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import com.woowla.ghd.domain.requests.UpsertSyncSettings
+import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
+import com.woowla.ghd.domain.requests.UpsertSyncSettingsRequest
 
 fun AppSettings.toUpsertAppSettingsRequest(): UpsertAppSettingsRequest {
     return UpsertAppSettingsRequest(
@@ -24,11 +28,10 @@ fun AppSettings.toUpsertAppSettingsRequest(): UpsertAppSettingsRequest {
     )
 }
 
-fun SyncSettings.toUpsertSyncSettings(): UpsertSyncSettings {
-    return UpsertSyncSettings(
+fun SyncSettings.toUpsertSyncSettingsRequest(): UpsertSyncSettingsRequest {
+    return UpsertSyncSettingsRequest(
         githubPatToken = githubPatToken ?: "",
         checkTimeout = checkTimeout,
-        synchronizedAt = synchronizedAt,
         pullRequestCleanUpTimeout = pullRequestCleanUpTimeout
     )
 }

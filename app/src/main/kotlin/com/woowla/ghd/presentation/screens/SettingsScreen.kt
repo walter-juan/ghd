@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
+import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
@@ -36,8 +36,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.compose.remixicon.DeviceSave2Fill
 import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.remixicon.SystemAddLine
 import com.woowla.compose.remixicon.SystemEyeFill
 import com.woowla.compose.remixicon.SystemEyeOffFill
 import com.woowla.ghd.domain.entities.SyncSettings
@@ -47,10 +50,10 @@ import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 
 class SettingsScreen : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel { SettingsViewModel() }
+        val navigator = LocalNavigator.currentOrThrow
         val snackbarHostState = remember { SnackbarHostState() }
 
         val settingsState by viewModel.state.collectAsState()
@@ -184,6 +187,14 @@ class SettingsScreen : Screen {
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                                 ) { value, _ ->
                                     viewModel.pullRequestCleanUpTimeoutUpdated(cleanUpTimeout = value)
+                                }
+                            }
+
+                            SectionItem(
+                                title = i18n.screen_app_settings_last_synchronization_results_item,
+                            ) {
+                                Button(onClick = { navigator.push(SyncResultsScreen()) }) {
+                                    Text(i18n.screen_app_settings_last_synchronization_results_button)
                                 }
                             }
                         }

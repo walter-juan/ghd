@@ -5,14 +5,18 @@ import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.mappers.toRelease
 import com.woowla.ghd.domain.mappers.toUpsertReleaseRequest
+import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.requests.toUpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.datetime.Clock
 
 class ReleaseService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
@@ -29,13 +33,13 @@ class ReleaseService(
             }
     }
 
-    override suspend fun synchronize(syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>) {
+    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
         val releasesBefore = getAll().getOrDefault(listOf())
 
-        coroutineScope {
+        val syncApiResults = coroutineScope {
             repoToCheckList
                 .map { dbRepoToCheck ->
-                    async { fetchLastReleases(dbRepoToCheck) }
+                    async { fetchLastReleases(syncResultId, dbRepoToCheck) }
                 }
                 .awaitAll()
         }
@@ -44,6 +48,8 @@ class ReleaseService(
         appSettingsService.get().onSuccess {  appSettings ->
             sendNotifications(appSettings = appSettings, oldReleases = releasesBefore, newReleases = releasesAfter)
         }
+
+        return syncApiResults
     }
 
     suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<Release>, newReleases: List<Release>): Result<Unit> {
@@ -80,8 +86,9 @@ class ReleaseService(
         return Result.success(Unit)
     }
 
-    private suspend fun fetchLastReleases(repoToCheck: RepoToCheck) {
-        remoteDataSource
+    private suspend fun fetchLastReleases(syncResultId: Long, repoToCheck: RepoToCheck): UpsertSyncResultEntryRequest {
+        val startAt = Clock.System.now()
+        return remoteDataSource
             .getLastRelease(owner = repoToCheck.owner, repo = repoToCheck.name)
             .onSuccess {
                 // remove the old one
@@ -92,5 +99,11 @@ class ReleaseService(
                 val releaseUpsertRequest = apiRelease.toUpsertReleaseRequest(repoToCheck.id)
                 localDataSource.upsertRelease(releaseUpsertRequest)
             }
+            .toUpsertSyncResultEntryRequest(
+                syncResultId = syncResultId,
+                repoToCheckId = repoToCheck.id,
+                origin = SyncResultEntry.Origin.RELEASE,
+                startAt = startAt
+            )
     }
 }

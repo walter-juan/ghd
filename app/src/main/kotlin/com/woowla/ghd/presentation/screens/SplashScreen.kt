@@ -33,9 +33,7 @@ import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 class SplashScreen : Screen {
-    @OptIn(ExperimentalAnimationApi::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow

@@ -30,7 +30,6 @@ import com.woowla.compose.remixicon.ArrowsArrowDownSLine
 import com.woowla.compose.remixicon.ArrowsArrowUpSLine
 import com.woowla.compose.remixicon.RemixiconPainter
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T: Any?> OutlinedSelectField(
     values: List<Pair<T, String>>,

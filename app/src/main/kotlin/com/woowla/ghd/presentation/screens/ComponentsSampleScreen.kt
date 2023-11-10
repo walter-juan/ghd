@@ -271,7 +271,6 @@ class ComponentsSampleScreen : Screen {
         )
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun OutlinedSelectFieldSample() {
         val values = listOf(1 to "One", 2 to "Two", 3 to "Three", 4 to "Four", 5 to "Five")
