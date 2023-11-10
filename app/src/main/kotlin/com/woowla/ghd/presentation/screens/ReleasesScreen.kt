@@ -11,24 +11,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.ReleasesViewModel
 
 class ReleasesScreen : Screen {
     @Composable
     override fun Content() {
         val viewModel = rememberScreenModel { ReleasesViewModel() }
+        val navigator = LocalNavigator.currentOrThrow
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is ReleasesViewModel.State.Initializing -> i18n.status_bar_loading
-            is ReleasesViewModel.State.Success -> i18n.status_bar_synchronized_at(state.synchronizedAt)
+            is ReleasesViewModel.State.Success -> state.syncResult?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
             is ReleasesViewModel.State.Error -> i18n.status_bar_error
+        }
+        val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
+            is ReleasesViewModel.State.Initializing -> null
+            is ReleasesViewModel.State.Success -> {
+                state.syncResult?.let { { navigator.push(SyncResultEntriesScreen(syncResult = it)) } }
+            }
+            is ReleasesViewModel.State.Error -> null
         }
 
         ScreenScrollable(
-            topBar = { TopBar(title = i18n.top_bar_title_releases, subtitle = topBarSubtitle) },
+            topBar = {
+                TopBar(
+                    title = i18n.top_bar_title_releases,
+                    subtitle = topBarSubtitle,
+                    subtitleOnClick = topBarSubtitleOnClick
+                )
+            },
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(10.dp),

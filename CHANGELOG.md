@@ -14,14 +14,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.3.5]
+### ⚠️ IMPORTANT ⚠️
+- The database has been replaced. Export the repositories to import them later before upgrading.
+- To remove the old database:
+  1. Open the app and to the About section, here you will see the application folder where all the data is stored
+  2. From this folder go to `db` folder
+  3. The new database starts with `ghd-v2`, the old with `ghd`, all files without `-v2` can be removed.
 ### Added
 - Add the `ghdCleanDebugAppFolder` gradle task to clean the debug app folder
+- Error handling during synchronization
 ### Changed
 - Update dependencies and Ruby version
 - Sort pull request first by seen, then by state and finally by the created date
 - Notifications now are joined all together in the settings screen
 - Decrement the retrieved pull requests from 50 to 10 to improve the performance
-- ⚠️ ⚠️ Change how to know if the DB is encrypted. This will require a fresh start removing the old database ⚠️ ⚠️
+- Change how to know if the DB is encrypted
 ### Removed
 - Dependency updates scheduled workflow, now only the manual one is available
 - Feature previews removed

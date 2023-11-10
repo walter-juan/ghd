@@ -5,11 +5,15 @@ import com.woowla.ghd.data.local.db.entities.DbPullRequest
 import com.woowla.ghd.data.local.db.entities.DbRelease
 import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.db.entities.DbReview
+import com.woowla.ghd.data.local.db.entities.DbSyncResult
+import com.woowla.ghd.data.local.db.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.data.local.db.newDbSuspendedTransaction
 import com.woowla.ghd.data.local.db.tables.DbPullRequestTable
 import com.woowla.ghd.data.local.db.tables.DbReleaseTable
 import com.woowla.ghd.data.local.db.tables.DbReviewTable
+import com.woowla.ghd.data.local.db.tables.DbSyncResultEntryTable
+import com.woowla.ghd.data.local.db.tables.DbSyncResultTable
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.prop.entities.PropAppSettings
 import com.woowla.ghd.domain.requests.UpsertPullRequestRequest
@@ -19,7 +23,9 @@ import com.woowla.ghd.data.local.db.utils.findByIdOrThrow
 import com.woowla.ghd.data.local.db.utils.upsertById
 import com.woowla.ghd.domain.requests.UpsertAppSettingsRequest
 import com.woowla.ghd.domain.requests.UpsertReviewRequest
-import com.woowla.ghd.domain.requests.UpsertSyncSettings
+import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
+import com.woowla.ghd.domain.requests.UpsertSyncSettingsRequest
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.dao.with
@@ -60,14 +66,94 @@ class LocalDataSource(
         }
     }
 
-    suspend fun updateSyncSettings(upsertRequest: UpsertSyncSettings): Result<Unit> {
+    suspend fun updateSyncSettings(upsertRequest: UpsertSyncSettingsRequest): Result<Unit> {
         return runCatching {
             newDbSuspendedTransaction {
                 val dbEntity = getOrCreateSyncSettings()
                 dbEntity.githubPatToken = upsertRequest.githubPatToken
                 dbEntity.checkTimeout = upsertRequest.checkTimeout
-                dbEntity.synchronizedAt = upsertRequest.synchronizedAt
                 dbEntity.pullRequestCleanUpTimeout = upsertRequest.pullRequestCleanUpTimeout
+            }
+        }
+    }
+
+    suspend fun getLastSyncResult(): Result<DbSyncResult?> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResult.all().maxByOrNull { it.id }?.load(DbSyncResult::entries, DbSyncResultEntry::repoToCheck)
+            }
+        }
+    }
+
+    /**
+     * Get the all sync results without the entries
+     */
+    suspend fun getAllSyncResults(): Result<List<DbSyncResult>> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResult.all().toList().with(DbSyncResult::entries, DbSyncResultEntry::repoToCheck)
+            }
+        }
+    }
+
+    /**
+     * Get the sync result by id without the entries
+     */
+    suspend fun getSyncResult(id: Long): Result<DbSyncResult> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResult.findByIdOrThrow(id).load(DbSyncResult::entries, DbSyncResultEntry::repoToCheck)
+            }
+        }
+    }
+
+    suspend fun removeSyncResults(ids: List<Long>): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResult.find { DbSyncResultTable.id inList ids }.forEach { it.delete() }
+            }
+        }
+    }
+
+    suspend fun upsertSyncResult(upsertRequest: UpsertSyncResultRequest): Result<DbSyncResult> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResult.upsertById(upsertRequest.id) {
+                    startAt = upsertRequest.startAt
+                    endAt = upsertRequest.endAt
+                }
+            }
+        }
+    }
+
+    /**
+     * Get the sync result entries by the sync result id with the repo to check
+     */
+    suspend fun getSyncResultEntries(syncResultId: Long): Result<List<DbSyncResultEntry>> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbSyncResultEntry.find { DbSyncResultEntryTable.syncResultId eq syncResultId }.with(DbSyncResultEntry::repoToCheck).toList()
+            }
+        }
+    }
+    suspend fun upsertSyncResultEntries(upsertRequests: List<UpsertSyncResultEntryRequest>): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                upsertRequests.forEach { upsertRequest ->
+                    val dbSyncResult = DbSyncResult.findByIdOrThrow(upsertRequest.syncResultId)
+                    val dbRepoToCheck = upsertRequest.repoToCheckId?.let(DbRepoToCheck::findByIdOrThrow)
+
+                    DbSyncResultEntry.upsertById(upsertRequest.id) {
+                        isSuccess = upsertRequest.isSuccess
+                        startAt = upsertRequest.startAt
+                        endAt = upsertRequest.endAt
+                        origin = upsertRequest.origin
+                        error = upsertRequest.error
+                        errorMessage = upsertRequest.errorMessage
+                        syncResultId = dbSyncResult.id
+                        repoToCheck = dbRepoToCheck
+                    }
+                }
             }
         }
     }
@@ -231,7 +317,6 @@ class LocalDataSource(
                 DbSyncSettings.new(DbSettings.syncSettingsUUID) {
                     githubPatToken = ""
                     checkTimeout = null
-                    synchronizedAt = null
                     pullRequestCleanUpTimeout = null
                 }
             } else {

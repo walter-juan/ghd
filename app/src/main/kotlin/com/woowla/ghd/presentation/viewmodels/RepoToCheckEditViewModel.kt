@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.mappers.toUpsertRepoToCheckRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
@@ -45,7 +45,7 @@ class RepoToCheckEditViewModel(
     }
 
     fun saveRepo() {
-        coroutineScope.launch {
+        screenModelScope.launch {
             repoToCheckService.save(_updateRequest.value)
                 .onSuccess {
                     _events.emit(Events.Saved)

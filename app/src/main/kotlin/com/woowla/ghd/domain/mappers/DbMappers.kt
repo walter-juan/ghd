@@ -4,6 +4,8 @@ import com.woowla.ghd.data.local.db.entities.DbPullRequest
 import com.woowla.ghd.data.local.db.entities.DbRelease
 import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.db.entities.DbReview
+import com.woowla.ghd.data.local.db.entities.DbSyncResult
+import com.woowla.ghd.data.local.db.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -13,6 +15,8 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.utils.enumValueOfOrDefault
 
@@ -21,8 +25,40 @@ fun DbSyncSettings.toSyncSettings(): SyncSettings {
         githubPatToken = githubPatToken,
         checkTimeout = checkTimeoutToValidCheckTimeout(checkTimeout),
         pullRequestCleanUpTimeout = cleanUpTimeoutToValidCleanUpTimeout(pullRequestCleanUpTimeout),
-        synchronizedAt = synchronizedAt
     )
+}
+
+fun DbSyncResult.toSyncResult(): SyncResult {
+    return SyncResult(
+        id = id.value,
+        startAt = startAt,
+        endAt = endAt,
+        entries = entries.map { it.toSyncResultEntry() }
+    )
+}
+
+fun DbSyncResultEntry.toSyncResultEntry(): SyncResultEntry {
+    return if (this.isSuccess) {
+        SyncResultEntry.Success(
+            id = id.value,
+            syncResultId = syncResultId.value,
+            repoToCheck = repoToCheck?.toRepoToCheck(),
+            startAt = startAt,
+            endAt = endAt,
+            origin = enumValueOfOrDefault(origin, SyncResultEntry.Origin.UNKNOWN),
+        )
+    } else {
+        SyncResultEntry.Error(
+            id = id.value,
+            syncResultId = syncResultId.value,
+            repoToCheck = repoToCheck?.toRepoToCheck(),
+            startAt = startAt,
+            endAt = endAt,
+            origin = enumValueOfOrDefault(origin, SyncResultEntry.Origin.UNKNOWN),
+            error = error,
+            errorMessage = errorMessage,
+        )
+    }
 }
 
 fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {

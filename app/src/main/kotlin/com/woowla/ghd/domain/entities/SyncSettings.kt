@@ -1,12 +1,9 @@
 package com.woowla.ghd.domain.entities
 
-import kotlinx.datetime.Instant
-
 data class SyncSettings(
     val githubPatToken: String?,
     val checkTimeout: Long?,
     val pullRequestCleanUpTimeout: Long?,
-    val synchronizedAt: Instant?,
 ) {
     companion object {
         val availablePullRequestCleanUpTimeout = listOf<Long>(1, 2, 4, 8, 16, 24, 48, 72)

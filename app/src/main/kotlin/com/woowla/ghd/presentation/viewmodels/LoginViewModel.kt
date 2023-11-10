@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import cafe.adriel.voyager.navigator.Navigator
 import com.tinder.StateMachine
 import com.woowla.ghd.data.local.db.DbSettings
@@ -76,7 +76,7 @@ class LoginViewModel(
     }
 
     init {
-        coroutineScope.launch {
+        screenModelScope.launch {
             val now = markNow()
             val appSettingsResult = appSettingsService.get()
             val databaseExists = dbSettings.dbExists()
@@ -107,7 +107,7 @@ class LoginViewModel(
     }
 
     private fun deleteDatabase() {
-        coroutineScope.launch {
+        screenModelScope.launch {
             val now = markNow()
             dbSettings.deleteDb()
             delay(MIN_LOADING_DURATION - now.elapsedNow())
@@ -117,7 +117,7 @@ class LoginViewModel(
     }
 
     private fun createDatabase(encrypt: Boolean, password: String?, appSettings: AppSettings) {
-        coroutineScope.launch {
+        screenModelScope.launch {
             val passwordToUse = if (encrypt) {
                 password
             } else {
@@ -141,7 +141,7 @@ class LoginViewModel(
     }
 
     private fun unlockDatabase(encrypted: Boolean, password: String?) {
-        coroutineScope.launch {
+        screenModelScope.launch {
             val passwordToUse = if (encrypted) {
                 password
             } else {

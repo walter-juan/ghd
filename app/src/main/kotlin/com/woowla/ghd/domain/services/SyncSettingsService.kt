@@ -3,7 +3,7 @@ package com.woowla.ghd.domain.services
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.mappers.toSyncSettings
-import com.woowla.ghd.domain.mappers.toUpsertSyncSettings
+import com.woowla.ghd.domain.mappers.toUpsertSyncSettingsRequest
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 
@@ -18,7 +18,7 @@ class SyncSettingsService(
     }
 
     suspend fun save(params: SyncSettings): Result<Unit> {
-        return localDataSource.updateSyncSettings(params.toUpsertSyncSettings())
+        return localDataSource.updateSyncSettings(params.toUpsertSyncSettingsRequest())
             .onSuccess {
                 EventBus.publish(Event.SETTINGS_UPDATED)
             }

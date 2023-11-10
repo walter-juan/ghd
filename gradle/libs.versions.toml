@@ -28,7 +28,7 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
 # H2 database
-h2 = { group = "com.h2database", name = "h2", version = "2.2.224" }
+h2 = { group = "com.h2database", name = "h2", version = "2.2.220" }
 # Exposed ORM
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }

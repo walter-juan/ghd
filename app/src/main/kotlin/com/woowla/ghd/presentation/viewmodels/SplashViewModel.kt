@@ -1,10 +1,9 @@
 package com.woowla.ghd.presentation.viewmodels
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import cafe.adriel.voyager.navigator.Navigator
 import com.woowla.ghd.AppFolderFactory
-import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.presentation.screens.LoginScreen
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.delay
@@ -24,7 +23,7 @@ class SplashViewModel(
     val state: StateFlow<State> = _state
 
     init {
-        coroutineScope.launch {
+        screenModelScope.launch {
             _state.value = State.Started
             val timeMillis = measureTimeMillis {
                 AppFolderFactory.createFolder()

@@ -10,6 +10,5 @@ class DbSyncSettings(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<DbSyncSettings>(DbSyncSettingsTable)
     var githubPatToken by DbSyncSettingsTable.githubPatToken
     var checkTimeout by DbSyncSettingsTable.checkTimeout
-    var synchronizedAt by DbSyncSettingsTable.synchronizedAt
     var pullRequestCleanUpTimeout by DbSyncSettingsTable.pullRequestCleanUpTimeout
 }
