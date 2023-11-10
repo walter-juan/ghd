@@ -1,5 +1,5 @@
 
-> This is a personal project created to solve a need and play with it, try some libraries, etc.
+> ⚠️ This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
 > That said, **I'm not responsible if one day the app stops working** or doesn't work properly and you need to re-install it. **This should not happen**, but if a re-installation is needed it will be written in the release notes.
 
@@ -8,19 +8,19 @@
 [GHD (GitHub Dashboard)](https://github.com/walter-juan/ghd), is an application to show the pull requests and releases from your GitHub repositories.
 
 Features:
-- List open & draft pull requests
+- List of the pull requests (open, draft, merged & closed)
   - Mark a pull request as seen to know later if it has been updated
-  - Notify when pull request is created or updated
   - Filter pull request by branch
 - List latest releases from a repository
+- Notifications
+  - Notify when pull request is created or updated
   - Notify when a new release is created
 - Light and dark themes
 
 ☀️ Light Theme | 🌒 Dark Theme
 :------:|:------:|
-<img width="400" alt="ghd-pull-requests-light" src="https://user-images.githubusercontent.com/4141614/216827850-6eb5b4f6-712a-48bc-add6-c1168c238175.png">|<img width="400" alt="ghd-pull-requests-dark" src="https://user-images.githubusercontent.com/4141614/216827846-93378e20-d598-42d0-a15e-435f4c5e0a77.png">
-<img width="400" alt="ghd-releases-light" src="https://user-images.githubusercontent.com/4141614/216827857-2ac3ebc8-a280-4d74-b189-28f47753dc12.png">|<img width="400" alt="ghd-releases-dark" src="https://user-images.githubusercontent.com/4141614/216827855-f6dd87c4-2085-48c1-98c2-4a9b082c0235.png">
-
+<img width="400" alt="ghd-pull-requests-light" src="https://github.com/walter-juan/ghd/assets/4141614/c0fd183c-439c-47df-bd9e-93e62a7de91e">|<img width="400" alt="ghd-pull-requests-dark" src="https://github.com/walter-juan/ghd/assets/4141614/db441d1d-fa4c-41a7-93a6-7f50842703ce">
+<img width="400" alt="ghd-releases-light" src="https://github.com/walter-juan/ghd/assets/4141614/7544a17b-dc65-455c-8303-ae466b63aea0">|<img width="400" alt="ghd-releases-dark" src="https://github.com/walter-juan/ghd/assets/4141614/841fd970-b0fe-46ab-bd46-27b8c6294857">
 
 # Installation
 
