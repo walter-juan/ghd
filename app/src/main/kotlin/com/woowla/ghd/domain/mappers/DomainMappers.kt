@@ -76,7 +76,9 @@ fun RepoToCheck.toUpsertRepoToCheckRequest(): UpsertRepoToCheckRequest {
         owner = owner,
         name = name,
         groupName = groupName,
-        pullBranchRegex = pullBranchRegex
+        pullBranchRegex = pullBranchRegex,
+        arePullRequestsEnabled = arePullRequestsEnabled,
+        areReleasesEnabled = areReleasesEnabled
     )
 }
 

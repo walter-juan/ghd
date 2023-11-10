@@ -180,6 +180,8 @@ class LocalDataSource(
                     name = upsertRequest.name
                     groupName = upsertRequest.groupName
                     pullBranchRegex = upsertRequest.pullBranchRegex
+                    arePullRequestsEnabled = upsertRequest.arePullRequestsEnabled
+                    areReleasesEnabled = upsertRequest.areReleasesEnabled
                 }
             }
         }
@@ -273,6 +275,13 @@ class LocalDataSource(
                     authorAvatarUrl = upsertRequest.authorAvatarUrl
                     repoToCheck = dbRepoToCheck
                 }
+            }
+        }
+    }
+    suspend fun removeReleases(ids: List<String>): Result<Unit> {
+        return runCatching {
+            newDbSuspendedTransaction {
+                DbRelease.find { DbReleaseTable.id inList ids }.forEach { it.delete() }
             }
         }
     }

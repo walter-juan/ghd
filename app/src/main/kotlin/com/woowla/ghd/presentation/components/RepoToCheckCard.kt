@@ -72,6 +72,7 @@ fun RepoToCheckCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Unit
                 },
                 icon = RemixiconPainter.EditorListUnordered
             )
+            IconCardRowSmallContent(text = repoToCheckDecorator.enabledFeatures)
         }
     )
 }

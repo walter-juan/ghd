@@ -13,6 +13,8 @@ class DbRepoToCheck(id: EntityID<Long>) : LongEntity(id) {
     var name by DbRepoToCheckTable.name
     var groupName by DbRepoToCheckTable.groupName
     var pullBranchRegex by DbRepoToCheckTable.pullBranchRegex
+    var arePullRequestsEnabled by DbRepoToCheckTable.arePullRequestsEnabled
+    var areReleasesEnabled by DbRepoToCheckTable.areReleasesEnabled
 
     val releases by DbRelease referrersOn DbReleaseTable.repoToCheckId
     val pullRequests by DbPullRequest referrersOn DbPullRequestTable.repoToCheckId

@@ -44,6 +44,14 @@ class RepoToCheckEditViewModel(
         _updateRequest.value = _updateRequest.value.copy(pullBranchRegex = value)
     }
 
+    fun arePullRequestsEnabledUpdated(value: Boolean) {
+        _updateRequest.value = _updateRequest.value.copy(arePullRequestsEnabled = value)
+    }
+
+    fun areReleasesEnabledUpdated(value: Boolean) {
+        _updateRequest.value = _updateRequest.value.copy(areReleasesEnabled = value)
+    }
+
     fun saveRepo() {
         screenModelScope.launch {
             repoToCheckService.save(_updateRequest.value)

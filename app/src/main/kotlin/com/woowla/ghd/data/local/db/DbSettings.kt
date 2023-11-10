@@ -54,9 +54,6 @@ object DbSettings {
             flyway.migrate()
 
             INSTANCE = Database.connect(datasource = dataSource, databaseConfig = dbConfig)
-//            newDbSuspendedTransaction {
-//                SchemaUtils.create(DbPullRequestTable, DbReleaseTable, DbRepoToCheckTable, DbReviewTable, DbSyncResultTable, DbSyncResultEntryTable, DbSyncSettingsTable)
-//            }
         }
     }
 

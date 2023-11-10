@@ -16,6 +16,8 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 name = yamlRepo.name,
                 groupName = yamlRepo.group,
                 pullBranchRegex = yamlRepo.pulls.branchRegexFilter,
+                arePullRequestsEnabled = yamlRepo.pulls.enabled ?: true,
+                areReleasesEnabled = yamlRepo.releases.enabled ?: true,
             )
         }
     }
@@ -27,8 +29,12 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 name = repoToCheck.name,
                 group = repoToCheck.groupName,
                 pulls = YamlPullConfig(
+                    enabled = repoToCheck.arePullRequestsEnabled,
                     branchRegexFilter = repoToCheck.pullBranchRegex
                 ),
+                releases = YamlReleaseConfig(
+                    enabled = repoToCheck.areReleasesEnabled
+                )
             )
         }
 
@@ -52,11 +58,21 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val group: String? = null,
         @SerialName("pulls")
         val pulls: YamlPullConfig = YamlPullConfig(),
+        @SerialName("releases")
+        val releases: YamlReleaseConfig = YamlReleaseConfig(),
     )
 
     @Serializable
     data class YamlPullConfig(
+        @SerialName("enabled")
+        val enabled: Boolean? = null,
         @SerialName("branch-regex")
-        val branchRegexFilter: String? = null
+        val branchRegexFilter: String? = null,
+    )
+
+    @Serializable
+    data class YamlReleaseConfig(
+        @SerialName("enabled")
+        val enabled: Boolean? = null,
     )
 }

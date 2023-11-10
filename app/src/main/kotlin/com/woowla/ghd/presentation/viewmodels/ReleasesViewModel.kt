@@ -62,7 +62,7 @@ class ReleasesViewModel(
     sealed class State {
         object Initializing: State()
         data class Success(val groupedReleases: List<GroupedReleases>, val syncResult: SyncResult?, val appSettings: AppSettings?): State()
-        data class  Error(val throwable: Throwable): State()
+        data class Error(val throwable: Throwable): State()
     }
 
     data class GroupedReleases(val groupName: String?, val releases: List<Release>)
