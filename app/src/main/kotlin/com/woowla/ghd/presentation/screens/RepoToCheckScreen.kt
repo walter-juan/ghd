@@ -20,6 +20,7 @@ import com.woowla.compose.remixicon.DocumentFileDownloadLine
 import com.woowla.compose.remixicon.DocumentFileUploadLine
 import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemAddLine
+import com.woowla.compose.remixicon.SystemInformationLine
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -36,6 +37,9 @@ class RepoToCheckScreen: Screen {
         }
         val onAddNewRepoClick: () -> Unit = {
             navigator.push(RepoToCheckEditScreen(repoToCheck = null))
+        }
+        val onBulkExampleClick: () -> Unit = {
+            navigator.push(RepoToCheckBulkSampleScreen())
         }
 
         val reposState by viewModel.state.collectAsState()
@@ -79,30 +83,50 @@ class RepoToCheckScreen: Screen {
                         SectionCategory(i18n.screen_repos_to_check_new_repositories_section) {
                             SectionItem(
                                 title = i18n.screen_repos_to_check_add_new_repository_item,
+                                description = i18n.screen_repos_to_check_add_new_repository_item_description,
                             ) {
                                 Button(onClick = { onAddNewRepoClick.invoke() }) {
                                     Icon(painter = RemixiconPainter.SystemAddLine, contentDescription = null, modifier = Modifier.size(20.dp))
                                 }
                             }
-
-                            Row {
-                                Box(modifier = Modifier.weight(1f)) {
-                                    SectionItem(
-                                        title = i18n.screen_repos_to_check_bulk_import_item,
-                                        description = i18n.screen_repos_to_check_bulk_import_item_description,
-                                    ) {
-                                        Button(onClick = { isBulkImportFileDialogOpen = true }) {
-                                            Icon(painter = RemixiconPainter.DocumentFileUploadLine, contentDescription = null, modifier = Modifier.size(20.dp))
+                            SectionItem(
+                                title = i18n.screen_repos_to_check_bulk_item,
+                                description = i18n.screen_repos_to_check_bulk_item_description,
+                            ) {
+                                Row {
+                                    Button(onClick = onBulkExampleClick) {
+                                        Row {
+                                            Icon(
+                                                painter = RemixiconPainter.SystemInformationLine,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
+                                            Text(i18n.screen_repos_to_check_bulk_example)
                                         }
                                     }
-                                }
-                                Box(modifier = Modifier.weight(1f)) {
-                                    SectionItem(
-                                        title = i18n.screen_repos_to_check_export_item,
-                                        description = i18n.screen_repos_to_check_export_item_description,
-                                    ) {
-                                        Button(onClick = { isBulkExportFileDialogOpen = true }) {
-                                            Icon(painter = RemixiconPainter.DocumentFileDownloadLine, contentDescription = null, modifier = Modifier.size(20.dp))
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Button(onClick = { isBulkImportFileDialogOpen = true }) {
+                                        Row {
+                                            Icon(
+                                                painter = RemixiconPainter.DocumentFileUploadLine,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
+                                            Text(i18n.screen_repos_to_check_bulk_import)
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.width(5.dp))
+                                    Button(onClick = { isBulkExportFileDialogOpen = true }) {
+                                        Row {
+                                            Icon(
+                                                painter = RemixiconPainter.DocumentFileDownloadLine,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                            Spacer(modifier = Modifier.width(5.dp))
+                                            Text(i18n.screen_repos_to_check_bulk_export)
                                         }
                                     }
                                 }
