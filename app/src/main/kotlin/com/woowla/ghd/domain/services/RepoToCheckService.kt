@@ -2,7 +2,6 @@ package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.mappers.toRepoToCheck
 import com.woowla.ghd.domain.parsers.RepoToCheckFileParser
 import com.woowla.ghd.domain.parsers.YamlRepoToCheckFileParser
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
@@ -15,17 +14,14 @@ class RepoToCheckService(
 ) {
     suspend fun getAll(): Result<List<RepoToCheck>> {
         return localDataSource.getAllReposToCheck()
-            .mapCatching { dbRepoToCheck ->
-                dbRepoToCheck.map { it.toRepoToCheck() }
-            }
     }
 
     suspend fun delete(id: Long): Result<Unit> {
         return localDataSource.removeRepoToCheck(id)
     }
 
-    suspend fun save(request: UpsertRepoToCheckRequest): Result<Unit> {
-        return localDataSource.upsertRepoToCheck(request)
+    suspend fun save(upsertRepoToCheckRequest: UpsertRepoToCheckRequest): Result<Unit> {
+        return localDataSource.upsertRepoToCheck(upsertRepoToCheckRequest)
             .onSuccess {
                 EventBus.publish(Event.REPO_TO_CHECK_UPDATED)
             }

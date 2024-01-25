@@ -6,8 +6,6 @@ import com.woowla.ghd.data.local.db.entities.DbSyncResult
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.mappers.toSyncResult
-import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
 import com.woowla.ghd.domain.services.PullRequestService
@@ -27,7 +25,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -60,32 +57,22 @@ class Synchronizer private constructor(
 
     suspend fun getAllSyncResults(): Result<List<SyncResult>> {
         return localDataSource.getAllSyncResults()
-            .mapCatching { dbSyncResults ->
-                dbSyncResults.map { it.toSyncResult() }
-            }.mapCatching { syncResults ->
+            .mapCatching { syncResults ->
                 syncResults.sortedByDescending { it.startAt }
             }
     }
 
     suspend fun getLastSyncResult(): Result<SyncResult?> {
         return localDataSource.getLastSyncResult()
-            .mapCatching { syncResult ->
-                syncResult?.toSyncResult()
-            }
     }
 
     suspend fun getSyncResult(id: Long): Result<SyncResult> {
         return localDataSource.getSyncResult(id)
-            .mapCatching { syncResult ->
-                syncResult.toSyncResult()
-            }
     }
 
     suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntry>> {
         return localDataSource.getSyncResultEntries(syncResultId)
-            .mapCatching { dbSyncResultEntries ->
-                dbSyncResultEntries.map { it.toSyncResultEntry() }
-            }.mapCatching { syncResultEntries ->
+            .mapCatching { syncResultEntries ->
                 syncResultEntries.sorted()
             }
     }

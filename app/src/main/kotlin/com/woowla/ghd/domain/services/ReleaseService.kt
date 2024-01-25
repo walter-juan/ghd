@@ -7,10 +7,11 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.mappers.toRelease
-import com.woowla.ghd.domain.mappers.toUpsertReleaseRequest
+import com.woowla.ghd.data.remote.mappers.toRelease
+import com.woowla.ghd.domain.entities.filterNotSyncValid
+import com.woowla.ghd.domain.entities.filterSyncValid
+import com.woowla.ghd.domain.mappers.toUpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
-import com.woowla.ghd.domain.requests.toUpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
@@ -26,9 +27,7 @@ class ReleaseService(
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<Release>> {
         return localDataSource.getAllReleases()
-            .mapCatching { dbReleases ->
-                dbReleases.map { it.toRelease() }
-            }.mapCatching { releases ->
+            .mapCatching { releases ->
                 releases.sorted()
             }
     }
@@ -60,11 +59,7 @@ class ReleaseService(
     suspend fun cleanUp() {
         getAll()
             .mapCatching { releases ->
-                releases.filter { release ->
-                    val releasesNotEnabled = !release.repoToCheck.areReleasesEnabled
-
-                    releasesNotEnabled
-                }
+                releases.filterNotSyncValid()
             }
             .mapCatching { releases ->
                 releases.map { it.id }
@@ -118,8 +113,8 @@ class ReleaseService(
             }
             .onSuccess { apiRelease ->
                 // insert the new one
-                val releaseUpsertRequest = apiRelease.toUpsertReleaseRequest(repoToCheck.id)
-                localDataSource.upsertRelease(releaseUpsertRequest)
+                val release = apiRelease.toRelease(repoToCheck)
+                localDataSource.upsertRelease(release)
             }
             .toUpsertSyncResultEntryRequest(
                 syncResultId = syncResultId,

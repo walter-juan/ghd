@@ -70,7 +70,6 @@ class ComponentsSampleScreen : Screen {
         authorLogin = "github-actions",
         authorUrl = null,
         authorAvatarUrl = "https://picsum.photos/200/300",
-        repoToCheckId = repoToCheck.id,
         repoToCheck = repoToCheck
     )
     private val pullRequest = PullRequest(
@@ -90,7 +89,6 @@ class ComponentsSampleScreen : Screen {
         authorAvatarUrl = "https://picsum.photos/200/300",
         appSeenAt = Clock.System.now(),
         totalCommentsCount = 3,
-        repoToCheckId = repoToCheck.id,
         repoToCheck = repoToCheck,
         mergeable = MergeableGitHubState.MERGEABLE,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.PENDING,
@@ -104,6 +102,7 @@ class ComponentsSampleScreen : Screen {
         authorLogin = "walter-juan",
         authorUrl = null,
         authorAvatarUrl = "https://picsum.photos/200/300",
+        pullRequestId = "",
     )
     private val reviewsSamples = listOf(
         listOf(),
