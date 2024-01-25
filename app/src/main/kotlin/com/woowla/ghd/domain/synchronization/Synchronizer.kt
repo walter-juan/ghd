@@ -163,7 +163,7 @@ class Synchronizer private constructor(
         cleanUpSyncResult()
 
         val syncResult = getSyncResult(dbSyncResult.id.value).getOrThrow()
-        AppLogger.d("Synchronizer :: sync :: finished, started at ${syncResult.startAt} at ${syncResult.endAt} it took ${syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
+        AppLogger.d("Synchronizer :: sync :: finished, from ${syncResult.startAt} to ${syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
         delay(150)
