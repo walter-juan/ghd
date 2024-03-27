@@ -14,8 +14,10 @@ jobs:
         include:
           - os: windows-2022
             ext: exe
+            artifact-name: windows
           - os: macos-13
             ext: dmg
+            artifact-name: macos
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
@@ -37,7 +39,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: |
-            ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
+          name: ${{ matrix.artifact-name }}.${{ matrix.ext }}
+          path: ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
           retention-days: 1
 
