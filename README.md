@@ -107,6 +107,7 @@ $ ./gradlew build -PdebugConfig=false
     ```
 - Update Gradle version
     ```shell
+    ./gradlew wrapper --gradle-version latest
     ./gradlew wrapper --gradle-version 7.5.1
     ```
 # Scripts
