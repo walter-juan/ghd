@@ -22,7 +22,9 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          path: .downloads
+          pattern: ghd-*
+          path: .downloads/artifact/
+          merge-multiple: true
       - name: Compress binaries
         run: |
           cd .downloads/artifact/
