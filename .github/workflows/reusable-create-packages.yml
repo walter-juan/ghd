@@ -14,12 +14,17 @@ jobs:
         include:
           - os: windows-2022
             ext: exe
+            artifact-name: ghd-windows
           - os: macos-13
             ext: dmg
+            artifact-name: ghd-macos
     runs-on: ${{ matrix.os }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Generate release data
+        id: generate-release-data
+        uses: ./.github/actions/generate-release-data
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -37,7 +42,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          path: |
-            ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
+          name: ${{ matrix.artifact-name }}-${{ steps.generate-release-data.outputs.version }}.${{ matrix.ext }}
+          path: ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
           retention-days: 1
 
