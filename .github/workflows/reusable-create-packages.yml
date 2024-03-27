@@ -42,7 +42,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact-name }}-${{ steps.generate-release-data.outputs.name }}.${{ matrix.ext }}
+          name: ${{ matrix.artifact-name }}-${{ steps.generate-release-data.outputs.version }}.${{ matrix.ext }}
           path: ${{ github.workspace }}/app/build/compose/binaries/main/${{ matrix.ext }}/*.${{ matrix.ext }}
           retention-days: 1
 
