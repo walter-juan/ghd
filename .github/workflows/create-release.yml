@@ -15,12 +15,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v4
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
       - name: Download artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@v4
         with:
           path: .downloads
       - name: Compress binaries
@@ -28,7 +28,7 @@ jobs:
           cd .downloads/artifact/
           find . '(' -type f -name "*.dmg" -o -name "*.exe" ')' -a -execdir zip '{}'.zip '{}' \;
       - name: Create release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.generate-release-data.outputs.tag }}
           name: ${{ steps.generate-release-data.outputs.name }}

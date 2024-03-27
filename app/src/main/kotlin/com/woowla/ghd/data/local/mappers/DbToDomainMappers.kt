@@ -1,4 +1,4 @@
-package com.woowla.ghd.domain.mappers
+package com.woowla.ghd.data.local.mappers
 
 import com.woowla.ghd.data.local.db.entities.DbPullRequest
 import com.woowla.ghd.data.local.db.entities.DbRelease
@@ -7,6 +7,8 @@ import com.woowla.ghd.data.local.db.entities.DbReview
 import com.woowla.ghd.data.local.db.entities.DbSyncResult
 import com.woowla.ghd.data.local.db.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.db.entities.DbSyncSettings
+import com.woowla.ghd.data.local.prop.AppProperties
+import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -19,6 +21,17 @@ import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.utils.enumValueOfOrDefault
+
+fun AppProperties.toAppSettings(): AppSettings {
+    return AppSettings(
+        darkTheme = darkTheme,
+        encryptedDatabase = encryptedDatabase,
+        newPullRequestsNotificationsEnabled = newPullRequestsNotificationsEnabled,
+        updatedPullRequestsNotificationsEnabled = updatedPullRequestsNotificationsEnabled,
+        newReleaseNotificationsEnabled = newReleaseNotificationsEnabled,
+        updatedReleaseNotificationsEnabled = updatedReleaseNotificationsEnabled
+    )
+}
 
 fun DbSyncSettings.toSyncSettings(): SyncSettings {
     return SyncSettings(
@@ -91,7 +104,6 @@ fun DbPullRequest.toPullRequest(): PullRequest {
         authorAvatarUrl = authorAvatarUrl,
         appSeenAt = appSeenAt,
         totalCommentsCount = totalCommentsCount,
-        repoToCheckId = repoToCheck.id.value,
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
         mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
         reviews = reviews.map { it.toReview() },
@@ -107,7 +119,8 @@ fun DbReview.toReview(): Review {
         state = enumValueOfOrDefault(state, ReviewState.UNKNOWN),
         authorLogin = authorLogin,
         authorUrl = authorUrl,
-        authorAvatarUrl = authorAvatarUrl
+        authorAvatarUrl = authorAvatarUrl,
+        pullRequestId = "",
     )
 }
 
@@ -121,7 +134,6 @@ fun DbRelease.toRelease(): Release {
         authorLogin = authorLogin,
         authorUrl = authorUrl,
         authorAvatarUrl = authorAvatarUrl,
-        repoToCheckId = repoToCheck.id.value,
         repoToCheck = repoToCheck.toRepoToCheck()
     )
 }

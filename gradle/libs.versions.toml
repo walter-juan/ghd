@@ -1,25 +1,25 @@
 [versions]
-kotlin = "1.9.20"
-apollo3 = "3.8.2"
-voyager = "1.0.0-rc09"
-kotest = "5.8.0"
-exposed = "0.44.1"
-ktor = "2.3.6"
+kotlin = "1.9.23"
+apollo3 = "3.8.3"
+voyager = "1.0.0"
+kotest = "5.8.1"
+exposed = "0.48.0"
+ktor = "2.3.9"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version = "1.5.10" }
+compose = { id = "org.jetbrains.compose", version = "1.6.1" }
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
-buildconfig = { id = "com.github.gmazzo.buildconfig", version = "4.1.2" }
-benmanesversions = { id = "com.github.ben-manes.versions", version = "0.49.0" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
+benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 
 [libraries]
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.7.3" }
+kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.0" }
 # date time kotlin lib
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.4.1" }
+kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.5.0" }
 # ktor http client (needed for kamel and some API requests)
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
@@ -28,28 +28,29 @@ ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serializatio
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
 # H2 database
-h2 = { group = "com.h2database", name = "h2", version = "2.2.220" }
+h2 = { group = "com.h2database", name = "h2", version = "2.2.224" }
 # Exposed ORM
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 # logger
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.4.11" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.5.3" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.2" }
 # kamel, media loading and caching (requires Ktor HttpClient)
 kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
 # navigation and view models
 voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-navigator-screenmodel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
 voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
 voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 # YAML support for kotlinx.serialization
-kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.55.0" }
+kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.58.0" }
 # Kotlin data class for Semantic Versioning 2.0.0 specification (SemVer)
-semver = { group = "net.swiftzer.semver", name = "semver", version = "1.3.0" }
+semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
 # Database migration, release notes https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html
-flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "10.0.0" }
+flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "10.10.0" }
 # state machine
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
 
@@ -62,10 +63,10 @@ test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-c
 # kotest assertions, kotlinx DateTime assertions
 test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
 # kotest property-based testing, kotlinx DateTime generators
-test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "1.1.0" }
+test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "2.0.0" }
 
 [bundles]
-voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions"]
+voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions", "voyager-navigator-screenmodel"]
 exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
 ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 

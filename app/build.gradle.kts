@@ -26,7 +26,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.4.0"
+version = "1.4.1"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -45,12 +45,12 @@ apollo {
 
 buildConfig {
     packageName("com.woowla.ghd")
-    buildConfigField("String", "APP_VERSION", provider { "\"${project.version}\"" })
-    buildConfigField("boolean", "DEBUG", provider { "$debug" })
-    buildConfigField("String", "DEBUG_APP_FOLDER", provider { "\"${debugAppFolder}\"" })
-    buildConfigField("String", "GH_GHD_OWNER", "\"walter-juan\"")
-    buildConfigField("String", "GH_GHD_REPO", "\"ghd\"")
-    buildConfigField("String", "GH_GHD_LATEST_RELEASE_URL", "\"https://github.com/walter-juan/ghd/releases/latest\"")
+    buildConfigField("APP_VERSION", project.version.toString())
+    buildConfigField("DEBUG", debug)
+    buildConfigField("DEBUG_APP_FOLDER", debugAppFolder)
+    buildConfigField("GH_GHD_OWNER", "walter-juan")
+    buildConfigField("GH_GHD_REPO", "ghd")
+    buildConfigField("GH_GHD_LATEST_RELEASE_URL", "https://github.com/walter-juan/ghd/releases/latest")
 }
 
 dependencies {

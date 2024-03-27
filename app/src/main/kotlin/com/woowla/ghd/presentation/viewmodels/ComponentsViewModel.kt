@@ -34,7 +34,6 @@ class ComponentsViewModel(
         authorAvatarUrl = null,
         appSeenAt = null,
         totalCommentsCount = null,
-        repoToCheckId = 8608,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
         mergeable = MergeableGitHubState.MERGEABLE,
         reviews = listOf(),
@@ -58,7 +57,6 @@ class ComponentsViewModel(
         authorLogin = "janine",
         authorUrl = null,
         authorAvatarUrl = null,
-        repoToCheckId = 9678,
         repoToCheck = RepoToCheck(
             id = 9154,
             owner = "hendrerit",

@@ -13,6 +13,7 @@ import org.flywaydb.core.Flyway
 import org.h2.jdbcx.JdbcDataSource
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.DatabaseConfig
+import org.jetbrains.exposed.sql.ExperimentalKeywordApi
 import org.jetbrains.exposed.sql.Transaction
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -34,8 +35,10 @@ object DbSettings {
     @Volatile private var INSTANCE: Database? = null
 
     val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    @OptIn(ExperimentalKeywordApi::class)
     private val dbConfig = DatabaseConfig {
         keepLoadedReferencesOutOfTransaction = true
+        preserveKeywordCasing = false
     }
 
     fun getDb(): Database = requireNotNull(INSTANCE) { "Not intialized database" }

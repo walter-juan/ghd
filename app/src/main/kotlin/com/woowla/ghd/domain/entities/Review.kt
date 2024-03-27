@@ -9,7 +9,8 @@ data class Review(
     val state: ReviewState,
     val authorLogin: String?,
     val authorUrl: String?,
-    val authorAvatarUrl: String?
+    val authorAvatarUrl: String?,
+    val pullRequestId: String,
 ): Comparable<Review> {
     companion object {
         val defaultComparator = compareByDescending<Review> { it.submittedAt }

@@ -82,7 +82,7 @@ object i18n {
     val screen_app_settings_github_field_show = "Show GitHub PAT token"
     val screen_app_settings_github_field_hide = "Hide GitHub PAT token"
     val screen_app_settings_github_token_item = "GitHub PAT token"
-    val screen_app_settings_github_token_item_description = "The minimum permissions for the PAT token are 'repo' (full). You can create a new PAT token from 'GitHub > Settings > Developer settings > Personal access tokens'"
+    val screen_app_settings_github_token_item_description = "The minimum permissions for the PAT token are 'repo' (full). You can create a new PAT token from 'GitHub > Settings > Developer settings > Personal access tokens > Tokens (classic)'"
     val screen_app_settings_repositories_item = "Repositories"
     val screen_app_settings_repositories_item_description: (Int) -> String = { "There are $it which will be checked every time for a new release or pull request status." }
     val screen_app_settings_checkout_timeout_item = "Refresh timeout"
