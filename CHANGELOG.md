@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.4.2]
+### Fixed
+- Trim data when import and before save to avoid errors
 
 ## [1.4.1]
 ### Changed

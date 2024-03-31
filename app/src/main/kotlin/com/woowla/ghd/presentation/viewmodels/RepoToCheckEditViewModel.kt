@@ -29,19 +29,19 @@ class RepoToCheckEditViewModel(
     val events: SharedFlow<Events> = _events
 
     fun ownerUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(owner = value)
+        _updateRequest.value = _updateRequest.value.copy(owner = value.trim())
     }
 
     fun nameUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(name = value)
+        _updateRequest.value = _updateRequest.value.copy(name = value.trim())
     }
 
     fun groupUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(groupName = value)
+        _updateRequest.value = _updateRequest.value.copy(groupName = value.trim())
     }
 
     fun branchRegexUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(pullBranchRegex = value)
+        _updateRequest.value = _updateRequest.value.copy(pullBranchRegex = value.trim())
     }
 
     fun arePullRequestsEnabledUpdated(value: Boolean) {

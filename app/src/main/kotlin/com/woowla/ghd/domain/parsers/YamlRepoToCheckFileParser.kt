@@ -12,10 +12,10 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         return result.repos.map { yamlRepo ->
             RepoToCheck(
                 id = RepoToCheckFileParser.ID,
-                owner = yamlRepo.owner,
-                name = yamlRepo.name,
-                groupName = yamlRepo.group,
-                pullBranchRegex = yamlRepo.pulls.branchRegexFilter,
+                owner = yamlRepo.owner.trim(),
+                name = yamlRepo.name.trim(),
+                groupName = yamlRepo.group?.trim(),
+                pullBranchRegex = yamlRepo.pulls.branchRegexFilter?.trim(),
                 arePullRequestsEnabled = yamlRepo.pulls.enabled ?: true,
                 areReleasesEnabled = yamlRepo.releases.enabled ?: true,
             )
