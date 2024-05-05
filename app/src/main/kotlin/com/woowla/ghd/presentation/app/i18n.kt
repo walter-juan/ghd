@@ -42,7 +42,7 @@ object i18n {
     val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
 
-    val status_bar_loading = ""
+    val status_bar_loading = "Loading..."
     val status_bar_error = "Error"
     val status_bar_synchronized_at_unknown = "Synchronized at unknown"
 
