@@ -14,7 +14,7 @@ kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization"
 # kapt, kotlin annotation processor tool
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 # Compose multiplatform
-compose = { id = "org.jetbrains.compose", version = "1.6.1" }
+compose = { id = "org.jetbrains.compose", version = "1.6.10-rc01" }
 # GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
