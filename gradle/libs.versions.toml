@@ -23,6 +23,9 @@ buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
 benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 
 [libraries]
+# Android multiplatform, navigation
+androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.8.0-alpha02" }
+androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.8.0-rc01" }
 # kotlin coroutines, needed because we are using the main dispatcher
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.0" }
 # date time kotlin lib
