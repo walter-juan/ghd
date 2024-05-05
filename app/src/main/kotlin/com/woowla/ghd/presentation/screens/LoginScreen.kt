@@ -11,7 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,11 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.woowla.compose.remixicon.RemixiconPainter
 import com.woowla.compose.remixicon.SystemEyeFill
 import com.woowla.compose.remixicon.SystemEyeOffFill
@@ -51,13 +47,15 @@ import com.woowla.ghd.presentation.decorators.ErrorMessageFactory
 import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import kotlinx.coroutines.launch
 
-class LoginScreen : Screen {
+object LoginScreen {
     @Composable
-    override fun Content() {
+    fun Content(
+        navController: NavController,
+        onAboutClick: () -> Unit,
+    ) {
         val systemDarkTheme = isSystemInDarkTheme()
         var darkTheme by remember { mutableStateOf(systemDarkTheme) }
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel = rememberScreenModel { LoginViewModel(navigator) }
+        val viewModel = viewModel { LoginViewModel(navController) }
         val loginState by viewModel.state.collectAsState()
 
         LaunchedEffect("login-app-theme") {
@@ -83,7 +81,7 @@ class LoginScreen : Screen {
                     }
                     is LoginViewModel.State.NonexistentDatabase -> {
                         loginDatabaseNoExists(
-                            navigator = navigator,
+                            onAboutClick = onAboutClick,
                             error = lockedLoginState.error,
                             onCreateNewDatabase = { encrypt, password ->
                                 viewModel.onCreateDatabase(encrypt, password)
@@ -93,7 +91,7 @@ class LoginScreen : Screen {
                     is LoginViewModel.State.LockedDatabase -> {
                         loginDatabaseAlreadyExists(
                             darkTheme = darkTheme,
-                            navigator = navigator,
+                            onAboutClick = onAboutClick,
                             isDbEncrypted = lockedLoginState.appSettings.encryptedDatabase,
                             error = lockedLoginState.error,
                             onUnlockDatabase = { password ->
@@ -110,7 +108,7 @@ class LoginScreen : Screen {
     }
 
     @Composable
-    private fun loginDatabaseNoExists(navigator: Navigator, error: Throwable? = null, onCreateNewDatabase: (encryt: Boolean, passsword: String?) -> Unit) {
+    private fun loginDatabaseNoExists(onAboutClick: () -> Unit, error: Throwable? = null, onCreateNewDatabase: (encryt: Boolean, passsword: String?) -> Unit) {
         var encryptDatabase by remember { mutableStateOf(false) }
         var passwordVisible by remember { mutableStateOf(false) }
         var password by remember { mutableStateOf("") }
@@ -179,9 +177,7 @@ class LoginScreen : Screen {
             }
             Column {
                 OutlinedButton(
-                    onClick = {
-                        navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
-                    },
+                    onClick = onAboutClick,
                 ) {
                     Text(i18n.screen_login_about_app_button)
                 }
@@ -190,7 +186,7 @@ class LoginScreen : Screen {
     }
 
     @Composable
-    private fun loginDatabaseAlreadyExists(darkTheme: Boolean, navigator: Navigator, isDbEncrypted: Boolean, error: Throwable? = null, onUnlockDatabase: (password: String?) -> Unit, onDeleteDatabase: () -> Unit) {
+    private fun loginDatabaseAlreadyExists(darkTheme: Boolean, onAboutClick: () -> Unit, isDbEncrypted: Boolean, error: Throwable? = null, onUnlockDatabase: (password: String?) -> Unit, onDeleteDatabase: () -> Unit) {
         var passwordVisible by remember { mutableStateOf(false) }
         var password by remember { mutableStateOf("") }
         val openConfirmRemoveDatabaseDialog = remember { mutableStateOf(false)  }
@@ -251,9 +247,7 @@ class LoginScreen : Screen {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 OutlinedButton(
-                    onClick = {
-                        navigator.push(AboutScreen(onBackClick = { navigator.pop() }))
-                    },
+                    onClick = onAboutClick,
                 ) {
                     Text(i18n.screen_login_about_app_button)
                 }

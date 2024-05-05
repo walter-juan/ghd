@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.SyncResult
@@ -18,7 +18,7 @@ class ReleasesViewModel(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
     private val appSettingsService: AppSettingsService = AppSettingsService(),
     private val releaseService: ReleaseService = ReleaseService()
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -26,10 +26,10 @@ class ReleasesViewModel(
 
     init {
         loadReleases()
-        EventBus.subscribe(this, screenModelScope, Event.SYNCHRONIZED) {
+        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             reload()
         }
-        EventBus.subscribe(this, screenModelScope, Event.SETTINGS_UPDATED) {
+        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
             reload()
         }
     }
@@ -39,7 +39,7 @@ class ReleasesViewModel(
     }
 
     private fun loadReleases() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val syncResult = synchronizer.getLastSyncResult().getOrNull()
             val appSettings = appSettingsService.get().getOrNull()
 

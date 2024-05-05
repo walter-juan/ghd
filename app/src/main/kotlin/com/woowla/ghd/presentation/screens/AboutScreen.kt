@@ -8,10 +8,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.app.AppDimens
@@ -19,15 +15,13 @@ import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import java.nio.file.Path
 
-class AboutScreen(
-    private val appDir: Path = AppFolderFactory.folder,
-    val onBackClick: (() -> Unit)? = null,
-) : Screen {
+object AboutScreen {
     @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val onComponentsSampleScreenClick = { navigator.push(ComponentsSampleScreen()) }
-
+    fun Content(
+        appDir: Path = AppFolderFactory.folder,
+        onBackClick: (() -> Unit)? = null,
+        onComponentsSampleScreenClick: (() -> Unit),
+    ) {
         ScreenScrollable(
             topBar = {
                 TopBar(

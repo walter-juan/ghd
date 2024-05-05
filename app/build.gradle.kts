@@ -71,7 +71,6 @@ dependencies {
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
     implementation(libs.kamel)
-    implementation(libs.bundles.voyager)
     implementation(libs.kaml)
     implementation(libs.semver)
     implementation(libs.flyway.core)

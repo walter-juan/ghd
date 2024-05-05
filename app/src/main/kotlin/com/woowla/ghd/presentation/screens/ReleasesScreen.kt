@@ -9,21 +9,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.ReleasesViewModel
 
-class ReleasesScreen : Screen {
+object ReleasesScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { ReleasesViewModel() }
-        val navigator = LocalNavigator.currentOrThrow
+    fun Content(onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit) {
+        val viewModel = viewModel { ReleasesViewModel() }
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is ReleasesViewModel.State.Initializing -> i18n.status_bar_loading
@@ -33,7 +30,7 @@ class ReleasesScreen : Screen {
         val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
             is ReleasesViewModel.State.Initializing -> null
             is ReleasesViewModel.State.Success -> {
-                state.syncResult?.let { { navigator.push(SyncResultEntriesScreen(syncResult = it)) } }
+                state.syncResult?.let { { onSyncResultEntriesClick.invoke(it) } }
             }
             is ReleasesViewModel.State.Error -> null
         }

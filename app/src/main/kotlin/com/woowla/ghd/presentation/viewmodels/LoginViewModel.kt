@@ -1,8 +1,8 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.tinder.StateMachine
 import com.woowla.ghd.data.local.db.DbSettings
 import com.woowla.ghd.domain.entities.AppSettings
@@ -10,7 +10,7 @@ import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event as EventBusEvent
 import com.woowla.ghd.eventbus.EventBus
-import com.woowla.ghd.presentation.screens.HomeScreen
+import com.woowla.ghd.presentation.app.AppScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,10 +20,10 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.TimeSource.Monotonic.markNow
 
 class LoginViewModel(
-    private val navigator: Navigator,
+    private val navController: NavController,
     private val dbSettings: DbSettings = DbSettings,
     private val appSettingsService: AppSettingsService = AppSettingsService(),
-) : ScreenModel {
+) : ViewModel() {
     companion object {
         private val MIN_LOADING_DURATION: Duration = 500.milliseconds
     }
@@ -76,7 +76,7 @@ class LoginViewModel(
     }
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val now = markNow()
             val appSettingsResult = appSettingsService.get()
             val databaseExists = dbSettings.dbExists()
@@ -107,7 +107,7 @@ class LoginViewModel(
     }
 
     private fun deleteDatabase() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val now = markNow()
             dbSettings.deleteDb()
             delay(MIN_LOADING_DURATION - now.elapsedNow())
@@ -117,7 +117,7 @@ class LoginViewModel(
     }
 
     private fun createDatabase(encrypt: Boolean, password: String?, appSettings: AppSettings) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val passwordToUse = if (encrypt) {
                 password
             } else {
@@ -141,7 +141,7 @@ class LoginViewModel(
     }
 
     private fun unlockDatabase(encrypted: Boolean, password: String?) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val passwordToUse = if (encrypted) {
                 password
             } else {
@@ -166,7 +166,9 @@ class LoginViewModel(
         dbSettings.initDb(filePassword = pwd)
         Synchronizer.INSTANCE.initialize()
         EventBus.publish(EventBusEvent.APP_UNLOCKED)
-        navigator.replaceAll(HomeScreen())
+        navController.navigate(AppScreen.Home.route) {
+            popUpTo(AppScreen.Login.route) { inclusive = true }
+        }
     }
 
     sealed class Event {

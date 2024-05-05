@@ -1,7 +1,6 @@
 [versions]
 kotlin = "1.9.23"
 apollo3 = "3.8.3"
-voyager = "1.0.0"
 kotest = "5.8.1"
 exposed = "0.49.0"
 ktor = "2.3.10"
@@ -50,11 +49,6 @@ logback-classic = { group = "ch.qos.logback", name = "logback-classic", version 
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.2" }
 # kamel, media loading and caching (requires Ktor HttpClient)
 kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
-# navigation and view models
-voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
-voyager-navigator-screenmodel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
-voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
-voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 # YAML support for kotlinx.serialization
 kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.59.0" }
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
@@ -76,7 +70,6 @@ test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-asse
 test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "2.0.0" }
 
 [bundles]
-voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions", "voyager-navigator-screenmodel"]
 exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
 ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 

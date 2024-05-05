@@ -11,10 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
@@ -22,11 +20,10 @@ import com.woowla.ghd.presentation.decorators.PullRequestStateDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.PullRequestsViewModel
 
-class PullRequestsScreen : Screen {
+object PullRequestsScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { PullRequestsViewModel() }
-        val navigator = LocalNavigator.currentOrThrow
+    fun Content(onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit) {
+        val viewModel = viewModel { PullRequestsViewModel() }
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is PullRequestsViewModel.State.Initializing -> i18n.status_bar_loading
@@ -36,7 +33,7 @@ class PullRequestsScreen : Screen {
         val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
             is PullRequestsViewModel.State.Initializing -> null
             is PullRequestsViewModel.State.Success -> {
-                state.syncResult?.let { { navigator.push(SyncResultEntriesScreen(syncResult = it)) } }
+                state.syncResult?.let { { onSyncResultEntriesClick.invoke(it) } }
             }
             is PullRequestsViewModel.State.Error -> null
         }

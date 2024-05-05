@@ -1,8 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
-import com.woowla.ghd.AppLogger
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
@@ -21,7 +20,7 @@ class PullRequestsViewModel(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
     private val appSettingsService: AppSettingsService = AppSettingsService(),
     private val pullRequestService: PullRequestService = PullRequestService(),
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -29,10 +28,10 @@ class PullRequestsViewModel(
 
     init {
         loadPulls()
-        EventBus.subscribe(this, screenModelScope, Event.SYNCHRONIZED) {
+        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             reload()
         }
-        EventBus.subscribe(this, screenModelScope, Event.SETTINGS_UPDATED) {
+        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
             reload()
         }
     }
@@ -42,7 +41,7 @@ class PullRequestsViewModel(
     }
 
     fun markAsSeen(pullRequest: PullRequest) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val appSeenAt = if (pullRequest.appSeen) {
                 null
             } else {
@@ -54,7 +53,7 @@ class PullRequestsViewModel(
     }
 
     private fun loadPulls() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val syncResult = synchronizer.getLastSyncResult().getOrNull()
             val appSettings = appSettingsService.get().getOrNull()
 

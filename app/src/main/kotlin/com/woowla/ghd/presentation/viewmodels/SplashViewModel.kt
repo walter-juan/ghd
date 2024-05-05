@@ -1,10 +1,10 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.woowla.ghd.AppFolderFactory
-import com.woowla.ghd.presentation.screens.LoginScreen
+import com.woowla.ghd.presentation.app.AppScreen
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SplashViewModel(
-    private val navigator: Navigator,
-) : ScreenModel {
+    private val navController: NavController,
+) : ViewModel() {
     companion object {
         private const val MIN_LOADING_TIME = 1200
     }
@@ -23,7 +23,7 @@ class SplashViewModel(
     val state: StateFlow<State> = _state
 
     init {
-        screenModelScope.launch {
+        viewModelScope.launch {
             _state.value = State.Started
             val timeMillis = measureTimeMillis {
                 AppFolderFactory.createFolder()
@@ -34,7 +34,9 @@ class SplashViewModel(
     }
 
     private fun navigateToLogin() {
-        navigator.replaceAll(LoginScreen())
+        navController.navigate(AppScreen.Login.route) {
+            popUpTo(AppScreen.Splash.route) { inclusive = true }
+        }
     }
 
     sealed class State {

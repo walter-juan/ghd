@@ -1,5 +1,7 @@
 package com.woowla.ghd.presentation.app
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -14,12 +16,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import cafe.adriel.voyager.navigator.Navigator
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.AppVersionService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
+import com.woowla.ghd.presentation.screens.AboutScreen
+import com.woowla.ghd.presentation.screens.ComponentsSampleScreen
+import com.woowla.ghd.presentation.screens.HomeScreen
+import com.woowla.ghd.presentation.screens.LoginScreen
 import com.woowla.ghd.presentation.screens.SplashScreen
 import com.woowla.ghd.utils.openWebpage
 import kotlinx.coroutines.launch
@@ -51,10 +59,40 @@ fun App() {
     }
 
     AppTheme(darkTheme = darkTheme) {
-        Row(
-            modifier = Modifier.fillMaxSize()
+        val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = AppScreen.Splash.route,
+            enterTransition = { EnterTransition.None },
+            exitTransition = { ExitTransition.None },
         ) {
-            Navigator(SplashScreen())
+            composable(AppScreen.Splash.route) {
+                SplashScreen.Content(navController)
+            }
+            composable(AppScreen.Login.route) {
+                LoginScreen.Content(
+                    navController = navController,
+                    onAboutClick = {
+                        navController.navigate(AppScreen.About.route)
+                    }
+                )
+            }
+            composable(AppScreen.About.route) {
+                AboutScreen.Content(
+                    onBackClick = { navController.popBackStack() },
+                    onComponentsSampleScreenClick = {
+                        navController.navigate(AppScreen.ComponentsSample.route)
+                    }
+                )
+            }
+            composable(AppScreen.ComponentsSample.route) {
+                ComponentsSampleScreen.Content(
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
+            composable(AppScreen.Home.route) {
+                HomeScreen.Content()
+            }
         }
 
         if (openNewAppVersionDialog.value) {

@@ -22,19 +22,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
 
-class SplashScreen : Screen {
+object SplashScreen {
     @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val viewModel = rememberScreenModel { SplashViewModel(navigator) }
+    fun Content(navController: NavController) {
+        val viewModel = viewModel { SplashViewModel(navController) }
         val splashState by viewModel.state.collectAsState()
         var visible by remember { mutableStateOf(false) }
         visible = when(splashState) {

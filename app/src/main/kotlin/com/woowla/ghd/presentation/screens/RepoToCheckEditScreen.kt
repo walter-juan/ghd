@@ -16,36 +16,23 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.remixicon.DeviceSave2Fill
 import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
 
-data class RepoToCheckEditScreen(
-    private val repoToCheck: RepoToCheck?,
-) : Screen {
-
+object RepoToCheckEditScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { RepoToCheckEditViewModel(repoToCheck = repoToCheck) }
-        val navigator = LocalNavigator.currentOrThrow
-        val onBackClick: (() -> Unit) = { navigator.pop() }
-
-        val updateRequestState = viewModel.updateRequest.collectAsState()
-
-        var owner by remember { mutableStateOf(updateRequestState.value.owner) }
-        var name by remember { mutableStateOf(updateRequestState.value.name) }
-        var releaseGroup by remember { mutableStateOf(updateRequestState.value.groupName ?: "") }
-        var branchRegex by remember { mutableStateOf(updateRequestState.value.pullBranchRegex ?: "") }
-        var arePullRequestsEnabled by remember { mutableStateOf(updateRequestState.value.arePullRequestsEnabled) }
-        var areReleasesEnabled by remember { mutableStateOf(updateRequestState.value.areReleasesEnabled) }
+    fun Content(
+        repoToCheckId: Long?,
+        onBackClick: () -> Unit
+    ) {
+        val viewModel = viewModel { RepoToCheckEditViewModel(repoToCheckId = repoToCheckId) }
+        val state = viewModel.state.collectAsState().value
 
         LaunchedEffect(key1 = Unit) {
             viewModel.events.collect { event ->
@@ -57,6 +44,49 @@ data class RepoToCheckEditScreen(
             }
         }
 
+        when(state) {
+            RepoToCheckEditViewModel.State.Initializing -> {
+                Loading(onBackClick = onBackClick)
+            }
+            is RepoToCheckEditViewModel.State.Error -> {
+                Text(i18n.generic_error)
+            }
+            is RepoToCheckEditViewModel.State.Success -> {
+                Success(
+                    updateRequestState = state.updateRequest,
+                    viewModel = viewModel,
+                    onBackClick = onBackClick
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun Loading(onBackClick: () -> Unit) {
+        ScreenScrollable(
+            topBar = {
+                TopBar(
+                    title = i18n.top_bar_title_repos_to_check_edit,
+                    subtitle = i18n.status_bar_loading,
+                    navOnClick = onBackClick,
+                )
+            }
+        ) { }
+    }
+
+    @Composable
+    private fun Success(
+        updateRequestState: UpsertRepoToCheckRequest,
+        viewModel: RepoToCheckEditViewModel,
+        onBackClick: () -> Unit
+    ) {
+        var owner by remember { mutableStateOf(updateRequestState.owner) }
+        var name by remember { mutableStateOf(updateRequestState.name) }
+        var releaseGroup by remember { mutableStateOf(updateRequestState.groupName ?: "") }
+        var branchRegex by remember { mutableStateOf(updateRequestState.pullBranchRegex ?: "") }
+        var arePullRequestsEnabled by remember { mutableStateOf(updateRequestState.arePullRequestsEnabled) }
+        var areReleasesEnabled by remember { mutableStateOf(updateRequestState.areReleasesEnabled) }
+
         ScreenScrollable(
             topBar = {
                 TopBar(
@@ -65,7 +95,16 @@ data class RepoToCheckEditScreen(
                     actions = {
                         OutlinedIconButton(
                             colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
-                            onClick = { viewModel.saveRepo() }
+                            onClick = {
+                                viewModel.saveRepo(
+                                    owner = owner,
+                                    name = name,
+                                    groupName = releaseGroup,
+                                    branchRegex = branchRegex,
+                                    arePullRequestsEnabled = arePullRequestsEnabled,
+                                    areReleasesEnabled = areReleasesEnabled,
+                                )
+                            }
                         ) {
                             Icon(
                                 RemixiconPainter.DeviceSave2Fill,
@@ -91,7 +130,6 @@ data class RepoToCheckEditScreen(
                             value = owner,
                             onValueChange = {
                                 owner = it
-                                viewModel.ownerUpdated(it)
                             },
                             label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
                             modifier = Modifier.weight(1f),
@@ -100,7 +138,6 @@ data class RepoToCheckEditScreen(
                             value = name,
                             onValueChange = {
                                 name = it
-                                viewModel.nameUpdated(it)
                             },
                             label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
                             modifier = Modifier.weight(1f),
@@ -117,7 +154,6 @@ data class RepoToCheckEditScreen(
                             value = releaseGroup,
                             onValueChange = {
                                 releaseGroup = it
-                                viewModel.groupUpdated(it)
                             },
                             label = { Text(text = i18n.screen_edit_repo_to_check_group_name_label) },
                         )
@@ -130,7 +166,6 @@ data class RepoToCheckEditScreen(
                         checked = arePullRequestsEnabled,
                         onCheckedChange = {
                             arePullRequestsEnabled = it
-                            viewModel.arePullRequestsEnabledUpdated(it)
                         },
                     )
 
@@ -142,7 +177,6 @@ data class RepoToCheckEditScreen(
                             value = branchRegex,
                             onValueChange = {
                                 branchRegex = it
-                                viewModel.branchRegexUpdated(it)
                             },
                             label = { Text(text = i18n.screen_edit_repo_to_check_href_branch_regex_label) },
                             modifier = Modifier.fillMaxWidth(),
@@ -157,7 +191,6 @@ data class RepoToCheckEditScreen(
                         checked = areReleasesEnabled,
                         onCheckedChange = {
                             areReleasesEnabled = it
-                            viewModel.areReleasesEnabledUpdated(it)
                         },
                     )
                 }
