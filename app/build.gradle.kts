@@ -19,10 +19,12 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.compose)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
+    alias(libs.plugins.androidx.room)
 }
 
 group = "com.woowla"
@@ -77,8 +79,15 @@ dependencies {
     implementation(libs.tinder.statemachine)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.sqlite.bundled)
 
     testImplementation(libs.bundles.test.kotest)
+}
+
+room {
+    schemaDirectory("${projectDir}/src/main/room/schemas")
 }
 
 compose.desktop {

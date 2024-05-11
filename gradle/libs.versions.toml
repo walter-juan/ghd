@@ -1,9 +1,13 @@
 [versions]
 kotlin = "1.9.23"
+ksp = "1.9.23-1.0.20"
 apollo3 = "3.8.3"
 kotest = "5.8.1"
 exposed = "0.49.0"
 ktor = "2.3.10"
+androidx-room = "2.7.0-alpha01"
+androidx-sqlite = "2.5.0-alpha01"
+#androidx-sqlite = "2.5.0-SNAPSHOT"
 
 [plugins]
 # Kotlin for JVM
@@ -12,6 +16,8 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 # kapt, kotlin annotation processor tool
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+# ksp, kotlin symbol processing
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Compose multiplatform
 compose = { id = "org.jetbrains.compose", version = "1.6.10-rc01" }
 # GraphQL client
@@ -20,11 +26,18 @@ apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
 # Discover dependency updates
 benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+# Android multiplatform, room
+androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
 # Android multiplatform, navigation
 androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.8.0-alpha02" }
+# Android multiplatform, viewmodel
 androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.8.0-rc01" }
+# Android multiplatform, room + sqlite
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.0" }
 # date time kotlin lib
