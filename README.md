@@ -3,7 +3,6 @@
 > Missing things: 
 >   - Store the PAT in a secure way
 >   - Relations, search for "TODO relations"
->   - Update directly, search for "TODO update"
 
 > ⚠️ This is a personal project created to solve a need and play with it, try some libraries, etc.
 >

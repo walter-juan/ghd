@@ -204,25 +204,6 @@ class LocalDataSource(
         }
     }
     suspend fun getAllReposToCheck(): Result<List<RepoToCheck>> {
-        // TODO remove
-//        val repoToCheckDao = appDatabase.repoToCheckDao()
-//        if (repoToCheckDao.getAll().isEmpty()) {
-//            val a = newDbSuspendedTransaction {
-//                DbRepoToCheck.all().toList().map { it.toRepoToCheck() }
-//            }
-//            repoToCheckDao.insert(a.map {
-//                DbRepoToCheck(
-//                    id = it.id,
-//                    owner = it.owner,
-//                    name = it.name,
-//                    groupName = it.groupName,
-//                    pullBranchRegex = it.pullBranchRegex,
-//                    arePullRequestsEnabled = it.arePullRequestsEnabled,
-//                    areReleasesEnabled = it.areReleasesEnabled,
-//                )
-//            })
-//        }
-
         return runCatching {
             appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
         }
