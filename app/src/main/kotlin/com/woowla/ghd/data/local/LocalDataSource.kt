@@ -281,11 +281,8 @@ class LocalDataSource(
         }
     }
     suspend fun updateAppSeenAt(id: String, appSeenAt: Instant?): Result<Unit> {
-        // TODO update, update seen directly without retrieving first
         return runCatching {
-            val pullRequestDao = appDatabase.pullRequestDao()
-            val dbPullRequest = pullRequestDao.get(id)
-            pullRequestDao.insert(dbPullRequest.copy(appSeenAt = appSeenAt))
+            appDatabase.pullRequestDao().updateSeenAt(id = id, appSeenAt = appSeenAt)
         }
     }
     suspend fun upsertPullRequests(pullRequests: List<PullRequest>): Result<Unit> {

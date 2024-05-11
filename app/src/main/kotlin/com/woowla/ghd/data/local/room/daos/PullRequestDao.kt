@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbReview
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.Instant
 
 @Dao
 interface PullRequestDao {
@@ -17,6 +18,9 @@ interface PullRequestDao {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(dbPullRequestList: List<DbPullRequest>)
+
+    @Query("UPDATE pull_request SET app_seen_at = :appSeenAt WHERE id = :id")
+    suspend fun updateSeenAt(id: String, appSeenAt: Instant?)
 
     @Transaction
     @Query("SELECT * FROM pull_request")
