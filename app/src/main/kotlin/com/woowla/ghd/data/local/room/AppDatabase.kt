@@ -7,6 +7,7 @@ import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.data.local.room.converters.Converters
+import com.woowla.ghd.data.local.room.daos.DatabaseDao
 import com.woowla.ghd.data.local.room.daos.PullRequestDao
 import com.woowla.ghd.data.local.room.daos.ReleaseDao
 import com.woowla.ghd.data.local.room.daos.RepoToCheckDao
@@ -57,6 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
+    abstract fun databaseDao(): DatabaseDao
     abstract fun pullRequestDao(): PullRequestDao
     abstract fun releaseDao(): ReleaseDao
     abstract fun repoToCheckDao(): RepoToCheckDao
