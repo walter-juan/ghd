@@ -1,13 +1,13 @@
 package com.woowla.ghd.data.local.mappers
 
-import com.woowla.ghd.data.local.db.entities.DbPullRequest
-import com.woowla.ghd.data.local.db.entities.DbRelease
-import com.woowla.ghd.data.local.db.entities.DbRepoToCheck
-import com.woowla.ghd.data.local.db.entities.DbReview
-import com.woowla.ghd.data.local.db.entities.DbSyncResult
-import com.woowla.ghd.data.local.db.entities.DbSyncResultEntry
-import com.woowla.ghd.data.local.db.entities.DbSyncSettings
 import com.woowla.ghd.data.local.prop.AppProperties
+import com.woowla.ghd.data.local.room.entities.DbPullRequest
+import com.woowla.ghd.data.local.room.entities.DbRelease
+import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
+import com.woowla.ghd.data.local.room.entities.DbReview
+import com.woowla.ghd.data.local.room.entities.DbSyncResult
+import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
+import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -41,42 +41,76 @@ fun DbSyncSettings.toSyncSettings(): SyncSettings {
     )
 }
 
-fun DbSyncResult.toSyncResult(): SyncResult {
+// TODO relations
+//fun DbSyncResultWithEntriesAndRepos.toSyncResult(): SyncResult {
+//    return SyncResult(
+//        id = dbSyncResult.id,
+//        startAt = dbSyncResult.startAt,
+//        endAt = dbSyncResult.endAt,
+//        entries = dbSyncResultEntries.map { it.toSyncResultEntry() }
+//    )
+//}
+fun DbSyncResult.toSyncResult(syncResultEntryList: List<SyncResultEntry>): SyncResult {
     return SyncResult(
-        id = id.value,
-        startAt = startAt,
-        endAt = endAt,
-        entries = entries.map { it.toSyncResultEntry() }
+        id = this.id,
+        startAt = this.startAt,
+        endAt = this.endAt,
+        entries = syncResultEntryList
     )
 }
 
-fun DbSyncResultEntry.toSyncResultEntry(): SyncResultEntry {
+// TODO relations
+//fun DbSyncResultEntryWithRepoToCheck.toSyncResultEntry(): SyncResultEntry {
+//    return if (dbSyncResultEntry.isSuccess) {
+//        SyncResultEntry.Success(
+//            id = dbSyncResultEntry.id,
+//            syncResultId = dbSyncResultEntry.syncResultId,
+//            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
+//            startAt = dbSyncResultEntry.startAt,
+//            endAt = dbSyncResultEntry.endAt,
+//            origin = enumValueOfOrDefault(dbSyncResultEntry.origin, SyncResultEntry.Origin.UNKNOWN),
+//        )
+//    } else {
+//        SyncResultEntry.Error(
+//            id = dbSyncResultEntry.id,
+//            syncResultId = dbSyncResultEntry.syncResultId,
+//            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
+//            startAt = dbSyncResultEntry.startAt,
+//            endAt = dbSyncResultEntry.endAt,
+//            origin = enumValueOfOrDefault(dbSyncResultEntry.origin, SyncResultEntry.Origin.UNKNOWN),
+//            error = dbSyncResultEntry.error,
+//            errorMessage = dbSyncResultEntry.errorMessage,
+//        )
+//    }
+//}
+fun DbSyncResultEntry.toSyncResultEntry(dbRepoToCheckList: List<DbRepoToCheck>): SyncResultEntry {
+    val dbRepoToCheck = this.repoToCheckId?.let { id -> dbRepoToCheckList.firstOrNull { it.id == id } }
     return if (this.isSuccess) {
         SyncResultEntry.Success(
-            id = id.value,
-            syncResultId = syncResultId.value,
-            repoToCheck = repoToCheck?.toRepoToCheck(),
-            startAt = startAt,
-            endAt = endAt,
-            origin = enumValueOfOrDefault(origin, SyncResultEntry.Origin.UNKNOWN),
+            id = this.id,
+            syncResultId = this.syncResultId,
+            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
+            startAt = this.startAt,
+            endAt = this.endAt,
+            origin = enumValueOfOrDefault(this.origin, SyncResultEntry.Origin.UNKNOWN),
         )
     } else {
         SyncResultEntry.Error(
-            id = id.value,
-            syncResultId = syncResultId.value,
-            repoToCheck = repoToCheck?.toRepoToCheck(),
-            startAt = startAt,
-            endAt = endAt,
-            origin = enumValueOfOrDefault(origin, SyncResultEntry.Origin.UNKNOWN),
-            error = error,
-            errorMessage = errorMessage,
+            id = this.id,
+            syncResultId = this.syncResultId,
+            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
+            startAt = this.startAt,
+            endAt = this.endAt,
+            origin = enumValueOfOrDefault(this.origin, SyncResultEntry.Origin.UNKNOWN),
+            error = this.error,
+            errorMessage = this.errorMessage,
         )
     }
 }
 
 fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
     return RepoToCheck(
-        id = id.value,
+        id = id,
         owner = owner,
         name = name,
         groupName = groupName,
@@ -86,9 +120,11 @@ fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
     )
 }
 
-fun DbPullRequest.toPullRequest(): PullRequest {
+fun DbPullRequest.toPullRequest(dbRepoToCheckList: List<DbRepoToCheck>, dbReviewList: List<DbReview>): PullRequest {
+    val dbRepoToCheck = dbRepoToCheckList.first { it.id == this.repoToCheckId }
+
     return PullRequest(
-        id = id.value,
+        id = id,
         number = number,
         url = url,
         state = enumValueOfOrDefault(state, PullRequestState.UNKNOWN),
@@ -99,42 +135,43 @@ fun DbPullRequest.toPullRequest(): PullRequest {
         isDraft = isDraft,
         baseRef = baseRef,
         headRef = headRef,
-        authorLogin = authorLogin,
-        authorUrl = authorUrl,
-        authorAvatarUrl = authorAvatarUrl,
+        authorLogin = author?.login,
+        authorUrl = author?.url,
+        authorAvatarUrl = author?.avatarUrl,
         appSeenAt = appSeenAt,
         totalCommentsCount = totalCommentsCount,
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
         mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
-        reviews = reviews.map { it.toReview() },
-        repoToCheck = repoToCheck.toRepoToCheck()
+        reviews = dbReviewList.map { it.toReview() },
+        repoToCheck = dbRepoToCheck.toRepoToCheck()
     )
 }
 
 fun DbReview.toReview(): Review {
     return Review(
-        id = id.value,
+        id = id,
         url = url,
         submittedAt = submittedAt,
         state = enumValueOfOrDefault(state, ReviewState.UNKNOWN),
-        authorLogin = authorLogin,
-        authorUrl = authorUrl,
-        authorAvatarUrl = authorAvatarUrl,
+        authorLogin = author?.login,
+        authorUrl = author?.url,
+        authorAvatarUrl = author?.avatarUrl,
         pullRequestId = "",
     )
 }
 
-fun DbRelease.toRelease(): Release {
+fun DbRelease.toRelease(dbRepoToCheckList: List<DbRepoToCheck>): Release {
+    val dbRepoToCheck = dbRepoToCheckList.first { it.id == this.repoToCheckId }
     return Release(
-        id = id.value,
+        id = id,
         name = name,
         tagName = tagName,
         url = url,
         publishedAt = publishedAt,
-        authorLogin = authorLogin,
-        authorUrl = authorUrl,
-        authorAvatarUrl = authorAvatarUrl,
-        repoToCheck = repoToCheck.toRepoToCheck()
+        authorLogin = author?.login,
+        authorUrl = author?.url,
+        authorAvatarUrl = author?.avatarUrl,
+        repoToCheck = dbRepoToCheck.toRepoToCheck()
     )
 }
 
