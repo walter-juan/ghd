@@ -1,3 +1,6 @@
+> [!CAUTION]
+> Work In Progress branch, migrating to Compose navigation, view models and room
+> Missing things: 
 
 > ⚠️ This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
