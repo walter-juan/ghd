@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
 import androidx.navigation.compose.NavHost
@@ -112,7 +112,7 @@ fun App() {
 
 @Composable
 private fun newAppVersionDialog(darkTheme: Boolean, newVersion: String, onCloseRequest: () -> Unit, onDownloadClick: () -> Unit, onDiscardClick: () -> Unit, ) {
-    Dialog(
+    DialogWindow(
         title = i18n.dialog_new_app_version_title,
         onCloseRequest = onCloseRequest,
         state = rememberDialogState(position = WindowPosition(Alignment.Center)),
