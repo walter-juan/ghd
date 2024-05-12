@@ -1,19 +1,20 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    date (3.3.3)
-    json (2.6.3)
+    date (3.3.4)
+    json (2.7.2)
     open-uri (0.3.0)
       stringio
       time
       uri
     rubyzip (2.3.2)
-    stringio (3.0.8)
-    time (0.2.2)
+    stringio (3.1.0)
+    time (0.3.0)
       date
     uri (0.12.2)
 
 PLATFORMS
+  arm64-darwin-22
   x64-mingw-ucrt
   x86_64-darwin-20
 
