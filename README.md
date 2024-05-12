@@ -125,10 +125,6 @@ The folder `scripts` contains some scripts in Ruby:
     ```shell
     cd scripts
     ```
-- Download remixicon
-    ```shell
-    bundle exec ruby remixicon-download.rb
-    ```
 - Download tabler icons
     ```shell
     bundle exec ruby tabler-icons-download.rb
@@ -162,7 +158,6 @@ The folder `scripts` contains some scripts in Ruby:
   - [Gurupreet/ComposeSpotifyDesktop](https://github.com/Gurupreet/ComposeSpotifyDesktop)
 - Icons
   - [Tabler](https://tabler.io/icons), [Tabler GitHub](https://github.com/tabler/tabler-icons)
-  - [Remix icon](https://remixicon.com/), [Remix icon GitHub](https://github.com/Remix-Design/remixicon/)
   - [Google material icons](https://fonts.google.com/icons)
 - Colors
   - More or less all of them should be in [MaterialColors](app/src/main/kotlin/com/woowla/ghd/utils/MaterialColors.kt)

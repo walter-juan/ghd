@@ -56,7 +56,6 @@ buildConfig {
 }
 
 dependencies {
-    implementation(project(":icons:remixicon"))
     implementation(project(":icons:tabler"))
 
     implementation(compose.desktop.currentOs)
