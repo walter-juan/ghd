@@ -132,24 +132,6 @@ The folder `scripts` contains some scripts in Ruby:
     bundle exec ruby remixicon-download.rb
     ```
 
-# Database
-
-The database used in this project is [H2](https://www.h2database.com/) because of encryption support + embedded. As the database is encrypted a user and password is required, you can find it in [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt).
-
-**H2 Commands**
-
-- [`SCRIPT`](https://www.h2database.com/html/commands.html#script): Creates a SQL script from the database.
-
-**H2 Console**
-
-For more detailed information follow [the tutorial from H2](https://www.h2database.com/html/tutorial.html).
-
-1. Download H2 console app:
-   - The `Platform-Independent Zip` from [the website](https://www.h2database.com/html/download.html)
-   - Or `h2-<version>.jar` from [the GitHub releases](https://github.com/h2database/h2database/releases)
-2. From terminal run the h2 `$ java -jar h2*.jar` and the web browser will be opened.
-3. In the [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt) you can find all the data required like the URL, driver, user and password
-
 # Links
 - GitHub
   - [GitHub Actions runner images](https://github.com/actions/runner-images)

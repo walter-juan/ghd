@@ -67,8 +67,6 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.bundles.ktor.client)
     implementation(libs.apollo3)
-    implementation(libs.h2)
-    implementation(libs.bundles.exposed)
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
