@@ -1,12 +1,14 @@
-> [!CAUTION]
-> Work In Progress branch, migrating to Compose navigation, view models and room
-> Missing things: 
->   - Store the PAT in a secure way
->   - Relations, search for "TODO relations"
-
-> ⚠️ This is a personal project created to solve a need and play with it, try some libraries, etc.
+> [!NOTE]
+> This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
 > That said, **I'm not responsible if one day the app stops working** or doesn't work properly and you need to re-install it. **This should not happen**, but if a re-installation is needed it will be written in the release notes.
+
+> [!CAUTION]
+> Migrated to Compose navigation, view models and Room KMP with non-final versions it could be unstable
+> 
+> Things to solve in a future:
+>   - [ ] Whole database encryption removed, PAT will be stored as plain text
+>   - [ ] Relations with [Intermediate data class](https://developer.android.com/training/data-storage/room/relationships#data-class), seems not to be working (search for `TODO relations`)
 
 # GHD
 
