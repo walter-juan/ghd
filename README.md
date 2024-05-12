@@ -125,10 +125,6 @@ The folder `scripts` contains some scripts in Ruby:
     ```shell
     cd scripts
     ```
-- Download octicons
-    ```shell
-    bundle exec ruby octicons-download.rb
-    ```
 - Download remixicon
     ```shell
     bundle exec ruby remixicon-download.rb
@@ -166,7 +162,6 @@ The folder `scripts` contains some scripts in Ruby:
   - [Gurupreet/ComposeSpotifyDesktop](https://github.com/Gurupreet/ComposeSpotifyDesktop)
 - Icons
   - [Tabler](https://tabler.io/icons), [Tabler GitHub](https://github.com/tabler/tabler-icons)
-  - [Octicons](https://primer.style/octicons/), [Octicons GitHub](https://github.com/primer/octicons/)
   - [Remix icon](https://remixicon.com/), [Remix icon GitHub](https://github.com/Remix-Design/remixicon/)
   - [Google material icons](https://fonts.google.com/icons)
 - Colors

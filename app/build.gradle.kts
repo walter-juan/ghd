@@ -56,7 +56,6 @@ buildConfig {
 }
 
 dependencies {
-    implementation(project(":icons:octicons"))
     implementation(project(":icons:remixicon"))
     implementation(project(":icons:tabler"))
 

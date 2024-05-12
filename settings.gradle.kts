@@ -10,6 +10,5 @@ pluginManagement {
 
 rootProject.name = "ghd"
 include("app")
-include("icons:octicons")
 include("icons:remixicon")
 include("icons:tabler")
