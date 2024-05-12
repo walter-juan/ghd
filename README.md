@@ -133,6 +133,10 @@ The folder `scripts` contains some scripts in Ruby:
     ```shell
     bundle exec ruby remixicon-download.rb
     ```
+- Download tabler icons
+    ```shell
+    bundle exec ruby tabler-icons-download.rb
+    ```
 
 # Links
 - GitHub
@@ -161,6 +165,7 @@ The folder `scripts` contains some scripts in Ruby:
   - [Gurupreet/ComposeCookBook](https://github.com/Gurupreet/ComposeCookBook)
   - [Gurupreet/ComposeSpotifyDesktop](https://github.com/Gurupreet/ComposeSpotifyDesktop)
 - Icons
+  - [Tabler](https://tabler.io/icons), [Tabler GitHub](https://github.com/tabler/tabler-icons)
   - [Octicons](https://primer.style/octicons/), [Octicons GitHub](https://github.com/primer/octicons/)
   - [Remix icon](https://remixicon.com/), [Remix icon GitHub](https://github.com/Remix-Design/remixicon/)
   - [Google material icons](https://fonts.google.com/icons)

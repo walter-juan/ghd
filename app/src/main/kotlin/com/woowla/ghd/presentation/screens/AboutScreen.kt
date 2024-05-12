@@ -53,7 +53,7 @@ object AboutScreen {
                     SelectionContainer {
                         SectionItem(
                             title = "Icons",
-                            description = "The icons used are Primer Octicons (https://github.com/primer/octicons) and Remix Icon (https://github.com/Remix-Design/remixicon)"
+                            description = "The icons used are Primer Octicons (https://github.com/primer/octicons), Remix Icon (https://github.com/Remix-Design/remixicon) and Tabler (https://github.com/tabler/tabler-icons)"
                         )
                     }
                 }

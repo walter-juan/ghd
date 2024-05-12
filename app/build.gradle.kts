@@ -58,6 +58,7 @@ buildConfig {
 dependencies {
     implementation(project(":icons:octicons"))
     implementation(project(":icons:remixicon"))
+    implementation(project(":icons:tabler"))
 
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
