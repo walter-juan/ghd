@@ -25,7 +25,6 @@ import com.woowla.ghd.utils.enumValueOfOrDefault
 fun AppProperties.toAppSettings(): AppSettings {
     return AppSettings(
         darkTheme = darkTheme,
-        encryptedDatabase = encryptedDatabase,
         newPullRequestsNotificationsEnabled = newPullRequestsNotificationsEnabled,
         updatedPullRequestsNotificationsEnabled = updatedPullRequestsNotificationsEnabled,
         newReleaseNotificationsEnabled = newReleaseNotificationsEnabled,

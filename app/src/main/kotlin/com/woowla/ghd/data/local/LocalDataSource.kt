@@ -44,7 +44,6 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
-            appProperties.encryptedDatabase = appSettings.encryptedDatabase
             appProperties.newPullRequestsNotificationsEnabled = appSettings.newPullRequestsNotificationsEnabled
             appProperties.updatedPullRequestsNotificationsEnabled = appSettings.updatedPullRequestsNotificationsEnabled
             appProperties.newReleaseNotificationsEnabled = appSettings.newReleaseNotificationsEnabled
