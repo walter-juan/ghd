@@ -1,11 +1,11 @@
 package com.woowla.ghd.presentation.app
 
-import com.woowla.compose.remixicon.BusinessArchiveLine
-import com.woowla.compose.remixicon.DevelopmentGitPullRequestLine
-import com.woowla.compose.remixicon.DevelopmentGitRepositoryLine
-import com.woowla.compose.remixicon.RemixiconRes
-import com.woowla.compose.remixicon.SystemInformationLine
-import com.woowla.compose.remixicon.SystemSettings3Line
+import com.woowla.compose.tabler.OutlineBrandGithub
+import com.woowla.compose.tabler.OutlineGitPullRequest
+import com.woowla.compose.tabler.OutlineInfoCircle
+import com.woowla.compose.tabler.OutlinePackage
+import com.woowla.compose.tabler.OutlineSettings
+import com.woowla.compose.tabler.TablerIconsRes
 
 interface NavigationScreen {
     val icon: String
@@ -17,23 +17,23 @@ sealed class AppScreen(open val route: String) {
     data object Home : AppScreen(route = "home")
 
     data object PullRequestList : AppScreen(route = "pull-request"), NavigationScreen {
-        override val icon: String = RemixiconRes.DevelopmentGitPullRequestLine
+        override val icon: String = TablerIconsRes.OutlineGitPullRequest
         override val title: String = i18n.tab_title_pull_requests
     }
     data object ReleaseList : AppScreen(route = "release"), NavigationScreen {
-        override val icon: String = RemixiconRes.BusinessArchiveLine
+        override val icon: String = TablerIconsRes.OutlinePackage
         override val title: String = i18n.tab_title_releases
     }
     data object RepoToCheckList : AppScreen(route = "repo-to-check"), NavigationScreen {
-        override val icon: String = RemixiconRes.DevelopmentGitRepositoryLine
+        override val icon: String = TablerIconsRes.OutlineBrandGithub
         override val title: String = i18n.tab_title_repos_to_check
     }
     data object Settings : AppScreen(route = "settings"), NavigationScreen {
-        override val icon: String = RemixiconRes.SystemSettings3Line
+        override val icon: String = TablerIconsRes.OutlineSettings
         override val title: String = i18n.tab_title_settings
     }
     data object About : AppScreen(route = "about"), NavigationScreen {
-        override val icon: String = RemixiconRes.SystemInformationLine
+        override val icon: String = TablerIconsRes.OutlineInfoCircle
         override val title: String = i18n.tab_title_about
     }
 

@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.remixicon.BuildingsBankFill
-import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.tabler.OutlineBuildingBank
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -324,8 +324,9 @@ object ComponentsSampleScreen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = RemixiconPainter.BuildingsBankFill,
+                        painter = TablerIconsPainter.OutlineBuildingBank,
                         contentDescription = null,
+                        tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
                     )
                 }
@@ -339,8 +340,9 @@ object ComponentsSampleScreen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = RemixiconPainter.BuildingsBankFill,
+                        painter = TablerIconsPainter.OutlineBuildingBank,
                         contentDescription = null,
+                        tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
                     )
                 }

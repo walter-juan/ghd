@@ -13,11 +13,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.remixicon.DocumentFileDownloadLine
-import com.woowla.compose.remixicon.DocumentFileUploadLine
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemAddLine
-import com.woowla.compose.remixicon.SystemInformationLine
+import com.woowla.compose.tabler.OutlineFileDownload
+import com.woowla.compose.tabler.OutlineFileUpload
+import com.woowla.compose.tabler.OutlineInfoCircle
+import com.woowla.compose.tabler.OutlinePlus
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -76,7 +76,7 @@ object RepoToCheckScreen {
                                 description = i18n.screen_repos_to_check_add_new_repository_item_description,
                             ) {
                                 Button(onClick = { onAddNewRepoClick.invoke() }) {
-                                    Icon(painter = RemixiconPainter.SystemAddLine, contentDescription = null, modifier = Modifier.size(20.dp))
+                                    Icon(painter = TablerIconsPainter.OutlinePlus, contentDescription = null, modifier = Modifier.size(20.dp))
                                 }
                             }
                             SectionItem(
@@ -87,7 +87,7 @@ object RepoToCheckScreen {
                                     Button(onClick = onBulkExampleClick) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.SystemInformationLine,
+                                                painter = TablerIconsPainter.OutlineInfoCircle,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -99,7 +99,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkImportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.DocumentFileUploadLine,
+                                                painter = TablerIconsPainter.OutlineFileUpload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -111,7 +111,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkExportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.DocumentFileDownloadLine,
+                                                painter = TablerIconsPainter.OutlineFileDownload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )

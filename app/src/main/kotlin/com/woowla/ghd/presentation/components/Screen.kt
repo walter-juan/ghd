@@ -22,8 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.remixicon.ArrowsArrowLeftLine
-import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.tabler.OutlineArrowLeft
+import com.woowla.compose.tabler.OutlineArrowNarrowLeft
+import com.woowla.compose.tabler.OutlineChevronCompactLeft
+import com.woowla.compose.tabler.OutlineChevronLeft
+import com.woowla.compose.tabler.OutlineCircleChevronLeft
+import com.woowla.compose.tabler.OutlineSquareChevronLeft
+import com.woowla.compose.tabler.OutlineSquareRoundedChevronLeft
+import com.woowla.compose.tabler.TablerIconsPainter
 
 @Composable
 fun ScreenScrollable(
@@ -88,11 +94,18 @@ fun TopBar(
     title: String,
     subtitle: String? = null,
     subtitleOnClick: (() -> Unit)? = null,
-    navImagePainter: Painter = RemixiconPainter.ArrowsArrowLeftLine,
+    navImagePainter: Painter = TablerIconsPainter.OutlineChevronLeft,
     navContentDescription: String? = null,
     navOnClick: (() -> Unit)? = null,
     actions: @Composable @ExtensionFunctionType RowScope.() -> Unit = {},
 ) {
+    TablerIconsPainter.OutlineArrowNarrowLeft
+    TablerIconsPainter.OutlineArrowLeft
+    TablerIconsPainter.OutlineCircleChevronLeft // this
+    TablerIconsPainter.OutlineChevronLeft // this +
+    TablerIconsPainter.OutlineChevronCompactLeft
+    TablerIconsPainter.OutlineSquareRoundedChevronLeft // this +
+    TablerIconsPainter.OutlineSquareChevronLeft
     TopAppBar(
         title = {
             Column {
@@ -107,11 +120,15 @@ fun TopBar(
             }
         },
         navigationIcon = {
-            if (navOnClick != null) {
-                IconButton(onClick = navOnClick) {
-                    Icon(navImagePainter, navContentDescription, Modifier.size(25.dp))
+                if (navOnClick != null) {
+                    IconButton(onClick = navOnClick) {
+                        Icon(navImagePainter, navContentDescription, Modifier.size(25.dp))
+                    }
+                } else {
+                    IconButton(onClick = {}, enabled = false) {
+                        Box(modifier = Modifier.size(25.dp)) {}
+                    }
                 }
-            }
         },
         actions = actions,
     )

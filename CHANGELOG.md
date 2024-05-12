@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replace Exposed for Room multiplatform
 - Replace Voyager for ViewModel and Jetpack Navigation multiplatform
 - Replace [Octicons](https://github.com/primer/octicons/) for [Tabler](https://github.com/tabler/tabler-icons) icons
+- Replace [Remix](https://github.com/Remix-Design/remixicon/) for [Tabler](https://github.com/tabler/tabler-icons) icons
 ### Security
 - 😔 Database encryption removed, everything stored as plain text
 

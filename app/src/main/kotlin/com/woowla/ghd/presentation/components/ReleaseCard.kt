@@ -18,8 +18,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemTimeLine
+import com.woowla.compose.tabler.OutlineClock
 import com.woowla.compose.tabler.OutlineTag
 import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.Release
@@ -86,7 +85,7 @@ fun ReleaseCard(release: Release) {
                 },
             )
             Spacer(modifier = Modifier.padding(vertical = 2.dp))
-            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = RemixiconPainter.SystemTimeLine)
+            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = TablerIconsPainter.OutlineClock)
         }
     )
 }

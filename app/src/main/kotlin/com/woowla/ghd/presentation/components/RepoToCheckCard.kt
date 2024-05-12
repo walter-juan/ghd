@@ -18,9 +18,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.remixicon.EditorListUnordered
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemDeleteBinLine
+import com.woowla.compose.tabler.OutlineList
+import com.woowla.compose.tabler.OutlineTrash
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
@@ -47,7 +47,7 @@ fun RepoToCheckCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Unit
                     modifier = Modifier.height(30.dp),
                     trailingIcon = {
                         Icon(
-                            painter = RemixiconPainter.SystemDeleteBinLine,
+                            painter = TablerIconsPainter.OutlineTrash,
                             contentDescription = null,
                             modifier = Modifier.padding(vertical = 5.dp)
                         )
@@ -70,7 +70,7 @@ fun RepoToCheckCard(repoToCheck: RepoToCheck, onEditClick: (RepoToCheck) -> Unit
                         append(repoToCheck.groupName)
                     }
                 },
-                icon = RemixiconPainter.EditorListUnordered
+                icon = TablerIconsPainter.OutlineList
             )
             IconCardRowSmallContent(text = repoToCheckDecorator.enabledFeatures)
         }

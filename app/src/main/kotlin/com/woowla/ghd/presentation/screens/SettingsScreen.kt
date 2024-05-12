@@ -35,10 +35,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.remixicon.DeviceSave2Fill
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemEyeFill
-import com.woowla.compose.remixicon.SystemEyeOffFill
+import com.woowla.compose.tabler.FilledEye
+import com.woowla.compose.tabler.OutlineDeviceFloppy
+import com.woowla.compose.tabler.OutlineEye
+import com.woowla.compose.tabler.OutlineEyeClosed
+import com.woowla.compose.tabler.OutlineEyeOff
+import com.woowla.compose.tabler.OutlineEyeglassOff
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -76,7 +79,7 @@ object SettingsScreen {
                             onClick = { viewModel.saveSettings() }
                         ) {
                             Icon(
-                                RemixiconPainter.DeviceSave2Fill,
+                                TablerIconsPainter.OutlineDeviceFloppy,
                                 contentDescription = i18n.screen_app_settings_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
@@ -134,9 +137,9 @@ object SettingsScreen {
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                                         trailingIcon = {
                                             val image = if (passwordVisible) {
-                                                RemixiconPainter.SystemEyeFill
+                                                TablerIconsPainter.OutlineEyeOff
                                             } else {
-                                                RemixiconPainter.SystemEyeOffFill
+                                                TablerIconsPainter.OutlineEye
                                             }
                                             val description = if (passwordVisible) {
                                                 i18n.screen_app_settings_github_field_hide

@@ -17,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.remixicon.DeviceSave2Fill
-import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.tabler.OutlineDeviceFloppy
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -107,7 +107,7 @@ object RepoToCheckEditScreen {
                             }
                         ) {
                             Icon(
-                                RemixiconPainter.DeviceSave2Fill,
+                                TablerIconsPainter.OutlineDeviceFloppy,
                                 contentDescription = i18n.screen_edit_repo_to_check_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()

@@ -1,11 +1,14 @@
 package com.woowla.ghd.presentation.components
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,23 +33,34 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.remixicon.CommunicationChat3Line
-import com.woowla.compose.remixicon.DevelopmentGitMergeLine
-import com.woowla.compose.remixicon.EditorListCheck2
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemCheckboxBlankCircleLine
-import com.woowla.compose.remixicon.SystemCheckboxCircleFill
-import com.woowla.compose.remixicon.SystemHistoryLine
-import com.woowla.compose.remixicon.UserAndFacesTeamLine
+import com.woowla.compose.tabler.FilledCircleCheck
+import com.woowla.compose.tabler.OutlineCircle
+import com.woowla.compose.tabler.OutlineClock
+import com.woowla.compose.tabler.OutlineGitMerge
+import com.woowla.compose.tabler.OutlineList
+import com.woowla.compose.tabler.OutlineListDetails
+import com.woowla.compose.tabler.OutlineMessageCircle
+import com.woowla.compose.tabler.OutlineUsers
+import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
+import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.AppTheme
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
+import kotlinx.datetime.Clock
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun PullRequestCard(
@@ -80,7 +94,7 @@ fun PullRequestCard(
                     modifier = Modifier.height(30.dp),
                     trailingIcon = {
                         Icon(
-                            painter = if (seen) { RemixiconPainter.SystemCheckboxCircleFill } else { RemixiconPainter.SystemCheckboxBlankCircleLine },
+                            painter = if (seen) { TablerIconsPainter.FilledCircleCheck } else { TablerIconsPainter.OutlineCircle },
                             contentDescription = null,
                             modifier = Modifier.padding(vertical = 5.dp)
                         )
@@ -153,34 +167,34 @@ fun PullRequestCard(
             )
             IconCardRowSmallContent(
                 text = pullRequestDecorator.updatedAt,
-                icon = RemixiconPainter.SystemHistoryLine
+                icon = TablerIconsPainter.OutlineClock
             )
             if (showExtras) {
                 if (pullRequestDecorator.showMergeableBadge) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.mergeable,
-                        icon = RemixiconPainter.DevelopmentGitMergeLine,
+                        icon = TablerIconsPainter.OutlineGitMerge,
                         showBadge = true,
                         badgeColor = pullRequestDecorator.mergeableBadgeColor(),
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.commitChecks,
-                    icon = RemixiconPainter.EditorListCheck2,
+                    icon = TablerIconsPainter.OutlineListDetails,
                     showBadge = pullRequestDecorator.showCommitsCheckBadge,
                     badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
                 )
                 if (pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
-                        icon = RemixiconPainter.UserAndFacesTeamLine,
+                        icon = TablerIconsPainter.OutlineUsers,
                         showBadge = pullRequestDecorator.showReviewsBadge,
                         badgeColor = pullRequestDecorator.reviewsBadgeColor(),
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.comments,
-                    icon = RemixiconPainter.CommunicationChat3Line
+                    icon = TablerIconsPainter.OutlineMessageCircle
                 )
             }
         }
