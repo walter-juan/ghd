@@ -133,6 +133,7 @@ The folder `scripts` contains some scripts in Ruby:
 # Links
 - GitHub
   - [GitHub Actions runner images](https://github.com/actions/runner-images)
+  - [GitHub GraphQL schema](https://docs.github.com/en/graphql/overview/public-schema)
 - Compose Multiplatform
   - [Landing page](https://www.jetbrains.com/lp/compose-multiplatform/)
   - [GitHub repo](https://github.com/JetBrains/compose-multiplatform)
