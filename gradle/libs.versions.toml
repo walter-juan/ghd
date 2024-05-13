@@ -58,8 +58,6 @@ kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1
 kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.59.0" }
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
-# Database migration, release notes https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html
-flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "10.12.0" }
 # state machine
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
 

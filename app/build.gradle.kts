@@ -72,7 +72,6 @@ dependencies {
     implementation(libs.kamel)
     implementation(libs.kaml)
     implementation(libs.semver)
-    implementation(libs.flyway.core)
     implementation(libs.tinder.statemachine)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
