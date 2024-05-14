@@ -13,13 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.core.screen.ScreenKey
-import cafe.adriel.voyager.core.screen.uniqueScreenKey
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.ghd.domain.entities.SyncResult
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -30,17 +24,13 @@ import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesViewModel
 
-class SyncResultEntriesScreen(
-    private val syncResult: SyncResult,
-) : Screen {
-    // to solve a crash, see https://github.com/adrielcafe/voyager/issues/197
-    override val key: ScreenKey = uniqueScreenKey
-
+object SyncResultEntriesScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { SyncResultEntriesViewModel(syncResult) }
-        val navigator = LocalNavigator.currentOrThrow
-        val onBackClick: (() -> Unit) = { navigator.pop() }
+    fun Content(
+        syncResultId: Long,
+        onBackClick: () -> Unit,
+    ) {
+        val viewModel = viewModel { SyncResultEntriesViewModel(syncResultId) }
 
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {

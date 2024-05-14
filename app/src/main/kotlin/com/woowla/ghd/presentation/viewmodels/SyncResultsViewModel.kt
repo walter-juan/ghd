@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.synchronization.Synchronizer
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class SyncResultsViewModel(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -21,7 +21,7 @@ class SyncResultsViewModel(
 
     init {
         load()
-        EventBus.subscribe(this, screenModelScope, Event.SYNCHRONIZED) {
+        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             reload()
         }
     }
@@ -31,7 +31,7 @@ class SyncResultsViewModel(
     }
 
     private fun load() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             synchronizer.getAllSyncResults().fold(
                 onSuccess = {
                     _state.value = State.Success(syncResult = it)

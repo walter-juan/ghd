@@ -12,12 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.compose.remixicon.BuildingsBankFill
-import com.woowla.compose.remixicon.RemixiconPainter
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.woowla.compose.tabler.OutlineBuildingBank
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -51,7 +48,7 @@ import kotlinx.datetime.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.minutes
 
-class ComponentsSampleScreen : Screen {
+object ComponentsSampleScreen {
     private val repoToCheck = RepoToCheck(
         id = 12,
         owner = "walter-juan",
@@ -120,10 +117,10 @@ class ComponentsSampleScreen : Screen {
     )
 
     @Composable
-    override fun Content() {
-        val navigator = LocalNavigator.currentOrThrow
-        val onBackClick: (() -> Unit) = { navigator.pop() }
-        val viewModel = rememberScreenModel { ComponentsViewModel() }
+    fun Content(
+        onBackClick: (() -> Unit)? = null
+    ) {
+        val viewModel = viewModel { ComponentsViewModel() }
 
         ScreenScrollable(
             topBar = {
@@ -327,8 +324,9 @@ class ComponentsSampleScreen : Screen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = RemixiconPainter.BuildingsBankFill,
+                        painter = TablerIconsPainter.OutlineBuildingBank,
                         contentDescription = null,
+                        tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
                     )
                 }
@@ -342,8 +340,9 @@ class ComponentsSampleScreen : Screen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = RemixiconPainter.BuildingsBankFill,
+                        painter = TablerIconsPainter.OutlineBuildingBank,
                         contentDescription = null,
+                        tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
                     )
                 }

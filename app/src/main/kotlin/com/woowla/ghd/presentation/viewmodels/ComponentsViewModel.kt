@@ -1,6 +1,6 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
+import androidx.lifecycle.ViewModel
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -16,7 +16,7 @@ import kotlin.time.Duration.Companion.hours
 class ComponentsViewModel(
     private val notificationClient: NotificationClient = NotificationClient(),
     private val notificationsSender: NotificationsSender = NotificationsSender(client = notificationClient)
-) : ScreenModel {
+) : ViewModel() {
     private val pullRequest = PullRequest(
         id = "magna",
         number = 3592,

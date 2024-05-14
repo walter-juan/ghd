@@ -1,21 +1,42 @@
 [versions]
 kotlin = "1.9.23"
+ksp = "1.9.23-1.0.20"
 apollo3 = "3.8.3"
-voyager = "1.0.0"
 kotest = "5.8.1"
-exposed = "0.49.0"
 ktor = "2.3.10"
+androidx-room = "2.7.0-alpha01"
+androidx-sqlite = "2.5.0-alpha01"
+#androidx-sqlite = "2.5.0-SNAPSHOT"
 
 [plugins]
+# Kotlin for JVM
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+# Serialization/Deserialization
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+# kapt, kotlin annotation processor tool
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-compose = { id = "org.jetbrains.compose", version = "1.6.1" }
+# ksp, kotlin symbol processing
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+# Compose multiplatform
+compose = { id = "org.jetbrains.compose", version = "1.6.10-rc01" }
+# GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
+# Generate BuildConstant
 buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
+# Discover dependency updates
 benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+# Android multiplatform, room
+androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
+# Android multiplatform, navigation
+androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.8.0-alpha02" }
+# Android multiplatform, viewmodel
+androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.8.0-rc01" }
+# Android multiplatform, room + sqlite
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.0" }
 # date time kotlin lib
@@ -27,30 +48,16 @@ ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-conte
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # GraphQL client
 apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
-# H2 database
-h2 = { group = "com.h2database", name = "h2", version = "2.2.224" }
-# Exposed ORM
-exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
-exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
-exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
-exposed-kotlin-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
 # logger
 logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.5.6" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.2" }
 # kamel, media loading and caching (requires Ktor HttpClient)
 kamel = { group = "com.alialbaali.kamel", name = "kamel-image", version = "0.4.1" }
-# navigation and view models
-voyager-navigator-core = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
-voyager-navigator-screenmodel = { group = "cafe.adriel.voyager", name = "voyager-screenmodel", version.ref = "voyager" }
-voyager-navigator-tab = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
-voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
 # YAML support for kotlinx.serialization
 kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.59.0" }
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
-# Database migration, release notes https://documentation.red-gate.com/fd/release-notes-for-flyway-engine-179732572.html
-flyway-core = { group = "org.flywaydb", name = "flyway-core", version = "10.12.0" }
 # state machine
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
 
@@ -66,8 +73,6 @@ test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-asse
 test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "2.0.0" }
 
 [bundles]
-voyager = ["voyager-navigator-core", "voyager-navigator-tab", "voyager-transitions", "voyager-navigator-screenmodel"]
-exposed = ["exposed-core", "exposed-jdbc", "exposed-dao", "exposed-kotlin-datetime"]
 ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
 
 test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]

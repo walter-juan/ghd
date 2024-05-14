@@ -12,36 +12,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.compose.remixicon.DocumentFileDownloadLine
-import com.woowla.compose.remixicon.DocumentFileUploadLine
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemAddLine
-import com.woowla.compose.remixicon.SystemInformationLine
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.woowla.compose.tabler.OutlineFileDownload
+import com.woowla.compose.tabler.OutlineFileUpload
+import com.woowla.compose.tabler.OutlineInfoCircle
+import com.woowla.compose.tabler.OutlinePlus
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 
-class RepoToCheckScreen: Screen {
+object RepoToCheckScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { ReposToCheckViewModel() }
-        val navigator = LocalNavigator.currentOrThrow
-        val onEditRepoClick: (RepoToCheck) -> Unit = {
-            navigator.push(RepoToCheckEditScreen(repoToCheck = it))
-        }
-        val onAddNewRepoClick: () -> Unit = {
-            navigator.push(RepoToCheckEditScreen(repoToCheck = null))
-        }
-        val onBulkExampleClick: () -> Unit = {
-            navigator.push(RepoToCheckBulkSampleScreen())
-        }
-
+    fun Content(
+        onEditRepoClick: (RepoToCheck) -> Unit,
+        onAddNewRepoClick: () -> Unit,
+        onBulkExampleClick: () -> Unit,
+    ) {
+        val viewModel = viewModel { ReposToCheckViewModel() }
         val reposState by viewModel.state.collectAsState()
 
         var isBulkImportFileDialogOpen by remember { mutableStateOf(false) }
@@ -86,7 +76,7 @@ class RepoToCheckScreen: Screen {
                                 description = i18n.screen_repos_to_check_add_new_repository_item_description,
                             ) {
                                 Button(onClick = { onAddNewRepoClick.invoke() }) {
-                                    Icon(painter = RemixiconPainter.SystemAddLine, contentDescription = null, modifier = Modifier.size(20.dp))
+                                    Icon(painter = TablerIconsPainter.OutlinePlus, contentDescription = null, modifier = Modifier.size(20.dp))
                                 }
                             }
                             SectionItem(
@@ -97,7 +87,7 @@ class RepoToCheckScreen: Screen {
                                     Button(onClick = onBulkExampleClick) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.SystemInformationLine,
+                                                painter = TablerIconsPainter.OutlineInfoCircle,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -109,7 +99,7 @@ class RepoToCheckScreen: Screen {
                                     Button(onClick = { isBulkImportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.DocumentFileUploadLine,
+                                                painter = TablerIconsPainter.OutlineFileUpload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -121,7 +111,7 @@ class RepoToCheckScreen: Screen {
                                     Button(onClick = { isBulkExportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = RemixiconPainter.DocumentFileDownloadLine,
+                                                painter = TablerIconsPainter.OutlineFileDownload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )

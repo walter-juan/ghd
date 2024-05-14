@@ -22,7 +22,6 @@ object AppProperties {
     }
 
     var darkTheme: Boolean? by BooleanProperty(properties, "darkTheme")
-    var encryptedDatabase: Boolean by BooleanPropertyOrDefault(properties, "encryptedDatabase", false)
     var newPullRequestsNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "newPullRequestsNotificationsEnabled", true)
     var updatedPullRequestsNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "updatedPullRequestsNotificationsEnabled", true)
     var newReleaseNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "newReleaseNotificationsEnabled", true)

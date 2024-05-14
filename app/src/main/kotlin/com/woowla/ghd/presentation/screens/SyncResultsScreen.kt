@@ -11,10 +11,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -24,12 +21,13 @@ import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.SyncResultsViewModel
 
-class SyncResultsScreen : Screen {
+object SyncResultsScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { SyncResultsViewModel() }
-        val navigator = LocalNavigator.currentOrThrow
-        val onBackClick: (() -> Unit) = { navigator.pop() }
+    fun Content(
+        onBackClick: () -> Unit,
+        onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit,
+    ) {
+        val viewModel = viewModel { SyncResultsViewModel() }
 
         val state by viewModel.state.collectAsState()
 
@@ -52,7 +50,7 @@ class SyncResultsScreen : Screen {
                     is SyncResultsViewModel.State.Success -> {
                         lockedState.syncResult.forEach { syncResultEntry ->
                             SynResult(syncResultEntry) {
-                                navigator.push(SyncResultEntriesScreen(syncResultEntry))
+                                onSyncResultEntriesClick.invoke(syncResultEntry)
                             }
                         }
                     }

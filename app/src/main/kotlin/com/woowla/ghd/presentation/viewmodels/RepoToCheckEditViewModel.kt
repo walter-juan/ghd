@@ -1,11 +1,11 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
-import com.woowla.ghd.domain.entities.RepoToCheck
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.mappers.toUpsertRepoToCheckRequest
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.domain.services.RepoToCheckService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -13,52 +13,75 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class RepoToCheckEditViewModel(
-    private val repoToCheck: RepoToCheck?,
+    private val repoToCheckId: Long?,
     private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
-): ScreenModel {
+): ViewModel() {
+    private val initialStateValue = State.Initializing
 
-    private val initialStateValue: UpsertRepoToCheckRequest = if (repoToCheck == null) {
-        UpsertRepoToCheckRequest.newInstance()
-    } else {
-        repoToCheck.toUpsertRepoToCheckRequest()
-    }
-    private val _updateRequest = MutableStateFlow(initialStateValue)
-    val updateRequest: StateFlow<UpsertRepoToCheckRequest> = _updateRequest
+    private val _state = MutableStateFlow<State>(initialStateValue)
+    val state: StateFlow<State> = _state
 
     private val _events = MutableSharedFlow<Events>()
     val events: SharedFlow<Events> = _events
 
-    fun ownerUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(owner = value.trim())
+    init {
+        load()
     }
 
-    fun nameUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(name = value.trim())
-    }
+    private fun load() {
+        viewModelScope.launch {
+            if (repoToCheckId == null) {
+                _state.value = State.Success(UpsertRepoToCheckRequest.newInstance())
+            } else {
+                repoToCheckService
+                    .get(repoToCheckId)
+                    .fold(
+                        onSuccess = { repoToCheck ->
+                            _state.value = State.Success(repoToCheck.toUpsertRepoToCheckRequest())
+                        },
+                        onFailure = {
+                            _state.value = State.Error(it)
+                        }
+                    )
 
-    fun groupUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(groupName = value.trim())
-    }
-
-    fun branchRegexUpdated(value: String) {
-        _updateRequest.value = _updateRequest.value.copy(pullBranchRegex = value.trim())
-    }
-
-    fun arePullRequestsEnabledUpdated(value: Boolean) {
-        _updateRequest.value = _updateRequest.value.copy(arePullRequestsEnabled = value)
-    }
-
-    fun areReleasesEnabledUpdated(value: Boolean) {
-        _updateRequest.value = _updateRequest.value.copy(areReleasesEnabled = value)
-    }
-
-    fun saveRepo() {
-        screenModelScope.launch {
-            repoToCheckService.save(_updateRequest.value)
-                .onSuccess {
-                    _events.emit(Events.Saved)
-                }
+            }
         }
+    }
+
+    fun saveRepo(
+        owner: String,
+        name: String,
+        groupName: String,
+        branchRegex: String,
+        arePullRequestsEnabled: Boolean,
+        areReleasesEnabled: Boolean,
+    ) {
+        _state.on<State.Success> {
+            val updateRequest = it.updateRequest.copy(
+                owner = owner,
+                name = name,
+                groupName = groupName,
+                pullBranchRegex = branchRegex,
+                arePullRequestsEnabled = arePullRequestsEnabled,
+                areReleasesEnabled = areReleasesEnabled,
+            )
+            viewModelScope.launch {
+                repoToCheckService.save(updateRequest)
+                    .onSuccess {
+                        _events.emit(Events.Saved)
+                    }
+            }
+        }
+    }
+
+    private inline fun <reified T: State> MutableStateFlow<State>.on(block: (T) -> Unit) {
+        (value as? T)?.let(block)
+    }
+
+    sealed class State {
+        object Initializing: State()
+        data class Success(val updateRequest: UpsertRepoToCheckRequest): State()
+        data class Error(val throwable: Throwable): State()
     }
 
     sealed class Events {

@@ -42,7 +42,7 @@ object i18n {
     val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
 
-    val status_bar_loading = ""
+    val status_bar_loading = "Loading..."
     val status_bar_error = "Error"
     val status_bar_synchronized_at_unknown = "Synchronized at unknown"
 
@@ -124,14 +124,8 @@ repositories:
     val screen_app_settings_last_synchronization_results_item = "Latest synchronization results"
     val screen_app_settings_last_synchronization_results_button = "See the latest synchronization results"
 
-    val screen_login_encrypt_data_field_label = "I want to encrypt my data (recommended)."
-    val screen_login_master_password_field_label = "Master Password"
-    val screen_login_master_password_field_field_show = "Show master password"
-    val screen_login_master_password_field_field_hide = "Hide master password"
-    val screen_login_master_password_info = "Encrypted data requires a master password which is needed always to open the app."
     val screen_login_unlock_button = "Open the app"
     val screen_login_about_app_button = "About the app"
-    val screen_login_create_new_database_button = "Start using the app"
     val screen_login_fresh_start = "Fresh start"
     val screen_login_fresh_start_confirmation_dialog_title = "Fresh start"
     val screen_login_fresh_start_confirmation_dialog_text = "A fresh start will erase your data, are you sure?"
@@ -190,12 +184,4 @@ repositories:
 
     val file_dialog_choose_file = "Choose a file"
     val file_dialog_save_file = "Save a file"
-
-    val error_unknown = "Unknown error"
-    val error_db_wrong_password_format = "Wrong password format"
-    val error_db_wrong_user_or_password = "Wrong password or username"
-    val error_db_wrong_encryption_password = "Wrong encryption password"
-    val error_db_database_not_foung = "Database not found"
-    val error_db_database_already_open = "Database already opened"
-    val error_db_unknown = "Unknown database error"
 }

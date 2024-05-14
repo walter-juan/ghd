@@ -2,7 +2,7 @@ package com.woowla.ghd.domain.synchronization
 
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
-import com.woowla.ghd.data.local.db.entities.DbSyncResult
+import com.woowla.ghd.data.local.room.entities.DbSyncResult
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
@@ -140,7 +140,7 @@ class Synchronizer private constructor(
         val upsertSyncResultEntries = coroutineScope {
             synchronizableServiceList
                 .map {
-                    async { it.synchronize(dbSyncResult.id.value, syncSettings, allReposToCheck) }
+                    async { it.synchronize(dbSyncResult.id, syncSettings, allReposToCheck) }
                 }
                 .awaitAll()
                 .flatten()
@@ -149,7 +149,7 @@ class Synchronizer private constructor(
         dbSyncResult = dbSyncResultFinish(dbSyncResult, upsertSyncResultEntries)
         cleanUpSyncResult()
 
-        val syncResult = getSyncResult(dbSyncResult.id.value).getOrThrow()
+        val syncResult = getSyncResult(dbSyncResult.id).getOrThrow()
         AppLogger.d("Synchronizer :: sync :: finished, from ${syncResult.startAt} to ${syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
@@ -159,7 +159,7 @@ class Synchronizer private constructor(
 
     private suspend fun dbSyncResultFinish(dbSyncResult: DbSyncResult, upsertSyncResultEntry: List<UpsertSyncResultEntryRequest>): DbSyncResult {
         val upsertSyncResult = UpsertSyncResultRequest(
-            id = dbSyncResult.id.value,
+            id = dbSyncResult.id,
             startAt = dbSyncResult.startAt,
             endAt = Clock.System.now(),
         )
@@ -170,7 +170,7 @@ class Synchronizer private constructor(
 
     private suspend fun dbSyncResultFinishWithError(dbSyncResult: DbSyncResult, error: String, message: String): DbSyncResult {
         val upsertSyncResultEntry = UpsertSyncResultEntryRequest(
-            syncResultId = dbSyncResult.id.value,
+            syncResultId = dbSyncResult.id,
             repoToCheckId = null,
             isSuccess = false,
             startAt = Clock.System.now(),

@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.AppSettingsService
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class ReposToCheckViewModel(
     private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
     private val appSettingsService: AppSettingsService = AppSettingsService(),
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -24,16 +24,16 @@ class ReposToCheckViewModel(
 
     init {
         loadRepos()
-        EventBus.subscribe(this, screenModelScope, Event.REPO_TO_CHECK_UPDATED) {
+        EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
             reload()
         }
-        EventBus.subscribe(this, screenModelScope, Event.SETTINGS_UPDATED) {
+        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
             reload()
         }
     }
 
     fun bulkImportRepo(file: File?) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             if (file != null) {
                 val content = file.readText()
                 repoToCheckService.import(content)
@@ -42,7 +42,7 @@ class ReposToCheckViewModel(
     }
 
     fun bulkExportRepo(file: File?) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             if (file != null) {
                 repoToCheckService.export().onSuccess { content ->
                     file.writeText(content)
@@ -52,7 +52,7 @@ class ReposToCheckViewModel(
     }
 
     fun deleteRepo(repoToCheck: RepoToCheck) {
-        screenModelScope.launch {
+        viewModelScope.launch {
             repoToCheckService.delete(repoToCheck.id)
             reload()
         }
@@ -63,7 +63,7 @@ class ReposToCheckViewModel(
     }
 
     private fun loadRepos() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             val appSettings = appSettingsService.get().getOrNull()
 
             repoToCheckService.getAll().fold(

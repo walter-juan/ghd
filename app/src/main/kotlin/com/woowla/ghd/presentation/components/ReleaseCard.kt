@@ -18,10 +18,9 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.octoicons.OctoiconsPainter
-import com.woowla.compose.octoicons.Tag
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemTimeLine
+import com.woowla.compose.tabler.OutlineClock
+import com.woowla.compose.tabler.OutlineTag
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
@@ -73,7 +72,7 @@ fun ReleaseCard(release: Release) {
             }
         },
         content = {
-            IconCardRowTitle(text = releaseDecorator.name, icon = OctoiconsPainter.Tag)
+            IconCardRowTitle(text = releaseDecorator.name, icon = TablerIconsPainter.OutlineTag)
             IconCardRowSmallContent(
                 text = buildAnnotatedString {
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -86,7 +85,7 @@ fun ReleaseCard(release: Release) {
                 },
             )
             Spacer(modifier = Modifier.padding(vertical = 2.dp))
-            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = RemixiconPainter.SystemTimeLine)
+            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = TablerIconsPainter.OutlineClock)
         }
     )
 }

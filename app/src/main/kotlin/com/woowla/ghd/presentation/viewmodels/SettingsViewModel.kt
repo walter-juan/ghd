@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.services.AppSettingsService
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
     private val appSettingsService: AppSettingsService = AppSettingsService(),
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -80,7 +80,7 @@ class SettingsViewModel(
 
     fun saveSettings() {
         _state.on<State.Success> {
-            screenModelScope.launch {
+            viewModelScope.launch {
                 val syncSettingsResult = syncSettingsService.save(it.syncSettings)
                 val appSettingsResult = appSettingsService.save(it.appSettings)
                 if (syncSettingsResult.isSuccess && appSettingsResult.isSuccess) {
@@ -96,7 +96,7 @@ class SettingsViewModel(
     }
 
     private fun loadSettings() {
-        screenModelScope.launch {
+        viewModelScope.launch {
             try {
                 val syncSettings = syncSettingsService.get().getOrThrow()
                 val appSettings = appSettingsService.get().getOrThrow()

@@ -12,6 +12,10 @@ class RepoToCheckService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
     private val fileParser: RepoToCheckFileParser = YamlRepoToCheckFileParser(),
 ) {
+    suspend fun get(id: Long): Result<RepoToCheck> {
+        return localDataSource.getRepoToCheck(id = id)
+    }
+
     suspend fun getAll(): Result<List<RepoToCheck>> {
         return localDataSource.getAllReposToCheck()
     }

@@ -19,14 +19,16 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.compose)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
+    alias(libs.plugins.androidx.room)
 }
 
 group = "com.woowla"
-version = "1.4.2"
+version = "1.5.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -54,8 +56,7 @@ buildConfig {
 }
 
 dependencies {
-    implementation(project(":icons:octicons"))
-    implementation(project(":icons:remixicon"))
+    implementation(project(":icons:tabler"))
 
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -65,19 +66,24 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.bundles.ktor.client)
     implementation(libs.apollo3)
-    implementation(libs.h2)
-    implementation(libs.bundles.exposed)
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
     implementation(libs.kamel)
-    implementation(libs.bundles.voyager)
     implementation(libs.kaml)
     implementation(libs.semver)
-    implementation(libs.flyway.core)
     implementation(libs.tinder.statemachine)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.sqlite.bundled)
 
     testImplementation(libs.bundles.test.kotest)
+}
+
+room {
+    schemaDirectory("${projectDir}/src/main/room/schemas")
 }
 
 compose.desktop {

@@ -34,26 +34,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.model.rememberScreenModel
-import cafe.adriel.voyager.core.screen.Screen
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.woowla.compose.remixicon.DeviceSave2Fill
-import com.woowla.compose.remixicon.RemixiconPainter
-import com.woowla.compose.remixicon.SystemAddLine
-import com.woowla.compose.remixicon.SystemEyeFill
-import com.woowla.compose.remixicon.SystemEyeOffFill
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.woowla.compose.tabler.FilledEye
+import com.woowla.compose.tabler.OutlineDeviceFloppy
+import com.woowla.compose.tabler.OutlineEye
+import com.woowla.compose.tabler.OutlineEyeClosed
+import com.woowla.compose.tabler.OutlineEyeOff
+import com.woowla.compose.tabler.OutlineEyeglassOff
+import com.woowla.compose.tabler.TablerIconsPainter
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 
-class SettingsScreen : Screen {
+object SettingsScreen {
     @Composable
-    override fun Content() {
-        val viewModel = rememberScreenModel { SettingsViewModel() }
-        val navigator = LocalNavigator.currentOrThrow
+    fun Content(
+        onSyncResultsClicked: () -> Unit,
+    ) {
+        val viewModel = viewModel { SettingsViewModel() }
         val snackbarHostState = remember { SnackbarHostState() }
 
         val settingsState by viewModel.state.collectAsState()
@@ -79,7 +79,7 @@ class SettingsScreen : Screen {
                             onClick = { viewModel.saveSettings() }
                         ) {
                             Icon(
-                                RemixiconPainter.DeviceSave2Fill,
+                                TablerIconsPainter.OutlineDeviceFloppy,
                                 contentDescription = i18n.screen_app_settings_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
@@ -137,9 +137,9 @@ class SettingsScreen : Screen {
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                                         trailingIcon = {
                                             val image = if (passwordVisible) {
-                                                RemixiconPainter.SystemEyeFill
+                                                TablerIconsPainter.OutlineEyeOff
                                             } else {
-                                                RemixiconPainter.SystemEyeOffFill
+                                                TablerIconsPainter.OutlineEye
                                             }
                                             val description = if (passwordVisible) {
                                                 i18n.screen_app_settings_github_field_hide
@@ -193,7 +193,7 @@ class SettingsScreen : Screen {
                             SectionItem(
                                 title = i18n.screen_app_settings_last_synchronization_results_item,
                             ) {
-                                Button(onClick = { navigator.push(SyncResultsScreen()) }) {
+                                Button(onClick = onSyncResultsClicked) {
                                     Text(i18n.screen_app_settings_last_synchronization_results_button)
                                 }
                             }

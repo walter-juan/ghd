@@ -3,12 +3,12 @@ package com.woowla.ghd.presentation.decorators
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.woowla.compose.octoicons.GitMerge
-import com.woowla.compose.octoicons.GitPullRequest
-import com.woowla.compose.octoicons.GitPullRequestClosed
-import com.woowla.compose.octoicons.GitPullRequestDraft
-import com.woowla.compose.octoicons.OctoiconsRes
-import com.woowla.compose.octoicons.Question
+import com.woowla.compose.tabler.OutlineGitMerge
+import com.woowla.compose.tabler.OutlineGitPullRequest
+import com.woowla.compose.tabler.OutlineGitPullRequestClosed
+import com.woowla.compose.tabler.OutlineGitPullRequestDraft
+import com.woowla.compose.tabler.OutlineQuestionMark
+import com.woowla.compose.tabler.TablerIconsRes
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
@@ -26,11 +26,11 @@ class PullRequestStateDecorator(private val pullRequestStateWithDraft: PullReque
     }
 
     val iconResPath: String = when(pullRequestStateWithDraft) {
-        PullRequestStateWithDraft.OPEN -> OctoiconsRes.GitPullRequest
-        PullRequestStateWithDraft.CLOSED -> OctoiconsRes.GitPullRequestClosed
-        PullRequestStateWithDraft.MERGED -> OctoiconsRes.GitMerge
-        PullRequestStateWithDraft.DRAFT -> OctoiconsRes.GitPullRequestDraft
-        PullRequestStateWithDraft.UNKNOWN -> OctoiconsRes.Question
+        PullRequestStateWithDraft.OPEN -> TablerIconsRes.OutlineGitPullRequest
+        PullRequestStateWithDraft.CLOSED -> TablerIconsRes.OutlineGitPullRequestClosed
+        PullRequestStateWithDraft.MERGED -> TablerIconsRes.OutlineGitMerge
+        PullRequestStateWithDraft.DRAFT -> TablerIconsRes.OutlineGitPullRequestDraft
+        PullRequestStateWithDraft.UNKNOWN -> TablerIconsRes.OutlineQuestionMark
     }
 
     @Composable

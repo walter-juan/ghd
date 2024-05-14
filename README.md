@@ -1,7 +1,14 @@
-
-> ⚠️ This is a personal project created to solve a need and play with it, try some libraries, etc.
+> [!NOTE]
+> This is a personal project created to solve a need and play with it, try some libraries, etc.
 >
 > That said, **I'm not responsible if one day the app stops working** or doesn't work properly and you need to re-install it. **This should not happen**, but if a re-installation is needed it will be written in the release notes.
+
+> [!CAUTION]
+> Migrated to Compose navigation, view models and Room KMP with non-final versions it could be unstable
+> 
+> Things to solve in a future:
+>   - [ ] Whole database encryption removed, PAT will be stored as plain text
+>   - [ ] Relations with [Intermediate data class](https://developer.android.com/training/data-storage/room/relationships#data-class), seems not to be working (search for `TODO relations`)
 
 # GHD
 
@@ -118,36 +125,15 @@ The folder `scripts` contains some scripts in Ruby:
     ```shell
     cd scripts
     ```
-- Download octicons
+- Download tabler icons
     ```shell
-    bundle exec ruby octicons-download.rb
+    bundle exec ruby tabler-icons-download.rb
     ```
-- Download remixicon
-    ```shell
-    bundle exec ruby remixicon-download.rb
-    ```
-
-# Database
-
-The database used in this project is [H2](https://www.h2database.com/) because of encryption support + embedded. As the database is encrypted a user and password is required, you can find it in [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt).
-
-**H2 Commands**
-
-- [`SCRIPT`](https://www.h2database.com/html/commands.html#script): Creates a SQL script from the database.
-
-**H2 Console**
-
-For more detailed information follow [the tutorial from H2](https://www.h2database.com/html/tutorial.html).
-
-1. Download H2 console app:
-   - The `Platform-Independent Zip` from [the website](https://www.h2database.com/html/download.html)
-   - Or `h2-<version>.jar` from [the GitHub releases](https://github.com/h2database/h2database/releases)
-2. From terminal run the h2 `$ java -jar h2*.jar` and the web browser will be opened.
-3. In the [DbSettings](app/src/main/kotlin/com/woowla/ghd/data/local/db/DbSettings.kt) you can find all the data required like the URL, driver, user and password
 
 # Links
 - GitHub
   - [GitHub Actions runner images](https://github.com/actions/runner-images)
+  - [GitHub GraphQL schema](https://docs.github.com/en/graphql/overview/public-schema)
 - Compose Multiplatform
   - [Landing page](https://www.jetbrains.com/lp/compose-multiplatform/)
   - [GitHub repo](https://github.com/JetBrains/compose-multiplatform)
@@ -172,8 +158,7 @@ For more detailed information follow [the tutorial from H2](https://www.h2databa
   - [Gurupreet/ComposeCookBook](https://github.com/Gurupreet/ComposeCookBook)
   - [Gurupreet/ComposeSpotifyDesktop](https://github.com/Gurupreet/ComposeSpotifyDesktop)
 - Icons
-  - [Octicons](https://primer.style/octicons/), [Octicons GitHub](https://github.com/primer/octicons/)
-  - [Remix icon](https://remixicon.com/), [Remix icon GitHub](https://github.com/Remix-Design/remixicon/)
+  - [Tabler](https://tabler.io/icons), [Tabler GitHub](https://github.com/tabler/tabler-icons)
   - [Google material icons](https://fonts.google.com/icons)
 - Colors
   - More or less all of them should be in [MaterialColors](app/src/main/kotlin/com/woowla/ghd/utils/MaterialColors.kt)

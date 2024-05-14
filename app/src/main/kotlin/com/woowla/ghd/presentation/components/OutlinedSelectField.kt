@@ -12,7 +12,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,9 +25,9 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.woowla.compose.remixicon.ArrowsArrowDownSLine
-import com.woowla.compose.remixicon.ArrowsArrowUpSLine
-import com.woowla.compose.remixicon.RemixiconPainter
+import com.woowla.compose.tabler.OutlineChevronDown
+import com.woowla.compose.tabler.OutlineChevronUp
+import com.woowla.compose.tabler.TablerIconsPainter
 
 @Composable
 fun <T: Any?> OutlinedSelectField(
@@ -47,9 +46,9 @@ fun <T: Any?> OutlinedSelectField(
     var textFieldText by remember { mutableStateOf(selectedText) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val textFieldTrailingIcon = if (dropDownExpanded) {
-        RemixiconPainter.ArrowsArrowUpSLine
+        TablerIconsPainter.OutlineChevronUp
     } else {
-        RemixiconPainter.ArrowsArrowDownSLine
+        TablerIconsPainter.OutlineChevronDown
     }
 
     Column(

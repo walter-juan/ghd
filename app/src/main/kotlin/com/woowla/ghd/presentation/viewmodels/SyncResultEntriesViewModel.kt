@@ -1,7 +1,7 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.screenModelScope
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.synchronization.Synchronizer
@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SyncResultEntriesViewModel(
-    private val syncResult: SyncResult,
+    private val syncResultId: Long,
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
-): ScreenModel {
+): ViewModel() {
     private val initialStateValue = State.Initializing
 
     private val _state = MutableStateFlow<State>(initialStateValue)
@@ -23,15 +23,17 @@ class SyncResultEntriesViewModel(
     }
 
     private fun load() {
-        screenModelScope.launch {
-            synchronizer.getSyncResultEntries(syncResult.id).fold(
-                onSuccess = {
-                    _state.value = State.Success(syncResult = syncResult, syncResultEntries = it)
-                },
-                onFailure = {
-                    _state.value = State.Error(throwable = it)
-                }
-            )
+        viewModelScope.launch {
+            val syncResult = synchronizer.getSyncResult(syncResultId)
+            val entriesResult = synchronizer.getSyncResultEntries(syncResultId)
+
+           if (syncResult.isSuccess && entriesResult.isSuccess) {
+               _state.value = State.Success(syncResult = syncResult.getOrThrow(), syncResultEntries = entriesResult.getOrThrow())
+           } else {
+               val throwable = syncResult.exceptionOrNull() ?: entriesResult.exceptionOrNull()
+               requireNotNull(throwable)
+               _state.value = State.Error(throwable = throwable)
+           }
         }
     }
 
