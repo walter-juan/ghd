@@ -7,6 +7,7 @@ import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
@@ -15,10 +16,10 @@ import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 
-fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequest {
+fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
     val lastCommitCheckRollupStatusString = commits.edges?.first()?.node?.commit?.statusCheckRollup?.state?.toString()
 
-    return PullRequest(
+    val pullRequest = PullRequest(
         id = id,
         number = number.toLong(),
         url = url.toString(),
@@ -30,9 +31,7 @@ fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt:
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
-        authorLogin = author?.login,
-        authorUrl = author?.url?.toString(),
-        authorAvatarUrl = author?.avatarUrl?.toString(),
+        author = author?.toAuthor(),
         appSeenAt = appSeenAt,
         totalCommentsCount = totalCommentsCount?.toLong(),
         mergeable = enumValueOfOrDefault(mergeable.toString(), MergeableGitHubState.UNKNOWN),
@@ -40,6 +39,11 @@ fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt:
             lastCommitCheckRollupStatusString,
             CommitCheckRollupStatus.UNKNOWN
         ),
+        repoToCheckId = repoToCheck.id,
+    )
+
+    return PullRequestWithRepoAndReviews(
+        pullRequest = pullRequest,
         reviews = latestReviews?.toReviews(pullRequestId = id) ?: listOf(),
         repoToCheck = repoToCheck,
     )
@@ -70,6 +74,14 @@ fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Re
             )
         }
     } ?: listOf()
+}
+
+fun GetPullRequestsQuery.Author.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
 }
 
 fun GetLastReleaseQuery.Author.toAuthor(): Author {

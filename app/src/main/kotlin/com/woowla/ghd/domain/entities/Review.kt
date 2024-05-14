@@ -6,14 +6,13 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import kotlinx.datetime.Instant
 
 @Entity(
     tableName = "review",
     foreignKeys = [
         ForeignKey(
-            entity = DbPullRequest::class,
+            entity = PullRequest::class,
             parentColumns = ["id"],
             childColumns = ["pull_request_id"],
             onDelete = ForeignKey.CASCADE

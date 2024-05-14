@@ -2,10 +2,7 @@ package com.woowla.ghd.data.local
 
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.mappers.toAppSettings
-import com.woowla.ghd.data.local.mappers.toPullRequest
 import com.woowla.ghd.data.local.room.AppDatabase
-import com.woowla.ghd.domain.entities.Author
-import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.domain.entities.*
 import kotlinx.datetime.Instant
 
@@ -157,24 +154,30 @@ class LocalDataSource(
     }
 
 
-    suspend fun getPullRequest(id: String): Result<PullRequest> {
-        // TODO relations
+    suspend fun getPullRequest(id: String): Result<PullRequestWithRepoAndReviews> {
         return runCatching {
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-            val dbReviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
-            appDatabase.pullRequestDao().get(id).toPullRequest(dbRepoToCheckList, dbReviewList)
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
+            val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
+            val pullRequest = appDatabase.pullRequestDao().get(id)
+            PullRequestWithRepoAndReviews(
+                pullRequest = pullRequest,
+                repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                reviews = reviewList,
+            )
         }
     }
-    suspend fun getAllPullRequests(): Result<List<PullRequest>> {
-        // TODO relations
+    suspend fun getAllPullRequests(): Result<List<PullRequestWithRepoAndReviews>> {
         return runCatching {
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             appDatabase.pullRequestDao()
                 .getAll()
-                .map { dbPullRequest ->
-                    val dbReviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = dbPullRequest.id)
-                    dbPullRequest.toPullRequest(dbRepoToCheckList, dbReviewList)
+                .map { pullRequest ->
+                    val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
+                    PullRequestWithRepoAndReviews(
+                        pullRequest = pullRequest,
+                        repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                        reviews = reviewList,
+                    )
                 }
         }
     }
@@ -185,33 +188,7 @@ class LocalDataSource(
     }
     suspend fun upsertPullRequests(pullRequests: List<PullRequest>): Result<Unit> {
         return runCatching {
-            appDatabase.pullRequestDao().insert(
-                pullRequests.map { pullRequest ->
-                    DbPullRequest(
-                        id = pullRequest.id,
-                        number = pullRequest.number,
-                        url = pullRequest.url,
-                        title = pullRequest.title,
-                        state = pullRequest.state.toString(),
-                        createdAt = pullRequest.createdAt,
-                        updatedAt = pullRequest.updatedAt,
-                        mergedAt = pullRequest.mergedAt,
-                        isDraft = pullRequest.isDraft,
-                        baseRef = pullRequest.baseRef,
-                        headRef = pullRequest.headRef,
-                        author = Author(
-                            login = pullRequest.authorLogin,
-                            url = pullRequest.authorUrl,
-                            avatarUrl = pullRequest.authorAvatarUrl,
-                        ),
-                        appSeenAt = pullRequest.appSeenAt,
-                        totalCommentsCount = pullRequest.totalCommentsCount,
-                        mergeable = pullRequest.mergeable.toString(),
-                        lastCommitCheckRollupStatus = pullRequest.lastCommitCheckRollupStatus.toString(),
-                        repoToCheckId = pullRequest.repoToCheck.id,
-                    )
-                }
-            )
+            appDatabase.pullRequestDao().insert(pullRequests)
         }
     }
     suspend fun removePullRequests(ids: List<String>): Result<Unit> {

@@ -9,7 +9,7 @@ class NotificationsSender(
     fun newPullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "New pull request #${pull.number}",
-            message = "${pull.authorLogin} - ${pull.title}",
+            message = "${pull.author?.login} - ${pull.title}",
             type = NotificationType.NONE
         )
     }
@@ -17,7 +17,7 @@ class NotificationsSender(
     fun updatePullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "Updated pull request #${pull.number}",
-            message = "${pull.authorLogin} - ${pull.title}",
+            message = "${pull.author?.login} - ${pull.title}",
             type = NotificationType.NONE
         )
     }

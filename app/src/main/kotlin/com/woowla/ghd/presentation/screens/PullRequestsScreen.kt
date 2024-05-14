@@ -77,10 +77,10 @@ object PullRequestsScreen {
                                     style = MaterialTheme.typography.titleMedium,
                                 )
                             }
-                            groupedPullRequests.pullRequests.forEach { pullRequest ->
+                            groupedPullRequests.pullRequestsWithReviews.forEach { pullRequestWithReviews ->
                                 PullRequestCard(
-                                    pullRequest = pullRequest,
-                                    onSeenClick = { viewModel.markAsSeen(pullRequest) }
+                                    pullRequestWithReviews = pullRequestWithReviews,
+                                    onSeenClick = { viewModel.markAsSeen(pullRequestWithReviews.pullRequest) }
                                 )
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))

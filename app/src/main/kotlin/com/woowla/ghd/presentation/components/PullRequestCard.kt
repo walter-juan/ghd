@@ -1,14 +1,11 @@
 package com.woowla.ghd.presentation.components
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,46 +34,36 @@ import com.woowla.compose.tabler.FilledCircleCheck
 import com.woowla.compose.tabler.OutlineCircle
 import com.woowla.compose.tabler.OutlineClock
 import com.woowla.compose.tabler.OutlineGitMerge
-import com.woowla.compose.tabler.OutlineList
 import com.woowla.compose.tabler.OutlineListDetails
 import com.woowla.compose.tabler.OutlineMessageCircle
 import com.woowla.compose.tabler.OutlineUsers
 import com.woowla.compose.tabler.TablerIconsPainter
-import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
-import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.presentation.app.AppIconsPainter
-import com.woowla.ghd.presentation.app.AppTheme
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
-import kotlinx.datetime.Clock
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.minutes
 
 @Composable
 fun PullRequestCard(
-    pullRequest: PullRequest,
+    pullRequestWithReviews: PullRequestWithRepoAndReviews,
     onSeenClick: () -> Unit
 ) {
     val avatarImageSize = 45.dp
-    val pullRequestDecorator = PullRequestDecorator(pullRequest)
-    val seen = pullRequest.appSeen
-    val showExtras = !seen && (pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN || pullRequest.stateWithDraft == PullRequestStateWithDraft.DRAFT)
+    val pullRequestDecorator = PullRequestDecorator(pullRequestWithReviews)
+    val seen = pullRequestWithReviews.pullRequest.appSeen
+    val showExtras = !seen && (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN || pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.DRAFT)
 
     IconCard(
         selected = seen,
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            openWebpage(pullRequest.url)
+            openWebpage(pullRequestWithReviews.pullRequest.url)
         },
         hoverContent = { paddingValues ->
             Row(
@@ -119,7 +106,7 @@ fun PullRequestCard(
                         Box(modifier = Modifier.size(avatarImageSize))
                     } else {
                         KamelImage(
-                            resource = lazyPainterResource(data = pullRequest.authorAvatarUrl ?: ""),
+                            resource = lazyPainterResource(data = pullRequestWithReviews.pullRequest.author?.avatarUrl ?: ""),
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),
@@ -153,7 +140,7 @@ fun PullRequestCard(
             IconCardRowSmallContent(
                 text = buildAnnotatedString {
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append("#${pullRequest.number}")
+                        append("#${pullRequestWithReviews.pullRequest.number}")
                     }
                     append(" ${i18n.pull_request_opened_by} ")
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -184,7 +171,7 @@ fun PullRequestCard(
                     showBadge = pullRequestDecorator.showCommitsCheckBadge,
                     badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
                 )
-                if (pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
+                if (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
                         icon = TablerIconsPainter.OutlineUsers,

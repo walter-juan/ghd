@@ -15,7 +15,7 @@ import com.woowla.ghd.data.local.room.daos.ReviewDao
 import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
-import com.woowla.ghd.data.local.room.entities.DbPullRequest
+import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
@@ -28,7 +28,7 @@ import kotlin.concurrent.Volatile
 @Database(
     version = 1,
     entities = [
-        DbPullRequest::class,
+        PullRequest::class,
         Release::class,
         RepoToCheck::class,
         Review::class,

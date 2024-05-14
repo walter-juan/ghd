@@ -58,8 +58,8 @@ class PullRequestsViewModel(
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests
-                            .groupBy { it.stateWithDraft }
-                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequests = it.value) }
+                            .groupBy { it.pullRequest.stateWithDraft }
+                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequestsWithReviews = it.value) }
                         _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntities = syncResult, appSettings = appSettings)
                     },
                     onFailure = {
@@ -75,5 +75,5 @@ class PullRequestsViewModel(
         data class  Error(val throwable: Throwable): State()
     }
 
-    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequests: List<PullRequest>)
+    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
 }

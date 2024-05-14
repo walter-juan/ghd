@@ -19,6 +19,15 @@ class ComponentsViewModel(
     private val notificationClient: NotificationClient = NotificationClient(),
     private val notificationsSender: NotificationsSender = NotificationsSender(client = notificationClient)
 ) : ViewModel() {
+    private val repoToCheck = RepoToCheck(
+        id = 9154,
+        owner = "hendrerit",
+        name = "Serena Levine",
+        groupName = null,
+        pullBranchRegex = null,
+        arePullRequestsEnabled = true,
+        areReleasesEnabled = true
+    )
     private val pullRequest = PullRequest(
         id = "magna",
         number = 3592,
@@ -31,32 +40,16 @@ class ComponentsViewModel(
         isDraft = false,
         baseRef = null,
         headRef = null,
-        authorLogin = "janine",
-        authorUrl = null,
-        authorAvatarUrl = null,
+        author = Author(
+            login = "janine",
+            url = null,
+            avatarUrl = null
+        ),
         appSeenAt = null,
         totalCommentsCount = null,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
         mergeable = MergeableGitHubState.MERGEABLE,
-        reviews = listOf(),
-        repoToCheck = RepoToCheck(
-            id = 3818,
-            owner = "accusata",
-            name = "Rusty Saunders",
-            groupName = null,
-            pullBranchRegex = null,
-            arePullRequestsEnabled = true,
-            areReleasesEnabled = true
-        )
-    )
-    private val repoToCheck = RepoToCheck(
-        id = 9154,
-        owner = "hendrerit",
-        name = "Serena Levine",
-        groupName = null,
-        pullBranchRegex = null,
-        arePullRequestsEnabled = true,
-        areReleasesEnabled = true
+        repoToCheckId = repoToCheck.id
     )
     private val release = Release(
         id = "nec",
