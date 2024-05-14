@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.RepoToCheck
 import kotlinx.datetime.Instant
 
@@ -39,5 +40,5 @@ data class DbPullRequest(
     @ColumnInfo(name = "total_comments_count") val totalCommentsCount: Long?,
     @ColumnInfo(name = "mergeable") val mergeable: String?,
     @ColumnInfo(name = "last_commit_check_rollup_status") val lastCommitCheckRollupStatus: String?,
-    @Embedded val author: DbAuthor?,
+    @Embedded val author: Author?,
 )

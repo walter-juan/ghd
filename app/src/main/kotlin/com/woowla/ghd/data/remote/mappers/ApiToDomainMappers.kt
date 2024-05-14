@@ -1,5 +1,6 @@
 package com.woowla.ghd.data.remote.mappers
 
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
 import com.woowla.ghd.data.remote.GetPullRequestsQuery
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
@@ -66,11 +67,17 @@ fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Re
                 state = enumValueOfOrDefault(node.state.toString(), ReviewState.UNKNOWN),
                 url = node.url.toString(),
                 submittedAt = node.submittedAt?.toString()?.toInstant(),
-                authorLogin = node.author?.login,
-                authorUrl = node.author?.url?.toString(),
-                authorAvatarUrl = node.author?.avatarUrl?.toString(),
+                author = node.author?.toAuthor(),
                 pullRequestId = pullRequestId,
             )
         }
     } ?: listOf()
+}
+
+fun GetPullRequestsQuery.Author1.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
 }

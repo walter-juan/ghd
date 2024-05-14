@@ -1,16 +1,33 @@
 package com.woowla.ghd.domain.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import kotlinx.datetime.Instant
 
+@Entity(
+    tableName = "review",
+    foreignKeys = [
+        ForeignKey(
+            entity = DbPullRequest::class,
+            parentColumns = ["id"],
+            childColumns = ["pull_request_id"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(value = ["pull_request_id"])],
+)
 data class Review(
-    val id: String,
-    val url: String,
-    val submittedAt: Instant?,
-    val state: ReviewState,
-    val authorLogin: String?,
-    val authorUrl: String?,
-    val authorAvatarUrl: String?,
-    val pullRequestId: String,
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "pull_request_id") val pullRequestId: String,
+    @ColumnInfo(name = "submitted_at") val submittedAt: Instant?,
+    @ColumnInfo(name = "url") val url: String,
+    @ColumnInfo(name = "state") val state: ReviewState,
+    @Embedded val author: Author?,
 ): Comparable<Review> {
     companion object {
         val defaultComparator = compareByDescending<Review> { it.submittedAt }

@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.RepoToCheck
 import kotlinx.datetime.Instant
 
@@ -29,5 +30,5 @@ data class DbRelease(
     @ColumnInfo(name = "tag_name") val tagName: String,
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "published_at") val publishedAt: Instant?,
-    @Embedded val author: DbAuthor?,
+    @Embedded val author: Author?,
 )

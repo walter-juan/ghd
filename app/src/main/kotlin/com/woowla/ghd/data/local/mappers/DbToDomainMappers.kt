@@ -3,7 +3,6 @@ package com.woowla.ghd.data.local.mappers
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
-import com.woowla.ghd.data.local.room.entities.DbReview
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -12,7 +11,6 @@ import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.utils.enumValueOfOrDefault
 
 fun AppProperties.toAppSettings(): AppSettings {
@@ -25,7 +23,7 @@ fun AppProperties.toAppSettings(): AppSettings {
     )
 }
 
-fun DbPullRequest.toPullRequest(repoToCheckList: List<RepoToCheck>, dbReviewList: List<DbReview>): PullRequest {
+fun DbPullRequest.toPullRequest(repoToCheckList: List<RepoToCheck>, reviewList: List<Review>): PullRequest {
     val repoToCheck = repoToCheckList.first { it.id == this.repoToCheckId }
 
     return PullRequest(
@@ -47,21 +45,8 @@ fun DbPullRequest.toPullRequest(repoToCheckList: List<RepoToCheck>, dbReviewList
         totalCommentsCount = totalCommentsCount,
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
         mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
-        reviews = dbReviewList.map { it.toReview() },
+        reviews = reviewList,
         repoToCheck = repoToCheck
-    )
-}
-
-fun DbReview.toReview(): Review {
-    return Review(
-        id = id,
-        url = url,
-        submittedAt = submittedAt,
-        state = enumValueOfOrDefault(state, ReviewState.UNKNOWN),
-        authorLogin = author?.login,
-        authorUrl = author?.url,
-        authorAvatarUrl = author?.avatarUrl,
-        pullRequestId = "",
     )
 }
 

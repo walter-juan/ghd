@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.tabler.OutlineBuildingBank
 import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -96,9 +97,11 @@ object ComponentsSampleScreen {
         url = "",
         submittedAt = Clock.System.now().minus(10.minutes),
         state = ReviewState.CHANGES_REQUESTED,
-        authorLogin = "walter-juan",
-        authorUrl = null,
-        authorAvatarUrl = "https://picsum.photos/200/300",
+        author = Author(
+            login = "walter-juan",
+            url = null,
+            avatarUrl = "https://picsum.photos/200/300",
+        ),
         pullRequestId = "",
     )
     private val reviewsSamples = listOf(

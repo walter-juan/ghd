@@ -5,10 +5,9 @@ import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.mappers.toPullRequest
 import com.woowla.ghd.data.local.mappers.toRelease
 import com.woowla.ghd.data.local.room.AppDatabase
-import com.woowla.ghd.data.local.room.entities.DbAuthor
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
-import com.woowla.ghd.data.local.room.entities.DbReview
 import com.woowla.ghd.domain.entities.*
 import kotlinx.datetime.Instant
 
@@ -202,7 +201,7 @@ class LocalDataSource(
                         isDraft = pullRequest.isDraft,
                         baseRef = pullRequest.baseRef,
                         headRef = pullRequest.headRef,
-                        author = DbAuthor(
+                        author = Author(
                             login = pullRequest.authorLogin,
                             url = pullRequest.authorUrl,
                             avatarUrl = pullRequest.authorAvatarUrl,
@@ -242,7 +241,7 @@ class LocalDataSource(
                     tagName = release.tagName,
                     url = release.url,
                     publishedAt = release.publishedAt,
-                    author = DbAuthor(
+                    author = Author(
                         login = release.authorLogin,
                         url = release.authorUrl,
                         avatarUrl = release.authorAvatarUrl,
@@ -272,24 +271,8 @@ class LocalDataSource(
     suspend fun upsertReviews(reviews: List<Review>): Result<Unit> {
         if (reviews.isEmpty()) return Result.success(Unit)
 
-        val reviewDao = appDatabase.reviewDao()
         return runCatching {
-            reviewDao.insert(
-                reviews.map { review ->
-                    DbReview(
-                        id = review.id,
-                        submittedAt = review.submittedAt,
-                        url = review.url,
-                        state = review.state.toString(),
-                        author = DbAuthor(
-                            login = review.authorLogin,
-                            url = review.authorUrl,
-                            avatarUrl = review.authorAvatarUrl,
-                        ),
-                        pullRequestId = review.pullRequestId,
-                    )
-                }
-            )
+            appDatabase.reviewDao().insert(reviews)
         }
     }
 
