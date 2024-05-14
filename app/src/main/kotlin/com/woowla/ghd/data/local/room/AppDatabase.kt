@@ -16,7 +16,7 @@ import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
-import com.woowla.ghd.data.local.room.entities.DbRelease
+import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.SyncResult
@@ -29,7 +29,7 @@ import kotlin.concurrent.Volatile
     version = 1,
     entities = [
         DbPullRequest::class,
-        DbRelease::class,
+        Release::class,
         RepoToCheck::class,
         Review::class,
         SyncResult::class,

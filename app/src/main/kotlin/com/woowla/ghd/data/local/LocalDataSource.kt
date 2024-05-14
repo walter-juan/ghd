@@ -3,11 +3,9 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.mappers.toPullRequest
-import com.woowla.ghd.data.local.mappers.toRelease
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
-import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.domain.entities.*
 import kotlinx.datetime.Instant
 
@@ -223,32 +221,20 @@ class LocalDataSource(
     }
 
 
-    suspend fun getAllReleases(): Result<List<Release>> {
-        // TODO relations
+    suspend fun getAllReleases(): Result<List<ReleaseWithRepo>> {
         return runCatching {
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-            appDatabase.releaseDao().getAll().map {
-                it.toRelease(dbRepoToCheckList)
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
+            appDatabase.releaseDao().getAll().map { release ->
+                ReleaseWithRepo(
+                    release = release,
+                    repoToCheck = repoToCheckList.first { it.id == release.repoToCheckId }
+                )
             }
         }
     }
     suspend fun upsertRelease(release: Release): Result<Unit> {
         return runCatching {
-            appDatabase.releaseDao().insert(
-                DbRelease(
-                    id = release.id,
-                    name = release.name,
-                    tagName = release.tagName,
-                    url = release.url,
-                    publishedAt = release.publishedAt,
-                    author = Author(
-                        login = release.authorLogin,
-                        url = release.authorUrl,
-                        avatarUrl = release.authorAvatarUrl,
-                    ),
-                    repoToCheckId = release.repoToCheck.id,
-                )
-            )
+            appDatabase.releaseDao().insert(release)
         }
     }
     suspend fun removeReleases(ids: List<String>): Result<Unit> {

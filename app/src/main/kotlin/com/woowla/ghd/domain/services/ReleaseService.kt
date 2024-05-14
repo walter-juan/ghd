@@ -3,11 +3,11 @@ package com.woowla.ghd.domain.services
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toRelease
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
@@ -23,7 +23,7 @@ class ReleaseService(
     private val notificationsSender: NotificationsSender = NotificationsSender(),
     private val appSettingsService: AppSettingsService = AppSettingsService(),
 ) : SynchronizableService {
-    suspend fun getAll(): Result<List<Release>> {
+    suspend fun getAll(): Result<List<ReleaseWithRepo>> {
         return localDataSource.getAllReleases()
             .mapCatching { releases ->
                 releases.sorted()
@@ -60,21 +60,21 @@ class ReleaseService(
                 releases.filterNotSyncValid()
             }
             .mapCatching { releases ->
-                releases.map { it.id }
+                releases.map { it.release.id }
             }
             .onSuccess { releasesIds ->
                 localDataSource.removeReleases(releasesIds)
             }
     }
 
-    suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<Release>, newReleases: List<Release>): Result<Unit> {
-        val oldReleasesIds = oldReleases.map { it.id }
+    suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<ReleaseWithRepo>, newReleases: List<ReleaseWithRepo>): Result<Unit> {
+        val oldReleasesIds = oldReleases.map { it.release.id }
 
         // notification for a new release
         if (appSettings.newReleaseNotificationsEnabled) {
             newReleases
                 .filterNot {
-                    oldReleasesIds.contains(it.id)
+                    oldReleasesIds.contains(it.release.id)
                 }
                 .forEach { newRelease ->
                     notificationsSender.newRelease(newRelease)
@@ -85,10 +85,10 @@ class ReleaseService(
         if (appSettings.updatedReleaseNotificationsEnabled) {
             newReleases
                 .filter { newRelease ->
-                    val oldRelease = oldReleases.firstOrNull { it.id == newRelease.id }
+                    val oldRelease = oldReleases.firstOrNull { it.release.id == newRelease.release.id }
 
                     if (oldRelease != null) {
-                        oldRelease.publishedAt != newRelease.publishedAt
+                        oldRelease.release.publishedAt != newRelease.release.publishedAt
                     } else {
                         false
                     }

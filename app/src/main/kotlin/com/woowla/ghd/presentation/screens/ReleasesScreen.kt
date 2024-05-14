@@ -70,7 +70,7 @@ object ReleasesScreen {
                                 }
                             }
                             groupedReleases.releases.forEach { release ->
-                                ReleaseCard(release = release)
+                                ReleaseCard(releaseWithRepo = release)
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.ReleaseService
@@ -65,5 +66,5 @@ class ReleasesViewModel(
         data class Error(val throwable: Throwable): State()
     }
 
-    data class GroupedReleases(val groupName: String?, val releases: List<Release>)
+    data class GroupedReleases(val groupName: String?, val releases: List<ReleaseWithRepo>)
 }

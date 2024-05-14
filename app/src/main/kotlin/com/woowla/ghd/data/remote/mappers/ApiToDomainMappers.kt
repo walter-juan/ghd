@@ -52,10 +52,8 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
         tagName = tagName,
         url = url.toString(),
         publishedAt = publishedAt?.toString()?.toInstant(),
-        authorLogin = author?.login,
-        authorUrl = author?.url?.toString(),
-        authorAvatarUrl = author?.avatarUrl?.toString(),
-        repoToCheck = repoToCheck,
+        author = author?.toAuthor(),
+        repoToCheckId = repoToCheck.id,
     )
 }
 
@@ -72,6 +70,14 @@ fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Re
             )
         }
     } ?: listOf()
+}
+
+fun GetLastReleaseQuery.Author.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
 }
 
 fun GetPullRequestsQuery.Author1.toAuthor(): Author {

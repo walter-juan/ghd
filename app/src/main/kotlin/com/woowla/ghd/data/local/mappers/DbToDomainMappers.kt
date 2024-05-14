@@ -2,7 +2,6 @@ package com.woowla.ghd.data.local.mappers
 
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
-import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -46,21 +45,6 @@ fun DbPullRequest.toPullRequest(repoToCheckList: List<RepoToCheck>, reviewList: 
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
         mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
         reviews = reviewList,
-        repoToCheck = repoToCheck
-    )
-}
-
-fun DbRelease.toRelease(repoToCheckList: List<RepoToCheck>): Release {
-    val repoToCheck = repoToCheckList.first { it.id == this.repoToCheckId }
-    return Release(
-        id = id,
-        name = name,
-        tagName = tagName,
-        url = url,
-        publishedAt = publishedAt,
-        authorLogin = author?.login,
-        authorUrl = author?.url,
-        authorAvatarUrl = author?.avatarUrl,
         repoToCheck = repoToCheck
     )
 }

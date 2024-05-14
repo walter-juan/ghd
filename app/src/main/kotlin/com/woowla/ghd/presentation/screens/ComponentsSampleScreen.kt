@@ -21,6 +21,7 @@ import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
@@ -65,10 +66,16 @@ object ComponentsSampleScreen {
         tagName = "v1.0.2",
         url = "https://github.com/walter-juan/ghd/releases/tag/v1.0.2",
         publishedAt = Clock.System.now().minus(12.days),
-        authorLogin = "github-actions",
-        authorUrl = null,
-        authorAvatarUrl = "https://picsum.photos/200/300",
-        repoToCheck = repoToCheck
+        author = Author(
+            login = "walter-juan",
+            url = null,
+            avatarUrl = "https://picsum.photos/200/300",
+        ),
+        repoToCheckId = repoToCheck.id
+    )
+    private val releaseWithRepo = ReleaseWithRepo(
+        release,
+        repoToCheck,
     )
     private val pullRequest = PullRequest(
         id = "jdf9skw4",
@@ -453,7 +460,7 @@ object ComponentsSampleScreen {
 
     @Composable
     private fun ReleaseCardSample() {
-        ReleaseCard(release = release)
+        ReleaseCard(releaseWithRepo = releaseWithRepo)
     }
 
     @Composable
