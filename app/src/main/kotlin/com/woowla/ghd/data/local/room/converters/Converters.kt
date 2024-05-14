@@ -1,16 +1,42 @@
 package com.woowla.ghd.data.local.room.converters
 
 import androidx.room.TypeConverter
+import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 
 class Converters {
     @TypeConverter
-    fun stringToInstant(value: String?): Instant? {
-        return value?.let { Instant.parse(it) }
-    }
+    fun stringToInstant(value: String?): Instant? = value?.let { Instant.parse(it) }
+    @TypeConverter
+    fun instantToString(value: Instant?): String? = value?.toString()
 
     @TypeConverter
-    fun instantToString(value: Instant?): String? {
-        return value?.toString()
-    }
+    fun stringToOrigin(value: String?): SyncResultEntry.Origin = enumValueOfOrDefault(value, SyncResultEntry.Origin.UNKNOWN)
+    @TypeConverter
+    fun originToString(value: SyncResultEntry.Origin?): String? = value?.toString()
+
+    @TypeConverter
+    fun stringToMergeableGitHubState(value: String?): MergeableGitHubState = enumValueOfOrDefault(value, MergeableGitHubState.UNKNOWN)
+    @TypeConverter
+    fun mergeableGitHubStateToString(value: MergeableGitHubState?): String? = value?.toString()
+
+    @TypeConverter
+    fun stringToCommitCheckRollupStatus(value: String?): CommitCheckRollupStatus = enumValueOfOrDefault(value, CommitCheckRollupStatus.UNKNOWN)
+    @TypeConverter
+    fun commitCheckRollupStatusToString(value: CommitCheckRollupStatus?): String? = value?.toString()
+
+    @TypeConverter
+    fun stringToPullRequestState(value: String?): PullRequestState = enumValueOfOrDefault(value, PullRequestState.UNKNOWN)
+    @TypeConverter
+    fun pullRequestStateToString(value: PullRequestState?): String? = value?.toString()
+
+    @TypeConverter
+    fun stringToReviewState(value: String?): ReviewState = enumValueOfOrDefault(value, ReviewState.UNKNOWN)
+    @TypeConverter
+    fun reviewStateToString(value: ReviewState?): String? = value?.toString()
 }
