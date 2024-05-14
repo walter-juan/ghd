@@ -19,9 +19,9 @@ import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncResult
-import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.room.entities.DbSyncSettings
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
 import kotlinx.coroutines.Dispatchers
 import kotlin.concurrent.Volatile
 
@@ -32,8 +32,8 @@ import kotlin.concurrent.Volatile
         DbRelease::class,
         DbRepoToCheck::class,
         DbReview::class,
-        DbSyncResult::class,
-        DbSyncResultEntry::class,
+        SyncResult::class,
+        SyncResultEntry::class,
         DbSyncSettings::class,
     ],
 )

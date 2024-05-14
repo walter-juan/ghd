@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.CardListItem
@@ -48,9 +49,9 @@ object SyncResultsScreen {
                         Text(i18n.generic_error)
                     }
                     is SyncResultsViewModel.State.Success -> {
-                        lockedState.syncResult.forEach { syncResultEntry ->
+                        lockedState.syncResultWithEntries.forEach { syncResultEntry ->
                             SynResult(syncResultEntry) {
-                                onSyncResultEntriesClick.invoke(syncResultEntry)
+                                onSyncResultEntriesClick.invoke(syncResultEntry.syncResult)
                             }
                         }
                     }
@@ -60,24 +61,24 @@ object SyncResultsScreen {
     }
 
     @Composable
-    private fun SynResult(synResult: SyncResult, onClick: () -> Unit) {
-        SynResultCard(synResult, onClick)
+    private fun SynResult(syncResultWithEntries: SyncResultWithEntitiesAndRepos, onClick: () -> Unit) {
+        SynResultCard(syncResultWithEntries, onClick)
         Spacer(modifier = Modifier.height(15.dp))
     }
 
     @Composable
-    private fun SynResultCard(synResult: SyncResult, onClick: () -> Unit) {
-        val decorator = SyncResultDecorator(synResult)
-        val overlineText = if (synResult.duration == null) {
+    private fun SynResultCard(syncResultWithEntries: SyncResultWithEntitiesAndRepos, onClick: () -> Unit) {
+        val decorator = SyncResultDecorator(syncResultWithEntries)
+        val overlineText = if (syncResultWithEntries.syncResult.duration == null) {
             i18n.screen_sync_results_in_progress
         } else {
-            i18n.screen_sync_results_took_seconds((synResult.duration.inWholeMilliseconds / 1000.0))
+            i18n.screen_sync_results_took_seconds((syncResultWithEntries.syncResult.duration.inWholeMilliseconds / 1000.0))
         }
-        val headlineText = i18n.screen_sync_results_start_at(synResult.startAt)
-        val supportingText = if (synResult.endAt == null) {
+        val headlineText = i18n.screen_sync_results_start_at(syncResultWithEntries.syncResult.startAt)
+        val supportingText = if (syncResultWithEntries.syncResult.endAt == null) {
             ""
         } else {
-            i18n.screen_sync_results_end_at(decorator.emoji, synResult.errorPercentage, synResult.entriesSize)
+            i18n.screen_sync_results_end_at(decorator.emoji, syncResultWithEntries.errorPercentage, syncResultWithEntries.entriesSize)
         }
         CardListItem(
             overlineText = {

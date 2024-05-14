@@ -27,13 +27,13 @@ object PullRequestsScreen {
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is PullRequestsViewModel.State.Initializing -> i18n.status_bar_loading
-            is PullRequestsViewModel.State.Success -> state.syncResult?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
+            is PullRequestsViewModel.State.Success -> state.syncResultWithEntities?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
             is PullRequestsViewModel.State.Error -> i18n.status_bar_error
         }
         val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
             is PullRequestsViewModel.State.Initializing -> null
             is PullRequestsViewModel.State.Success -> {
-                state.syncResult?.let { { onSyncResultEntriesClick.invoke(it) } }
+                state.syncResultWithEntities?.let { { onSyncResultEntriesClick.invoke(it.syncResult) } }
             }
             is PullRequestsViewModel.State.Error -> null
         }

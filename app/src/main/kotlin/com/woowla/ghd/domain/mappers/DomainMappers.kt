@@ -19,33 +19,33 @@ fun RepoToCheck.toUpsertRepoToCheckRequest(): UpsertRepoToCheckRequest {
     )
 }
 
-fun <T> Result<T>.toUpsertSyncResultEntryRequest(
+fun <T> Result<T>.toSyncResultEntry(
     syncResultId: Long,
     repoToCheckId: Long?,
     origin: SyncResultEntry.Origin,
     startAt: Instant
-): UpsertSyncResultEntryRequest {
+): SyncResultEntry {
     return this.fold(
         onSuccess = {
-            UpsertSyncResultEntryRequest(
+            SyncResultEntry(
                 isSuccess = true,
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheckId,
                 startAt = startAt,
                 endAt = Clock.System.now(),
-                origin = origin.toString(),
+                origin = origin,
                 error = null,
                 errorMessage = null,
             )
         },
         onFailure = { throwable ->
-            UpsertSyncResultEntryRequest(
+            SyncResultEntry(
                 isSuccess = false,
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheckId,
                 startAt = startAt,
                 endAt = Clock.System.now(),
-                origin = origin.toString(),
+                origin = origin,
                 error = throwable.javaClass.name,
                 errorMessage = throwable.message,
             )

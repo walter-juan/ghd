@@ -9,8 +9,7 @@ import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toRelease
 import com.woowla.ghd.domain.entities.filterNotSyncValid
-import com.woowla.ghd.domain.entities.filterSyncValid
-import com.woowla.ghd.domain.mappers.toUpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
@@ -32,7 +31,7 @@ class ReleaseService(
             }
     }
 
-    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
+    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
         val releasesBefore = getAll().getOrDefault(listOf())
         val enabledRepoToCheckList = repoToCheckList.filter { it.areReleasesEnabled }
 
@@ -103,7 +102,7 @@ class ReleaseService(
         return Result.success(Unit)
     }
 
-    private suspend fun fetchLastReleases(syncResultId: Long, repoToCheck: RepoToCheck): UpsertSyncResultEntryRequest {
+    private suspend fun fetchLastReleases(syncResultId: Long, repoToCheck: RepoToCheck): SyncResultEntry {
         val startAt = Clock.System.now()
         return remoteDataSource
             .getLastRelease(owner = repoToCheck.owner, repo = repoToCheck.name)
@@ -116,7 +115,7 @@ class ReleaseService(
                 val release = apiRelease.toRelease(repoToCheck)
                 localDataSource.upsertRelease(release)
             }
-            .toUpsertSyncResultEntryRequest(
+            .toSyncResultEntry(
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheck.id,
                 origin = SyncResultEntry.Origin.RELEASE,

@@ -4,17 +4,7 @@ import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.mappers.toPullRequest
 import com.woowla.ghd.data.local.mappers.toRelease
-import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.Release
-import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.domain.entities.SyncResultEntry
-import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.local.mappers.toRepoToCheck
-import com.woowla.ghd.data.local.mappers.toSyncResult
-import com.woowla.ghd.data.local.mappers.toSyncResultEntry
 import com.woowla.ghd.data.local.mappers.toSyncSettings
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.data.local.room.entities.DbAuthor
@@ -22,12 +12,9 @@ import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncResult
-import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.room.entities.DbSyncSettings
+import com.woowla.ghd.domain.entities.*
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
 import kotlinx.datetime.Instant
 
 class LocalDataSource(
@@ -69,55 +56,58 @@ class LocalDataSource(
     }
 
 
-    suspend fun getLastSyncResult(): Result<SyncResult?> {
+    suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
         return runCatching {
-            // TODO relations
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-            val dbSyncResult = appDatabase.syncResultDao().getLast()
-            val dbSyncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = dbSyncResult.id)
-            val syncResultEntryList = dbSyncResultEntryList.map { it.toSyncResultEntry(dbRepoToCheckList) }
-            dbSyncResult.toSyncResult(syncResultEntryList)
-//            appDatabase.syncResultDao().getLastWithEntriesAndRepos().toSyncResult()
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val syncResult = appDatabase.syncResultDao().getLast()
+            val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = syncResult.id)
+            val syncResultEntryWithRepoList = syncResultEntryList.map { syncResultEntry ->
+                SyncResultEntryWithRepo(
+                    syncResultEntry = syncResultEntry,
+                    repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
+                )
+            }
+            SyncResultWithEntitiesAndRepos(
+                syncResult = syncResult,
+                syncResultEntries = syncResultEntryWithRepoList,
+            )
         }
     }
-    /**
-     * Get the all sync results without the entries
-     */
-    suspend fun getAllSyncResults(): Result<List<SyncResult>> {
+    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
         return runCatching {
-            // TODO relations
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
             appDatabase.syncResultDao()
                 .getAll()
-                .map { dbSyncResult ->
-                    val dbSyncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = dbSyncResult.id)
-                    val syncResultEntryList = dbSyncResultEntryList.map { it.toSyncResultEntry(dbRepoToCheckList) }
-                    dbSyncResult.toSyncResult(syncResultEntryList)
+                .map { syncResult ->
+                    val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = syncResult.id)
+                    val syncResultEntryWithRepoList = syncResultEntryList.map { syncResultEntry ->
+                        SyncResultEntryWithRepo(
+                            syncResultEntry = syncResultEntry,
+                            repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
+                        )
+                    }
+                    SyncResultWithEntitiesAndRepos(
+                        syncResult = syncResult,
+                        syncResultEntries = syncResultEntryWithRepoList,
+                    )
                 }
-//            appDatabase
-//                .syncResultDao()
-//                .getAllWithEntriesAndRepos()
-//                .map { it.toSyncResult() }
         }
     }
-    /**
-     * Get the sync result by id without the entries
-     */
-    suspend fun getSyncResult(id: Long): Result<SyncResult> {
+    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
         return runCatching {
-            // TODO relations
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-            val dbSyncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = id)
-            val syncResultEntryList = dbSyncResultEntryList.map { it.toSyncResultEntry(dbRepoToCheckList) }
-
-            appDatabase.syncResultDao()
-                .get(id)
-                .toSyncResult(syncResultEntryList)
-//            appDatabase
-//                .syncResultDao()
-//                .getWithEntriesAndRepos(id)
-//                .toSyncResult()
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val syncResult = appDatabase.syncResultDao().get(id)
+            val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = id)
+            val syncResultEntryWithRepoList = syncResultEntryList.map { syncResultEntry ->
+                SyncResultEntryWithRepo(
+                    syncResultEntry = syncResultEntry,
+                    repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
+                )
+            }
+            SyncResultWithEntitiesAndRepos(
+                syncResult = syncResult,
+                syncResultEntries = syncResultEntryWithRepoList,
+            )
         }
     }
     suspend fun removeSyncResults(ids: List<Long>): Result<Unit> {
@@ -125,22 +115,10 @@ class LocalDataSource(
             appDatabase.syncResultDao().delete(ids)
         }
     }
-    suspend fun upsertSyncResult(upsertRequest: UpsertSyncResultRequest): Result<DbSyncResult> {
+    suspend fun upsertSyncResult(syncResult: SyncResult): Result<SyncResult> {
         return runCatching {
             val syncResultDao = appDatabase.syncResultDao()
-            val dbSyncResult = if (upsertRequest.id == null) {
-                DbSyncResult(
-                    startAt = upsertRequest.startAt,
-                    endAt = upsertRequest.endAt,
-                )
-            } else {
-                DbSyncResult(
-                    id = upsertRequest.id,
-                    startAt = upsertRequest.startAt,
-                    endAt = upsertRequest.endAt,
-                )
-            }
-            val rowId = syncResultDao.insert(dbSyncResult)
+            val rowId = syncResultDao.insert(syncResult)
             syncResultDao.get(rowId)
         }
     }
@@ -149,49 +127,21 @@ class LocalDataSource(
     /**
      * Get the sync result entries by the sync result id with the repo to check
      */
-    suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntry>> {
+    suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntryWithRepo>> {
         return runCatching {
-            val dbRepoToCheckList = appDatabase.repoToCheckDao().getAll()
-            appDatabase.syncResultEntryDao()
-                .getBySyncResult(syncResultId = syncResultId)
-                .map { it.toSyncResultEntry(dbRepoToCheckList) }
-            // TODO relations
-//            appDatabase
-//                .syncResultEntryDao()
-//                .getBySyncResultWithRepos(syncResultId)
-//                .map { it.toSyncResultEntry() }
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = syncResultId)
+
+            syncResultEntryList.map { syncResultEntry ->
+                SyncResultEntryWithRepo(
+                    syncResultEntry = syncResultEntry,
+                    repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
+                )
+            }
         }
     }
-    suspend fun upsertSyncResultEntries(upsertRequests: List<UpsertSyncResultEntryRequest>): Result<Unit> {
+    suspend fun upsertSyncResultEntries(syncResultEntryList: List<SyncResultEntry>): Result<Unit> {
         return runCatching {
-            val syncResultEntryList = upsertRequests.map { upsertRequest ->
-                val dbSyncResultid = appDatabase.syncResultDao().get(upsertRequest.syncResultId).id
-                val repoToCheckId = upsertRequest.repoToCheckId?.let { appDatabase.repoToCheckDao().get(it) }?.id
-                if (upsertRequest.id == null) {
-                    DbSyncResultEntry(
-                        isSuccess = upsertRequest.isSuccess,
-                        startAt = upsertRequest.startAt,
-                        endAt = upsertRequest.endAt,
-                        origin = upsertRequest.origin,
-                        error = upsertRequest.error,
-                        errorMessage = upsertRequest.errorMessage,
-                        syncResultId = dbSyncResultid,
-                        repoToCheckId = repoToCheckId,
-                    )
-                } else {
-                    DbSyncResultEntry(
-                        id = upsertRequest.id,
-                        isSuccess = upsertRequest.isSuccess,
-                        startAt = upsertRequest.startAt,
-                        endAt = upsertRequest.endAt,
-                        origin = upsertRequest.origin,
-                        error = upsertRequest.error,
-                        errorMessage = upsertRequest.errorMessage,
-                        syncResultId = dbSyncResultid,
-                        repoToCheckId = repoToCheckId,
-                    )
-                }
-            }
             appDatabase.syncResultEntryDao().insert(syncResultEntryList)
         }
     }

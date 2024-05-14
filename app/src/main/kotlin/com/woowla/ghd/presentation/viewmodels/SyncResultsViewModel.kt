@@ -3,7 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.AppLogger
-import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
@@ -34,7 +34,7 @@ class SyncResultsViewModel(
         viewModelScope.launch {
             synchronizer.getAllSyncResults().fold(
                 onSuccess = {
-                    _state.value = State.Success(syncResult = it)
+                    _state.value = State.Success(syncResultWithEntries = it)
                 },
                 onFailure = {
                     AppLogger.e("sync error", it)
@@ -46,7 +46,7 @@ class SyncResultsViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val syncResult: List<SyncResult>): State()
+        data class Success(val syncResultWithEntries: List<SyncResultWithEntitiesAndRepos>): State()
         data class Error(val throwable: Throwable): State()
     }
 }

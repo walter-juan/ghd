@@ -5,8 +5,6 @@ import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncResult
-import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
@@ -17,8 +15,6 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.utils.enumValueOfOrDefault
 
@@ -38,73 +34,6 @@ fun DbSyncSettings.toSyncSettings(): SyncSettings {
         checkTimeout = checkTimeoutToValidCheckTimeout(checkTimeout),
         pullRequestCleanUpTimeout = cleanUpTimeoutToValidCleanUpTimeout(pullRequestCleanUpTimeout),
     )
-}
-
-// TODO relations
-//fun DbSyncResultWithEntriesAndRepos.toSyncResult(): SyncResult {
-//    return SyncResult(
-//        id = dbSyncResult.id,
-//        startAt = dbSyncResult.startAt,
-//        endAt = dbSyncResult.endAt,
-//        entries = dbSyncResultEntries.map { it.toSyncResultEntry() }
-//    )
-//}
-fun DbSyncResult.toSyncResult(syncResultEntryList: List<SyncResultEntry>): SyncResult {
-    return SyncResult(
-        id = this.id,
-        startAt = this.startAt,
-        endAt = this.endAt,
-        entries = syncResultEntryList
-    )
-}
-
-// TODO relations
-//fun DbSyncResultEntryWithRepoToCheck.toSyncResultEntry(): SyncResultEntry {
-//    return if (dbSyncResultEntry.isSuccess) {
-//        SyncResultEntry.Success(
-//            id = dbSyncResultEntry.id,
-//            syncResultId = dbSyncResultEntry.syncResultId,
-//            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
-//            startAt = dbSyncResultEntry.startAt,
-//            endAt = dbSyncResultEntry.endAt,
-//            origin = enumValueOfOrDefault(dbSyncResultEntry.origin, SyncResultEntry.Origin.UNKNOWN),
-//        )
-//    } else {
-//        SyncResultEntry.Error(
-//            id = dbSyncResultEntry.id,
-//            syncResultId = dbSyncResultEntry.syncResultId,
-//            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
-//            startAt = dbSyncResultEntry.startAt,
-//            endAt = dbSyncResultEntry.endAt,
-//            origin = enumValueOfOrDefault(dbSyncResultEntry.origin, SyncResultEntry.Origin.UNKNOWN),
-//            error = dbSyncResultEntry.error,
-//            errorMessage = dbSyncResultEntry.errorMessage,
-//        )
-//    }
-//}
-fun DbSyncResultEntry.toSyncResultEntry(dbRepoToCheckList: List<DbRepoToCheck>): SyncResultEntry {
-    val dbRepoToCheck = this.repoToCheckId?.let { id -> dbRepoToCheckList.firstOrNull { it.id == id } }
-    return if (this.isSuccess) {
-        SyncResultEntry.Success(
-            id = this.id,
-            syncResultId = this.syncResultId,
-            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
-            startAt = this.startAt,
-            endAt = this.endAt,
-            origin = enumValueOfOrDefault(this.origin, SyncResultEntry.Origin.UNKNOWN),
-        )
-    } else {
-        SyncResultEntry.Error(
-            id = this.id,
-            syncResultId = this.syncResultId,
-            repoToCheck = dbRepoToCheck?.toRepoToCheck(),
-            startAt = this.startAt,
-            endAt = this.endAt,
-            origin = enumValueOfOrDefault(this.origin, SyncResultEntry.Origin.UNKNOWN),
-            error = this.error,
-            errorMessage = this.errorMessage,
-        )
-    }
 }
 
 fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {

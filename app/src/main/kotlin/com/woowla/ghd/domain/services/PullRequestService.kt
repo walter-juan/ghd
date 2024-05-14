@@ -11,8 +11,7 @@ import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toPullRequest
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
-import com.woowla.ghd.domain.mappers.toUpsertSyncResultEntryRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
+import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async
@@ -38,7 +37,7 @@ class PullRequestService(
         return localDataSource.updateAppSeenAt(id = id, appSeenAt = appSeenAt)
     }
 
-    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<UpsertSyncResultEntryRequest> {
+    override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
         val pullRequestsBefore = getAll().getOrDefault(listOf())
         val enabledRepoToCheckList = repoToCheckList.filter { it.arePullRequestsEnabled }
 
@@ -120,7 +119,7 @@ class PullRequestService(
         return Result.success(Unit)
     }
 
-    private suspend fun fetchPullRequests(syncSettings: SyncSettings, syncResultId: Long, repoToCheck: RepoToCheck, state: ApiPullRequestState): UpsertSyncResultEntryRequest {
+    private suspend fun fetchPullRequests(syncSettings: SyncSettings, syncResultId: Long, repoToCheck: RepoToCheck, state: ApiPullRequestState): SyncResultEntry {
         val startAt = Clock.System.now()
         val pullRequestsResult = remoteDataSource.getPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name, state = state)
 
@@ -145,7 +144,7 @@ class PullRequestService(
                 localDataSource.upsertReviews(reviews)
             }
 
-        return pullRequestsResult.toUpsertSyncResultEntryRequest(
+        return pullRequestsResult.toSyncResultEntry(
             syncResultId = syncResultId,
             repoToCheckId = repoToCheck.id,
             origin = SyncResultEntry.Origin.PULL,
