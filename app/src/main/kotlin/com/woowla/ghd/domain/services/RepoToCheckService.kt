@@ -4,7 +4,6 @@ import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.parsers.RepoToCheckFileParser
 import com.woowla.ghd.domain.parsers.YamlRepoToCheckFileParser
-import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 
@@ -24,8 +23,8 @@ class RepoToCheckService(
         return localDataSource.removeRepoToCheck(id)
     }
 
-    suspend fun save(upsertRepoToCheckRequest: UpsertRepoToCheckRequest): Result<Unit> {
-        return localDataSource.upsertRepoToCheck(upsertRepoToCheckRequest)
+    suspend fun save(repoToCheck: RepoToCheck): Result<Unit> {
+        return localDataSource.upsertRepoToCheck(repoToCheck)
             .onSuccess {
                 EventBus.publish(Event.REPO_TO_CHECK_UPDATED)
             }
@@ -42,19 +41,8 @@ class RepoToCheckService(
             .filter { repoToCheck ->
                 allReposToCheck.none { it.owner == repoToCheck.owner && it.name == repoToCheck.name }
             }
-            .map { repo ->
-                UpsertRepoToCheckRequest(
-                    id = null,
-                    owner = repo.owner,
-                    name = repo.name,
-                    groupName = repo.groupName,
-                    pullBranchRegex = repo.pullBranchRegex,
-                    arePullRequestsEnabled = repo.arePullRequestsEnabled,
-                    areReleasesEnabled = repo.areReleasesEnabled,
-                )
-            }
-            .forEach { upsertRequest ->
-                save(upsertRequest)
+            .forEach { repoToCheck ->
+                save(repoToCheck)
             }
 
         EventBus.publish(Event.REPO_TO_CHECK_UPDATED)

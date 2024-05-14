@@ -4,15 +4,12 @@ import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.mappers.toPullRequest
 import com.woowla.ghd.data.local.mappers.toRelease
-import com.woowla.ghd.data.local.mappers.toRepoToCheck
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.data.local.room.entities.DbAuthor
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
-import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
 import com.woowla.ghd.domain.entities.*
-import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import kotlinx.datetime.Instant
 
 class LocalDataSource(
@@ -52,7 +49,7 @@ class LocalDataSource(
 
     suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
         return runCatching {
-            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().getLast()
             val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = syncResult.id)
             val syncResultEntryWithRepoList = syncResultEntryList.map { syncResultEntry ->
@@ -69,7 +66,7 @@ class LocalDataSource(
     }
     suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
         return runCatching {
-            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             appDatabase.syncResultDao()
                 .getAll()
                 .map { syncResult ->
@@ -89,7 +86,7 @@ class LocalDataSource(
     }
     suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
         return runCatching {
-            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().get(id)
             val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = id)
             val syncResultEntryWithRepoList = syncResultEntryList.map { syncResultEntry ->
@@ -123,7 +120,7 @@ class LocalDataSource(
      */
     suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntryWithRepo>> {
         return runCatching {
-            val repoToCheckList = appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResultEntryList = appDatabase.syncResultEntryDao().getBySyncResult(syncResultId = syncResultId)
 
             syncResultEntryList.map { syncResultEntry ->
@@ -143,37 +140,17 @@ class LocalDataSource(
 
     suspend fun getRepoToCheck(id: Long): Result<RepoToCheck> {
         return runCatching {
-            appDatabase.repoToCheckDao().get(id).toRepoToCheck()
+            appDatabase.repoToCheckDao().get(id)
         }
     }
     suspend fun getAllReposToCheck(): Result<List<RepoToCheck>> {
         return runCatching {
-            appDatabase.repoToCheckDao().getAll().map { it.toRepoToCheck() }
+            appDatabase.repoToCheckDao().getAll()
         }
     }
-    suspend fun upsertRepoToCheck(upsertRepoToCheckRequest: UpsertRepoToCheckRequest): Result<Unit> {
+    suspend fun upsertRepoToCheck(repoToCheck: RepoToCheck): Result<Unit> {
         return runCatching {
-            val dbRepoToCheck = if(upsertRepoToCheckRequest.id == null) {
-                DbRepoToCheck(
-                    owner = upsertRepoToCheckRequest.owner,
-                    name = upsertRepoToCheckRequest.name,
-                    groupName = upsertRepoToCheckRequest.groupName,
-                    pullBranchRegex = upsertRepoToCheckRequest.pullBranchRegex,
-                    arePullRequestsEnabled = upsertRepoToCheckRequest.arePullRequestsEnabled,
-                    areReleasesEnabled = upsertRepoToCheckRequest.areReleasesEnabled,
-                )
-            } else {
-                DbRepoToCheck(
-                    id = upsertRepoToCheckRequest.id,
-                    owner = upsertRepoToCheckRequest.owner,
-                    name = upsertRepoToCheckRequest.name,
-                    groupName = upsertRepoToCheckRequest.groupName,
-                    pullBranchRegex = upsertRepoToCheckRequest.pullBranchRegex,
-                    arePullRequestsEnabled = upsertRepoToCheckRequest.arePullRequestsEnabled,
-                    areReleasesEnabled = upsertRepoToCheckRequest.areReleasesEnabled,
-                )
-            }
-            appDatabase.repoToCheckDao().insert(dbRepoToCheck)
+            appDatabase.repoToCheckDao().insert(repoToCheck)
         }
     }
     suspend fun removeRepoToCheck(id: Long): Result<Unit> {

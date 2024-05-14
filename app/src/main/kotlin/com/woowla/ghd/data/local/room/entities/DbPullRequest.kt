@@ -6,13 +6,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.woowla.ghd.domain.entities.RepoToCheck
 import kotlinx.datetime.Instant
 
 @Entity(
     tableName = "pull_request",
     foreignKeys = [
         ForeignKey(
-            entity = DbRepoToCheck::class,
+            entity = RepoToCheck::class,
             parentColumns = ["id"],
             childColumns = ["repo_to_check_id"],
             onDelete = ForeignKey.CASCADE

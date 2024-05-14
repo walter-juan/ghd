@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.tabler.OutlineDeviceFloppy
 import com.woowla.compose.tabler.TablerIconsPainter
-import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
+import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
@@ -53,7 +53,7 @@ object RepoToCheckEditScreen {
             }
             is RepoToCheckEditViewModel.State.Success -> {
                 Success(
-                    updateRequestState = state.updateRequest,
+                    repoToCheck = state.repoToCheck,
                     viewModel = viewModel,
                     onBackClick = onBackClick
                 )
@@ -76,16 +76,16 @@ object RepoToCheckEditScreen {
 
     @Composable
     private fun Success(
-        updateRequestState: UpsertRepoToCheckRequest,
+        repoToCheck: RepoToCheck,
         viewModel: RepoToCheckEditViewModel,
         onBackClick: () -> Unit
     ) {
-        var owner by remember { mutableStateOf(updateRequestState.owner) }
-        var name by remember { mutableStateOf(updateRequestState.name) }
-        var releaseGroup by remember { mutableStateOf(updateRequestState.groupName ?: "") }
-        var branchRegex by remember { mutableStateOf(updateRequestState.pullBranchRegex ?: "") }
-        var arePullRequestsEnabled by remember { mutableStateOf(updateRequestState.arePullRequestsEnabled) }
-        var areReleasesEnabled by remember { mutableStateOf(updateRequestState.areReleasesEnabled) }
+        var owner by remember { mutableStateOf(repoToCheck.owner) }
+        var name by remember { mutableStateOf(repoToCheck.name) }
+        var releaseGroup by remember { mutableStateOf(repoToCheck.groupName ?: "") }
+        var branchRegex by remember { mutableStateOf(repoToCheck.pullBranchRegex ?: "") }
+        var arePullRequestsEnabled by remember { mutableStateOf(repoToCheck.arePullRequestsEnabled) }
+        var areReleasesEnabled by remember { mutableStateOf(repoToCheck.areReleasesEnabled) }
 
         ScreenScrollable(
             topBar = {

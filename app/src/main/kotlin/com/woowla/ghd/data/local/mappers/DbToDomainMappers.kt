@@ -3,7 +3,6 @@ package com.woowla.ghd.data.local.mappers
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
-import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
@@ -26,20 +25,8 @@ fun AppProperties.toAppSettings(): AppSettings {
     )
 }
 
-fun DbRepoToCheck.toRepoToCheck(): RepoToCheck {
-    return RepoToCheck(
-        id = id,
-        owner = owner,
-        name = name,
-        groupName = groupName,
-        pullBranchRegex = pullBranchRegex,
-        arePullRequestsEnabled = arePullRequestsEnabled,
-        areReleasesEnabled = areReleasesEnabled,
-    )
-}
-
-fun DbPullRequest.toPullRequest(dbRepoToCheckList: List<DbRepoToCheck>, dbReviewList: List<DbReview>): PullRequest {
-    val dbRepoToCheck = dbRepoToCheckList.first { it.id == this.repoToCheckId }
+fun DbPullRequest.toPullRequest(repoToCheckList: List<RepoToCheck>, dbReviewList: List<DbReview>): PullRequest {
+    val repoToCheck = repoToCheckList.first { it.id == this.repoToCheckId }
 
     return PullRequest(
         id = id,
@@ -61,7 +48,7 @@ fun DbPullRequest.toPullRequest(dbRepoToCheckList: List<DbRepoToCheck>, dbReview
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatus, CommitCheckRollupStatus.UNKNOWN),
         mergeable = enumValueOfOrDefault(mergeable, MergeableGitHubState.UNKNOWN),
         reviews = dbReviewList.map { it.toReview() },
-        repoToCheck = dbRepoToCheck.toRepoToCheck()
+        repoToCheck = repoToCheck
     )
 }
 
@@ -78,8 +65,8 @@ fun DbReview.toReview(): Review {
     )
 }
 
-fun DbRelease.toRelease(dbRepoToCheckList: List<DbRepoToCheck>): Release {
-    val dbRepoToCheck = dbRepoToCheckList.first { it.id == this.repoToCheckId }
+fun DbRelease.toRelease(repoToCheckList: List<RepoToCheck>): Release {
+    val repoToCheck = repoToCheckList.first { it.id == this.repoToCheckId }
     return Release(
         id = id,
         name = name,
@@ -89,6 +76,6 @@ fun DbRelease.toRelease(dbRepoToCheckList: List<DbRepoToCheck>): Release {
         authorLogin = author?.login,
         authorUrl = author?.url,
         authorAvatarUrl = author?.avatarUrl,
-        repoToCheck = dbRepoToCheck.toRepoToCheck()
+        repoToCheck = repoToCheck
     )
 }

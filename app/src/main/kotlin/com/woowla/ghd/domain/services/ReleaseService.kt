@@ -10,7 +10,6 @@ import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toRelease
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
 import kotlinx.coroutines.async

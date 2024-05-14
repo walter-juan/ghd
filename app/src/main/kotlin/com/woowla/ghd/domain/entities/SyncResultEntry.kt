@@ -1,7 +1,6 @@
 package com.woowla.ghd.domain.entities
 
 import androidx.room.*
-import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
@@ -15,7 +14,7 @@ import kotlin.time.Duration
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = DbRepoToCheck::class,
+            entity = RepoToCheck::class,
             parentColumns = ["id"],
             childColumns = ["repo_to_check_id"],
             onDelete = ForeignKey.SET_NULL
