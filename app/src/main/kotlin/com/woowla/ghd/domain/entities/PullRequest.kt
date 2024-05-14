@@ -76,7 +76,7 @@ fun List<PullRequest>.filterNotSyncValid(syncSettings: SyncSettings): List<PullR
 }
 
 fun PullRequest.isSyncValid(syncSettings: SyncSettings): Boolean {
-    val cleanUpTimeout = syncSettings.getValidPullRequestCleanUpTimeout()
+    val cleanUpTimeout = syncSettings.validPullRequestCleanUpTimeout
     val isOld = this.isOld(cleanUpTimeout)
     val hasBranchToExclude = this.hasBranchToExclude
     val pullsEnabled = this.repoToCheck.arePullRequestsEnabled

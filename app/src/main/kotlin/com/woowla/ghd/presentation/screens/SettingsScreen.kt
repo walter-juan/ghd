@@ -102,7 +102,7 @@ object SettingsScreen {
                     is SettingsViewModel.State.Success -> {
                         val successState = (settingsState as SettingsViewModel.State.Success)
 
-                        var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken ?: "") }
+                        var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken) }
                         var passwordVisible by remember { mutableStateOf(false) }
 
                         var newPullRequestsNotificationsEnabled by remember { mutableStateOf(successState.appSettings.newPullRequestsNotificationsEnabled) }
@@ -163,7 +163,7 @@ object SettingsScreen {
                                 }.toList()
 
                                 OutlinedSelectField(
-                                    selected = successState.syncSettings.checkTimeout,
+                                    selected = successState.syncSettings.validCheckTimeout,
                                     values = checkTimeoutMinutes,
                                     emptyText = i18n.app_settings_checkout_time_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
@@ -181,7 +181,7 @@ object SettingsScreen {
                                 }.toList()
 
                                 OutlinedSelectField(
-                                    selected = successState.syncSettings.pullRequestCleanUpTimeout,
+                                    selected = successState.syncSettings.validPullRequestCleanUpTimeout,
                                     values = cleanUpTimeoutHours,
                                     emptyText = i18n.app_settings_pr_cleanup_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))

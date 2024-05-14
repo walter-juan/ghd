@@ -175,7 +175,7 @@ class Synchronizer private constructor(
 
     private fun reloadCheckTimeout(forceReload: Boolean = false, startWithDelay: Boolean = true) {
         scope.launch {
-            val settingsCheckTimeout = syncSettingsService.get().getOrNull()?.checkTimeout
+            val settingsCheckTimeout = syncSettingsService.get().getOrNull()?.validCheckTimeout
             if (forceReload || (settingsCheckTimeout != null && settingsCheckTimeout != checkTimeout)) {
                 checkTimeout = SyncSettings.getValidCheckTimeout(settingsCheckTimeout)
                 setTimer(startWithDelay = startWithDelay)

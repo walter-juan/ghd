@@ -5,14 +5,12 @@ import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.mappers.toPullRequest
 import com.woowla.ghd.data.local.mappers.toRelease
 import com.woowla.ghd.data.local.mappers.toRepoToCheck
-import com.woowla.ghd.data.local.mappers.toSyncSettings
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.data.local.room.entities.DbAuthor
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.*
 import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
 import kotlinx.datetime.Instant
@@ -42,16 +40,12 @@ class LocalDataSource(
 
     suspend fun getSyncSettings(): Result<SyncSettings> {
         return runCatching {
-            getOrCreateSyncSettings().toSyncSettings()
+            getOrCreateSyncSettings()
         }
     }
     suspend fun updateSyncSettings(syncSettings: SyncSettings): Result<Unit> {
         return runCatching {
-            appDatabase.syncSettingsDao().insert(DbSyncSettings(
-                githubPatToken = syncSettings.githubPatToken ?: "",
-                checkTimeout = syncSettings.checkTimeout,
-                pullRequestCleanUpTimeout = syncSettings.pullRequestCleanUpTimeout,
-            ))
+            appDatabase.syncSettingsDao().insert(syncSettings)
         }
     }
 
@@ -323,9 +317,9 @@ class LocalDataSource(
     }
 
 
-    private suspend fun getOrCreateSyncSettings(): DbSyncSettings {
+    private suspend fun getOrCreateSyncSettings(): SyncSettings {
         val dbSyncSettings = appDatabase.syncSettingsDao().get()
-        val defaultDbSyncSettings = DbSyncSettings(
+        val defaultDbSyncSettings = SyncSettings(
             githubPatToken = "",
             checkTimeout = null,
             pullRequestCleanUpTimeout = null,

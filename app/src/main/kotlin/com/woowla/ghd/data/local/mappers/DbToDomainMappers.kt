@@ -5,7 +5,6 @@ import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -15,7 +14,6 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.utils.enumValueOfOrDefault
 
 fun AppProperties.toAppSettings(): AppSettings {
@@ -25,14 +23,6 @@ fun AppProperties.toAppSettings(): AppSettings {
         updatedPullRequestsNotificationsEnabled = updatedPullRequestsNotificationsEnabled,
         newReleaseNotificationsEnabled = newReleaseNotificationsEnabled,
         updatedReleaseNotificationsEnabled = updatedReleaseNotificationsEnabled
-    )
-}
-
-fun DbSyncSettings.toSyncSettings(): SyncSettings {
-    return SyncSettings(
-        githubPatToken = githubPatToken,
-        checkTimeout = checkTimeoutToValidCheckTimeout(checkTimeout),
-        pullRequestCleanUpTimeout = cleanUpTimeoutToValidCleanUpTimeout(pullRequestCleanUpTimeout),
     )
 }
 
@@ -101,12 +91,4 @@ fun DbRelease.toRelease(dbRepoToCheckList: List<DbRepoToCheck>): Release {
         authorAvatarUrl = author?.avatarUrl,
         repoToCheck = dbRepoToCheck.toRepoToCheck()
     )
-}
-
-private fun checkTimeoutToValidCheckTimeout(checkTimeout: Long?): Long {
-    return SyncSettings.getValidCheckTimeout(checkTimeout)
-}
-
-private fun cleanUpTimeoutToValidCleanUpTimeout(cleanUpTimeout: Long?): Long {
-    return SyncSettings.getValidPullRequestCleanUpTimeout(cleanUpTimeout)
 }
