@@ -1,5 +1,6 @@
 package com.woowla.ghd.data.local.room
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -26,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlin.concurrent.Volatile
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         PullRequest::class,
         Release::class,
@@ -35,6 +36,9 @@ import kotlin.concurrent.Volatile
         SyncResult::class,
         SyncResultEntry::class,
         SyncSettings::class,
+    ],
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
     ],
 )
 @TypeConverters(Converters::class)
