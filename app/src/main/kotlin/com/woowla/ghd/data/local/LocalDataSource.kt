@@ -1,7 +1,6 @@
 package com.woowla.ghd.data.local
 
 import com.woowla.ghd.data.local.prop.AppProperties
-import com.woowla.ghd.data.local.mappers.toAppSettings
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
 import kotlinx.datetime.Instant
@@ -13,7 +12,13 @@ class LocalDataSource(
     suspend fun getAppSettings(): Result<AppSettings> {
         return runCatching {
             appProperties.load()
-            appProperties.toAppSettings()
+            AppSettings(
+                darkTheme = appProperties.darkTheme,
+                newPullRequestsNotificationsEnabled = appProperties.newPullRequestsNotificationsEnabled,
+                updatedPullRequestsNotificationsEnabled = appProperties.updatedPullRequestsNotificationsEnabled,
+                newReleaseNotificationsEnabled = appProperties.newReleaseNotificationsEnabled,
+                updatedReleaseNotificationsEnabled = appProperties.updatedReleaseNotificationsEnabled
+            )
         }
     }
     suspend fun updateAppSettings(appSettings: AppSettings): Result<Unit> {

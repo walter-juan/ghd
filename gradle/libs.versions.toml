@@ -59,6 +59,8 @@ kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.59.0" }
 semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
 # state machine
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
+# multiplatform library for saving simple key-value data
+settings = { group = "com.russhwolf", name = "multiplatform-settings", version = "1.1.1" }
 
 # kotest runner
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
