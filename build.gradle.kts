@@ -4,5 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm).apply(false)
     alias(libs.plugins.kotlin.plugin.serialization).apply(false)
     alias(libs.plugins.kapt).apply(false)
-    alias(libs.plugins.compose).apply(false)
+    alias(libs.plugins.compose.jetbrains).apply(false)
+    alias(libs.plugins.compose.compiler).apply(false)
 }

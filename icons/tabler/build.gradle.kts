@@ -3,7 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.jetbrains)
+    alias(libs.plugins.compose.compiler)
 }
 
 repositories {
