@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.5.1]
+### Changed
+- Use multiplatform setting library
+- Update dependencies
+- Remove database entities and use directly the domain ones
+
 ## [1.5.0]
 ### ⚠️ IMPORTANT ⚠️
 - The database has been replaced. Before upgrading export the repositories and update the exported YAML to import them later.
@@ -186,7 +192,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.0...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.1...dev
+[1.5.1]: https://github.com/walter-juan/ghd/releases/tag/v1.5.1
 [1.5.0]: https://github.com/walter-juan/ghd/releases/tag/v1.5.0
 [1.4.2]: https://github.com/walter-juan/ghd/releases/tag/v1.4.2
 [1.4.1]: https://github.com/walter-juan/ghd/releases/tag/v1.4.1
