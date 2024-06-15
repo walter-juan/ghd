@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use multiplatform setting library
 - Update dependencies
+- Update GitHub Actions
 - Remove database entities and use directly the domain ones
 - Increment to 25 the pull requests to retrieve
 ### Fixed
