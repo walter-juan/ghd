@@ -1,46 +1,45 @@
 package com.woowla.ghd.domain.entities
 
+import androidx.room.*
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
-sealed class SyncResultEntry(
-    open val id: Long,
-    open val syncResultId: Long,
-    open val repoToCheck: RepoToCheck?,
-    open val startAt: Instant,
-    open val endAt: Instant,
-    open val origin: Origin,
+@Entity(
+    tableName = "sync_result_entry",
+    foreignKeys = [
+        ForeignKey(
+            entity = SyncResult::class,
+            parentColumns = ["id"],
+            childColumns = ["sync_result_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = RepoToCheck::class,
+            parentColumns = ["id"],
+            childColumns = ["repo_to_check_id"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ],
+    indices = [Index(value = ["sync_result_id"]), Index(value = ["repo_to_check_id"])],
+)
+data class SyncResultEntry(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "sync_result_id") val syncResultId: Long,
+    @ColumnInfo(name = "repo_to_check_id") val repoToCheckId: Long?,
+    @ColumnInfo(name = "is_success") val isSuccess: Boolean,
+    @ColumnInfo(name = "start_at") val startAt: Instant,
+    @ColumnInfo(name = "end_at") val endAt: Instant,
+    @ColumnInfo(name = "origin") val origin: Origin,
+    @ColumnInfo(name = "error") val error: String?,
+    @ColumnInfo(name = "error_message") val errorMessage: String?,
 ): Comparable<SyncResultEntry> {
     companion object {
-        val defaultComparator = compareBy<SyncResultEntry> { it.isSuccess() }.thenByDescending { it.origin }.thenByDescending { it.repoToCheck?.id }
+        val defaultComparator = compareBy<SyncResultEntry> { it.isSuccess }.thenByDescending { it.origin }.thenByDescending { it.repoToCheckId }
     }
-
-    fun isSuccess () = this is Success
-    fun isError () = this is Error
-
-    val duration: Duration by lazy { endAt.minus(startAt) }
 
     enum class Origin { OTHER, PULL, RELEASE, UNKNOWN }
 
-    data class Success(
-        override val id: Long,
-        override val syncResultId: Long,
-        override val repoToCheck: RepoToCheck?,
-        override val startAt: Instant,
-        override val endAt: Instant,
-        override val origin: Origin,
-    ): SyncResultEntry(id, syncResultId, repoToCheck, startAt, endAt, origin)
-
-    data class Error(
-        override val id: Long,
-        override val syncResultId: Long,
-        override val repoToCheck: RepoToCheck?,
-        override val startAt: Instant,
-        override val endAt: Instant,
-        override val origin: Origin,
-        val error: String?,
-        val errorMessage: String?,
-    ): SyncResultEntry(id, syncResultId, repoToCheck, startAt, endAt, origin)
+    val duration: Duration by lazy { endAt.minus(startAt) }
 
     override fun compareTo(other: SyncResultEntry): Int {
         return defaultComparator.compare(this, other)

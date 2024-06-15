@@ -1,11 +1,13 @@
 package com.woowla.ghd.data.remote.mappers
 
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
-import com.woowla.ghd.data.remote.GetPullRequestsQuery
+import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
@@ -14,10 +16,10 @@ import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 
-fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequest {
-    val lastCommitCheckRollupStatusString = commits.edges?.first()?.node?.commit?.statusCheckRollup?.state?.toString()
+fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
+    val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
 
-    return PullRequest(
+    val pullRequest = PullRequest(
         id = id,
         number = number.toLong(),
         url = url.toString(),
@@ -29,9 +31,7 @@ fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt:
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
-        authorLogin = author?.login,
-        authorUrl = author?.url?.toString(),
-        authorAvatarUrl = author?.avatarUrl?.toString(),
+        author = author?.toAuthor(),
         appSeenAt = appSeenAt,
         totalCommentsCount = totalCommentsCount?.toLong(),
         mergeable = enumValueOfOrDefault(mergeable.toString(), MergeableGitHubState.UNKNOWN),
@@ -39,6 +39,11 @@ fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt:
             lastCommitCheckRollupStatusString,
             CommitCheckRollupStatus.UNKNOWN
         ),
+        repoToCheckId = repoToCheck.id,
+    )
+
+    return PullRequestWithRepoAndReviews(
+        pullRequest = pullRequest,
         reviews = latestReviews?.toReviews(pullRequestId = id) ?: listOf(),
         repoToCheck = repoToCheck,
     )
@@ -51,14 +56,12 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
         tagName = tagName,
         url = url.toString(),
         publishedAt = publishedAt?.toString()?.toInstant(),
-        authorLogin = author?.login,
-        authorUrl = author?.url?.toString(),
-        authorAvatarUrl = author?.avatarUrl?.toString(),
-        repoToCheck = repoToCheck,
+        author = author?.toAuthor(),
+        repoToCheckId = repoToCheck.id,
     )
 }
 
-fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Review> {
+fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Review> {
     return edges?.mapNotNull { edge ->
         edge?.node?.let { node ->
             Review(
@@ -66,11 +69,33 @@ fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Re
                 state = enumValueOfOrDefault(node.state.toString(), ReviewState.UNKNOWN),
                 url = node.url.toString(),
                 submittedAt = node.submittedAt?.toString()?.toInstant(),
-                authorLogin = node.author?.login,
-                authorUrl = node.author?.url?.toString(),
-                authorAvatarUrl = node.author?.avatarUrl?.toString(),
+                author = node.author?.toAuthor(),
                 pullRequestId = pullRequestId,
             )
         }
     } ?: listOf()
+}
+
+fun PullRequestFragment.Author.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
+}
+
+fun GetLastReleaseQuery.Author.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
+}
+
+fun PullRequestFragment.Author1.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
 }

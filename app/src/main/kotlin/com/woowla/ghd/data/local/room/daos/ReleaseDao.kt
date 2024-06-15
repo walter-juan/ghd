@@ -5,16 +5,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.woowla.ghd.data.local.room.entities.DbRelease
+import com.woowla.ghd.domain.entities.Release
 
 @Dao
 interface ReleaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(dbRelease: DbRelease)
+    suspend fun insert(dbRelease: Release)
 
     @Transaction
     @Query("SELECT * FROM release")
-    suspend fun getAll(): List<DbRelease>
+    suspend fun getAll(): List<Release>
 
     @Query("DELETE FROM release WHERE id IN (:ids)")
     suspend fun delete(ids: List<String>)

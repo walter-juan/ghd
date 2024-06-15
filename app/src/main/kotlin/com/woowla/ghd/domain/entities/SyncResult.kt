@@ -1,36 +1,23 @@
 package com.woowla.ghd.domain.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import kotlinx.datetime.Instant
 import kotlin.time.Duration
 
-class SyncResult(
-    val id: Long,
+@Entity(tableName = "sync_result")
+data class SyncResult(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
+    @ColumnInfo(name = "start_at")
     val startAt: Instant,
+    @ColumnInfo(name = "end_at")
     val endAt: Instant?,
-    entries: List<SyncResultEntry>,
 ) {
     enum class Status { SUCCESS, WARNING, ERROR, CRITICAL }
 
-    val entriesSize: Int
-    val errorPercentage: Int
-    val duration: Duration?
-    val status: Status
-
-    init {
-        entriesSize = entries.size
-        duration = endAt?.minus(startAt)
-
-        errorPercentage = if (entriesSize == 0) {
-            0
-        } else {
-            entries.count { it.isError() } * 100 / entries.size
-        }
-
-        status = when(errorPercentage) {
-            0 -> Status.SUCCESS
-            in 0..5 -> Status.WARNING
-            in 5..25 -> Status.ERROR
-            else -> Status.CRITICAL
-        }
-    }
+    @Ignore
+    val duration: Duration? = endAt?.minus(startAt)
 }

@@ -1,5 +1,6 @@
 package com.woowla.ghd.data.local.room
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -15,26 +16,29 @@ import com.woowla.ghd.data.local.room.daos.ReviewDao
 import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
-import com.woowla.ghd.data.local.room.entities.DbPullRequest
-import com.woowla.ghd.data.local.room.entities.DbRelease
-import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
-import com.woowla.ghd.data.local.room.entities.DbReview
-import com.woowla.ghd.data.local.room.entities.DbSyncResult
-import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
-import com.woowla.ghd.data.local.room.entities.DbSyncSettings
+import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.domain.entities.SyncSettings
 import kotlinx.coroutines.Dispatchers
 import kotlin.concurrent.Volatile
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
-        DbPullRequest::class,
-        DbRelease::class,
-        DbRepoToCheck::class,
-        DbReview::class,
-        DbSyncResult::class,
-        DbSyncResultEntry::class,
-        DbSyncSettings::class,
+        PullRequest::class,
+        Release::class,
+        RepoToCheck::class,
+        Review::class,
+        SyncResult::class,
+        SyncResultEntry::class,
+        SyncSettings::class,
+    ],
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
     ],
 )
 @TypeConverters(Converters::class)

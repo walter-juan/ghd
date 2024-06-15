@@ -14,7 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.ScreenScrollable
@@ -37,8 +37,8 @@ object SyncResultEntriesScreen {
             is SyncResultEntriesViewModel.State.Initializing -> i18n.status_bar_loading
             is SyncResultEntriesViewModel.State.Error -> i18n.status_bar_error
             is SyncResultEntriesViewModel.State.Success -> {
-                val decorator = SyncResultDecorator(state.syncResult)
-                i18n.top_bar_subtitle_synchronization_result_entries(decorator.emoji, state.syncResult.errorPercentage, state.syncResult.entriesSize)
+                val decorator = SyncResultDecorator(state.syncResultWithEntries)
+                i18n.top_bar_subtitle_synchronization_result_entries(decorator.emoji, state.syncResultWithEntries.errorPercentage, state.syncResultWithEntries.entriesSize)
             }
         }
 
@@ -65,7 +65,7 @@ object SyncResultEntriesScreen {
                         Text(i18n.generic_error)
                     }
                     is SyncResultEntriesViewModel.State.Success -> {
-                        lockedState.syncResultEntries.forEach { syncResultEntry ->
+                        lockedState.syncResultWithEntries.syncResultEntries.forEach { syncResultEntry ->
                             SynResultEntry(syncResultEntry)
                         }
                     }
@@ -75,8 +75,8 @@ object SyncResultEntriesScreen {
     }
 
     @Composable
-    private fun SynResultEntry(syncResultEntry: SyncResultEntry) {
-        val decorator = SyncResultEntryDecorator(syncResultEntry)
+    private fun SynResultEntry(syncResultEntryWithRepo: SyncResultEntryWithRepo) {
+        val decorator = SyncResultEntryDecorator(syncResultEntryWithRepo.syncResultEntry)
 
         Row(Modifier.fillMaxWidth()) {
             Text(
@@ -84,27 +84,27 @@ object SyncResultEntriesScreen {
                 Modifier.weight(0.05F).padding(horizontal = 8.dp)
             )
             Text(
-                text = syncResultEntry.origin.toString(),
+                text = syncResultEntryWithRepo.syncResultEntry.origin.toString(),
                 Modifier.weight(0.15F).padding(horizontal = 8.dp)
             )
             Text(
-                text = syncResultEntry.repoToCheck?.let { RepoToCheckDecorator(it) }?.fullRepo ?: "",
+                text = syncResultEntryWithRepo.repoToCheck?.let { RepoToCheckDecorator(it) }?.fullRepo ?: "",
                 Modifier.weight(0.7F).padding(horizontal = 8.dp)
             )
         }
         Row(Modifier.fillMaxWidth()) {
             Spacer(modifier = Modifier.weight(0.05F))
             Text(
-                text = i18n.screen_sync_result_entries_took_seconds((syncResultEntry.duration.inWholeMilliseconds / 1000.0)),
+                text = i18n.screen_sync_result_entries_took_seconds((syncResultEntryWithRepo.syncResultEntry.duration.inWholeMilliseconds / 1000.0)),
                 Modifier.weight(0.95F).padding(horizontal = 8.dp),
                 style = MaterialTheme.typography.bodySmall,
             )
         }
-        if (syncResultEntry is SyncResultEntry.Error) {
+        if (!syncResultEntryWithRepo.syncResultEntry.isSuccess) {
             Row(Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.weight(0.05F))
                 Text(
-                    text = syncResultEntry.errorMessage ?: "",
+                    text = syncResultEntryWithRepo.syncResultEntry.errorMessage ?: "",
                     Modifier.weight(0.95F).padding(horizontal = 8.dp),
                     style = MaterialTheme.typography.bodySmall,
                 )

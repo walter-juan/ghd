@@ -1,51 +1,36 @@
 package com.woowla.ghd.domain.mappers
 
-import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
-import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-fun RepoToCheck.toUpsertRepoToCheckRequest(): UpsertRepoToCheckRequest {
-    return UpsertRepoToCheckRequest(
-        id = id,
-        owner = owner,
-        name = name,
-        groupName = groupName,
-        pullBranchRegex = pullBranchRegex,
-        arePullRequestsEnabled = arePullRequestsEnabled,
-        areReleasesEnabled = areReleasesEnabled
-    )
-}
-
-fun <T> Result<T>.toUpsertSyncResultEntryRequest(
+fun <T> Result<T>.toSyncResultEntry(
     syncResultId: Long,
     repoToCheckId: Long?,
     origin: SyncResultEntry.Origin,
     startAt: Instant
-): UpsertSyncResultEntryRequest {
+): SyncResultEntry {
     return this.fold(
         onSuccess = {
-            UpsertSyncResultEntryRequest(
+            SyncResultEntry(
                 isSuccess = true,
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheckId,
                 startAt = startAt,
                 endAt = Clock.System.now(),
-                origin = origin.toString(),
+                origin = origin,
                 error = null,
                 errorMessage = null,
             )
         },
         onFailure = { throwable ->
-            UpsertSyncResultEntryRequest(
+            SyncResultEntry(
                 isSuccess = false,
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheckId,
                 startAt = startAt,
                 endAt = Clock.System.now(),
-                origin = origin.toString(),
+                origin = origin,
                 error = throwable.javaClass.name,
                 errorMessage = throwable.message,
             )

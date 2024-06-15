@@ -20,7 +20,8 @@ plugins {
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.jetbrains)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
@@ -28,7 +29,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.5.0"
+version = "1.5.1"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -78,6 +79,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.sqlite.bundled)
+    implementation(libs.settings)
 
     testImplementation(libs.bundles.test.kotest)
 }

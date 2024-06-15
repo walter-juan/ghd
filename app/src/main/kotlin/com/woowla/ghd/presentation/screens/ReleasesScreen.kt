@@ -24,13 +24,13 @@ object ReleasesScreen {
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is ReleasesViewModel.State.Initializing -> i18n.status_bar_loading
-            is ReleasesViewModel.State.Success -> state.syncResult?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
+            is ReleasesViewModel.State.Success -> state.syncResultWithEntities?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
             is ReleasesViewModel.State.Error -> i18n.status_bar_error
         }
         val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
             is ReleasesViewModel.State.Initializing -> null
             is ReleasesViewModel.State.Success -> {
-                state.syncResult?.let { { onSyncResultEntriesClick.invoke(it) } }
+                state.syncResultWithEntities?.let { { onSyncResultEntriesClick.invoke(it.syncResult) } }
             }
             is ReleasesViewModel.State.Error -> null
         }
@@ -70,7 +70,7 @@ object ReleasesScreen {
                                 }
                             }
                             groupedReleases.releases.forEach { release ->
-                                ReleaseCard(release = release)
+                                ReleaseCard(releaseWithRepo = release)
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }

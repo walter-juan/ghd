@@ -1,31 +1,32 @@
 package com.woowla.ghd.data.local.prop
 
+import com.russhwolf.settings.*
 import com.woowla.ghd.AppFolderFactory
-import com.woowla.ghd.data.local.prop.utils.BooleanProperty
-import com.woowla.ghd.data.local.prop.utils.BooleanPropertyOrDefault
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.*
 import kotlin.io.path.createFile
 
 object AppProperties {
-    private const val propName = "ghd.properties"
-    private const val propFolder = "prop"
+    private const val PROPERTIES_NAME = "ghd.properties"
+    private const val PROPERTIES_FOLDER = "prop"
     private val propFolderPath by lazy {
-        AppFolderFactory.folder.resolve(propFolder)
+        AppFolderFactory.folder.resolve(PROPERTIES_FOLDER)
     }
-    private val propertiesPath by lazy { propFolderPath.resolve(propName) }
+    private val propertiesPath by lazy { propFolderPath.resolve(PROPERTIES_NAME) }
 
     private val properties: Properties by lazy {
         createFile()
         Properties()
     }
 
-    var darkTheme: Boolean? by BooleanProperty(properties, "darkTheme")
-    var newPullRequestsNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "newPullRequestsNotificationsEnabled", true)
-    var updatedPullRequestsNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "updatedPullRequestsNotificationsEnabled", true)
-    var newReleaseNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "newReleaseNotificationsEnabled", true)
-    var updatedReleaseNotificationsEnabled: Boolean by BooleanPropertyOrDefault(properties, "updatedReleaseNotificationsEnabled", true)
+    val settings: Settings = PropertiesSettings(properties)
+
+    var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
+    var newPullRequestsNotificationsEnabled: Boolean by settings.boolean("newPullRequestsNotificationsEnabled", true)
+    var updatedPullRequestsNotificationsEnabled: Boolean by settings.boolean("updatedPullRequestsNotificationsEnabled", true)
+    var newReleaseNotificationsEnabled: Boolean by settings.boolean("newReleaseNotificationsEnabled", true)
+    var updatedReleaseNotificationsEnabled: Boolean by settings.boolean("updatedReleaseNotificationsEnabled", true)
 
     fun load() {
         FileInputStream(propertiesPath.toString()).use {

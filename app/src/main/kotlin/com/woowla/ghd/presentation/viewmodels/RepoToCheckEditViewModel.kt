@@ -2,10 +2,8 @@ package com.woowla.ghd.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowla.ghd.domain.mappers.toUpsertRepoToCheckRequest
-import com.woowla.ghd.domain.requests.UpsertRepoToCheckRequest
+import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.RepoToCheckService
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -31,13 +29,13 @@ class RepoToCheckEditViewModel(
     private fun load() {
         viewModelScope.launch {
             if (repoToCheckId == null) {
-                _state.value = State.Success(UpsertRepoToCheckRequest.newInstance())
+                _state.value = State.Success(RepoToCheck.newInstance())
             } else {
                 repoToCheckService
                     .get(repoToCheckId)
                     .fold(
                         onSuccess = { repoToCheck ->
-                            _state.value = State.Success(repoToCheck.toUpsertRepoToCheckRequest())
+                            _state.value = State.Success(repoToCheck)
                         },
                         onFailure = {
                             _state.value = State.Error(it)
@@ -57,7 +55,7 @@ class RepoToCheckEditViewModel(
         areReleasesEnabled: Boolean,
     ) {
         _state.on<State.Success> {
-            val updateRequest = it.updateRequest.copy(
+            val updateRequest = it.repoToCheck.copy(
                 owner = owner,
                 name = name,
                 groupName = groupName,
@@ -80,7 +78,7 @@ class RepoToCheckEditViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val updateRequest: UpsertRepoToCheckRequest): State()
+        data class Success(val repoToCheck: RepoToCheck): State()
         data class Error(val throwable: Throwable): State()
     }
 

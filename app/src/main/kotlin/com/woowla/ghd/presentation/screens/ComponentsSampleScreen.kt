@@ -15,11 +15,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.tabler.OutlineBuildingBank
 import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
@@ -64,10 +67,16 @@ object ComponentsSampleScreen {
         tagName = "v1.0.2",
         url = "https://github.com/walter-juan/ghd/releases/tag/v1.0.2",
         publishedAt = Clock.System.now().minus(12.days),
-        authorLogin = "github-actions",
-        authorUrl = null,
-        authorAvatarUrl = "https://picsum.photos/200/300",
-        repoToCheck = repoToCheck
+        author = Author(
+            login = "walter-juan",
+            url = null,
+            avatarUrl = "https://picsum.photos/200/300",
+        ),
+        repoToCheckId = repoToCheck.id
+    )
+    private val releaseWithRepo = ReleaseWithRepo(
+        release,
+        repoToCheck,
     )
     private val pullRequest = PullRequest(
         id = "jdf9skw4",
@@ -81,14 +90,20 @@ object ComponentsSampleScreen {
         isDraft = false,
         baseRef = null,
         headRef = null,
-        authorLogin = "walter-juan",
-        authorUrl = null,
-        authorAvatarUrl = "https://picsum.photos/200/300",
+        author = Author(
+            login = "walter-juan",
+            url = null,
+            avatarUrl = "https://picsum.photos/200/300",
+        ),
         appSeenAt = Clock.System.now(),
         totalCommentsCount = 3,
-        repoToCheck = repoToCheck,
+        repoToCheckId = repoToCheck.id,
         mergeable = MergeableGitHubState.MERGEABLE,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.PENDING,
+    )
+    private val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+        pullRequest = pullRequest,
+        repoToCheck = repoToCheck,
         reviews = listOf()
     )
     private val review = Review(
@@ -96,9 +111,11 @@ object ComponentsSampleScreen {
         url = "",
         submittedAt = Clock.System.now().minus(10.minutes),
         state = ReviewState.CHANGES_REQUESTED,
-        authorLogin = "walter-juan",
-        authorUrl = null,
-        authorAvatarUrl = "https://picsum.photos/200/300",
+        author = Author(
+            login = "walter-juan",
+            url = null,
+            avatarUrl = "https://picsum.photos/200/300",
+        ),
         pullRequestId = "",
     )
     private val reviewsSamples = listOf(
@@ -378,14 +395,16 @@ object ComponentsSampleScreen {
         val lastCommitCheckRollupStatus = remember { mutableStateOf(0) }
         val reviewsSample = remember { mutableStateOf(0) }
 
-        val pr = pullRequest.copy(
-            appSeenAt = if (seen.value) {
-                Clock.System.now().minus(2.days)
-            } else {
-                null
-            },
-            mergeable = MergeableGitHubState.values()[mergeable.value],
-            lastCommitCheckRollupStatus = CommitCheckRollupStatus.values()[lastCommitCheckRollupStatus.value],
+        val pr = pullRequestWithRepoAndReviews.copy(
+            pullRequest = pullRequestWithRepoAndReviews.pullRequest.copy(
+                appSeenAt = if (seen.value) {
+                    Clock.System.now().minus(2.days)
+                } else {
+                    null
+                },
+                mergeable = MergeableGitHubState.values()[mergeable.value],
+                lastCommitCheckRollupStatus = CommitCheckRollupStatus.values()[lastCommitCheckRollupStatus.value],
+            ),
             reviews = reviewsSamples[reviewsSample.value]
         )
 
@@ -441,7 +460,7 @@ object ComponentsSampleScreen {
         Spacer(modifier = Modifier.size(5.dp))
 
         PullRequestCard(
-            pullRequest = pr,
+            pullRequestWithReviews = pr,
             onSeenClick = {
                 seen.value = !seen.value
             }
@@ -450,7 +469,7 @@ object ComponentsSampleScreen {
 
     @Composable
     private fun ReleaseCardSample() {
-        ReleaseCard(release = release)
+        ReleaseCard(releaseWithRepo = releaseWithRepo)
     }
 
     @Composable

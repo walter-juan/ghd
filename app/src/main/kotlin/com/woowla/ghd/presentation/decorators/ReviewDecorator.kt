@@ -6,7 +6,7 @@ import com.woowla.ghd.presentation.app.i18n
 
 class ReviewDecorator(private val review: Review) {
     val submittedAt: String = review.submittedAt?.let { i18n.review_submitted(it) } ?: i18n.generic_unknown
-    val authorLogin = review.authorLogin ?: i18n.generic_unknown
+    val authorLogin = review.author?.login ?: i18n.generic_unknown
     val state = when(review.state) {
         ReviewState.APPROVED -> "approved"
         ReviewState.CHANGES_REQUESTED -> "changes requested"

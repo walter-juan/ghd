@@ -1,11 +1,13 @@
 package com.woowla.ghd.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.notifications.NotificationType
@@ -17,6 +19,15 @@ class ComponentsViewModel(
     private val notificationClient: NotificationClient = NotificationClient(),
     private val notificationsSender: NotificationsSender = NotificationsSender(client = notificationClient)
 ) : ViewModel() {
+    private val repoToCheck = RepoToCheck(
+        id = 9154,
+        owner = "hendrerit",
+        name = "Serena Levine",
+        groupName = null,
+        pullBranchRegex = null,
+        arePullRequestsEnabled = true,
+        areReleasesEnabled = true
+    )
     private val pullRequest = PullRequest(
         id = "magna",
         number = 3592,
@@ -29,45 +40,31 @@ class ComponentsViewModel(
         isDraft = false,
         baseRef = null,
         headRef = null,
-        authorLogin = "janine",
-        authorUrl = null,
-        authorAvatarUrl = null,
+        author = Author(
+            login = "janine",
+            url = null,
+            avatarUrl = null
+        ),
         appSeenAt = null,
         totalCommentsCount = null,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
         mergeable = MergeableGitHubState.MERGEABLE,
-        reviews = listOf(),
-        repoToCheck = RepoToCheck(
-            id = 3818,
-            owner = "accusata",
-            name = "Rusty Saunders",
-            groupName = null,
-            pullBranchRegex = null,
-            arePullRequestsEnabled = true,
-            areReleasesEnabled = true
-        )
+        repoToCheckId = repoToCheck.id
     )
-
     private val release = Release(
         id = "nec",
         name = "v1.0.0",
         tagName = "Janine Russell",
         url = "https://search.yahoo.com/search?p=nibh",
         publishedAt = Clock.System.now(),
-        authorLogin = "janine",
-        authorUrl = null,
-        authorAvatarUrl = null,
-        repoToCheck = RepoToCheck(
-            id = 9154,
-            owner = "hendrerit",
-            name = "Serena Levine",
-            groupName = null,
-            pullBranchRegex = null,
-            arePullRequestsEnabled = true,
-            areReleasesEnabled = true
-        )
-
+        author = Author(
+            login = "janine",
+            url = null,
+            avatarUrl = null
+        ),
+        repoToCheckId = repoToCheck.id
     )
+    private val releaseWithRepo = ReleaseWithRepo(release, repoToCheck)
 
     fun sendByType(type: NotificationType) {
         notificationClient.sendNotification(
@@ -86,10 +83,10 @@ class ComponentsViewModel(
     }
 
     fun sendNewRelease() {
-        notificationsSender.newRelease(release)
+        notificationsSender.newRelease(releaseWithRepo)
     }
 
     fun sendUpdatedRelease() {
-        notificationsSender.updateRelease(release)
+        notificationsSender.updateRelease(releaseWithRepo)
     }
 }

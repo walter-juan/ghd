@@ -1,11 +1,27 @@
 package com.woowla.ghd.domain.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "repo_to_check")
 data class RepoToCheck(
-    val id: Long,
-    val owner: String,
-    val name: String,
-    val groupName: String?,
-    val pullBranchRegex: String?,
-    val arePullRequestsEnabled: Boolean,
-    val areReleasesEnabled: Boolean,
-)
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    @ColumnInfo(name = "owner") val owner: String,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "group_name") val groupName: String?,
+    @ColumnInfo(name = "pull_branch_regex") val pullBranchRegex: String?,
+    @ColumnInfo(name = "are_pull_requests_enabled") val arePullRequestsEnabled: Boolean,
+    @ColumnInfo(name = "are_releases_enabled") val areReleasesEnabled: Boolean,
+) {
+    companion object {
+        fun newInstance() = RepoToCheck(
+            owner = "",
+            name = "",
+            groupName = null,
+            pullBranchRegex = null,
+            arePullRequestsEnabled = true,
+            areReleasesEnabled = true
+        )
+    }
+}

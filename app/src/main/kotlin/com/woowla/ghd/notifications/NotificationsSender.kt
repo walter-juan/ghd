@@ -1,7 +1,7 @@
 package com.woowla.ghd.notifications
 
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 
 class NotificationsSender(
     private val client: NotificationClient = NotificationClient()
@@ -9,7 +9,7 @@ class NotificationsSender(
     fun newPullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "New pull request #${pull.number}",
-            message = "${pull.authorLogin} - ${pull.title}",
+            message = "${pull.author?.login} - ${pull.title}",
             type = NotificationType.NONE
         )
     }
@@ -17,23 +17,23 @@ class NotificationsSender(
     fun updatePullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "Updated pull request #${pull.number}",
-            message = "${pull.authorLogin} - ${pull.title}",
+            message = "${pull.author?.login} - ${pull.title}",
             type = NotificationType.NONE
         )
     }
 
-    fun newRelease(release: Release) {
+    fun newRelease(releaseWithRepo: ReleaseWithRepo) {
         client.sendNotification(
             title = "New release available",
-            message = "${release.repoToCheck.owner}/${release.repoToCheck.name} ${release.tagName}",
+            message = "${releaseWithRepo.repoToCheck.owner}/${releaseWithRepo.repoToCheck.name} ${releaseWithRepo.release.tagName}",
             type = NotificationType.NONE
         )
     }
 
-    fun updateRelease(release: Release) {
+    fun updateRelease(releaseWithRepo: ReleaseWithRepo) {
         client.sendNotification(
             title = "Updated release available",
-            message = "${release.repoToCheck.owner}/${release.repoToCheck.name} ${release.tagName}",
+            message = "${releaseWithRepo.repoToCheck.owner}/${releaseWithRepo.repoToCheck.name} ${releaseWithRepo.release.tagName}",
             type = NotificationType.NONE
         )
     }

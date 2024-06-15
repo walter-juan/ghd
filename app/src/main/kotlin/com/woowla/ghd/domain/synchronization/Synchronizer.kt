@@ -2,12 +2,7 @@ package com.woowla.ghd.domain.synchronization
 
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
-import com.woowla.ghd.data.local.room.entities.DbSyncResult
-import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.domain.entities.SyncResultEntry
-import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.requests.UpsertSyncResultEntryRequest
-import com.woowla.ghd.domain.requests.UpsertSyncResultRequest
+import com.woowla.ghd.domain.entities.*
 import com.woowla.ghd.domain.services.PullRequestService
 import com.woowla.ghd.domain.services.ReleaseService
 import com.woowla.ghd.domain.services.RepoToCheckService
@@ -55,22 +50,22 @@ class Synchronizer private constructor(
         subscribe()
     }
 
-    suspend fun getAllSyncResults(): Result<List<SyncResult>> {
+    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
         return localDataSource.getAllSyncResults()
             .mapCatching { syncResults ->
-                syncResults.sortedByDescending { it.startAt }
+                syncResults.sortedByDescending { it.syncResult.startAt }
             }
     }
 
-    suspend fun getLastSyncResult(): Result<SyncResult?> {
+    suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
         return localDataSource.getLastSyncResult()
     }
 
-    suspend fun getSyncResult(id: Long): Result<SyncResult> {
+    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
         return localDataSource.getSyncResult(id)
     }
 
-    suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntry>> {
+    suspend fun getSyncResultEntries(syncResultId: Long): Result<List<SyncResultEntryWithRepo>> {
         return localDataSource.getSyncResultEntries(syncResultId)
             .mapCatching { syncResultEntries ->
                 syncResultEntries.sorted()
@@ -80,10 +75,10 @@ class Synchronizer private constructor(
     suspend fun cleanUpSyncResult() {
         getAllSyncResults()
             .mapCatching { syncResults ->
-                syncResults.sortedByDescending { it.startAt }
+                syncResults.sortedByDescending { it.syncResult.startAt }
             }
             .mapCatching { syncResults ->
-                syncResults.drop(MAX_SYNC_RESULTS).map { it.id }
+                syncResults.drop(MAX_SYNC_RESULTS).map { it.syncResult.id }
             }
             .mapCatching {
                 localDataSource.removeSyncResults(it)
@@ -108,20 +103,21 @@ class Synchronizer private constructor(
         }
     }
 
-    private suspend fun dbSyncResultStart(): DbSyncResult {
+    private suspend fun syncResultStart(): SyncResult {
         return localDataSource.upsertSyncResult(
-            UpsertSyncResultRequest(
+            SyncResult(
                 startAt = Clock.System.now(),
-                endAt = null)
+                endAt = null
+            )
         ).getOrThrow()
     }
 
     private suspend fun executeAllSynchronizables() {
-        var dbSyncResult = dbSyncResultStart()
+        var syncResultFinish = syncResultStart()
 
         val syncSettings = syncSettingsService.get().getOrNull()
         if (syncSettings == null) {
-            dbSyncResultFinishWithError(dbSyncResult = dbSyncResult, error = "Unknown error", message = "Synchronization settings are null")
+            syncResultFinishWithError(syncResult = syncResultFinish, error = "Unknown error", message = "Synchronization settings are null")
             AppLogger.d("Synchronizer :: sync :: finished because the synchronization settings are null")
             EventBus.publish(Event.SYNCHRONIZED)
             return
@@ -129,7 +125,7 @@ class Synchronizer private constructor(
 
         val githubPatToken = syncSettings.githubPatToken
         if (githubPatToken.isNullOrBlank()) {
-            dbSyncResultFinishWithError(dbSyncResult = dbSyncResult, error = "Invalid data", message = "GitHub token is not set")
+            syncResultFinishWithError(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")
             AppLogger.d("Synchronizer :: sync :: finished because the github token is null or blank")
             EventBus.publish(Event.SYNCHRONIZED)
             return
@@ -140,51 +136,46 @@ class Synchronizer private constructor(
         val upsertSyncResultEntries = coroutineScope {
             synchronizableServiceList
                 .map {
-                    async { it.synchronize(dbSyncResult.id, syncSettings, allReposToCheck) }
+                    async { it.synchronize(syncResultFinish.id, syncSettings, allReposToCheck) }
                 }
                 .awaitAll()
                 .flatten()
         }
 
-        dbSyncResult = dbSyncResultFinish(dbSyncResult, upsertSyncResultEntries)
+        syncResultFinish = syncResultFinish(syncResultFinish, upsertSyncResultEntries)
         cleanUpSyncResult()
 
-        val syncResult = getSyncResult(dbSyncResult.id).getOrThrow()
-        AppLogger.d("Synchronizer :: sync :: finished, from ${syncResult.startAt} to ${syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
+        val syncResult = getSyncResult(syncResultFinish.id).getOrThrow()
+        AppLogger.d("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
         delay(150)
         EventBus.publish(Event.SYNCHRONIZED)
     }
 
-    private suspend fun dbSyncResultFinish(dbSyncResult: DbSyncResult, upsertSyncResultEntry: List<UpsertSyncResultEntryRequest>): DbSyncResult {
-        val upsertSyncResult = UpsertSyncResultRequest(
-            id = dbSyncResult.id,
-            startAt = dbSyncResult.startAt,
-            endAt = Clock.System.now(),
-        )
-        val dbSyncResultUpdated = localDataSource.upsertSyncResult(upsertSyncResult).getOrThrow()
-        localDataSource.upsertSyncResultEntries(upsertSyncResultEntry)
-        return dbSyncResultUpdated
+    private suspend fun syncResultFinish(syncResult: SyncResult, syncResultEntryList: List<SyncResultEntry>): SyncResult {
+        val syncResultUpdated = localDataSource.upsertSyncResult(syncResult.copy(endAt = Clock.System.now())).getOrThrow()
+        localDataSource.upsertSyncResultEntries(syncResultEntryList)
+        return syncResultUpdated
     }
 
-    private suspend fun dbSyncResultFinishWithError(dbSyncResult: DbSyncResult, error: String, message: String): DbSyncResult {
-        val upsertSyncResultEntry = UpsertSyncResultEntryRequest(
-            syncResultId = dbSyncResult.id,
+    private suspend fun syncResultFinishWithError(syncResult: SyncResult, error: String, message: String): SyncResult {
+        val syncResultEntry = SyncResultEntry(
+            syncResultId = syncResult.id,
             repoToCheckId = null,
             isSuccess = false,
             startAt = Clock.System.now(),
             endAt = Clock.System.now(),
-            origin = SyncResultEntry.Origin.OTHER.toString(),
+            origin = SyncResultEntry.Origin.OTHER,
             error = error,
             errorMessage = message
         )
-        return dbSyncResultFinish(dbSyncResult, listOf(upsertSyncResultEntry))
+        return syncResultFinish(syncResult, listOf(syncResultEntry))
     }
 
     private fun reloadCheckTimeout(forceReload: Boolean = false, startWithDelay: Boolean = true) {
         scope.launch {
-            val settingsCheckTimeout = syncSettingsService.get().getOrNull()?.checkTimeout
+            val settingsCheckTimeout = syncSettingsService.get().getOrNull()?.validCheckTimeout
             if (forceReload || (settingsCheckTimeout != null && settingsCheckTimeout != checkTimeout)) {
                 checkTimeout = SyncSettings.getValidCheckTimeout(settingsCheckTimeout)
                 setTimer(startWithDelay = startWithDelay)

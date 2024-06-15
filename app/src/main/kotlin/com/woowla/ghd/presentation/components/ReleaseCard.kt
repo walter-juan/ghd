@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.woowla.compose.tabler.OutlineClock
 import com.woowla.compose.tabler.OutlineTag
 import com.woowla.compose.tabler.TablerIconsPainter
-import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
@@ -31,14 +31,14 @@ import io.kamel.image.KamelImage
 import io.kamel.image.lazyPainterResource
 
 @Composable
-fun ReleaseCard(release: Release) {
-    val releaseDecorator = ReleaseDecorator(release)
+fun ReleaseCard(releaseWithRepo: ReleaseWithRepo) {
+    val releaseDecorator = ReleaseDecorator(releaseWithRepo)
     val avatarImageSize = 45.dp
 
     IconCard(
         modifier = Modifier.fillMaxWidth(),
         onClick = {
-            openWebpage(release.url)
+            openWebpage(releaseWithRepo.release.url)
         },
         trailingContent = { paddingValues, _ ->
             Box(
@@ -48,7 +48,7 @@ fun ReleaseCard(release: Release) {
                     .padding(paddingValues)
             ) {
                 KamelImage(
-                    resource = lazyPainterResource(data = release.authorAvatarUrl ?: ""),
+                    resource = lazyPainterResource(data = releaseWithRepo.release.author?.avatarUrl ?: ""),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(avatarImageSize).clip(CircleShape),
@@ -76,7 +76,7 @@ fun ReleaseCard(release: Release) {
             IconCardRowSmallContent(
                 text = buildAnnotatedString {
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(release.tagName)
+                        append(releaseWithRepo.release.tagName)
                     }
                     append(" ${i18n.release_on} ")
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {

@@ -2,10 +2,7 @@ package com.woowla.ghd.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
-import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.*
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.PullRequestService
 import com.woowla.ghd.domain.synchronization.Synchronizer
@@ -61,9 +58,9 @@ class PullRequestsViewModel(
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests
-                            .groupBy { it.stateWithDraft }
-                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequests = it.value) }
-                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResult = syncResult, appSettings = appSettings)
+                            .groupBy { it.pullRequest.stateWithDraft }
+                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequestsWithReviews = it.value) }
+                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntities = syncResult, appSettings = appSettings)
                     },
                     onFailure = {
                         _state.value = State.Error(throwable = it)
@@ -74,9 +71,9 @@ class PullRequestsViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val syncResult: SyncResult?, val appSettings: AppSettings?): State()
+        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val syncResultWithEntities: SyncResultWithEntitiesAndRepos?, val appSettings: AppSettings?): State()
         data class  Error(val throwable: Throwable): State()
     }
 
-    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequests: List<PullRequest>)
+    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
 }

@@ -4,7 +4,7 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 
 interface RepoToCheckFileParser {
     companion object {
-        const val ID = -1L
+        const val ID = 0L
     }
     /**
      * Decode a String content to a RepoToCheck
