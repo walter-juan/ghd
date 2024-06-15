@@ -18,6 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use multiplatform setting library
 - Update dependencies
 - Remove database entities and use directly the domain ones
+- Increment to 25 the pull requests to retrieve
+### Fixed
+- Pull requests synchronization
 
 ## [1.5.0]
 ### ⚠️ IMPORTANT ⚠️

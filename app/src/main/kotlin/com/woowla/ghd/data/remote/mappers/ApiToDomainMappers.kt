@@ -2,7 +2,7 @@ package com.woowla.ghd.data.remote.mappers
 
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
-import com.woowla.ghd.data.remote.GetPullRequestsQuery
+import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequest
@@ -16,8 +16,8 @@ import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 
-fun GetPullRequestsQuery.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
-    val lastCommitCheckRollupStatusString = commits.edges?.first()?.node?.commit?.statusCheckRollup?.state?.toString()
+fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
+    val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
 
     val pullRequest = PullRequest(
         id = id,
@@ -61,7 +61,7 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
     )
 }
 
-fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Review> {
+fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Review> {
     return edges?.mapNotNull { edge ->
         edge?.node?.let { node ->
             Review(
@@ -76,7 +76,7 @@ fun GetPullRequestsQuery.LatestReviews.toReviews(pullRequestId: String): List<Re
     } ?: listOf()
 }
 
-fun GetPullRequestsQuery.Author.toAuthor(): Author {
+fun PullRequestFragment.Author.toAuthor(): Author {
     return Author(
         login = login,
         url = url.toString(),
@@ -92,7 +92,7 @@ fun GetLastReleaseQuery.Author.toAuthor(): Author {
     )
 }
 
-fun GetPullRequestsQuery.Author1.toAuthor(): Author {
+fun PullRequestFragment.Author1.toAuthor(): Author {
     return Author(
         login = login,
         url = url.toString(),

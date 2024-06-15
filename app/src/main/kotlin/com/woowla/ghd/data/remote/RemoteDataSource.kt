@@ -3,6 +3,7 @@ package com.woowla.ghd.data.remote
 import com.apollographql.apollo3.ApolloClient
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.data.remote.entities.ApiRelease
+import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.data.remote.type.PullRequestState
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -34,11 +35,25 @@ class RemoteDataSource(
         }
     }
 
-    suspend fun getPullRequests(owner: String, repo: String, state: PullRequestState): Result<List<GetPullRequestsQuery.Node>> {
+    suspend fun getPullRequests(owner: String, repo: String, state: PullRequestState): Result<List<PullRequestFragment.Node>> {
         return runCatching {
-            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 10)
+            val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 25)
             val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
-            pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.edges?.mapNotNull { it?.node } ?: listOf()
+            pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
+        }
+    }
+
+    suspend fun getAllStatesPullRequests(owner: String, repo: String): Result<List<PullRequestFragment.Node>> {
+        return runCatching {
+            val pullRequestsQuery = GetAllStatesPullRequestsQuery(owner = owner, name = repo, last = 25)
+            val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
+
+            val repository = pullRequestsResponse.dataAssertNoErrors.repository
+            val openPullRequests = repository?.openPullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
+            val closedPullRequests = repository?.closedPullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
+            val mergedPullRequests = repository?.mergedPullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
+
+            openPullRequests + closedPullRequests + mergedPullRequests
         }
     }
 

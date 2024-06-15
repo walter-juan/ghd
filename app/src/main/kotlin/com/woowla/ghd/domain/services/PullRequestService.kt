@@ -1,9 +1,9 @@
 package com.woowla.ghd.domain.services
 
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.data.remote.type.PullRequestState as ApiPullRequestState
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
@@ -38,35 +38,73 @@ class PullRequestService(
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
+        return newSync(syncResultId, syncSettings, repoToCheckList)
+    }
+
+    suspend fun newSync(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
+        AppLogger.d("Synchronizer :: sync :: pulls :: start")
+        val prSyncStartAt = Clock.System.now()
         val pullRequestsBefore = getAll().getOrDefault(listOf())
         val enabledRepoToCheckList = repoToCheckList.filter { it.arePullRequestsEnabled }
 
-        val syncApiResults = coroutineScope {
-            val fetchOpenPullRequests = enabledRepoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(syncSettings, syncResultId, repoToCheck, ApiPullRequestState.OPEN) }
+        // fetch all remote pull requests
+        val apiPullRequestResultsDeferred = coroutineScope {
+            enabledRepoToCheckList.map { repoToCheck ->
+                val startAt = Clock.System.now()
+                async {
+                    val pulls = remoteDataSource.getAllStatesPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name)
+                    Triple(repoToCheck, startAt, pulls)
+                }
             }
-            val fetchMergedPullRequests = enabledRepoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(syncSettings, syncResultId, repoToCheck, ApiPullRequestState.MERGED) }
+        }
+        val apiPullRequestResults = apiPullRequestResultsDeferred.awaitAll()
+        AppLogger.d("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
+
+        // map to sync results
+        val syncResultEntries = apiPullRequestResults.map { (repoToCheck, startAt, pullRequestResults) ->
+            pullRequestResults.toSyncResultEntry(
+                syncResultId = syncResultId,
+                repoToCheckId = repoToCheck.id,
+                origin = SyncResultEntry.Origin.PULL,
+                startAt = startAt
+            )
+        }
+        // update the local pull requests
+        val pullRequests = apiPullRequestResults.mapNotNull { (repoToCheck, _, pullRequestResults) ->
+            val apiPullRequests = pullRequestResults.getOrElse { listOf() }
+            if (apiPullRequests.isEmpty()) {
+                null
+            } else {
+                val pullRequests = apiPullRequests.map { apiPullRequest ->
+                    val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.pullRequest?.appSeenAt
+                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, appSeenAt = appSeenAt)
+                }
+                pullRequests
             }
-            val fetchClosedPullRequests = enabledRepoToCheckList.map { repoToCheck ->
-                async { fetchPullRequests(syncSettings, syncResultId, repoToCheck, ApiPullRequestState.CLOSED) }
-            }
-
-            val openSyncApiResults = fetchOpenPullRequests.awaitAll()
-            val mergedSyncApiResults = fetchMergedPullRequests.awaitAll()
-            val closedSyncApiResults = fetchClosedPullRequests.awaitAll()
-
-            cleanUp(syncSettings)
-
-            openSyncApiResults + mergedSyncApiResults + closedSyncApiResults
         }
 
+        val validPullRequests = pullRequests.map { pullRequestsWithRepoAndReviews ->
+            pullRequestsWithRepoAndReviews.filterSyncValid(syncSettings = syncSettings)
+        }
+        validPullRequests.map { pullRequestsWithRepoAndReviews ->
+            localDataSource.upsertPullRequests(pullRequestsWithRepoAndReviews.map { it.pullRequest })
+            localDataSource.removeReviewsByPullRequest(pullRequestsWithRepoAndReviews.map { it.pullRequest.id })
+            val reviews = pullRequestsWithRepoAndReviews.map { it.reviews }.flatten()
+            localDataSource.upsertReviews(reviews)
+        }
+
+        // remove pull requests non returned from remote
+        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - validPullRequests.flatten().map { it.pullRequest.id }.toSet()
+        localDataSource.removePullRequests(pullRequestIdsToRemove)
+
+        // send the notifications
         val pullRequestsAfter = getAll().getOrDefault(listOf())
         appSettingsService.get().onSuccess {  appSettings ->
             sendNotifications(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)
         }
 
-        return syncApiResults
+        AppLogger.d("Synchronizer :: sync :: pulls :: finish took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
+        return syncResultEntries
     }
 
     suspend fun cleanUp(syncSettings: SyncSettings) {
@@ -117,38 +155,5 @@ class PullRequestService(
         }
 
         return Result.success(Unit)
-    }
-
-    private suspend fun fetchPullRequests(syncSettings: SyncSettings, syncResultId: Long, repoToCheck: RepoToCheck, state: ApiPullRequestState): SyncResultEntry {
-        val startAt = Clock.System.now()
-        val pullRequestsResult = remoteDataSource.getPullRequests(owner = repoToCheck.owner, repo = repoToCheck.name, state = state)
-
-        pullRequestsResult
-            .mapCatching { apiPullRequests ->
-                apiPullRequests.map { apiPullRequest ->
-                    val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.pullRequest?.appSeenAt
-                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, appSeenAt = appSeenAt)
-                }
-            }
-            .mapCatching { pullRequestsWithReviews ->
-                pullRequestsWithReviews.filterSyncValid(syncSettings = syncSettings)
-            }
-            .onSuccess { pullRequestsWithReviews ->
-                localDataSource.upsertPullRequests(pullRequestsWithReviews.map { it.pullRequest })
-            }
-            .onSuccess { pullRequestsWithReviews ->
-                localDataSource.removeReviewsByPullRequest(pullRequestsWithReviews.map { it.pullRequest.id })
-            }
-            .onSuccess { pullRequestsWithReviews ->
-                val reviews = pullRequestsWithReviews.map { it.reviews }.flatten()
-                localDataSource.upsertReviews(reviews)
-            }
-
-        return pullRequestsResult.toSyncResultEntry(
-            syncResultId = syncResultId,
-            repoToCheckId = repoToCheck.id,
-            origin = SyncResultEntry.Origin.PULL,
-            startAt = startAt
-        )
     }
 }
