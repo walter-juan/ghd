@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.5.2]
+### Added
+- Group the list of repos by group
+
 ## [1.5.1]
 ### Changed
 - Use multiplatform setting library
@@ -196,7 +200,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.1...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.2...dev
+[1.5.2]: https://github.com/walter-juan/ghd/releases/tag/v1.5.2
 [1.5.1]: https://github.com/walter-juan/ghd/releases/tag/v1.5.1
 [1.5.0]: https://github.com/walter-juan/ghd/releases/tag/v1.5.0
 [1.4.2]: https://github.com/walter-juan/ghd/releases/tag/v1.4.2

@@ -67,8 +67,13 @@ class ReposToCheckViewModel(
             val appSettings = appSettingsService.get().getOrNull()
 
             repoToCheckService.getAll().fold(
-                onSuccess = {
-                    _state.value = State.Success(reposToCheck = it, appSettings = appSettings)
+                onSuccess = { repoToCheckList ->
+                    val groupedReposToCheck = repoToCheckList
+                        .sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.name }))
+                        .groupBy { it.groupName }
+                        .toList()
+                        .sortedWith(compareBy(String.CASE_INSENSITIVE_ORDER, { it.first ?: "" }))
+                    _state.value = State.Success(size = repoToCheckList.size, groupedReposToCheck = groupedReposToCheck, appSettings = appSettings)
                 },
                 onFailure = {
                     _state.value = State.Error(throwable = it)
@@ -79,7 +84,7 @@ class ReposToCheckViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val reposToCheck: List<RepoToCheck>, val appSettings: AppSettings?): State()
+        data class Success(val size: Int, val groupedReposToCheck: List<Pair<String?, List<RepoToCheck>>>, val appSettings: AppSettings?): State()
         data class Error(val throwable: Throwable): State()
     }
 }

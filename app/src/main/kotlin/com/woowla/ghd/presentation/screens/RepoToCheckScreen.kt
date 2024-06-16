@@ -1,16 +1,19 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.tabler.OutlineFileDownload
@@ -125,19 +128,47 @@ object RepoToCheckScreen {
                         SectionCategory(i18n.screen_repos_to_check_repositories_section) {
                             SectionItem(
                                 title = i18n.screen_app_settings_repositories_item,
-                                description = i18n.screen_app_settings_repositories_item_description(lockedState.reposToCheck.size),
+                                description = i18n.screen_app_settings_repositories_item_description(lockedState.size),
                             ) {
-                                lockedState.reposToCheck.forEach { repoToCheck ->
-                                    RepoToCheckCard(
-                                        repoToCheck = repoToCheck,
-                                        onEditClick = { repoToEdit ->
-                                            onEditRepoClick.invoke(repoToEdit)
-                                        },
-                                        onDeleteClick = { repoToDelete ->
-                                            viewModel.deleteRepo(repoToDelete)
-                                        },
-                                    )
-                                    Spacer(modifier = Modifier.padding(5.dp))
+                                Column(
+                                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                                ) {
+                                    lockedState.groupedReposToCheck.forEachIndexed { index, (groupName, reposToCheck) ->
+                                        if (groupName != null) {
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                modifier = Modifier.width(AppDimens.contentWidthDp)
+                                            ) {
+                                                Text(
+                                                    text = buildAnnotatedString {
+                                                        if(groupName.isBlank()) {
+                                                            withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
+                                                                append(i18n.screen_edit_repo_to_no_group)
+                                                            }
+                                                        } else {
+                                                            append(groupName)
+                                                        }
+                                                    },
+                                                    style = MaterialTheme.typography.titleMedium,
+                                                )
+                                            }
+                                        }
+                                        reposToCheck.forEach { repoToCheck ->
+                                            RepoToCheckCard(
+                                                repoToCheck = repoToCheck,
+                                                onEditClick = { repoToEdit ->
+                                                    onEditRepoClick.invoke(repoToEdit)
+                                                },
+                                                onDeleteClick = { repoToDelete ->
+                                                    viewModel.deleteRepo(repoToDelete)
+                                                },
+                                            )
+                                        }
+                                        if (index < lockedState.groupedReposToCheck.size - 1) {
+                                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
+                                        }
+                                    }
                                 }
                             }
                         }
