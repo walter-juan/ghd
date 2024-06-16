@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.5.2]
+### Added
+- Group the list of repos by group
 
 ## [1.5.1]
 ### Changed
