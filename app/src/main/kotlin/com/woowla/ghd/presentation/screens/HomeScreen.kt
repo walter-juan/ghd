@@ -43,7 +43,7 @@ object HomeScreen {
             NavigationRail {
                 items.forEachIndexed { index, item ->
                     NavigationRailItem(
-                        icon = { Icon(painter = painterResource(item.icon), contentDescription = item.title, modifier = Modifier.size(25.dp)) },
+                        icon = { Icon(imageVector = item.icon, contentDescription = item.title, modifier = Modifier.size(25.dp)) },
                         label = { Text(item.title) },
                         selected = selectedItem == index,
                         onClick = {

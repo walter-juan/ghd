@@ -24,7 +24,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgeDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +38,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.AnnotatedString
@@ -115,11 +114,10 @@ fun IconCard(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowTitle(
     text: String,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -137,11 +135,10 @@ fun IconCardRowTitle(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowTitle(
     text: AnnotatedString,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -165,7 +162,7 @@ fun IconCardRowTitle(
             if (icon == null) {
                 Box(modifier = modifier)
             } else {
-                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                Icon(imageVector = icon, contentDescription = null, tint = iconTint, modifier = modifier)
                 if (showBadge) {
                     Badge(containerColor = badgeColor)
                 }
@@ -180,11 +177,10 @@ fun IconCardRowTitle(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowContent(
     text: String,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -202,11 +198,10 @@ fun IconCardRowContent(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowContent(
     text: AnnotatedString,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -230,7 +225,7 @@ fun IconCardRowContent(
             if (icon == null) {
                 Box(modifier = modifier)
             } else {
-                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                Icon(imageVector = icon, contentDescription = null, tint = iconTint, modifier = modifier)
                 if (showBadge) {
                     Badge(containerColor = badgeColor)
                 }
@@ -245,11 +240,10 @@ fun IconCardRowContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowSmallContent(
     text: String,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -267,11 +261,10 @@ fun IconCardRowSmallContent(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IconCardRowSmallContent(
     text: AnnotatedString,
-    icon: Painter? = null,
+    icon: ImageVector? = null,
     iconTint: Color = LocalContentColor.current,
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
@@ -295,7 +288,7 @@ fun IconCardRowSmallContent(
             if (icon == null) {
                 Box(modifier = modifier)
             } else {
-                Icon(painter = icon, contentDescription = null, tint = iconTint, modifier = modifier)
+                Icon(imageVector = icon, contentDescription = null, tint = iconTint, modifier = modifier)
                 if (showBadge) {
                     Badge(containerColor = badgeColor)
                 }

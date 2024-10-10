@@ -3,12 +3,10 @@ package com.woowla.ghd.presentation.decorators
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import com.woowla.compose.tabler.OutlineGitMerge
-import com.woowla.compose.tabler.OutlineGitPullRequest
-import com.woowla.compose.tabler.OutlineGitPullRequestClosed
-import com.woowla.compose.tabler.OutlineGitPullRequestDraft
-import com.woowla.compose.tabler.OutlineQuestionMark
-import com.woowla.compose.tabler.TablerIconsRes
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.*
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
@@ -25,12 +23,12 @@ class PullRequestStateDecorator(private val pullRequestStateWithDraft: PullReque
         PullRequestStateWithDraft.UNKNOWN -> i18n.pull_request_state_unknown
     }
 
-    val iconResPath: String = when(pullRequestStateWithDraft) {
-        PullRequestStateWithDraft.OPEN -> TablerIconsRes.OutlineGitPullRequest
-        PullRequestStateWithDraft.CLOSED -> TablerIconsRes.OutlineGitPullRequestClosed
-        PullRequestStateWithDraft.MERGED -> TablerIconsRes.OutlineGitMerge
-        PullRequestStateWithDraft.DRAFT -> TablerIconsRes.OutlineGitPullRequestDraft
-        PullRequestStateWithDraft.UNKNOWN -> TablerIconsRes.OutlineQuestionMark
+    val icon: ImageVector = when(pullRequestStateWithDraft) {
+        PullRequestStateWithDraft.OPEN -> Tabler.Outline.GitPullRequest
+        PullRequestStateWithDraft.CLOSED -> Tabler.Outline.GitPullRequestClosed
+        PullRequestStateWithDraft.MERGED -> Tabler.Outline.GitMerge
+        PullRequestStateWithDraft.DRAFT -> Tabler.Outline.GitPullRequestDraft
+        PullRequestStateWithDraft.UNKNOWN -> Tabler.Outline.QuestionMark
     }
 
     @Composable

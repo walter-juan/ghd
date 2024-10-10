@@ -23,22 +23,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.tabler.FilledCircleCheck
-import com.woowla.compose.tabler.OutlineCircle
-import com.woowla.compose.tabler.OutlineClock
-import com.woowla.compose.tabler.OutlineGitMerge
-import com.woowla.compose.tabler.OutlineListDetails
-import com.woowla.compose.tabler.OutlineMessageCircle
-import com.woowla.compose.tabler.OutlineUsers
-import com.woowla.compose.tabler.TablerIconsPainter
-import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Filled
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.filled.CircleCheck
+import com.woowla.compose.icon.collections.tabler.tabler.outline.*
 import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.presentation.app.AppIconsPainter
@@ -81,7 +77,7 @@ fun PullRequestCard(
                     modifier = Modifier.height(30.dp),
                     trailingIcon = {
                         Icon(
-                            painter = if (seen) { TablerIconsPainter.FilledCircleCheck } else { TablerIconsPainter.OutlineCircle },
+                            imageVector = if (seen) { Tabler.Filled.CircleCheck } else { Tabler.Outline.Circle },
                             contentDescription = null,
                             modifier = Modifier.padding(vertical = 5.dp)
                         )
@@ -134,7 +130,7 @@ fun PullRequestCard(
         content = {
             IconCardRowTitle(
                 text = pullRequestDecorator.title,
-                icon = painterResource(pullRequestDecorator.state.iconResPath),
+                icon = pullRequestDecorator.state.icon,
                 iconTint = pullRequestDecorator.state.iconTint(),
             )
             IconCardRowSmallContent(
@@ -154,34 +150,34 @@ fun PullRequestCard(
             )
             IconCardRowSmallContent(
                 text = pullRequestDecorator.updatedAt,
-                icon = TablerIconsPainter.OutlineClock
+                icon = Tabler.Outline.Clock
             )
             if (showExtras) {
                 if (pullRequestDecorator.showMergeableBadge) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.mergeable,
-                        icon = TablerIconsPainter.OutlineGitMerge,
+                        icon = Tabler.Outline.GitMerge,
                         showBadge = true,
                         badgeColor = pullRequestDecorator.mergeableBadgeColor(),
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.commitChecks,
-                    icon = TablerIconsPainter.OutlineListDetails,
+                    icon = Tabler.Outline.ListDetails,
                     showBadge = pullRequestDecorator.showCommitsCheckBadge,
                     badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
                 )
                 if (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
-                        icon = TablerIconsPainter.OutlineUsers,
+                        icon = Tabler.Outline.Users,
                         showBadge = pullRequestDecorator.showReviewsBadge,
                         badgeColor = pullRequestDecorator.reviewsBadgeColor(),
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.comments,
-                    icon = TablerIconsPainter.OutlineMessageCircle
+                    icon = Tabler.Outline.MessageCircle
                 )
             }
         }

@@ -16,11 +16,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.tabler.OutlineFileDownload
-import com.woowla.compose.tabler.OutlineFileUpload
-import com.woowla.compose.tabler.OutlineInfoCircle
-import com.woowla.compose.tabler.OutlinePlus
-import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.FileDownload
+import com.woowla.compose.icon.collections.tabler.tabler.outline.FileUpload
+import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -79,7 +80,7 @@ object RepoToCheckScreen {
                                 description = i18n.screen_repos_to_check_add_new_repository_item_description,
                             ) {
                                 Button(onClick = { onAddNewRepoClick.invoke() }) {
-                                    Icon(painter = TablerIconsPainter.OutlinePlus, contentDescription = null, modifier = Modifier.size(20.dp))
+                                    Icon(imageVector = Tabler.Outline.Plus, contentDescription = null, modifier = Modifier.size(20.dp))
                                 }
                             }
                             SectionItem(
@@ -90,7 +91,7 @@ object RepoToCheckScreen {
                                     Button(onClick = onBulkExampleClick) {
                                         Row {
                                             Icon(
-                                                painter = TablerIconsPainter.OutlineInfoCircle,
+                                                imageVector = Tabler.Outline.InfoCircle,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -102,7 +103,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkImportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = TablerIconsPainter.OutlineFileUpload,
+                                                imageVector = Tabler.Outline.FileUpload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -114,7 +115,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkExportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                painter = TablerIconsPainter.OutlineFileDownload,
+                                                imageVector = Tabler.Outline.FileDownload,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )

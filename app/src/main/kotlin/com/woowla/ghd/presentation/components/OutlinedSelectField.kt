@@ -25,9 +25,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import com.woowla.compose.tabler.OutlineChevronDown
-import com.woowla.compose.tabler.OutlineChevronUp
-import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ChevronDown
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ChevronUp
 
 @Composable
 fun <T: Any?> OutlinedSelectField(
@@ -46,9 +47,9 @@ fun <T: Any?> OutlinedSelectField(
     var textFieldText by remember { mutableStateOf(selectedText) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
     val textFieldTrailingIcon = if (dropDownExpanded) {
-        TablerIconsPainter.OutlineChevronUp
+        Tabler.Outline.ChevronUp
     } else {
-        TablerIconsPainter.OutlineChevronDown
+        Tabler.Outline.ChevronDown
     }
 
     Column(
