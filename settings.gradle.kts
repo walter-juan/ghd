@@ -10,4 +10,3 @@ pluginManagement {
 
 rootProject.name = "ghd"
 include("app")
-include("icons:tabler")

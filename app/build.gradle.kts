@@ -57,8 +57,6 @@ buildConfig {
 }
 
 dependencies {
-    implementation(project(":icons:tabler"))
-
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
