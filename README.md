@@ -117,18 +117,6 @@ $ ./gradlew build -PdebugConfig=false
     ./gradlew wrapper --gradle-version latest
     ./gradlew wrapper --gradle-version 7.5.1
     ```
-# Scripts
-
-The folder `scripts` contains some scripts in Ruby:
-
-- Scripts must be executed from the scripts folder
-    ```shell
-    cd scripts
-    ```
-- Download tabler icons
-    ```shell
-    bundle exec ruby tabler-icons-download.rb
-    ```
 
 # Links
 - GitHub
