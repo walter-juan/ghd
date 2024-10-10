@@ -35,13 +35,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.tabler.FilledEye
-import com.woowla.compose.tabler.OutlineDeviceFloppy
-import com.woowla.compose.tabler.OutlineEye
-import com.woowla.compose.tabler.OutlineEyeClosed
-import com.woowla.compose.tabler.OutlineEyeOff
-import com.woowla.compose.tabler.OutlineEyeglassOff
-import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Eye
+import com.woowla.compose.icon.collections.tabler.tabler.outline.EyeOff
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -79,7 +77,7 @@ object SettingsScreen {
                             onClick = { viewModel.saveSettings() }
                         ) {
                             Icon(
-                                TablerIconsPainter.OutlineDeviceFloppy,
+                                Tabler.Outline.DeviceFloppy,
                                 contentDescription = i18n.screen_app_settings_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
@@ -137,9 +135,9 @@ object SettingsScreen {
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                                         trailingIcon = {
                                             val image = if (passwordVisible) {
-                                                TablerIconsPainter.OutlineEyeOff
+                                                Tabler.Outline.EyeOff
                                             } else {
-                                                TablerIconsPainter.OutlineEye
+                                                Tabler.Outline.Eye
                                             }
                                             val description = if (passwordVisible) {
                                                 i18n.screen_app_settings_github_field_hide
@@ -147,7 +145,7 @@ object SettingsScreen {
                                                 i18n.screen_app_settings_github_field_show
                                             }
                                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                                Icon(painter = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
+                                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
                                             }
                                         },
                                         modifier = Modifier.weight(1f)

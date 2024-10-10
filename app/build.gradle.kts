@@ -29,7 +29,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.5.2"
+version = "1.5.3"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -57,8 +57,6 @@ buildConfig {
 }
 
 dependencies {
-    implementation(project(":icons:tabler"))
-
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
@@ -80,6 +78,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.settings)
+    implementation(libs.icons.tabler)
 
     testImplementation(libs.bundles.test.kotest)
 }

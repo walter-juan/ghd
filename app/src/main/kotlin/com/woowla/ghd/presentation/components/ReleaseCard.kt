@@ -18,9 +18,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import com.woowla.compose.tabler.OutlineClock
-import com.woowla.compose.tabler.OutlineTag
-import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
@@ -72,7 +73,7 @@ fun ReleaseCard(releaseWithRepo: ReleaseWithRepo) {
             }
         },
         content = {
-            IconCardRowTitle(text = releaseDecorator.name, icon = TablerIconsPainter.OutlineTag)
+            IconCardRowTitle(text = releaseDecorator.name, icon = Tabler.Outline.Tag)
             IconCardRowSmallContent(
                 text = buildAnnotatedString {
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -85,7 +86,7 @@ fun ReleaseCard(releaseWithRepo: ReleaseWithRepo) {
                 },
             )
             Spacer(modifier = Modifier.padding(vertical = 2.dp))
-            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = TablerIconsPainter.OutlineClock)
+            IconCardRowSmallContent(text = releaseDecorator.publishedAt, icon = Tabler.Outline.Clock)
         }
     )
 }

@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResult
@@ -67,7 +66,7 @@ object PullRequestsScreen {
                                 modifier = Modifier.width(AppDimens.contentWidthDp)
                             ) {
                                 Icon(
-                                    painter = painterResource(pullRequestDecorator.iconResPath),
+                                    imageVector = pullRequestDecorator.icon,
                                     contentDescription = null,
                                     modifier = Modifier.size(15.dp),
                                     tint = pullRequestDecorator.iconTint()

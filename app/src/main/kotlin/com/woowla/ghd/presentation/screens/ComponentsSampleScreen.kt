@@ -13,8 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.woowla.compose.tabler.OutlineBuildingBank
-import com.woowla.compose.tabler.TablerIconsPainter
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.BuildingBank
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeableGitHubState
@@ -341,7 +342,7 @@ object ComponentsSampleScreen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = TablerIconsPainter.OutlineBuildingBank,
+                        imageVector = Tabler.Outline.BuildingBank,
                         contentDescription = null,
                         tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
@@ -357,7 +358,7 @@ object ComponentsSampleScreen {
                         .background(Color.LightGray)
                 ) {
                     Icon(
-                        painter = TablerIconsPainter.OutlineBuildingBank,
+                        imageVector = Tabler.Outline.BuildingBank,
                         contentDescription = null,
                         tint = Color.Magenta,
                         modifier = Modifier.padding(paddingValues)
