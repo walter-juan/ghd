@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.settings)
+    implementation(libs.icons.tabler)
 
     testImplementation(libs.bundles.test.kotest)
 }

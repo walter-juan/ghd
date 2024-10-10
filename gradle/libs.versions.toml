@@ -63,6 +63,8 @@ semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
 tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
 # multiplatform library for saving simple key-value data
 settings = { group = "com.russhwolf", name = "multiplatform-settings", version = "1.1.1" }
+# icons
+icons-tabler = { group = "com.woowla.compose.icon.collections", name = "tabler", version = "3.19.0" }
 
 # kotest runner
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
