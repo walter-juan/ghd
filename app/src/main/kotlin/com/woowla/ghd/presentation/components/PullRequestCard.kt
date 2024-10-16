@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -43,7 +42,7 @@ import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @Composable
 fun PullRequestCard(
@@ -102,7 +101,7 @@ fun PullRequestCard(
                         Box(modifier = Modifier.size(avatarImageSize))
                     } else {
                         KamelImage(
-                            resource = lazyPainterResource(data = pullRequestWithReviews.pullRequest.author?.avatarUrl ?: ""),
+                            resource = asyncPainterResource(data = pullRequestWithReviews.pullRequest.author?.avatarUrl ?: ""),
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),

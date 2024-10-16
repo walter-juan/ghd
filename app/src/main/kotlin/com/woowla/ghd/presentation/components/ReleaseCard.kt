@@ -29,7 +29,7 @@ import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.ReleaseDecorator
 import com.woowla.ghd.utils.openWebpage
 import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
+import io.kamel.image.asyncPainterResource
 
 @Composable
 fun ReleaseCard(releaseWithRepo: ReleaseWithRepo) {
@@ -49,7 +49,7 @@ fun ReleaseCard(releaseWithRepo: ReleaseWithRepo) {
                     .padding(paddingValues)
             ) {
                 KamelImage(
-                    resource = lazyPainterResource(data = releaseWithRepo.release.author?.avatarUrl ?: ""),
+                    resource = asyncPainterResource(data = releaseWithRepo.release.author?.avatarUrl ?: ""),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.size(avatarImageSize).clip(CircleShape),
