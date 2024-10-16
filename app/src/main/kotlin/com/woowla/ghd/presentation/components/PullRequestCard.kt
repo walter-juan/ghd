@@ -1,7 +1,6 @@
 package com.woowla.ghd.presentation.components
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +28,10 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
@@ -41,8 +44,6 @@ import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.openWebpage
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
 
 @Composable
 fun PullRequestCard(
@@ -100,27 +101,16 @@ fun PullRequestCard(
                     if (targetState) {
                         Box(modifier = Modifier.size(avatarImageSize))
                     } else {
-                        KamelImage(
-                            resource = asyncPainterResource(data = pullRequestWithReviews.pullRequest.author?.avatarUrl ?: ""),
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(pullRequestWithReviews.pullRequest.author?.avatarUrl ?: "")
+                                .crossfade(true)
+                                .build(),
+                            placeholder = AppIconsPainter.Placeholder,
+                            error = AppIconsPainter.Placeholder,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                            onLoading = {
-                                Image(
-                                    painter = AppIconsPainter.Placeholder,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                                )
-                            },
-                            onFailure = {
-                                Image(
-                                    painter = AppIconsPainter.Placeholder,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                                )
-                            }
                         )
                     }
                 }

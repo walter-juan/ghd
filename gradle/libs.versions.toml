@@ -18,7 +18,7 @@ gradleVersionUpdates = "0.51.0"
 gradleVersionCatalogUpdates = "0.8.4"
 logback = "1.5.11"
 appdirs = "1.2.2"
-kamel = "1.0.0"
+coil = "3.0.0-rc01"
 kaml = "0.61.0"
 semver = "2.0.0"
 tinder-statemachine = "0.2.0"
@@ -60,7 +60,7 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 # date time kotlin lib
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-# ktor http client (needed for kamel and some API requests)
+# ktor http client
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -71,8 +71,9 @@ apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 # cross-platform lib to resolve some application directories for desktop
 appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
-# kamel, media loading and caching (requires Ktor HttpClient)
-kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
+# coil, media loading and caching
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 # YAML support for kotlinx.serialization
 kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
@@ -100,6 +101,10 @@ ktor-client = [
     "ktor-client-content-negotiation",
     "ktor-client-logging",
     "ktor-serialization-kotlinx-json",
+]
+coil = [
+    "coil-compose",
+    "coil-ktor",
 ]
 test-kotest = [
     "test-kotest-assertions-core",
