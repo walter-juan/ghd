@@ -1,12 +1,29 @@
 [versions]
 kotlin = "2.0.0"
+kotlinx-coroutines = "1.8.1"
+kotlinx-datetime = "0.6.0"
 ksp = "2.0.0-1.0.22"
 compose-jetbrains = "1.6.11"
 apollo3 = "3.8.4"
 kotest = "5.9.1"
+kotest-kotlinx-time = "4.4.3"
+kotest-property-datetime = "2.0.0"
 ktor = "2.3.11"
+androidx-navigation = "2.7.0-alpha07"
+androidx-lifecycle = "2.8.0"
 androidx-room = "2.7.0-alpha04"
 androidx-sqlite = "2.5.0-alpha04"
+buildconfig = "5.3.5"
+gradleVersionUpdates = "0.51.0"
+gradleVersionCatalogUpdates = "0.8.4"
+logback = "1.5.6"
+appdirs = "1.2.2"
+kamel = "0.9.5"
+kaml = "0.60.0"
+semver = "2.0.0"
+tinder-statemachine = "0.2.0"
+settings = "1.1.1"
+icons-tabler = "3.19.0"
 
 [plugins]
 # Kotlin for JVM
@@ -23,60 +40,71 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 # GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
-buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
+buildconfig = { id = "com.github.gmazzo.buildconfig", version.ref = "buildconfig" }
 # Discover dependency updates
-benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+gradleVersionUpdates = { id = "com.github.ben-manes.versions", version.ref = "gradleVersionUpdates" }
+gradleVersionCatalogUpdates = { id = "nl.littlerobots.version-catalog-update", version.ref = "gradleVersionCatalogUpdates" }
 # Android multiplatform, room
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
 # Android multiplatform, navigation
-androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.7.0-alpha07" }
+androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 # Android multiplatform, viewmodel
-androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.8.0" }
+androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 # Android multiplatform, room + sqlite
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
-androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "androidx-sqlite" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.1" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 # date time kotlin lib
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.6.0" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 # ktor http client (needed for kamel and some API requests)
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
-ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # GraphQL client
-apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
+apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo3" }
 # logger
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.5.6" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 # cross-platform lib to resolve some application directories for desktop
-appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.2" }
+appdirs = { module = "net.harawata:appdirs", version.ref = "appdirs" }
 # kamel, media loading and caching (requires Ktor HttpClient)
-kamel = { group = "media.kamel", name = "kamel-image", version = "0.9.5" }
+kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 # YAML support for kotlinx.serialization
-kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.60.0" }
+kaml = { module = "com.charleskorn.kaml:kaml", version.ref = "kaml" }
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
-semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
+semver = { module = "net.swiftzer.semver:semver", version.ref = "semver" }
 # state machine
-tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
+tinder-statemachine = { module = "com.tinder.statemachine:statemachine", version.ref = "tinder-statemachine" }
 # multiplatform library for saving simple key-value data
-settings = { group = "com.russhwolf", name = "multiplatform-settings", version = "1.1.1" }
+settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 # icons
-icons-tabler = { group = "com.woowla.compose.icon.collections", name = "tabler", version = "3.19.0" }
-
+icons-tabler = { module = "com.woowla.compose.icon.collections:tabler", version.ref = "icons-tabler" }
 # kotest runner
-test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+test-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 # kotest property-based testing (right now used only for the data generators)
-test-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+test-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 # kotest assertions
-test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+test-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 # kotest assertions, kotlinx DateTime assertions
-test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
+test-kotest-assertions-kotlinx-time = { module = "io.kotest:kotest-assertions-kotlinx-time", version.ref = "kotest-kotlinx-time" }
 # kotest property-based testing, kotlinx DateTime generators
-test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "2.0.0" }
+test-kotest-extensions-property-datetime = { module = "io.kotest.extensions:kotest-property-datetime", version.ref = "kotest-property-datetime" }
 
 [bundles]
-ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
-test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]
+ktor-client = [
+    "ktor-client-cio",
+    "ktor-client-content-negotiation",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+]
+test-kotest = [
+    "test-kotest-assertions-core",
+    "test-kotest-assertions-kotlinx-time",
+    "test-kotest-extensions-property-datetime",
+    "test-kotest-property",
+    "test-kotest-runner-junit5",
+]

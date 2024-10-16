@@ -108,10 +108,21 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew packageDistributionForCurrentOS
     ```
-- To know which dependencies have updates
-    ```shell
-    ./gradlew dependencyUpdates
-    ```
+- Update dependencies
+  - Generate a report in [/build/reports/](/build/reports/dependencyUpdates/report.html)
+      ```shell
+      ./gradlew clean dependencyUpdates
+      ```
+  - To update the dependencies
+    1. Generate a [libs.versions.updates.toml](gradle/libs.versions.updates.toml)
+        ```shell
+        ./gradlew clean versionCatalogUpdate --interactive
+        ```
+    2. Remove or comment the ones you don't want to update from [libs.versions.updates.toml](gradle/libs.versions.updates.toml)
+    3. Update the [libs.versions.toml](gradle/libs.versions.toml) by running
+        ```shell
+        ./gradlew versionCatalogApplyUpdates
+        ```
 - Update Gradle version
     ```shell
     ./gradlew wrapper --gradle-version latest
