@@ -17,7 +17,7 @@ import kotlin.time.Duration.Companion.hours
 
 class ComponentsViewModel(
     private val notificationClient: NotificationClient = NotificationClient(),
-    private val notificationsSender: NotificationsSender = NotificationsSender(client = notificationClient)
+    private val notificationsSender: NotificationsSender = NotificationsSender.getInstance(client = notificationClient),
 ) : ViewModel() {
     private val repoToCheck = RepoToCheck(
         id = 9154,

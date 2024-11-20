@@ -20,7 +20,7 @@ import kotlinx.datetime.Clock
 class ReleaseService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
     private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
-    private val notificationsSender: NotificationsSender = NotificationsSender(),
+    private val notificationsSender: NotificationsSender = NotificationsSender.getInstance(),
     private val appSettingsService: AppSettingsService = AppSettingsService(),
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<ReleaseWithRepo>> {

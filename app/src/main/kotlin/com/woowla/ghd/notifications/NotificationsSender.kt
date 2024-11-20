@@ -3,10 +3,20 @@ package com.woowla.ghd.notifications
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 
-class NotificationsSender(
+interface NotificationsSender {
+    companion object {
+        fun getInstance(client: NotificationClient = NotificationClient()): NotificationsSender = NotificationsSenderDefault(client)
+    }
+    fun newPullRequest(pull: PullRequest)
+    fun updatePullRequest(pull: PullRequest)
+    fun newRelease(releaseWithRepo: ReleaseWithRepo)
+    fun updateRelease(releaseWithRepo: ReleaseWithRepo)
+}
+
+private class NotificationsSenderDefault(
     private val client: NotificationClient = NotificationClient()
-) {
-    fun newPullRequest(pull: PullRequest) {
+): NotificationsSender {
+    override fun newPullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "New pull request #${pull.number}",
             message = "${pull.author?.login} - ${pull.title}",
@@ -14,7 +24,7 @@ class NotificationsSender(
         )
     }
 
-    fun updatePullRequest(pull: PullRequest) {
+    override fun updatePullRequest(pull: PullRequest) {
         client.sendNotification(
             title = "Updated pull request #${pull.number}",
             message = "${pull.author?.login} - ${pull.title}",
@@ -22,7 +32,7 @@ class NotificationsSender(
         )
     }
 
-    fun newRelease(releaseWithRepo: ReleaseWithRepo) {
+    override fun newRelease(releaseWithRepo: ReleaseWithRepo) {
         client.sendNotification(
             title = "New release available",
             message = "${releaseWithRepo.repoToCheck.owner}/${releaseWithRepo.repoToCheck.name} ${releaseWithRepo.release.tagName}",
@@ -30,7 +40,7 @@ class NotificationsSender(
         )
     }
 
-    fun updateRelease(releaseWithRepo: ReleaseWithRepo) {
+    override fun updateRelease(releaseWithRepo: ReleaseWithRepo) {
         client.sendNotification(
             title = "Updated release available",
             message = "${releaseWithRepo.repoToCheck.owner}/${releaseWithRepo.repoToCheck.name} ${releaseWithRepo.release.tagName}",
