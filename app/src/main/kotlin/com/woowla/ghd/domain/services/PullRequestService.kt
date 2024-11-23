@@ -8,6 +8,8 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toPullRequest
+import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
@@ -121,30 +123,26 @@ class PullRequestService(
     }
 
     suspend fun sendNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
-        val oldPullRequestIds = oldPullRequestsWithReviews.map { it.pullRequest.id }
+        // notification for state change
+        val pullRequestsWithStateChange = newPullRequestsWithReviews
+            .filter { newPull ->
+                val oldRelease = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPull.pullRequest.id }
+                if (oldRelease != null) {
+                    shouldNotifyPullRequestStateChange(appSettings, oldRelease.pullRequest, newPull.pullRequest)
+                } else {
+                    shouldNotifyPullRequestStateChange(appSettings, newPull.pullRequest)
+                }
+            }
+        pullRequestsWithStateChange.forEach { notificationsSender.newPullRequest(it.pullRequest) }
 
-        // notification for a new pull requests
-        if (appSettings.newPullRequestsNotificationsEnabled) {
-            newPullRequestsWithReviews
-                .filterNot {
-                    oldPullRequestIds.contains(it.pullRequest.id)
-                }
-                .forEach {
-                    notificationsSender.newPullRequest(it.pullRequest)
-                }
-        }
-
-        // notification for an update
-        if (appSettings.updatedPullRequestsNotificationsEnabled) {
-            newPullRequestsWithReviews
-                .filter {
-                    !it.pullRequest.appSeen
-                }
+        // notification for activity change
+        if (appSettings.pullRequestActivityNotificationsEnabled) {
+            val nonNotified = newPullRequestsWithReviews - pullRequestsWithStateChange
+            nonNotified
                 .filter { newPull ->
                     val oldRelease = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPull.pullRequest.id }
-
                     if (oldRelease != null) {
-                        oldRelease.pullRequest.updatedAt != newPull.pullRequest.updatedAt
+                        shouldNotifyPullRequestActivityChange(appSettings, oldRelease.pullRequest, newPull.pullRequest)
                     } else {
                         false
                     }
@@ -155,5 +153,38 @@ class PullRequestService(
         }
 
         return Result.success(Unit)
+    }
+
+    private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, pullRequest: PullRequest): Boolean {
+        val validState = appSettings.pullRequestNotificationsFilterOptions.let {
+            when (pullRequest.stateWithDraft) {
+                PullRequestStateWithDraft.OPEN -> it.open
+                PullRequestStateWithDraft.CLOSED -> it.closed
+                PullRequestStateWithDraft.MERGED -> it.merged
+                PullRequestStateWithDraft.DRAFT -> it.draft
+                PullRequestStateWithDraft.UNKNOWN -> false
+            }
+        }
+        return appSettings.pullRequestStateNotificationsEnabled && validState
+    }
+
+    private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
+        val stateChanged = oldPullRequest.state != newPullRequest.state
+        val validState = appSettings.pullRequestNotificationsFilterOptions.let {
+            when (newPullRequest.stateWithDraft) {
+                PullRequestStateWithDraft.OPEN -> it.open
+                PullRequestStateWithDraft.CLOSED -> it.closed
+                PullRequestStateWithDraft.MERGED -> it.merged
+                PullRequestStateWithDraft.DRAFT -> it.draft
+                PullRequestStateWithDraft.UNKNOWN -> false
+            }
+        }
+        return appSettings.pullRequestStateNotificationsEnabled && stateChanged && validState
+    }
+
+    private fun shouldNotifyPullRequestActivityChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
+        val seen = newPullRequest.appSeenAt != null && !newPullRequest.appSeen
+        val updated = oldPullRequest.updatedAt != newPullRequest.updatedAt
+        return appSettings.pullRequestActivityNotificationsEnabled && seen && updated
     }
 }

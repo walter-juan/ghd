@@ -3,6 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.PullRequestNotificationsFilterOptions
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.SyncSettingsService
@@ -54,13 +55,19 @@ class SettingsViewModel(
 
     fun newPullRequestsNotificationsEnabledUpdated(value: Boolean) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(newPullRequestsNotificationsEnabled = value))
+            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestStateNotificationsEnabled = value))
+        }
+    }
+
+    fun newPullRequestsNotificationsOptions(value: PullRequestNotificationsFilterOptions) {
+        _state.on<State.Success> {
+            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestNotificationsFilterOptions = value))
         }
     }
 
     fun updatedPullRequestsNotificationsEnabledUpdated(value: Boolean) {
         _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(updatedPullRequestsNotificationsEnabled = value))
+            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestActivityNotificationsEnabled = value))
         }
     }
 
@@ -72,7 +79,6 @@ class SettingsViewModel(
     }
 
     fun updatedReleaseNotificationsEnabledUpdated(value: Boolean) {
-
         _state.on<State.Success> {
             _state.value = it.copy(appSettings = it.appSettings.copy(updatedReleaseNotificationsEnabled = value))
         }

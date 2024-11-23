@@ -13,6 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [1.5.4]
+### Added
+- Be able to filter the pull requests notifications by state
+### Changed
+- Pull request created notifications renamed to pull request state changed notifications
+- Pull request updated notifications renamed to pull request activity notifications
+### Fixed
+- Pull request activity always sent notifications when they were never marked as seen
+
 ## [1.5.3]
 ### Changed
 - Use icons from an external dependency
@@ -204,7 +213,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.3...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.4...dev
+[1.5.4]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
 [1.5.3]: https://github.com/walter-juan/ghd/releases/tag/v1.5.3
 [1.5.2]: https://github.com/walter-juan/ghd/releases/tag/v1.5.2
 [1.5.1]: https://github.com/walter-juan/ghd/releases/tag/v1.5.1

@@ -14,8 +14,14 @@ class LocalDataSource(
             appProperties.load()
             AppSettings(
                 darkTheme = appProperties.darkTheme,
-                newPullRequestsNotificationsEnabled = appProperties.newPullRequestsNotificationsEnabled,
-                updatedPullRequestsNotificationsEnabled = appProperties.updatedPullRequestsNotificationsEnabled,
+                pullRequestStateNotificationsEnabled = appProperties.pullRequestStateNotificationsEnabled,
+                pullRequestNotificationsFilterOptions = PullRequestNotificationsFilterOptions(
+                    open = appProperties.pullRequestNotificationsFilterOptionsOpen,
+                    closed = appProperties.pullRequestNotificationsFilterOptionsClosed,
+                    merged = appProperties.pullRequestNotificationsFilterOptionsMerged,
+                    draft = appProperties.pullRequestNotificationsFilterOptionsDraft,
+                ),
+                pullRequestActivityNotificationsEnabled = appProperties.pullRequestActivityNotificationsEnabled,
                 newReleaseNotificationsEnabled = appProperties.newReleaseNotificationsEnabled,
                 updatedReleaseNotificationsEnabled = appProperties.updatedReleaseNotificationsEnabled
             )
@@ -25,8 +31,15 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
-            appProperties.newPullRequestsNotificationsEnabled = appSettings.newPullRequestsNotificationsEnabled
-            appProperties.updatedPullRequestsNotificationsEnabled = appSettings.updatedPullRequestsNotificationsEnabled
+
+            appProperties.pullRequestNotificationsFilterOptionsOpen = appSettings.pullRequestNotificationsFilterOptions.open
+            appProperties.pullRequestNotificationsFilterOptionsClosed = appSettings.pullRequestNotificationsFilterOptions.closed
+            appProperties.pullRequestNotificationsFilterOptionsMerged = appSettings.pullRequestNotificationsFilterOptions.merged
+            appProperties.pullRequestNotificationsFilterOptionsDraft = appSettings.pullRequestNotificationsFilterOptions.draft
+
+            appProperties.pullRequestStateNotificationsEnabled = appSettings.pullRequestStateNotificationsEnabled
+            appProperties.pullRequestActivityNotificationsEnabled = appSettings.pullRequestActivityNotificationsEnabled
+
             appProperties.newReleaseNotificationsEnabled = appSettings.newReleaseNotificationsEnabled
             appProperties.updatedReleaseNotificationsEnabled = appSettings.updatedReleaseNotificationsEnabled
             appProperties.store()
