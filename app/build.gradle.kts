@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.settings)
     implementation(libs.icons.tabler)
 
+    testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)
 }
 
