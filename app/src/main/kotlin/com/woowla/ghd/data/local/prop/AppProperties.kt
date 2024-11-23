@@ -23,8 +23,16 @@ object AppProperties {
     val settings: Settings = PropertiesSettings(properties)
 
     var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
-    var newPullRequestsNotificationsEnabled: Boolean by settings.boolean("newPullRequestsNotificationsEnabled", true)
-    var updatedPullRequestsNotificationsEnabled: Boolean by settings.boolean("updatedPullRequestsNotificationsEnabled", true)
+    var pullRequestNotificationsFilterOptionsOpen: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsOpen", true)
+    var pullRequestNotificationsFilterOptionsClosed: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsClosed", true)
+    var pullRequestNotificationsFilterOptionsMerged: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsMerged", true)
+    var pullRequestNotificationsFilterOptionsDraft: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsDraft", true)
+
+    // TODO the property should be migrated from newPullRequestsNotificationsEnabled to pullRequestStateNotificationsEnabled
+    var pullRequestStateNotificationsEnabled: Boolean by settings.boolean("newPullRequestsNotificationsEnabled", true)
+    // TODO the property should be migrated from updatedPullRequestsNotificationsEnabled to pullRequestActivityNotificationsEnabled
+    var pullRequestActivityNotificationsEnabled: Boolean by settings.boolean("updatedPullRequestsNotificationsEnabled", true)
+
     var newReleaseNotificationsEnabled: Boolean by settings.boolean("newReleaseNotificationsEnabled", true)
     var updatedReleaseNotificationsEnabled: Boolean by settings.boolean("updatedReleaseNotificationsEnabled", true)
 
