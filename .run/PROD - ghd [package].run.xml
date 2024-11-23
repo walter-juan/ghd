@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="PROD - ghd [package]" type="GradleRunConfiguration" factoryName="Gradle" folderName="Prod">
+  <configuration default="false" name="PROD - ghd [package]" type="GradleRunConfiguration" factoryName="Gradle" folderName="prod">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
