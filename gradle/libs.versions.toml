@@ -66,6 +66,8 @@ settings = { group = "com.russhwolf", name = "multiplatform-settings", version =
 # icons
 icons-tabler = { group = "com.woowla.compose.icon.collections", name = "tabler", version = "3.19.0" }
 
+# mockk, mocking library for Kotlin
+mockk = { group = "io.mockk", name = "mockk", version = "1.13.13" }
 # kotest runner
 test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 # kotest property-based testing (right now used only for the data generators)
