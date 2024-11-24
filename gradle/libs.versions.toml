@@ -1,12 +1,13 @@
 [versions]
-kotlin = "2.0.0"
-ksp = "2.0.0-1.0.22"
-compose-jetbrains = "1.6.11"
-apollo3 = "3.8.4"
+kotlin = "2.0.21"
+ksp = "2.0.21-1.0.28"
+compose-jetbrains = "1.7.1"
+apollo3 = "3.8.5"
 kotest = "5.9.1"
-ktor = "2.3.11"
-androidx-room = "2.7.0-alpha04"
-androidx-sqlite = "2.5.0-alpha04"
+ktor = "3.0.1"
+androidx-room = "2.7.0-alpha11"
+androidx-sqlite = "2.5.0-alpha11"
+coil = "3.0.3"
 
 [plugins]
 # Kotlin for JVM
@@ -23,7 +24,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 # GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
-buildconfig = "com.github.gmazzo.buildconfig:5.3.5"
+buildconfig = "com.github.gmazzo.buildconfig:5.5.1"
 # Discover dependency updates
 benmanesversions = "com.github.ben-manes.versions:0.51.0"
 # Android multiplatform, room
@@ -31,18 +32,18 @@ androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
 # Android multiplatform, navigation
-androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.7.0-alpha07"
+androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10"
 # Android multiplatform, viewmodel
-androidx-lifecycle-viewmodel-compose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0"
+androidx-lifecycle-viewmodel-compose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
 # Android multiplatform, room + sqlite
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.8.1"
+kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0"
 # date time kotlin lib
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.0"
-# ktor http client (needed for kamel and some API requests)
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
+# ktor http client (needed for coil and some API requests)
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
@@ -50,21 +51,23 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 # GraphQL client
 apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo3" }
 # logger
-logback-classic = "ch.qos.logback:logback-classic:1.5.6"
+logback-classic = "ch.qos.logback:logback-classic:1.5.12"
 # cross-platform lib to resolve some application directories for desktop
 appdirs = "net.harawata:appdirs:1.2.2"
-# kamel, media loading and caching (requires Ktor HttpClient)
-kamel = "media.kamel:kamel-image:0.9.5"
+# coil, image loading and caching
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
 # YAML support for kotlinx.serialization
-kaml = "com.charleskorn.kaml:kaml:0.60.0"
+kaml = "com.charleskorn.kaml:kaml:0.66.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = "net.swiftzer.semver:semver:2.0.0"
 # state machine
 tinder-statemachine = "com.tinder.statemachine:statemachine:0.2.0"
 # multiplatform library for saving simple key-value data
-settings = "com.russhwolf:multiplatform-settings:1.1.1"
+settings = "com.russhwolf:multiplatform-settings:1.2.0"
 # icons
-icons-tabler = "com.woowla.compose.icon.collections:tabler:3.19.0"
+icons-tabler = "com.woowla.compose.icon.collections:tabler:3.22.0"
 # simple way to work with tray applications with native support for Linux and Windows.
 composenativetray = "io.github.kdroidfilter:composenativetray:0.4.0"
 # mockk, mocking library for Kotlin
@@ -86,6 +89,10 @@ ktor-client = [
     "ktor-client-content-negotiation",
     "ktor-client-logging",
     "ktor-serialization-kotlinx-json",
+]
+coil = [
+    "coil-compose",
+    "coil-network-ktor3",
 ]
 test-kotest = [
     "test-kotest-assertions-core",

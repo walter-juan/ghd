@@ -68,7 +68,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
-    implementation(libs.kamel)
+    implementation(libs.bundles.coil)
     implementation(libs.kaml)
     implementation(libs.semver)
     implementation(libs.tinder.statemachine)
