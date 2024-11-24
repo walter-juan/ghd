@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.settings)
     implementation(libs.icons.tabler)
+    implementation(libs.composenativetray)
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)

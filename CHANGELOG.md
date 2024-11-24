@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [1.5.5]
+### Changed
+- Improve tray menu
 
 ## [1.5.4]
 ### Added

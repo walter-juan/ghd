@@ -29,9 +29,10 @@ object i18n {
 
     val tray_tooltip = app_name
     val tray_item_synchronize = "Synchronize"
-    val tray_item_show_app = "Show GHD"
-    val tray_item_hide_app = "Hide GHD"
+    val tray_item_show_app = "Show"
+    val tray_item_hide_app = "Hide in tray"
     val tray_item_exit = "Exit"
+    val tray_linux_primary_action_label = "Open Application"
 
     val top_bar_title_pull_requests = "Pull Requests"
     val top_bar_title_releases = "Releases"

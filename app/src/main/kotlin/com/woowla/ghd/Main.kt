@@ -9,6 +9,8 @@ import androidx.compose.ui.window.Tray
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.kdroid.composetray.utils.SingleInstanceManager
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
@@ -16,6 +18,7 @@ import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.presentation.app.App
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.AppIconsRes
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.app.TrayIcon
 import com.woowla.ghd.presentation.app.i18n
@@ -26,8 +29,16 @@ fun main() {
 
     application {
         val coroutineScope = rememberCoroutineScope()
-        var isVisible by remember { mutableStateOf(true) }
+        var isWindowVisible by remember { mutableStateOf(true) }
         var appUnlocked by remember { mutableStateOf(false) }
+        val isSingleInstance = SingleInstanceManager.isSingleInstance(onRestoreRequest = {
+            isWindowVisible = true
+        })
+
+        if (!isSingleInstance) {
+            exitApplication()
+            return@application
+        }
 
         LaunchedEffect("main-synchronizer") {
             EventBus.subscribe("main-subscriber", this, Event.APP_UNLOCKED) {
@@ -38,9 +49,9 @@ fun main() {
         Window(
             title = i18n.app_name,
             icon = AppIconsPainter.Launcher,
-            visible = isVisible,
+            visible = isWindowVisible,
             state = rememberWindowState(width = AppDimens.windowWidth, height = AppDimens.windowHeight),
-            onCloseRequest = { isVisible = false },
+            onCloseRequest = { isWindowVisible = false },
         ) {
             MenuBar {
                 Menu(i18n.menu_bar_menu_actions) {
@@ -51,16 +62,16 @@ fun main() {
         }
 
         Tray(
-            AppIconsPainter.TrayIcon,
+            icon = AppIconsPainter.TrayIcon,
             state = NotificationClient.trayStateInstance,
             tooltip = i18n.tray_tooltip,
-            onAction = { isVisible = true },
+            onAction = { isWindowVisible = true },
             menu = {
                 Item(i18n.tray_item_synchronize, enabled = appUnlocked, onClick = { coroutineScope.launch { synchronizer.sync() } })
-                if (isVisible) {
-                    Item(i18n.tray_item_hide_app, onClick = { isVisible = false })
+                if (isWindowVisible) {
+                    Item(i18n.tray_item_hide_app, onClick = { isWindowVisible = false })
                 } else {
-                    Item(i18n.tray_item_show_app, onClick = { isVisible = true })
+                    Item(i18n.tray_item_show_app, onClick = { isWindowVisible = true })
                 }
                 Item(i18n.tray_item_exit, onClick = ::exitApplication)
             },
