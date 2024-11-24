@@ -19,3 +19,6 @@ bin
 
 ### Mac OS ###
 .DS_Store
+
+### Others ###
+app/tray_position.properties
