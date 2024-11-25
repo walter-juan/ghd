@@ -14,7 +14,6 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 
 fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
     val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
@@ -25,9 +24,9 @@ fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: 
         url = url.toString(),
         state = enumValueOfOrDefault(state.toString(), PullRequestState.UNKNOWN),
         title = title,
-        createdAt = createdAt.toString().toInstant(),
-        updatedAt = updatedAt.toString().toInstant(),
-        mergedAt = mergedAt?.toString()?.toInstant(),
+        createdAt = Instant.parse(createdAt.toString()),
+        updatedAt = Instant.parse(updatedAt.toString()),
+        mergedAt = mergedAt?.toString()?.let { Instant.parse(it) },
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
@@ -55,7 +54,7 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
         name = name,
         tagName = tagName,
         url = url.toString(),
-        publishedAt = publishedAt?.toString()?.toInstant(),
+        publishedAt = publishedAt?.toString()?.let { Instant.parse(it) },
         author = author?.toAuthor(),
         repoToCheckId = repoToCheck.id,
     )
@@ -68,7 +67,7 @@ fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Rev
                 id = node.id,
                 state = enumValueOfOrDefault(node.state.toString(), ReviewState.UNKNOWN),
                 url = node.url.toString(),
-                submittedAt = node.submittedAt?.toString()?.toInstant(),
+                submittedAt = node.submittedAt?.toString()?.let { Instant.parse(it) },
                 author = node.author?.toAuthor(),
                 pullRequestId = pullRequestId,
             )
