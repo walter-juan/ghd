@@ -45,6 +45,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.woowla.ghd.presentation.app.AppColors.info
+import com.woowla.ghd.utils.MaterialColors
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -122,7 +124,7 @@ fun IconCardRowTitle(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     IconCardRowTitle(
         text = buildAnnotatedString { append(text) },
@@ -143,7 +145,7 @@ fun IconCardRowTitle(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -185,7 +187,7 @@ fun IconCardRowContent(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     IconCardRowContent(
         text = buildAnnotatedString { append(text) },
@@ -206,7 +208,7 @@ fun IconCardRowContent(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -248,7 +250,7 @@ fun IconCardRowSmallContent(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     IconCardRowSmallContent(
         text = buildAnnotatedString { append(text) },
@@ -269,7 +271,7 @@ fun IconCardRowSmallContent(
     iconBackgroundColor: Color = Color.Transparent,
     rowColor: Color = Color.Transparent,
     showBadge: Boolean = false,
-    badgeColor: Color = BadgeDefaults.containerColor,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

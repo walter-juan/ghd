@@ -9,10 +9,12 @@ import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toPullRequest
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
+import com.woowla.ghd.domain.mappers.toPullRequestSeen
+import com.woowla.ghd.domain.mappers.toReviewSeen
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
@@ -35,14 +37,20 @@ class PullRequestService(
     }
 
     suspend fun unmarkAsSeen(id: String): Result<Unit> {
-        return localDataSource.updateAppSeenAt(id = id, appSeenAt = null)
+        return localDataSource.removePullRequestSeen(id)
     }
 
     suspend fun markAsSeen(id: String): Result<Unit> {
-        return localDataSource.getPullRequest(id)
-            .mapCatching {
-                localDataSource.updateAppSeenAt(id = id, appSeenAt = it.pullRequest.updatedAt)
+        val now = Clock.System.now()
+        return localDataSource
+            .getPullRequest(id)
+            .onSuccess { pr ->
+                localDataSource.upsertPullRequestSeen(pr.pullRequest.toPullRequestSeen(now))
             }
+            .onSuccess { pr ->
+                localDataSource.upsertReviewsSeen(pr.reviews.map { it.toReviewSeen() })
+            }
+            .map { value -> Unit }
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
@@ -84,8 +92,10 @@ class PullRequestService(
                 null
             } else {
                 val pullRequests = apiPullRequests.map { apiPullRequest ->
-                    val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.pullRequest?.appSeenAt
-                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, appSeenAt = appSeenAt)
+                    val asdf = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
+                    val pullRequestSeen = asdf?.pullRequestSeen
+                    val reviewSeen = asdf?.reviewsSeen ?: listOf()
+                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, pullRequestSeen = pullRequestSeen, reviewsSeen = reviewSeen)
                 }
                 pullRequests
             }
@@ -104,6 +114,9 @@ class PullRequestService(
         // remove pull requests non returned from remote
         val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - validPullRequests.flatten().map { it.pullRequest.id }.toSet()
         localDataSource.removePullRequests(pullRequestIdsToRemove)
+
+        // remove pull requests seen that hasn't pull request
+        // TODO: clean  up pull request seen
 
         // send the notifications
         val pullRequestsAfter = getAll().getOrDefault(listOf())
@@ -148,7 +161,7 @@ class PullRequestService(
                 .filter { newPull ->
                     val oldRelease = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPull.pullRequest.id }
                     if (oldRelease != null) {
-                        shouldNotifyPullRequestActivityChange(appSettings, oldRelease.pullRequest, newPull.pullRequest)
+                        shouldNotifyPullRequestActivityChange(appSettings, oldRelease, newPull)
                     } else {
                         false
                     }
@@ -163,12 +176,12 @@ class PullRequestService(
 
     private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, pullRequest: PullRequest): Boolean {
         val validState = appSettings.pullRequestNotificationsFilterOptions.let {
-            when (pullRequest.stateWithDraft) {
-                PullRequestStateWithDraft.OPEN -> it.open
-                PullRequestStateWithDraft.CLOSED -> it.closed
-                PullRequestStateWithDraft.MERGED -> it.merged
-                PullRequestStateWithDraft.DRAFT -> it.draft
-                PullRequestStateWithDraft.UNKNOWN -> false
+            when (pullRequest.stateExtended) {
+                PullRequestStateExtended.OPEN -> it.open
+                PullRequestStateExtended.CLOSED -> it.closed
+                PullRequestStateExtended.MERGED -> it.merged
+                PullRequestStateExtended.DRAFT -> it.draft
+                PullRequestStateExtended.UNKNOWN -> false
             }
         }
         return appSettings.pullRequestStateNotificationsEnabled && validState
@@ -177,20 +190,19 @@ class PullRequestService(
     private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
         val stateChanged = oldPullRequest.state != newPullRequest.state
         val validState = appSettings.pullRequestNotificationsFilterOptions.let {
-            when (newPullRequest.stateWithDraft) {
-                PullRequestStateWithDraft.OPEN -> it.open
-                PullRequestStateWithDraft.CLOSED -> it.closed
-                PullRequestStateWithDraft.MERGED -> it.merged
-                PullRequestStateWithDraft.DRAFT -> it.draft
-                PullRequestStateWithDraft.UNKNOWN -> false
+            when (newPullRequest.stateExtended) {
+                PullRequestStateExtended.OPEN -> it.open
+                PullRequestStateExtended.CLOSED -> it.closed
+                PullRequestStateExtended.MERGED -> it.merged
+                PullRequestStateExtended.DRAFT -> it.draft
+                PullRequestStateExtended.UNKNOWN -> false
             }
         }
         return appSettings.pullRequestStateNotificationsEnabled && stateChanged && validState
     }
 
-    private fun shouldNotifyPullRequestActivityChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
-        val seen = newPullRequest.appSeenAt != null && !newPullRequest.appSeen
-        val updated = oldPullRequest.updatedAt != newPullRequest.updatedAt
-        return appSettings.pullRequestActivityNotificationsEnabled && seen && updated
+    private fun shouldNotifyPullRequestActivityChange(appSettings: AppSettings, oldPullRequest: PullRequestWithRepoAndReviews, newPullRequest: PullRequestWithRepoAndReviews): Boolean {
+        val updated = oldPullRequest.pullRequest.updatedAt != newPullRequest.pullRequest.updatedAt
+        return appSettings.pullRequestActivityNotificationsEnabled && updated
     }
 }

@@ -59,7 +59,7 @@ object PullRequestsScreen {
                     }
                     is PullRequestsViewModel.State.Success -> {
                         state.groupedPullRequests.forEach { groupedPullRequests ->
-                            val pullRequestDecorator = PullRequestStateDecorator(groupedPullRequests.pullRequestStateWithDraft)
+                            val pullRequestDecorator = PullRequestStateDecorator(groupedPullRequests.pullRequestStateExtended)
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
                                 verticalAlignment = Alignment.CenterVertically,
@@ -79,7 +79,7 @@ object PullRequestsScreen {
                             groupedPullRequests.pullRequestsWithReviews.forEach { pullRequestWithReviews ->
                                 PullRequestCard(
                                     pullRequestWithReviews = pullRequestWithReviews,
-                                    onSeenClick = { viewModel.markAsSeen(pullRequestWithReviews.pullRequest) }
+                                    onSeenClick = { viewModel.markAsSeen(pullRequestWithReviews) }
                                 )
                             }
                             Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))

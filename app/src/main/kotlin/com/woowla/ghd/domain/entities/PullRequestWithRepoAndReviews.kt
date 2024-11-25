@@ -2,20 +2,41 @@ package com.woowla.ghd.domain.entities
 
 // TODO relations
 data class PullRequestWithRepoAndReviews(
-    val pullRequest: PullRequest,
     val repoToCheck: RepoToCheck,
+
+    val pullRequest: PullRequest,
     val reviews: List<Review>,
+
+    val pullRequestSeen: PullRequestSeen?,
+    val reviewsSeen: List<ReviewSeen>,
 ): Comparable<PullRequestWithRepoAndReviews> {
-    override fun compareTo(other: PullRequestWithRepoAndReviews): Int {
-        return this.pullRequest.compareTo(other.pullRequest)
+    companion object {
+        val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenBy { it.seen }.thenByDescending { it.pullRequest.createdAt }
     }
 
-    val canBeMergedByReviews = reviews.isNotEmpty() &&
-            reviews.any { it.state == ReviewState.APPROVED } &&
-            !reviews.any { it.state == ReviewState.CHANGES_REQUESTED }
+    override fun compareTo(other: PullRequestWithRepoAndReviews): Int {
+        return defaultComparator.compare(this, other)
+    }
 
+    val seen = pullRequestSeen != null && pullRequestSeen.updatedAt >= pullRequest.updatedAt
 
-    val canBeMerged = pullRequest.canBeMergedByMergeable && canBeMergedByReviews
+    fun seenDiff(): PullRequestDiff {
+        return if (pullRequestSeen == null) {
+            PullRequestDiff(
+                stateChanged = false,
+                commentAdded = false,
+                reviewAdded = false,
+                checkStatusChanged = false,
+            )
+        } else {
+            PullRequestDiff(
+                stateChanged = pullRequest.state != pullRequestSeen.state,
+                commentAdded = (pullRequest.totalCommentsCount ?: 0) > (pullRequestSeen.totalCommentsCount ?: 0),
+                reviewAdded = reviews.size > reviewsSeen.size,
+                checkStatusChanged = pullRequest.lastCommitCheckRollupStatus != pullRequestSeen.lastCommitCheckRollupStatus,
+            )
+        }
+    }
 }
 
 /**

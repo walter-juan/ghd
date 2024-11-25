@@ -36,12 +36,12 @@ class PullRequestsViewModel(
         loadPulls()
     }
 
-    fun markAsSeen(pullRequest: PullRequest) {
+    fun markAsSeen(pullRequest: PullRequestWithRepoAndReviews) {
         viewModelScope.launch {
-            if (pullRequest.appSeen) {
-                pullRequestService.unmarkAsSeen(id = pullRequest.id)
+            if (pullRequest.seen) {
+                pullRequestService.unmarkAsSeen(id = pullRequest.pullRequest.id)
             } else {
-                pullRequestService.markAsSeen(id = pullRequest.id)
+                pullRequestService.markAsSeen(id = pullRequest.pullRequest.id)
             }
             loadPulls()
         }
@@ -56,8 +56,8 @@ class PullRequestsViewModel(
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests
-                            .groupBy { it.pullRequest.stateWithDraft }
-                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequestsWithReviews = it.value) }
+                            .groupBy { it.pullRequest.stateExtended }
+                            .map { GroupedPullRequests(pullRequestStateExtended = it.key, pullRequestsWithReviews = it.value) }
                         _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntities = syncResult, appSettings = appSettings)
                     },
                     onFailure = {
@@ -73,5 +73,5 @@ class PullRequestsViewModel(
         data class  Error(val throwable: Throwable): State()
     }
 
-    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
+    data class GroupedPullRequests(val pullRequestStateExtended: PullRequestStateExtended, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
 }
