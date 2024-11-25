@@ -49,7 +49,7 @@ data class PullRequest(
     }
 
     @Ignore
-    val appSeen: Boolean = appSeenAt?.after(updatedAt) ?: false
+    val appSeen: Boolean = appSeenAt?.after(updatedAt) == true || appSeenAt?.equals(updatedAt) == true
 
     @Ignore
     val canBeMergedByMergeable = mergeable == MergeableGitHubState.MERGEABLE

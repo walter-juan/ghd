@@ -149,7 +149,7 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
                             .copy(
                                 state = PullRequestState.OPEN,
-                                updatedAt = now.minus(1.days),
+                                updatedAt = now,
                                 appSeenAt = now,
                             )
                         val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
@@ -193,7 +193,7 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val now = Clock.System.now()
                         val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
                             .copy(
-                                updatedAt = now.minus(1.days),
+                                updatedAt = now,
                                 appSeenAt = now,
                             )
                         val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
@@ -326,7 +326,7 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
                             .copy(
                                 state = PullRequestState.OPEN,
-                                updatedAt = now.minus(1.days),
+                                updatedAt = now,
                                 appSeenAt = now,
                             )
                         val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())

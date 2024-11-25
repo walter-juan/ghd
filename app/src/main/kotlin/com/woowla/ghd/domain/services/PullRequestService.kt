@@ -20,7 +20,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 class PullRequestService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
@@ -35,8 +34,15 @@ class PullRequestService(
             }
     }
 
-    suspend fun markAsSeen(id: String, appSeenAt: Instant?): Result<Unit> {
-        return localDataSource.updateAppSeenAt(id = id, appSeenAt = appSeenAt)
+    suspend fun unmarkAsSeen(id: String): Result<Unit> {
+        return localDataSource.updateAppSeenAt(id = id, appSeenAt = null)
+    }
+
+    suspend fun markAsSeen(id: String): Result<Unit> {
+        return localDataSource.getPullRequest(id)
+            .mapCatching {
+                localDataSource.updateAppSeenAt(id = id, appSeenAt = it.pullRequest.updatedAt)
+            }
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {

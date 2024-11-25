@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improve tray menu
 - Update dependencies
+### Fixed
+- Pull request mark as seen behaviour
 
 ## [1.5.4]
 ### Added

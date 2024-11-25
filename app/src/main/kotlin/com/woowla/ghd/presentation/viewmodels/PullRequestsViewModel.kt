@@ -11,7 +11,6 @@ import com.woowla.ghd.eventbus.EventBus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 
 class PullRequestsViewModel(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
@@ -39,12 +38,11 @@ class PullRequestsViewModel(
 
     fun markAsSeen(pullRequest: PullRequest) {
         viewModelScope.launch {
-            val appSeenAt = if (pullRequest.appSeen) {
-                null
+            if (pullRequest.appSeen) {
+                pullRequestService.unmarkAsSeen(id = pullRequest.id)
             } else {
-                Clock.System.now()
+                pullRequestService.markAsSeen(id = pullRequest.id)
             }
-            pullRequestService.markAsSeen(id = pullRequest.id, appSeenAt = appSeenAt)
             loadPulls()
         }
     }
