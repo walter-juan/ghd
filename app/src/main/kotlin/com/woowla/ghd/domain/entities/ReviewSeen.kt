@@ -9,18 +9,18 @@ import androidx.room.PrimaryKey
 import kotlinx.datetime.Instant
 
 @Entity(
-    tableName = "review",
+    tableName = "review_seen",
     foreignKeys = [
         ForeignKey(
-            entity = PullRequest::class,
+            entity = PullRequestSeen::class,
             parentColumns = ["id"],
             childColumns = ["pull_request_id"],
             onDelete = ForeignKey.CASCADE
-        )
+        ),
     ],
     indices = [Index(value = ["pull_request_id"])],
 )
-data class Review(
+data class ReviewSeen(
     @PrimaryKey override val id: String,
     @ColumnInfo(name = "pull_request_id") override val pullRequestId: String,
     @ColumnInfo(name = "submitted_at") override val submittedAt: Instant?,

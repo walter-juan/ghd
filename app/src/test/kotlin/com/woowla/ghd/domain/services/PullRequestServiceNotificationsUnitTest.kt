@@ -6,6 +6,7 @@ import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.PullRequestNotificationsFilterOptions
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.mappers.toPullRequestSeen
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
@@ -47,7 +48,13 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                     val testNotificationsSender = TestNotificationsSender()
                     val pullRequest = RandomEntities.pullRequest()
                     val repoToCheck = RandomEntities.repoToCheck()
-                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequest, reviews = listOf())
+                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+                        repoToCheck = repoToCheck,
+                        pullRequest = pullRequest,
+                        reviews = listOf(),
+                        pullRequestSeen = pullRequest.toPullRequestSeen(seenAt = Clock.System.now()),
+                        reviewsSeen = listOf(),
+                    )
                     val service = PullRequestService(
                         localDataSource = mockk(),
                         remoteDataSource = mockk(),
@@ -78,7 +85,13 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                     val testNotificationsSender = TestNotificationsSender()
                     val pullRequest = RandomEntities.pullRequest()
                     val repoToCheck = RandomEntities.repoToCheck()
-                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequest, reviews = listOf())
+                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+                        repoToCheck = repoToCheck,
+                        pullRequest = pullRequest,
+                        reviews = listOf(),
+                        pullRequestSeen = pullRequest.toPullRequestSeen(seenAt = Clock.System.now()),
+                        reviewsSeen = listOf(),
+                    )
                     val service = PullRequestService(
                         localDataSource = mockk(),
                         remoteDataSource = mockk(),
@@ -113,7 +126,13 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val testNotificationsSender = TestNotificationsSender()
                         val pullRequest = RandomEntities.pullRequest()
                         val repoToCheck = RandomEntities.repoToCheck()
-                        val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequest, reviews = listOf())
+                        val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequest,
+                            reviews = listOf(),
+                            pullRequestSeen = pullRequest.toPullRequestSeen(seenAt = Clock.System.now()),
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -149,16 +168,28 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
                             .copy(
                                 state = PullRequestState.OPEN,
-                                updatedAt = now.minus(1.days),
-                                appSeenAt = now,
+                                updatedAt = now,
                             )
-                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
+                        val pullRequestSeen = pullRequestBefore.toPullRequestSeen(seenAt = now)
+                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestBefore,
+                            reviews = listOf(),
+                            pullRequestSeen = pullRequestSeen,
+                            reviewsSeen = listOf(),
+                        )
                         val pullRequestAfter = pullRequestBefore
                             .copy(
                                 state = PullRequestState.MERGED,
                                 updatedAt = pullRequestBefore.updatedAt.plus(1.days)
                             )
-                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestAfter, reviews = listOf())
+                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestAfter,
+                            reviews = listOf(),
+                            pullRequestSeen = pullRequestSeen,
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -191,17 +222,22 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val testNotificationsSender = TestNotificationsSender()
                         val repoToCheck = RandomEntities.repoToCheck()
                         val now = Clock.System.now()
-                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
-                            .copy(
-                                updatedAt = now.minus(1.days),
-                                appSeenAt = now,
-                            )
-                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
-                        val pullRequestAfter = pullRequestBefore
-                            .copy(
-                                updatedAt = pullRequestBefore.updatedAt.plus(1.days)
-                            )
-                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestAfter, reviews = listOf())
+                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id).copy(updatedAt = now)
+                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestBefore,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
+                        val pullRequestAfter = pullRequestBefore.copy(updatedAt = pullRequestBefore.updatedAt.plus(1.days))
+                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestAfter,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -220,7 +256,7 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                     }
                 }
                 describe("and new pull request changes updated but not seen (null)") {
-                    it("should NOT send activity notification") {
+                    it("should send activity notification") {
                         val appSettings = buildAppSettings(
                             pullRequestNotificationsFilterOptions = PullRequestNotificationsFilterOptions(
                                 open = false,
@@ -234,17 +270,22 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val testNotificationsSender = TestNotificationsSender()
                         val repoToCheck = RandomEntities.repoToCheck()
                         val now = Clock.System.now()
-                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
-                            .copy(
-                                updatedAt = now.minus(1.days),
-                                appSeenAt = null,
-                            )
-                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
-                        val pullRequestAfter = pullRequestBefore
-                            .copy(
-                                updatedAt = pullRequestBefore.updatedAt.plus(1.days)
-                            )
-                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestAfter, reviews = listOf())
+                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id).copy(updatedAt = now.minus(1.days))
+                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestBefore,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
+                        val pullRequestAfter = pullRequestBefore.copy(updatedAt = pullRequestBefore.updatedAt.plus(1.days))
+                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestAfter,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -259,7 +300,7 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         )
 
                         testNotificationsSender.newPullRequestCount shouldBe 0
-                        testNotificationsSender.updatePullRequestCount shouldBe 0
+                        testNotificationsSender.updatePullRequestCount shouldBe 1
                     }
                 }
                 describe("and new pull request changes updated but not seen (past)") {
@@ -277,17 +318,23 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val testNotificationsSender = TestNotificationsSender()
                         val repoToCheck = RandomEntities.repoToCheck()
                         val now = Clock.System.now()
-                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
-                            .copy(
-                                updatedAt = now,
-                                appSeenAt = now.minus(1.days),
-                            )
-                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
-                        val pullRequestAfter = pullRequestBefore
-                            .copy(
-                                updatedAt = pullRequestBefore.updatedAt.plus(1.days)
-                            )
-                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestAfter, reviews = listOf())
+                        val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id).copy(updatedAt = now)
+                        val pullRequestSeen = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id).copy(updatedAt = now.minus(2.days)).toPullRequestSeen(seenAt = now.minus(2.days))
+                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestBefore,
+                            reviews = listOf(),
+                            pullRequestSeen = pullRequestSeen,
+                            reviewsSeen = listOf(),
+                        )
+                        val pullRequestAfter = pullRequestBefore.copy(updatedAt = pullRequestBefore.updatedAt.plus(1.days))
+                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestAfter,
+                            reviews = listOf(),
+                            pullRequestSeen = pullRequestSeen,
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -326,16 +373,27 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                         val pullRequestBefore = RandomEntities.pullRequest(repoToCheckId = repoToCheck.id)
                             .copy(
                                 state = PullRequestState.OPEN,
-                                updatedAt = now.minus(1.days),
-                                appSeenAt = now,
+                                updatedAt = now,
                             )
-                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestBefore, reviews = listOf())
+                        val pullRequestWithRepoAndReviewsBefore = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestBefore,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
                         val pullRequestAfter = pullRequestBefore
                             .copy(
                                 state = PullRequestState.MERGED,
                                 updatedAt = pullRequestBefore.updatedAt.plus(1.days)
                             )
-                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestAfter, reviews = listOf())
+                        val pullRequestWithRepoAndReviewsAfter = PullRequestWithRepoAndReviews(
+                            repoToCheck = repoToCheck,
+                            pullRequest = pullRequestAfter,
+                            reviews = listOf(),
+                            pullRequestSeen = null,
+                            reviewsSeen = listOf(),
+                        )
                         val service = PullRequestService(
                             localDataSource = mockk(),
                             remoteDataSource = mockk(),
@@ -368,7 +426,13 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                     val testNotificationsSender = TestNotificationsSender()
                     val pullRequest = RandomEntities.pullRequest()
                     val repoToCheck = RandomEntities.repoToCheck()
-                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequest, reviews = listOf())
+                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+                        repoToCheck = repoToCheck,
+                        pullRequest = pullRequest,
+                        reviews = listOf(),
+                        pullRequestSeen = null,
+                        reviewsSeen = listOf(),
+                    )
                     val service = PullRequestService(
                         localDataSource = mockk(),
                         remoteDataSource = mockk(),
@@ -399,7 +463,13 @@ class PullRequestServiceNotificationsUnitTest : DescribeSpec({
                     val testNotificationsSender = TestNotificationsSender()
                     val pullRequest = RandomEntities.pullRequest()
                     val repoToCheck = RandomEntities.repoToCheck()
-                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequest, reviews = listOf())
+                    val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
+                        repoToCheck = repoToCheck,
+                        pullRequest = pullRequest,
+                        reviews = listOf(),
+                        pullRequestSeen = null,
+                        reviewsSeen = listOf(),
+                    )
                     val service = PullRequestService(
                         localDataSource = mockk(),
                         remoteDataSource = mockk(),

@@ -9,18 +9,18 @@ import androidx.room.PrimaryKey
 import kotlinx.datetime.Instant
 
 @Entity(
-    tableName = "pull_request",
+    tableName = "pull_request_seen",
     foreignKeys = [
         ForeignKey(
             entity = RepoToCheck::class,
             parentColumns = ["id"],
             childColumns = ["repo_to_check_id"],
             onDelete = ForeignKey.CASCADE
-        )
+        ),
     ],
     indices = [Index(value = ["repo_to_check_id"])],
 )
-data class PullRequest(
+data class PullRequestSeen(
     @PrimaryKey override val id: String,
     @ColumnInfo(name = "repo_to_check_id") override val repoToCheckId: Long,
 
@@ -35,9 +35,10 @@ data class PullRequest(
     @ColumnInfo(name = "base_ref") override val baseRef: String?,
     @ColumnInfo(name = "head_ref") override val headRef: String?,
     @ColumnInfo(name = "total_comments_count") override val totalCommentsCount: Long?,
-    // TODO why the merge_state_status needed a default value?
-    @ColumnInfo(name = "merge_state_status", defaultValue = "") override val mergeStateStatus: MergeGitHubStateStatus,
+    @ColumnInfo(name = "merge_state_status") override val mergeStateStatus: MergeGitHubStateStatus,
     @ColumnInfo(name = "last_commit_check_rollup_status") override val lastCommitCheckRollupStatus: CommitCheckRollupStatus,
     @ColumnInfo(name = "last_commit_sha1") override val lastCommitSha1: String?,
     @Embedded override val author: Author?,
+
+    @ColumnInfo(name = "app_seen_at") val appSeenAt: Instant?,
 ): PullRequestBase()

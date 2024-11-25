@@ -18,7 +18,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BuildingBank
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
@@ -27,6 +27,7 @@ import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.mappers.toPullRequestSeen
 import com.woowla.ghd.notifications.NotificationType
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
@@ -96,16 +97,18 @@ object ComponentsSampleScreen {
             url = null,
             avatarUrl = "https://picsum.photos/200/300",
         ),
-        appSeenAt = Clock.System.now(),
         totalCommentsCount = 3,
         repoToCheckId = repoToCheck.id,
-        mergeable = MergeableGitHubState.MERGEABLE,
+        mergeStateStatus = MergeGitHubStateStatus.CLEAN,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.PENDING,
+        lastCommitSha1 = null,
     )
     private val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
         pullRequest = pullRequest,
         repoToCheck = repoToCheck,
-        reviews = listOf()
+        reviews = listOf(),
+        pullRequestSeen = pullRequest.toPullRequestSeen(seenAt = Clock.System.now()),
+        reviewsSeen = listOf(),
     )
     private val review = Review(
         id = "",
@@ -398,12 +401,6 @@ object ComponentsSampleScreen {
 
         val pr = pullRequestWithRepoAndReviews.copy(
             pullRequest = pullRequestWithRepoAndReviews.pullRequest.copy(
-                appSeenAt = if (seen.value) {
-                    Clock.System.now().minus(2.days)
-                } else {
-                    null
-                },
-                mergeable = MergeableGitHubState.values()[mergeable.value],
                 lastCommitCheckRollupStatus = CommitCheckRollupStatus.values()[lastCommitCheckRollupStatus.value],
             ),
             reviews = reviewsSamples[reviewsSample.value]
@@ -421,7 +418,7 @@ object ComponentsSampleScreen {
             Button(
                 onClick = {
                     val next = mergeable.value + 1
-                    if (next >= MergeableGitHubState.values().size) {
+                    if (next >= MergeGitHubStateStatus.entries.size) {
                         mergeable.value = 0
                     } else {
                         mergeable.value = next
@@ -522,7 +519,7 @@ object ComponentsSampleScreen {
             text = "The main first title to start is the Headline Medium (old h4)",
             style = MaterialTheme.typography.bodyLarge
         )
-        Divider()
+        HorizontalDivider()
         Text(
             text = "Display Large",
             style = MaterialTheme.typography.displayLarge
@@ -591,7 +588,7 @@ object ComponentsSampleScreen {
             text = "Material colors",
             style = MaterialTheme.typography.bodyLarge
         )
-        Divider()
+        HorizontalDivider()
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
@@ -647,7 +644,7 @@ object ComponentsSampleScreen {
             text = "Custom colors",
             style = MaterialTheme.typography.bodyLarge
         )
-        Divider()
+        HorizontalDivider()
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()

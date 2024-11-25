@@ -3,7 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
@@ -45,10 +45,10 @@ class ComponentsViewModel(
             url = null,
             avatarUrl = null
         ),
-        appSeenAt = null,
         totalCommentsCount = null,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
-        mergeable = MergeableGitHubState.MERGEABLE,
+        lastCommitSha1 = null,
+        mergeStateStatus = MergeGitHubStateStatus.CLEAN,
         repoToCheckId = repoToCheck.id
     )
     private val release = Release(

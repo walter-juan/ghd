@@ -37,8 +37,9 @@ import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.filled.CircleCheck
 import com.woowla.compose.icon.collections.tabler.tabler.outline.*
-import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
@@ -52,8 +53,9 @@ fun PullRequestCard(
 ) {
     val avatarImageSize = 45.dp
     val pullRequestDecorator = PullRequestDecorator(pullRequestWithReviews)
-    val seen = pullRequestWithReviews.pullRequest.appSeen
-    val showExtras = !seen && (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN || pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.DRAFT)
+    val seen = pullRequestWithReviews.seen
+    val seenDiff = pullRequestWithReviews.seenDiff()
+    val showExtras = !seen && (pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.OPEN || pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.DRAFT)
 
     IconCard(
         selected = seen,
@@ -143,31 +145,37 @@ fun PullRequestCard(
                 icon = Tabler.Outline.Clock
             )
             if (showExtras) {
-                if (pullRequestDecorator.showMergeableBadge) {
+                if (pullRequestWithReviews.pullRequest.canBeMerged) {
                     IconCardRowSmallContent(
-                        text = pullRequestDecorator.mergeable,
+                        text = i18n.screen_pull_requests_can_be_merged,
                         icon = Tabler.Outline.GitMerge,
                         showBadge = true,
-                        badgeColor = pullRequestDecorator.mergeableBadgeColor(),
+                        badgeColor = MaterialTheme.colorScheme.gitPrMerged,
+                    )
+                }
+                if (seenDiff.codeChanged) {
+                    IconCardRowSmallContent(
+                        text = i18n.screen_pull_requests_code_changed,
+                        icon = Tabler.Outline.Code,
+                        showBadge = true,
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.commitChecks,
-                    icon = Tabler.Outline.ListDetails,
-                    showBadge = pullRequestDecorator.showCommitsCheckBadge,
-                    badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
+                    icon = pullRequestDecorator.commitChecksIcon,
+                    showBadge = seenDiff.checkStatusChanged,
                 )
-                if (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
+                if (pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
-                        icon = Tabler.Outline.Users,
-                        showBadge = pullRequestDecorator.showReviewsBadge,
-                        badgeColor = pullRequestDecorator.reviewsBadgeColor(),
+                        icon = pullRequestDecorator.reviewsIcon(),
+                        showBadge = seenDiff.reviewsChanged,
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.comments,
-                    icon = Tabler.Outline.MessageCircle
+                    icon = Tabler.Outline.MessageCircle,
+                    showBadge = seenDiff.commentAdded,
                 )
             }
         }

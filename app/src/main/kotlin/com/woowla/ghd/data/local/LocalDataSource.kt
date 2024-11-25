@@ -3,7 +3,6 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
-import kotlinx.datetime.Instant
 
 class LocalDataSource(
     private val appProperties: AppProperties = AppProperties,
@@ -177,10 +176,14 @@ class LocalDataSource(
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
             val pullRequest = appDatabase.pullRequestDao().get(id)
+            val pullRequestSeen = appDatabase.pullRequestSeenDao().get(id)
+            val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = id)
             PullRequestWithRepoAndReviews(
-                pullRequest = pullRequest,
                 repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                pullRequest = pullRequest,
                 reviews = reviewList,
+                pullRequestSeen = pullRequestSeen,
+                reviewsSeen = reviewsSeen,
             )
         }
     }
@@ -191,17 +194,16 @@ class LocalDataSource(
                 .getAll()
                 .map { pullRequest ->
                     val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
+                    val pullRequestSeen = appDatabase.pullRequestSeenDao().get(pullRequest.id)
+                    val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = pullRequest.id)
                     PullRequestWithRepoAndReviews(
-                        pullRequest = pullRequest,
                         repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                        pullRequest = pullRequest,
                         reviews = reviewList,
+                        pullRequestSeen = pullRequestSeen,
+                        reviewsSeen = reviewsSeen,
                     )
                 }
-        }
-    }
-    suspend fun updateAppSeenAt(id: String, appSeenAt: Instant?): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestDao().updateSeenAt(id = id, appSeenAt = appSeenAt)
         }
     }
     suspend fun upsertPullRequests(pullRequests: List<PullRequest>): Result<Unit> {
@@ -215,6 +217,16 @@ class LocalDataSource(
         }
     }
 
+    suspend fun upsertPullRequestSeen(pullRequest: PullRequestSeen): Result<Unit> {
+        return runCatching {
+            appDatabase.pullRequestSeenDao().insert(listOf(pullRequest))
+        }
+    }
+    suspend fun removePullRequestSeen(id: String): Result<Unit> {
+        return runCatching {
+            appDatabase.pullRequestSeenDao().delete(listOf(id))
+        }
+    }
 
     suspend fun getAllReleases(): Result<List<ReleaseWithRepo>> {
         return runCatching {
@@ -254,6 +266,20 @@ class LocalDataSource(
 
         return runCatching {
             appDatabase.reviewDao().insert(reviews)
+        }
+    }
+
+
+    suspend fun removeReviewsSeenByPullRequest(pullRequestIds: List<String>): Result<Unit> {
+        return runCatching {
+            appDatabase.reviewSeenDao().deleteByPullRequest(pullRequestIds)
+        }
+    }
+    suspend fun upsertReviewsSeen(reviews: List<ReviewSeen>): Result<Unit> {
+        if (reviews.isEmpty()) return Result.success(Unit)
+
+        return runCatching {
+            appDatabase.reviewSeenDao().insert(reviews)
         }
     }
 

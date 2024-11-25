@@ -2,7 +2,7 @@ package com.woowla.ghd
 
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.RepoToCheck
@@ -25,10 +25,10 @@ object RandomEntities {
         isDraft = RandomValues.randomBoolean(),
         baseRef = RandomValues.randomString(),
         headRef = RandomValues.randomString(),
-        appSeenAt = RandomValues.randomInstant(),
         totalCommentsCount = RandomValues.randomLong(),
-        mergeable = MergeableGitHubState.entries.random(),
+        mergeStateStatus = MergeGitHubStateStatus.entries.random(),
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.entries.random(),
+        lastCommitSha1 = RandomValues.randomString(),
         author = author(),
     )
 

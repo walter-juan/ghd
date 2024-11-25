@@ -3,7 +3,6 @@ package com.woowla.ghd.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
 import com.woowla.ghd.domain.services.AppSettingsService
