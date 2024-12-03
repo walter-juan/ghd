@@ -21,6 +21,7 @@ abstract class PullRequestBase {
     abstract val totalCommentsCount: Long?
     abstract val mergeStateStatus: MergeGitHubStateStatus
     abstract val lastCommitCheckRollupStatus: CommitCheckRollupStatus
+    abstract val lastCommitSha1: String?
     abstract val author: Author?
 
     val canBeMerged

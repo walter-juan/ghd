@@ -5,4 +5,5 @@ data class PullRequestDiff(
     val commentAdded: Boolean,
     val reviewsChanged: Boolean,
     val checkStatusChanged: Boolean,
+    val codeChanged: Boolean,
 )

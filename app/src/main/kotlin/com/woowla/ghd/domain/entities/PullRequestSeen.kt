@@ -37,6 +37,7 @@ data class PullRequestSeen(
     @ColumnInfo(name = "total_comments_count") override val totalCommentsCount: Long?,
     @ColumnInfo(name = "merge_state_status") override val mergeStateStatus: MergeGitHubStateStatus,
     @ColumnInfo(name = "last_commit_check_rollup_status") override val lastCommitCheckRollupStatus: CommitCheckRollupStatus,
+    @ColumnInfo(name = "last_commit_sha1") override val lastCommitSha1: String?,
     @Embedded override val author: Author?,
 
     @ColumnInfo(name = "app_seen_at") val appSeenAt: Instant?,

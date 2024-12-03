@@ -101,6 +101,7 @@ object ComponentsSampleScreen {
         repoToCheckId = repoToCheck.id,
         mergeStateStatus = MergeGitHubStateStatus.CLEAN,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.PENDING,
+        lastCommitSha1 = null,
     )
     private val pullRequestWithRepoAndReviews = PullRequestWithRepoAndReviews(
         pullRequest = pullRequest,

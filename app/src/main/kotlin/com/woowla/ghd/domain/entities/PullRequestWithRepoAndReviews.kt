@@ -27,6 +27,7 @@ data class PullRequestWithRepoAndReviews(
                 commentAdded = false,
                 reviewsChanged = false,
                 checkStatusChanged = false,
+                codeChanged = false,
             )
         } else {
             val allReviewsString = reviews
@@ -40,6 +41,7 @@ data class PullRequestWithRepoAndReviews(
                 commentAdded = (pullRequest.totalCommentsCount ?: 0) > (pullRequestSeen.totalCommentsCount ?: 0),
                 reviewsChanged = allReviewsString != allReviewsSeenString,
                 checkStatusChanged = pullRequest.lastCommitCheckRollupStatus != pullRequestSeen.lastCommitCheckRollupStatus,
+                codeChanged = pullRequest.lastCommitSha1 != pullRequestSeen.lastCommitSha1,
             )
         }
     }

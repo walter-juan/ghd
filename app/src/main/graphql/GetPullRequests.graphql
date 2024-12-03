@@ -45,6 +45,7 @@ fragment pullRequestFragment on PullRequestConnection {
                 edges {
                     node {
                         commit {
+                            oid
                             statusCheckRollup {
                                 state
                             }

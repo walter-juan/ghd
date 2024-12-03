@@ -28,6 +28,7 @@ object RandomEntities {
         totalCommentsCount = RandomValues.randomLong(),
         mergeStateStatus = MergeGitHubStateStatus.entries.random(),
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.entries.random(),
+        lastCommitSha1 = RandomValues.randomString(),
         author = author(),
     )
 

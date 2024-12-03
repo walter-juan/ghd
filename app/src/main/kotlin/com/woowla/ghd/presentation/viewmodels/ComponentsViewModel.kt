@@ -47,6 +47,7 @@ class ComponentsViewModel(
         ),
         totalCommentsCount = null,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
+        lastCommitSha1 = null,
         mergeStateStatus = MergeGitHubStateStatus.CLEAN,
         repoToCheckId = repoToCheck.id
     )

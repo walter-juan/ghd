@@ -23,6 +23,7 @@ fun PullRequestFragment.Node.toPullRequest(
     reviewsSeen: List<ReviewSeen>,
 ): PullRequestWithRepoAndReviews {
     val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
+    val lastCommitSha1 = commits.edges?.firstOrNull()?.node?.commit?.oid?.toString()
 
     val pullRequest = PullRequest(
         id = id,
@@ -39,10 +40,8 @@ fun PullRequestFragment.Node.toPullRequest(
         author = author?.toAuthor(),
         totalCommentsCount = totalCommentsCount?.toLong(),
         mergeStateStatus = enumValueOfOrDefault(mergeStateStatus.toString(), MergeGitHubStateStatus.UNKNOWN),
-        lastCommitCheckRollupStatus = enumValueOfOrDefault(
-            lastCommitCheckRollupStatusString,
-            CommitCheckRollupStatus.UNKNOWN
-        ),
+        lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN),
+        lastCommitSha1 = lastCommitSha1,
         repoToCheckId = repoToCheck.id,
     )
 

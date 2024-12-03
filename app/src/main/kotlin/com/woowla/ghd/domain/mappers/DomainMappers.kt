@@ -25,6 +25,7 @@ fun PullRequest.toPullRequestSeen(seenAt: Instant): PullRequestSeen {
         totalCommentsCount = this.totalCommentsCount,
         mergeStateStatus = this.mergeStateStatus,
         lastCommitCheckRollupStatus = this.lastCommitCheckRollupStatus,
+        lastCommitSha1 = this.lastCommitSha1,
         author = this.author,
         appSeenAt = seenAt,
     )

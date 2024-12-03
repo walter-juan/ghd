@@ -153,6 +153,13 @@ fun PullRequestCard(
                         badgeColor = MaterialTheme.colorScheme.gitPrMerged,
                     )
                 }
+                if (seenDiff.codeChanged) {
+                    IconCardRowSmallContent(
+                        text = i18n.screen_pull_requests_code_changed,
+                        icon = Tabler.Outline.Code,
+                        showBadge = true,
+                    )
+                }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.commitChecks,
                     icon = pullRequestDecorator.commitChecksIcon,

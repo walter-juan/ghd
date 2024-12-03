@@ -38,5 +38,6 @@ data class PullRequest(
     // TODO why the merge_state_status needed a default value?
     @ColumnInfo(name = "merge_state_status", defaultValue = "") override val mergeStateStatus: MergeGitHubStateStatus,
     @ColumnInfo(name = "last_commit_check_rollup_status") override val lastCommitCheckRollupStatus: CommitCheckRollupStatus,
+    @ColumnInfo(name = "last_commit_sha1") override val lastCommitSha1: String?,
     @Embedded override val author: Author?,
 ): PullRequestBase()
