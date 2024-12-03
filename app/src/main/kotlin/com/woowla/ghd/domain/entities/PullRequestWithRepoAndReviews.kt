@@ -25,14 +25,20 @@ data class PullRequestWithRepoAndReviews(
             PullRequestDiff(
                 stateChanged = false,
                 commentAdded = false,
-                reviewAdded = false,
+                reviewsChanged = false,
                 checkStatusChanged = false,
             )
         } else {
+            val allReviewsString = reviews
+                .sortedBy { review -> review.id }
+                .map { review -> review.id }
+            val allReviewsSeenString = reviewsSeen
+                .sortedBy { review -> review.id }
+                .map { review -> review.id }
             PullRequestDiff(
                 stateChanged = pullRequest.state != pullRequestSeen.state,
                 commentAdded = (pullRequest.totalCommentsCount ?: 0) > (pullRequestSeen.totalCommentsCount ?: 0),
-                reviewAdded = reviews.size > reviewsSeen.size,
+                reviewsChanged = allReviewsString != allReviewsSeenString,
                 checkStatusChanged = pullRequest.lastCommitCheckRollupStatus != pullRequestSeen.lastCommitCheckRollupStatus,
             )
         }

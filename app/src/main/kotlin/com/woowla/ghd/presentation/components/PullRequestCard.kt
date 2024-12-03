@@ -162,7 +162,7 @@ fun PullRequestCard(
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
                         icon = pullRequestDecorator.reviewsIcon(),
-                        showBadge = seenDiff.reviewAdded,
+                        showBadge = seenDiff.reviewsChanged,
                     )
                 }
                 IconCardRowSmallContent(
