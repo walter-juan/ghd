@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,12 +20,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun LabelledCheckBox(
+fun LabelledRadioButton(
     label: String,
     description: String? = null,
     enabled: Boolean = true,
-    checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit),
+    selected: Boolean,
+    onClick: (() -> Unit),
     modifier: Modifier = Modifier
 ) {
     Column {
@@ -36,11 +36,11 @@ fun LabelledCheckBox(
                     enabled = enabled,
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() },
-                    onClick = { onCheckedChange(!checked) }
+                    onClick = { onClick() }
                 )
                 .requiredHeight(ButtonDefaults.MinHeight)
         ) {
-            Checkbox(checked = checked, enabled = enabled, onCheckedChange = null)
+            RadioButton(selected = selected, enabled = enabled, onClick = null)
             Spacer(Modifier.size(5.dp))
             Text(
                 text = label,

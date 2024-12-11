@@ -104,16 +104,6 @@ object SettingsScreen {
                         var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken) }
                         var passwordVisible by remember { mutableStateOf(false) }
 
-                        var pullRequestFilterOptionsOpen by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.open) }
-                        var pullRequestFilterOptionsClosed by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.closed) }
-                        var pullRequestFilterOptionsMerged by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.merged) }
-                        var pullRequestFilterOptionsDraft by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.draft) }
-
-                        var pullRequestStateNotifications by remember { mutableStateOf(successState.appSettings.pullRequestStateNotificationsEnabled) }
-                        var pullRequestActivityNotifications by remember { mutableStateOf(successState.appSettings.pullRequestActivityNotificationsEnabled) }
-
-                        var newReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.newReleaseNotificationsEnabled) }
-                        var updatedReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.updatedReleaseNotificationsEnabled) }
 
                         SectionCategory(i18n.screen_app_settings_synchronization_section) {
                             SectionItem(
@@ -221,116 +211,95 @@ object SettingsScreen {
                             }
                         }
 
-                        SectionCategory(i18n.screen_app_settings_pull_requests_notifications_section) {
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_filter_out_title,
-                                description = i18n.screen_app_settings_notifications_pr_filter_out_description,
-                                content = {
-                                    Row {
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_draft,
-                                            checked = pullRequestFilterOptionsDraft,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsDraft = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        draft = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_open,
-                                            checked = pullRequestFilterOptionsOpen,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsOpen = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        open = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_closed,
-                                            checked = pullRequestFilterOptionsClosed,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsClosed = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        closed = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_merged,
-                                            checked = pullRequestFilterOptionsMerged,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsMerged = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        merged = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                    }
-                                }
-                            )
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_state_title,
-                                description = i18n.screen_app_settings_notifications_pr_state_description,
-                                content = {
-                                    LabelledCheckBox(
-                                        label = i18n.screen_app_settings_notifications_pr_state_checkbox_label,
-                                        checked = pullRequestStateNotifications,
-                                        onCheckedChange = {
-                                            pullRequestStateNotifications = it
-                                            viewModel.newPullRequestsNotificationsEnabledUpdated(it)
-                                        }
-                                    )
-                                }
-                            )
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_activity_title,
-                                description = i18n.screen_app_settings_notifications_pr_activity_description,
-                                content = {
-                                    LabelledCheckBox(
-                                        label = i18n.screen_app_settings_notifications_pr_activity_checkbox_label,
-                                        checked = pullRequestActivityNotifications,
-                                        onCheckedChange = {
-                                            pullRequestActivityNotifications = it
-                                            viewModel.updatedPullRequestsNotificationsEnabledUpdated(it)
-                                        }
-                                    )
-                                }
-                            )
-                        }
-
-                        SectionCategory(i18n.screen_app_settings_releases_notifications_section) {
-                            SectionItemSwitch(
-                                title = i18n.screen_app_settings_notifications_new_release_title,
-                                description = i18n.screen_app_settings_notifications_new_release_description,
-                                checked = newReleaseNotificationsEnabled,
-                                onCheckedChange = {
-                                    newReleaseNotificationsEnabled = it
-                                    viewModel.newReleaseNotificationsEnabledUpdated(it)
-                                },
-                            )
-                            SectionItemSwitch(
-                                title = i18n.screen_app_settings_notifications_update_release_title,
-                                description = i18n.screen_app_settings_notifications_update_release_description,
-                                checked = updatedReleaseNotificationsEnabled,
-                                onCheckedChange = {
-                                    updatedReleaseNotificationsEnabled = it
-                                    viewModel.updatedReleaseNotificationsEnabledUpdated(it)
-                                },
-                            )
-                        }
+//                        SectionCategory(i18n.screen_app_settings_pull_requests_notifications_section) {
+//                            SectionItem(
+//                                title = i18n.screen_app_settings_notifications_pr_filter_out_title,
+//                                description = i18n.screen_app_settings_notifications_pr_filter_out_description,
+//                                content = {
+//                                    Row {
+//                                        LabelledCheckBox(
+//                                            label = i18n.pull_request_state_draft,
+//                                            checked = pullRequestFilterOptionsDraft,
+//                                            onCheckedChange = {
+//                                                pullRequestFilterOptionsDraft = it
+//                                                viewModel.newPullRequestsNotificationsOptions(
+//                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
+//                                                        draft = it
+//                                                    )
+//                                                )
+//                                            }
+//                                        )
+//                                        Spacer(Modifier.width(10.dp))
+//                                        LabelledCheckBox(
+//                                            label = i18n.pull_request_state_open,
+//                                            checked = pullRequestFilterOptionsOpen,
+//                                            onCheckedChange = {
+//                                                pullRequestFilterOptionsOpen = it
+//                                                viewModel.newPullRequestsNotificationsOptions(
+//                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
+//                                                        open = it
+//                                                    )
+//                                                )
+//                                            }
+//                                        )
+//                                        Spacer(Modifier.width(10.dp))
+//                                        LabelledCheckBox(
+//                                            label = i18n.pull_request_state_closed,
+//                                            checked = pullRequestFilterOptionsClosed,
+//                                            onCheckedChange = {
+//                                                pullRequestFilterOptionsClosed = it
+//                                                viewModel.newPullRequestsNotificationsOptions(
+//                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
+//                                                        closed = it
+//                                                    )
+//                                                )
+//                                            }
+//                                        )
+//                                        Spacer(Modifier.width(10.dp))
+//                                        LabelledCheckBox(
+//                                            label = i18n.pull_request_state_merged,
+//                                            checked = pullRequestFilterOptionsMerged,
+//                                            onCheckedChange = {
+//                                                pullRequestFilterOptionsMerged = it
+//                                                viewModel.newPullRequestsNotificationsOptions(
+//                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
+//                                                        merged = it
+//                                                    )
+//                                                )
+//                                            }
+//                                        )
+//                                    }
+//                                }
+//                            )
+//                            SectionItem(
+//                                title = i18n.screen_app_settings_notifications_pr_state_title,
+//                                description = i18n.screen_app_settings_notifications_pr_state_description,
+//                                content = {
+//                                    LabelledCheckBox(
+//                                        label = i18n.screen_app_settings_notifications_pr_state_checkbox_label,
+//                                        checked = pullRequestStateNotifications,
+//                                        onCheckedChange = {
+//                                            pullRequestStateNotifications = it
+//                                            viewModel.newPullRequestsNotificationsEnabledUpdated(it)
+//                                        }
+//                                    )
+//                                }
+//                            )
+//                            SectionItem(
+//                                title = i18n.screen_app_settings_notifications_pr_activity_title,
+//                                description = i18n.screen_app_settings_notifications_pr_activity_description,
+//                                content = {
+//                                    LabelledCheckBox(
+//                                        label = i18n.screen_app_settings_notifications_pr_activity_checkbox_label,
+//                                        checked = pullRequestActivityNotifications,
+//                                        onCheckedChange = {
+//                                            pullRequestActivityNotifications = it
+//                                            viewModel.updatedPullRequestsNotificationsEnabledUpdated(it)
+//                                        }
+//                                    )
+//                                }
+//                            )
+//                        }
                     }
                 }
             }
