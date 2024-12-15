@@ -13,12 +13,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
-## [1.5.5]
+## [1.6.0]
+### Added
+- Add the API rate limit in pull requests and releases top bar
 ### Changed
-- Improve tray menu
+- Notifications behaviour
+  - ⚠️ New screen added, now by default the notifications are disabled go to this screen in order to update it
+  - Better notifications per pull request, now you can filter by username, state, activity, etc.
+- Pull request card
+  - Icons changed for a more descriptive ones
+  - Show if the pull request can be merged (mergeable)
+- Pull request seen behaviour
+  - Shows a small circle in the icons to indicate the changes since seen
+  - Shows if the code has been changed since seen
 - Update dependencies
+### Removed
+- Notifications for release updates
 ### Fixed
-- Pull request mark as seen behaviour
+- Ensures that only one instance of the application can run at the same time
 
 ## [1.5.4]
 ### Added
@@ -220,8 +232,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.5.5...dev
-[1.5.5]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
+[unreleased]: https://github.com/walter-juan/ghd/compare/v1.6.0...dev
+[1.6.0]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
 [1.5.4]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
 [1.5.3]: https://github.com/walter-juan/ghd/releases/tag/v1.5.3
 [1.5.2]: https://github.com/walter-juan/ghd/releases/tag/v1.5.2

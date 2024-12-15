@@ -29,7 +29,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.5.5"
+version = "1.6.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
