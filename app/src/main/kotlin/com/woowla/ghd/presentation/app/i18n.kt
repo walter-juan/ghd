@@ -1,9 +1,8 @@
 package com.woowla.ghd.presentation.app
 
 import com.woowla.ghd.BuildConfig
-import com.woowla.ghd.extensions.toAgoString
 import com.woowla.ghd.extensions.format
-import com.woowla.ghd.extensions.toHRString
+import com.woowla.ghd.extensions.toRelativeString
 import kotlinx.datetime.Instant
 
 object i18n {
@@ -17,6 +16,11 @@ object i18n {
     val generic_saved = "Saved"
     val generic_now =  "now"
     val generic_delete =  "Delete"
+    val generic_in_seconds: (Long) -> String = { "in $it seconds" }
+    val generic_in_minutes: (Long) -> String = { "in $it minutes" }
+    val generic_in_hours: (Long) -> String = { "in $it hours" }
+    val generic_in_days: (Long) -> String = { "in $it days" }
+    val generic_seconds_ago: (Long) -> String = { "$it seconds ago" }
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
     val generic_hours_ago: (Long) -> String = { "$it hours ago" }
     val generic_days_ago: (Long) -> String = { "$it days ago" }
@@ -172,7 +176,6 @@ repositories:
     val app_theme_dark = "Dark"
     val app_theme_light = "Light"
 
-    val pull_request_updated_at: (Instant) -> String = { "updated ${it.toHRString()}" }
     val pull_request_state_open = "Open"
     val pull_request_state_closed = "Closed"
     val pull_request_state_merged = "Merged"
@@ -188,13 +191,13 @@ repositories:
     }
     val pull_request_opened_by = "opened by"
     val pull_request_on = "on"
-    val pull_request_updated: (Instant) -> String = { "Updated ${it.toAgoString()}" }
+    val pull_request_updated: (Instant) -> String = { "Updated ${it.toRelativeString()}" }
 
-    val review_submitted: (Instant) -> String = { "Submitted ${it.toAgoString()}" }
+    val review_submitted: (Instant) -> String = { "Submitted ${it.toRelativeString()}" }
 
     val release_tag = "Tag"
     val release_on = "on"
-    val release_published: (Instant) -> String = { "Published ${it.toAgoString()}" }
+    val release_published: (Instant) -> String = { "Published ${it.toRelativeString()}" }
 
     val app_settings_checkout_time_in_minutes: (Long) -> String = { "$it minutes" }
     val app_settings_checkout_time_unknown = "?"
