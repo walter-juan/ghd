@@ -14,6 +14,7 @@ object i18n {
     }
     val generic_loading = "Loading"
     val generic_error = "Error"
+    val generic_saved = "Saved"
     val generic_now =  "now"
     val generic_delete =  "Delete"
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
@@ -44,6 +45,7 @@ object i18n {
     val top_bar_title_synchronization_result_entries = "Synchronization result entries"
     val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
+    val top_bar_title_notifications = "Notifications"
 
     val status_bar_loading = "Loading..."
     val status_bar_error = "Error"
@@ -52,6 +54,7 @@ object i18n {
     val tab_title_pull_requests = "Pulls"
     val tab_title_releases = "Releases"
     val tab_title_repos_to_check = "Repos"
+    val tab_title_notifications = "Notifications"
     val tab_title_settings = "Settings"
     val tab_title_about = "About"
 
@@ -91,7 +94,7 @@ object i18n {
     val screen_app_settings_notifications_pr_state_description = "Enable to receive notifications when the sate of a pull request changes (e.g., Draft → Open), new pull requests are considered as changes."
     val screen_app_settings_notifications_pr_state_checkbox_label = "State changes"
     val screen_app_settings_notifications_pr_activity_title = "Activity notifications"
-    val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for updates to pull requests (e.g., comments or edits). "
+    val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for activity updates to pull requests. You will receive notifications for new or changed reviews, re-review requested, checks and when a pull request is ready to be merged (mergeable)."
     val screen_app_settings_notifications_pr_activity_checkbox_label = "Activity"
     val screen_app_settings_notifications_new_release_title = "Release created notifications"
     val screen_app_settings_notifications_new_release_description = "Enable to receive notifications when a new release is created."

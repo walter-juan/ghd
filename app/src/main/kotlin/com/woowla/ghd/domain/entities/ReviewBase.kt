@@ -18,4 +18,8 @@ abstract class ReviewBase(
     override fun compareTo(other: ReviewBase): Int {
         return defaultComparator.compare(this, other)
     }
+
+    fun reRequestedReview(): Boolean {
+        return state == ReviewState.DISMISSED
+    }
 }

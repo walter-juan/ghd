@@ -8,6 +8,8 @@ ktor = "3.0.1"
 androidx-room = "2.7.0-alpha11"
 androidx-sqlite = "2.5.0-alpha11"
 coil = "3.0.3"
+flowredux = "1.2.2"
+arrow = "1.2.4"
 
 [plugins]
 # Kotlin for JVM
@@ -57,13 +59,16 @@ appdirs = "net.harawata:appdirs:1.2.2"
 # coil, image loading and caching
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
-
+# flowredux, Kotlin Multiplatform Statemachine library
+flowredux-flowredux = { module = "com.freeletics.flowredux:flowredux", version.ref = "flowredux" }
+flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref = "flowredux" }
+# Λrrow is a library for Typed Functional Programming in Kotlin
+arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 # YAML support for kotlinx.serialization
 kaml = "com.charleskorn.kaml:kaml:0.66.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = "net.swiftzer.semver:semver:2.0.0"
-# state machine
-tinder-statemachine = "com.tinder.statemachine:statemachine:0.2.0"
 # multiplatform library for saving simple key-value data
 settings = "com.russhwolf:multiplatform-settings:1.2.0"
 # icons
@@ -93,6 +98,10 @@ ktor-client = [
 coil = [
     "coil-compose",
     "coil-network-ktor3",
+]
+flowredux = [
+    "flowredux-flowredux",
+    "flowredux-compose",
 ]
 test-kotest = [
     "test-kotest-assertions-core",

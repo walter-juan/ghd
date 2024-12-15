@@ -7,7 +7,6 @@ import net.swiftzer.semver.SemVer
 class AppVersionService(
     private val remoteDataSource: RemoteDataSource = RemoteDataSource()
 ) {
-
     suspend fun checkForNewVersion(): Result<CheckForNewVersionResponse> {
         return remoteDataSource
             .getLastGhdRelease()

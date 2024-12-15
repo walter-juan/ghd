@@ -1,129 +1,102 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import arrow.optics.optics
+import com.freeletics.flowredux.dsl.ChangedState
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.PullRequestNotificationsFilterOptions
 import com.woowla.ghd.domain.entities.SyncSettings
+import com.woowla.ghd.domain.entities.checkTimeout
+import com.woowla.ghd.domain.entities.githubPatToken
+import com.woowla.ghd.domain.entities.nullableDarkTheme
+import com.woowla.ghd.domain.entities.pullRequestCleanUpTimeout
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.SyncSettingsService
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
+import com.woowla.ghd.utils.FlowReduxViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModel(
+    stateMachine: SettingsStateMachine = SettingsStateMachine()
+): FlowReduxViewModel<SettingsStateMachine.St, SettingsStateMachine.Act>(stateMachine)
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class SettingsStateMachine(
     private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
     private val appSettingsService: AppSettingsService = AppSettingsService(),
-): ViewModel() {
-    private val initialStateValue = State.Initializing
-
-    private val _state = MutableStateFlow<State>(initialStateValue)
-    val state: StateFlow<State> = _state
-
-    private val _events = MutableSharedFlow<Events>()
-    val events = _events.asSharedFlow()
-
+) : FlowReduxStateMachine<SettingsStateMachine.St, SettingsStateMachine.Act>(initialState = St.Initializing) {
     init {
-        loadSettings()
-    }
-
-    fun patTokenUpdated(gitHubPatToken: String) {
-        _state.on<State.Success> {
-            _state.value = it.copy(syncSettings = it.syncSettings.copy(githubPatToken = gitHubPatToken))
-        }
-    }
-
-    fun checkTimeoutUpdated(checkTimeout: Long) {
-        _state.on<State.Success> {
-            _state.value = it.copy(syncSettings = it.syncSettings.copy(checkTimeout = checkTimeout))
-        }
-    }
-
-    fun pullRequestCleanUpTimeoutUpdated(cleanUpTimeout: Long) {
-        _state.on<State.Success> {
-            _state.value = it.copy(syncSettings = it.syncSettings.copy(pullRequestCleanUpTimeout = cleanUpTimeout))
-        }
-    }
-
-    fun appThemeUpdated(appDarkTheme: Boolean?) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(darkTheme = appDarkTheme))
-        }
-    }
-
-    fun newPullRequestsNotificationsEnabledUpdated(value: Boolean) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestStateNotificationsEnabled = value))
-        }
-    }
-
-    fun newPullRequestsNotificationsOptions(value: PullRequestNotificationsFilterOptions) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestNotificationsFilterOptions = value))
-        }
-    }
-
-    fun updatedPullRequestsNotificationsEnabledUpdated(value: Boolean) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(pullRequestActivityNotificationsEnabled = value))
-        }
-    }
-
-    fun newReleaseNotificationsEnabledUpdated(value: Boolean) {
-
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(newReleaseNotificationsEnabled = value))
-        }
-    }
-
-    fun updatedReleaseNotificationsEnabledUpdated(value: Boolean) {
-        _state.on<State.Success> {
-            _state.value = it.copy(appSettings = it.appSettings.copy(updatedReleaseNotificationsEnabled = value))
-        }
-    }
-
-    fun saveSettings() {
-        _state.on<State.Success> {
-            viewModelScope.launch {
-                val syncSettingsResult = syncSettingsService.save(it.syncSettings)
-                val appSettingsResult = appSettingsService.save(it.appSettings)
-                if (syncSettingsResult.isSuccess && appSettingsResult.isSuccess) {
-                    _events.emit(Events.Saved)
+        spec {
+            inState<St.Initializing> {
+                onEnter { state -> load(state) }
+            }
+            inState<St.Success> {
+                on<Act.Save> { _, state ->
+                    save(state)
                 }
-                reload()
+                on<Act.CleanUpSaveSuccessfully> { action, state ->
+                    state.mutate { copy(savedSuccessfully = null) }
+                }
+                on<Act.UpdatePatToken> { action, state ->
+                    state.mutate { St.Success.syncSettings.githubPatToken.modify(this) { action.gitHubPatToken } }
+                }
+                on<Act.UpdateCheckTimeout> { action, state ->
+                    state.mutate { St.Success.syncSettings.checkTimeout.modify(this) { action.checkTimeout } }
+                }
+                on<Act.UpdatePullRequestCleanUpTimeout> { action, state ->
+                    state.mutate { St.Success.syncSettings.pullRequestCleanUpTimeout.modify(this) { action.cleanUpTimeout } }
+                }
+                on<Act.UpdateAppTheme> { action, state ->
+                    state.mutate { St.Success.appSettings.nullableDarkTheme.modify(this) { action.appDarkTheme } }
+                }
+            }
+            inState<St.Error> {
+                on<Act.Reload> { _, state ->
+                    state.override { St.Initializing }
+                }
             }
         }
     }
 
-    fun reload() {
-        loadSettings()
-    }
-
-    private fun loadSettings() {
-        viewModelScope.launch {
-            try {
-                val syncSettings = syncSettingsService.get().getOrThrow()
-                val appSettings = appSettingsService.get().getOrThrow()
-                _state.value = State.Success(syncSettings = syncSettings, appSettings = appSettings)
-            } catch (th: Throwable) {
-                _state.value = State.Error(throwable = th)
-            }
+    private suspend fun load(state: State<St.Initializing>): ChangedState<St> {
+        return try {
+            val syncSettings = syncSettingsService.get().getOrThrow()
+            val appSettings = appSettingsService.get().getOrThrow()
+            state.override { St.Success(syncSettings, appSettings) }
+        } catch (th: Throwable) {
+            state.override { St.Error(th) }
         }
     }
 
-    private inline fun <reified T: State> MutableStateFlow<State>.on(block: (T) -> Unit) {
-        (value as? T)?.let(block)
+    private suspend fun save(state: State<St.Success>): ChangedState<St> {
+        return try {
+            val syncSettingsResult = syncSettingsService.save(state.snapshot.syncSettings)
+            val appSettingsResult = appSettingsService.save(state.snapshot.appSettings)
+            if (syncSettingsResult.isSuccess && appSettingsResult.isSuccess) {
+                state.mutate { copy(savedSuccessfully = true) }
+            } else {
+                state.mutate { copy(savedSuccessfully = false) }
+            }
+        } catch (th: Throwable) {
+            state.override { St.Error(th) }
+        }
     }
 
-    sealed class Events {
-        object Saved: Events()
+    sealed interface St {
+        data object Initializing: St
+        @optics data class Success(val syncSettings: SyncSettings, val appSettings: AppSettings, val savedSuccessfully: Boolean? = null): St {
+            companion object
+        }
+        data class Error(val throwable: Throwable): St
     }
+    sealed interface Act {
+        data object Save: Act
+        data object Reload: Act
+        data object CleanUpSaveSuccessfully: Act
 
-    sealed class State {
-        object Initializing: State()
-        data class Success(val syncSettings: SyncSettings, val appSettings: AppSettings): State()
-        data class Error(val throwable: Throwable): State()
+        data class UpdatePatToken(val gitHubPatToken: String): Act
+        data class UpdateCheckTimeout(val checkTimeout: Long): Act
+        data class UpdatePullRequestCleanUpTimeout(val cleanUpTimeout: Long): Act
+        data class UpdateAppTheme(val appDarkTheme: Boolean?): Act
     }
 }

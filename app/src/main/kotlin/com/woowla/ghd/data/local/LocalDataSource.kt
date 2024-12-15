@@ -3,6 +3,7 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
+import com.woowla.ghd.utils.enumValueOfOrNull
 
 class LocalDataSource(
     private val appProperties: AppProperties = AppProperties,
@@ -11,18 +12,26 @@ class LocalDataSource(
     suspend fun getAppSettings(): Result<AppSettings> {
         return runCatching {
             appProperties.load()
+            val defaultEnabledOption = NotificationsSettings.defaultEnabledOption
             AppSettings(
                 darkTheme = appProperties.darkTheme,
-                pullRequestStateNotificationsEnabled = appProperties.pullRequestStateNotificationsEnabled,
-                pullRequestNotificationsFilterOptions = PullRequestNotificationsFilterOptions(
-                    open = appProperties.pullRequestNotificationsFilterOptionsOpen,
-                    closed = appProperties.pullRequestNotificationsFilterOptionsClosed,
-                    merged = appProperties.pullRequestNotificationsFilterOptionsMerged,
-                    draft = appProperties.pullRequestNotificationsFilterOptionsDraft,
-                ),
-                pullRequestActivityNotificationsEnabled = appProperties.pullRequestActivityNotificationsEnabled,
-                newReleaseNotificationsEnabled = appProperties.newReleaseNotificationsEnabled,
-                updatedReleaseNotificationsEnabled = appProperties.updatedReleaseNotificationsEnabled
+                notificationsSettings = NotificationsSettings(
+                    filterUsername = appProperties.notificationsFilterUsername,
+
+                    stateEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsStateEnabledOption) ?: defaultEnabledOption,
+                    stateOpenFromOthersPullRequestsEnabled = appProperties.notificationsStateOpenFromOthersPullRequestsEnabled,
+                    stateClosedFromOthersPullRequestsEnabled = appProperties.notificationsStateClosedFromOthersPullRequestsEnabled,
+                    stateMergedFromOthersPullRequestsEnabled = appProperties.notificationsStateMergedFromOthersPullRequestsEnabled,
+                    stateDraftFromOthersPullRequestsEnabled = appProperties.notificationsStateDraftFromOthersPullRequestsEnabled,
+
+                    activityEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption,
+                    activityReviewsFromYourPullRequestsEnabled = appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled,
+                    activityReviewsReRequestEnabled = appProperties.notificationsActivityReviewsReRequestEnabled,
+                    activityChecksFromYourPullRequestsEnabled = appProperties.notificationsActivityChecksFromYourPullRequestsEnabled,
+                    activityMergeableFromYourPullRequestsEnabled = appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled,
+
+                    newReleaseEnabled = appProperties.notificationsNewReleaseEnabled,
+                )
             )
         }
     }
@@ -31,20 +40,25 @@ class LocalDataSource(
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
 
-            appProperties.pullRequestNotificationsFilterOptionsOpen = appSettings.pullRequestNotificationsFilterOptions.open
-            appProperties.pullRequestNotificationsFilterOptionsClosed = appSettings.pullRequestNotificationsFilterOptions.closed
-            appProperties.pullRequestNotificationsFilterOptionsMerged = appSettings.pullRequestNotificationsFilterOptions.merged
-            appProperties.pullRequestNotificationsFilterOptionsDraft = appSettings.pullRequestNotificationsFilterOptions.draft
+            appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 
-            appProperties.pullRequestStateNotificationsEnabled = appSettings.pullRequestStateNotificationsEnabled
-            appProperties.pullRequestActivityNotificationsEnabled = appSettings.pullRequestActivityNotificationsEnabled
+            appProperties.notificationsStateEnabledOption = appSettings.notificationsSettings.stateEnabledOption.name
+            appProperties.notificationsStateOpenFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateOpenFromOthersPullRequestsEnabled
+            appProperties.notificationsStateClosedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled
+            appProperties.notificationsStateMergedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateMergedFromOthersPullRequestsEnabled
+            appProperties.notificationsStateDraftFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled
 
-            appProperties.newReleaseNotificationsEnabled = appSettings.newReleaseNotificationsEnabled
-            appProperties.updatedReleaseNotificationsEnabled = appSettings.updatedReleaseNotificationsEnabled
+            appProperties.notificationsActivityEnabledOption = appSettings.notificationsSettings.activityEnabledOption.name
+            appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled
+            appProperties.notificationsActivityReviewsReRequestEnabled = appSettings.notificationsSettings.activityReviewsReRequestEnabled
+            appProperties.notificationsActivityChecksFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled
+            appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled
+
+            appProperties.notificationsNewReleaseEnabled = appSettings.notificationsSettings.newReleaseEnabled
+
             appProperties.store()
         }
     }
-
 
     suspend fun getSyncSettings(): Result<SyncSettings> {
         return runCatching {

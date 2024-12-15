@@ -70,7 +70,6 @@ dependencies {
     implementation(libs.bundles.coil)
     implementation(libs.kaml)
     implementation(libs.semver)
-    implementation(libs.tinder.statemachine)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     ksp(libs.androidx.room.compiler)
@@ -79,6 +78,9 @@ dependencies {
     implementation(libs.settings)
     implementation(libs.icons.tabler)
     implementation(libs.composenativetray)
+    implementation(libs.bundles.flowredux)
+    implementation(libs.arrow.optics)
+    ksp(libs.arrow.optics.ksp)
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)

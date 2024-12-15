@@ -78,15 +78,7 @@ class ComponentsViewModel(
         notificationsSender.newPullRequest(pullRequest)
     }
 
-    fun sendUpdatedPullRequest() {
-        notificationsSender.updatePullRequest(pullRequest)
-    }
-
     fun sendNewRelease() {
         notificationsSender.newRelease(releaseWithRepo)
-    }
-
-    fun sendUpdatedRelease() {
-        notificationsSender.updateRelease(releaseWithRepo)
     }
 }

@@ -8,7 +8,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,10 +19,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
-import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
 
 object RepoToCheckEditScreen {
@@ -33,29 +33,31 @@ object RepoToCheckEditScreen {
         onBackClick: () -> Unit
     ) {
         val viewModel = viewModel { RepoToCheckEditViewModel(repoToCheckId = repoToCheckId) }
-        val state = viewModel.state.collectAsState().value
+        val state by viewModel.state.collectAsState()
+        Screen(
+            state = state,
+            dispatchAction = viewModel::dispatch,
+            onBackClick = onBackClick,
+        )
+    }
 
-        LaunchedEffect(key1 = Unit) {
-            viewModel.events.collect { event ->
-                when (event) {
-                    RepoToCheckEditViewModel.Events.Saved -> {
-                        onBackClick.invoke()
-                    }
-                }
-            }
-        }
-
+    @Composable
+    fun Screen(
+        state: St?,
+        dispatchAction: (Act) -> Unit,
+        onBackClick: () -> Unit
+    ) {
         when(state) {
-            RepoToCheckEditViewModel.State.Initializing -> {
+            null, St.Loading -> {
                 Loading(onBackClick = onBackClick)
             }
-            is RepoToCheckEditViewModel.State.Error -> {
+            is St.Error -> {
                 Text(i18n.generic_error)
             }
-            is RepoToCheckEditViewModel.State.Success -> {
+            is St.Success -> {
                 Success(
-                    repoToCheck = state.repoToCheck,
-                    viewModel = viewModel,
+                    state = state,
+                    dispatchAction = dispatchAction,
                     onBackClick = onBackClick
                 )
             }
@@ -77,16 +79,20 @@ object RepoToCheckEditScreen {
 
     @Composable
     private fun Success(
-        repoToCheck: RepoToCheck,
-        viewModel: RepoToCheckEditViewModel,
+        state: St.Success,
+        dispatchAction: (Act) -> Unit,
         onBackClick: () -> Unit
     ) {
-        var owner by remember { mutableStateOf(repoToCheck.owner) }
-        var name by remember { mutableStateOf(repoToCheck.name) }
-        var releaseGroup by remember { mutableStateOf(repoToCheck.groupName ?: "") }
-        var branchRegex by remember { mutableStateOf(repoToCheck.pullBranchRegex ?: "") }
-        var arePullRequestsEnabled by remember { mutableStateOf(repoToCheck.arePullRequestsEnabled) }
-        var areReleasesEnabled by remember { mutableStateOf(repoToCheck.areReleasesEnabled) }
+        var owner by remember { mutableStateOf(state.repoToCheck.owner) }
+        var name by remember { mutableStateOf(state.repoToCheck.name) }
+        var releaseGroup by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
+        var branchRegex by remember { mutableStateOf(state.repoToCheck.pullBranchRegex ?: "") }
+        var arePullRequestsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsEnabled) }
+        var areReleasesEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesEnabled) }
+
+        if (state.savedSuccessfully == true) {
+            onBackClick.invoke()
+        }
 
         ScreenScrollable(
             topBar = {
@@ -97,14 +103,17 @@ object RepoToCheckEditScreen {
                         OutlinedIconButton(
                             colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                             onClick = {
-                                viewModel.saveRepo(
-                                    owner = owner,
-                                    name = name,
-                                    groupName = releaseGroup,
-                                    branchRegex = branchRegex,
-                                    arePullRequestsEnabled = arePullRequestsEnabled,
-                                    areReleasesEnabled = areReleasesEnabled,
+                                dispatchAction.invoke(
+                                    Act.Save(
+                                        owner = owner,
+                                        name = name,
+                                        groupName = releaseGroup,
+                                        branchRegex = branchRegex,
+                                        arePullRequestsEnabled = arePullRequestsEnabled,
+                                        areReleasesEnabled = areReleasesEnabled,
+                                    )
                                 )
+
                             }
                         ) {
                             Icon(

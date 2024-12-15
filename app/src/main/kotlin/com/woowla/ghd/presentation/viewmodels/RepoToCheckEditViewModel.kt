@@ -1,88 +1,91 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.freeletics.flowredux.dsl.ChangedState
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.RepoToCheckService
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import com.woowla.ghd.utils.FlowReduxViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class RepoToCheckEditViewModel(
     private val repoToCheckId: Long?,
     private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
-): ViewModel() {
-    private val initialStateValue = State.Initializing
+    stateMachine: RepoToCheckEditStateMachine = RepoToCheckEditStateMachine(repoToCheckId, repoToCheckService)
+): FlowReduxViewModel<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(stateMachine)
 
-    private val _state = MutableStateFlow<State>(initialStateValue)
-    val state: StateFlow<State> = _state
-
-    private val _events = MutableSharedFlow<Events>()
-    val events: SharedFlow<Events> = _events
-
+@OptIn(ExperimentalCoroutinesApi::class)
+class RepoToCheckEditStateMachine(
+    private val repoToCheckId: Long?,
+    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
+) : FlowReduxStateMachine<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(initialState = St.Loading) {
     init {
-        load()
-    }
-
-    private fun load() {
-        viewModelScope.launch {
-            if (repoToCheckId == null) {
-                _state.value = State.Success(RepoToCheck.newInstance())
-            } else {
-                repoToCheckService
-                    .get(repoToCheckId)
-                    .fold(
-                        onSuccess = { repoToCheck ->
-                            _state.value = State.Success(repoToCheck)
-                        },
-                        onFailure = {
-                            _state.value = State.Error(it)
-                        }
-                    )
-
+        spec {
+            inState<St.Loading> {
+                onEnter { state ->
+                    load(state)
+                }
+            }
+            inState<St.Success> {
+                on<Act.Save> { action, state ->
+                    save(state, action)
+                }
             }
         }
     }
 
-    fun saveRepo(
-        owner: String,
-        name: String,
-        groupName: String,
-        branchRegex: String,
-        arePullRequestsEnabled: Boolean,
-        areReleasesEnabled: Boolean,
-    ) {
-        _state.on<State.Success> {
-            val updateRequest = it.repoToCheck.copy(
-                owner = owner,
-                name = name,
-                groupName = groupName,
-                pullBranchRegex = branchRegex,
-                arePullRequestsEnabled = arePullRequestsEnabled,
-                areReleasesEnabled = areReleasesEnabled,
-            )
-            viewModelScope.launch {
-                repoToCheckService.save(updateRequest)
-                    .onSuccess {
-                        _events.emit(Events.Saved)
+    private suspend fun load(state: State<St.Loading>) : ChangedState<St> {
+        return if (repoToCheckId == null) {
+            state.override { St.Success(RepoToCheck.newInstance()) }
+        } else {
+            repoToCheckService
+                .get(repoToCheckId)
+                .fold(
+                    onSuccess = { repoToCheck ->
+                        state.override { St.Success(repoToCheck) }
+                    },
+                    onFailure = {
+                        state.override { St.Error(it) }
                     }
-            }
+                )
         }
     }
 
-    private inline fun <reified T: State> MutableStateFlow<State>.on(block: (T) -> Unit) {
-        (value as? T)?.let(block)
+    private suspend fun save(state: State<St.Success>, action: Act.Save): ChangedState<St> {
+        val updateRequest = state.snapshot.repoToCheck.copy(
+            owner = action.owner,
+            name = action.name,
+            groupName = action.groupName,
+            pullBranchRegex = action.branchRegex,
+            arePullRequestsEnabled = action.arePullRequestsEnabled,
+            areReleasesEnabled = action.areReleasesEnabled,
+        )
+        return repoToCheckService
+            .save(updateRequest)
+            .fold(
+                onSuccess = {
+                    state.mutate { copy(savedSuccessfully = true) }
+                },
+                onFailure = { _ ->
+                    state.mutate { copy(savedSuccessfully = false) }
+                },
+            )
     }
 
-    sealed class State {
-        object Initializing: State()
-        data class Success(val repoToCheck: RepoToCheck): State()
-        data class Error(val throwable: Throwable): State()
+    sealed interface St {
+        data object Loading: St
+        data class Success(val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null): St
+        data class Error(val throwable: Throwable): St
     }
-
-    sealed class Events {
-        object Saved: Events()
+    sealed interface Act {
+        data class Save(
+            val owner: String,
+            val name: String,
+            val groupName: String,
+            val branchRegex: String,
+            val arePullRequestsEnabled: Boolean,
+            val areReleasesEnabled: Boolean,
+        ): Act
     }
 }

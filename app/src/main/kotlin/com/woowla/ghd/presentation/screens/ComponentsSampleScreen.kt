@@ -239,26 +239,10 @@ object ComponentsSampleScreen {
             Spacer(modifier = Modifier.size(5.dp))
             Button(
                 onClick = {
-                    viewModel.sendUpdatedPullRequest()
-                }
-            ) {
-                Text("Updated pull request")
-            }
-            Spacer(modifier = Modifier.size(5.dp))
-            Button(
-                onClick = {
                     viewModel.sendNewRelease()
                 }
             ) {
                 Text("New release")
-            }
-            Spacer(modifier = Modifier.size(5.dp))
-            Button(
-                onClick = {
-                    viewModel.sendUpdatedRelease()
-                }
-            ) {
-                Text("Updated release")
             }
         }
     }
