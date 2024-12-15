@@ -2,6 +2,7 @@ package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -82,7 +83,7 @@ object PullRequestsScreen {
                                     onSeenClick = { viewModel.markAsSeen(pullRequestWithReviews) }
                                 )
                             }
-                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
+                            HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                         }
                     }
                 }

@@ -167,7 +167,7 @@ object RepoToCheckScreen {
                                             )
                                         }
                                         if (index < lockedState.groupedReposToCheck.size - 1) {
-                                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
+                                            HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                                         }
                                     }
                                 }
