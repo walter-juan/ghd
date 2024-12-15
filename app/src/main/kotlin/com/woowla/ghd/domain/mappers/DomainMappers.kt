@@ -1,5 +1,7 @@
 package com.woowla.ghd.domain.mappers
 
+import com.woowla.ghd.data.remote.entities.ApiResponse
+import com.woowla.ghd.data.remote.mappers.toSyncResultRateLimit
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.Review
@@ -42,7 +44,7 @@ fun Review.toReviewSeen(): ReviewSeen {
     )
 }
 
-fun <T> Result<T>.toSyncResultEntry(
+fun <T: Any> Result<ApiResponse<T>>.toSyncResultEntry(
     syncResultId: Long,
     repoToCheckId: Long?,
     origin: SyncResultEntry.Origin,
@@ -59,6 +61,7 @@ fun <T> Result<T>.toSyncResultEntry(
                 origin = origin,
                 error = null,
                 errorMessage = null,
+                rateLimit = it.rateLimit.toSyncResultRateLimit(),
             )
         },
         onFailure = { throwable ->
@@ -71,6 +74,7 @@ fun <T> Result<T>.toSyncResultEntry(
                 origin = origin,
                 error = throwable.javaClass.name,
                 errorMessage = throwable.message,
+                rateLimit = null,
             )
         }
     )

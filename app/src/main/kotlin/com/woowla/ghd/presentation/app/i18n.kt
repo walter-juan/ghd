@@ -205,7 +205,9 @@ repositories:
     val app_settings_pr_cleanup_unknown = "?"
 
 
-    val sync_result_title: (instant: Instant, emoji: String) -> String = { instant, emoji -> "$emoji Synchronized at ${instant.format()}" }
+    val sync_result_title: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -> String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt ->
+        "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})"
+    }
 
     val file_dialog_choose_file = "Choose a file"
     val file_dialog_save_file = "Save a file"

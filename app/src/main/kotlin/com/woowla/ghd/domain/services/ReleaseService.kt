@@ -91,8 +91,9 @@ class ReleaseService(
                 // remove the old one
                 localDataSource.removeReleaseByRepoToCheck(repoToCheckId = repoToCheck.id)
             }
-            .onSuccess { apiRelease ->
+            .onSuccess { apiResult ->
                 // insert the new one
+                val apiRelease = apiResult.data
                 val release = apiRelease.toRelease(repoToCheck)
                 localDataSource.upsertRelease(release)
             }

@@ -1,7 +1,6 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,13 +24,13 @@ object ReleasesScreen {
         val state = viewModel.state.collectAsState().value
         val topBarSubtitle = when(state) {
             is ReleasesViewModel.State.Initializing -> i18n.status_bar_loading
-            is ReleasesViewModel.State.Success -> state.syncResultWithEntities?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
+            is ReleasesViewModel.State.Success -> state.syncResultWithEntries?.let { SyncResultDecorator(it) }?.title ?: i18n.status_bar_synchronized_at_unknown
             is ReleasesViewModel.State.Error -> i18n.status_bar_error
         }
         val topBarSubtitleOnClick: (() -> Unit)? = when(state) {
             is ReleasesViewModel.State.Initializing -> null
             is ReleasesViewModel.State.Success -> {
-                state.syncResultWithEntities?.let { { onSyncResultEntriesClick.invoke(it.syncResult) } }
+                state.syncResultWithEntries?.let { { onSyncResultEntriesClick.invoke(it.syncResult) } }
             }
             is ReleasesViewModel.State.Error -> null
         }

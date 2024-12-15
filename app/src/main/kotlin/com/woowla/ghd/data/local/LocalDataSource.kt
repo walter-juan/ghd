@@ -72,7 +72,7 @@ class LocalDataSource(
     }
 
 
-    suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
+    suspend fun getLastSyncResult(): Result<SyncResultWithEntriesAndRepos?> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().getLast()
@@ -83,13 +83,13 @@ class LocalDataSource(
                     repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                 )
             }
-            SyncResultWithEntitiesAndRepos(
+            SyncResultWithEntriesAndRepos(
                 syncResult = syncResult,
                 syncResultEntries = syncResultEntryWithRepoList,
             )
         }
     }
-    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
+    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntriesAndRepos>> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             appDatabase.syncResultDao()
@@ -102,14 +102,14 @@ class LocalDataSource(
                             repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                         )
                     }
-                    SyncResultWithEntitiesAndRepos(
+                    SyncResultWithEntriesAndRepos(
                         syncResult = syncResult,
                         syncResultEntries = syncResultEntryWithRepoList,
                     )
                 }
         }
     }
-    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
+    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntriesAndRepos> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().get(id)
@@ -120,7 +120,7 @@ class LocalDataSource(
                     repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                 )
             }
-            SyncResultWithEntitiesAndRepos(
+            SyncResultWithEntriesAndRepos(
                 syncResult = syncResult,
                 syncResultEntries = syncResultEntryWithRepoList,
             )

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "966aa96f94275bac3e0ad9b5eeaff019",
+    "identityHash": "e1490b8adcda1d7765f60fee017326f0",
     "entities": [
       {
         "tableName": "pull_request",
@@ -620,7 +620,7 @@
       },
       {
         "tableName": "sync_result_entry",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sync_result_id` INTEGER NOT NULL, `repo_to_check_id` INTEGER, `is_success` INTEGER NOT NULL, `start_at` TEXT NOT NULL, `end_at` TEXT NOT NULL, `origin` TEXT NOT NULL, `error` TEXT, `error_message` TEXT, FOREIGN KEY(`sync_result_id`) REFERENCES `sync_result`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`repo_to_check_id`) REFERENCES `repo_to_check`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sync_result_id` INTEGER NOT NULL, `repo_to_check_id` INTEGER, `is_success` INTEGER NOT NULL, `start_at` TEXT NOT NULL, `end_at` TEXT NOT NULL, `origin` TEXT NOT NULL, `error` TEXT, `error_message` TEXT, `ratelimit_limit` INTEGER, `ratelimit_remaining` INTEGER, `ratelimit_used` INTEGER, `ratelimit_reset` TEXT, `ratelimit_resource` TEXT, FOREIGN KEY(`sync_result_id`) REFERENCES `sync_result`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`repo_to_check_id`) REFERENCES `repo_to_check`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
         "fields": [
           {
             "fieldPath": "id",
@@ -671,6 +671,31 @@
           {
             "fieldPath": "errorMessage",
             "columnName": "error_message",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rateLimit.limit",
+            "columnName": "ratelimit_limit",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rateLimit.remaining",
+            "columnName": "ratelimit_remaining",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rateLimit.used",
+            "columnName": "ratelimit_used",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rateLimit.reset",
+            "columnName": "ratelimit_reset",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rateLimit.resource",
+            "columnName": "ratelimit_resource",
             "affinity": "TEXT"
           }
         ],
@@ -762,7 +787,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '966aa96f94275bac3e0ad9b5eeaff019')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e1490b8adcda1d7765f60fee017326f0')"
     ]
   }
 }

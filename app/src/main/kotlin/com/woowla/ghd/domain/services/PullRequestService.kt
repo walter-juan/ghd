@@ -75,12 +75,12 @@ class PullRequestService(
                 }
             }
         }
-        val apiPullRequestResults = apiPullRequestResultsDeferred.awaitAll()
+        val apiResponseResults = apiPullRequestResultsDeferred.awaitAll()
         AppLogger.d("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
 
         // map to sync results
-        val syncResultEntries = apiPullRequestResults.map { (repoToCheck, startAt, pullRequestResults) ->
-            pullRequestResults.toSyncResultEntry(
+        val syncResultEntries = apiResponseResults.map { (repoToCheck, startAt, apiResponseResult) ->
+            apiResponseResult.toSyncResultEntry(
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheck.id,
                 origin = SyncResultEntry.Origin.PULL,
@@ -88,8 +88,9 @@ class PullRequestService(
             )
         }
         // update the local pull requests
-        val pullRequests = apiPullRequestResults.mapNotNull { (repoToCheck, _, pullRequestResults) ->
-            val apiPullRequests = pullRequestResults.getOrElse { listOf() }
+        val pullRequests = apiResponseResults.mapNotNull { (repoToCheck, _, apiResponseResult) ->
+            val apiResponse = apiResponseResult.getOrNull()
+            val apiPullRequests = apiResponse?.data ?: listOf()
             if (apiPullRequests.isEmpty()) {
                 null
             } else {

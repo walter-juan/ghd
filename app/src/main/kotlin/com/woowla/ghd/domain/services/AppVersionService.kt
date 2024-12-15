@@ -10,7 +10,8 @@ class AppVersionService(
     suspend fun checkForNewVersion(): Result<CheckForNewVersionResponse> {
         return remoteDataSource
             .getLastGhdRelease()
-            .mapCatching { apiRelease ->
+            .mapCatching { apiResponse ->
+                val apiRelease = apiResponse.data
                 val currentVersion = SemVer.parse(BuildConfig.APP_VERSION)
                 val latestVersion = SemVer.parse(apiRelease.tag.removePrefix("v"))
 

@@ -2,6 +2,7 @@ package com.woowla.ghd.data.remote.mappers
 
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
+import com.woowla.ghd.data.remote.entities.ApiRateLimit
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
@@ -14,6 +15,7 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.SyncResultRateLimit
 import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 
@@ -79,6 +81,16 @@ fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Rev
             )
         }
     } ?: listOf()
+}
+
+fun ApiRateLimit.toSyncResultRateLimit(): SyncResultRateLimit {
+    return SyncResultRateLimit(
+        limit = limit,
+        remaining = remaining,
+        used = used,
+        reset = reset,
+        resource = resource,
+    )
 }
 
 fun PullRequestFragment.Author.toAuthor(): Author {
