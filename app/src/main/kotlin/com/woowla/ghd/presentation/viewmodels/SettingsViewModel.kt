@@ -6,10 +6,10 @@ import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.domain.entities.checkTimeout
 import com.woowla.ghd.domain.entities.githubPatToken
+import com.woowla.ghd.domain.entities.nullableCheckTimeout
 import com.woowla.ghd.domain.entities.nullableDarkTheme
-import com.woowla.ghd.domain.entities.pullRequestCleanUpTimeout
+import com.woowla.ghd.domain.entities.nullablePullRequestCleanUpTimeout
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.utils.FlowReduxViewModel
@@ -41,10 +41,10 @@ class SettingsStateMachine(
                     state.mutate { St.Success.syncSettings.githubPatToken.modify(this) { action.gitHubPatToken } }
                 }
                 on<Act.UpdateCheckTimeout> { action, state ->
-                    state.mutate { St.Success.syncSettings.checkTimeout.modify(this) { action.checkTimeout } }
+                    state.mutate { St.Success.syncSettings.nullableCheckTimeout.modify(this) { action.checkTimeout } }
                 }
                 on<Act.UpdatePullRequestCleanUpTimeout> { action, state ->
-                    state.mutate { St.Success.syncSettings.pullRequestCleanUpTimeout.modify(this) { action.cleanUpTimeout } }
+                    state.mutate { St.Success.syncSettings.nullablePullRequestCleanUpTimeout.modify(this) { action.cleanUpTimeout } }
                 }
                 on<Act.UpdateAppTheme> { action, state ->
                     state.mutate { St.Success.appSettings.nullableDarkTheme.modify(this) { action.appDarkTheme } }
