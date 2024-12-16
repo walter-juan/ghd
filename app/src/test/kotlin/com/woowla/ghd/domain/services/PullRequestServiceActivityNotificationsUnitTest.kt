@@ -16,6 +16,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
     /**
      * Return a list of old pull request and new pull request for the activity changes.
      * This will contain:
+     * - 1 Pull request which is newly created
      * - 1 Pull Request with no activity changes
      * - 1 Pull Request with checks activity changes
      * - 1 Pull Request with mergeable activity changes
@@ -36,6 +37,13 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             login = reviewsAuthorUsername,
         )
 
+        // newly created
+        val newCreatedPullRequest = RandomEntities.pullRequest().copy(
+            id = "pull-id-9",
+            title = "no activity",
+            author = pullRequestAuthor,
+            state = PullRequestState.OPEN,
+        )
         // no activity changes
         val oldNoActivityPullRequest = RandomEntities.pullRequest().copy(
             id = "pull-id-10",
@@ -106,6 +114,10 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             state = ReviewState.DISMISSED,
         )
 
+        val newCreatedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            pullRequest = newCreatedPullRequest,
+            reviews = listOf()
+        )
         val oldNoActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
             pullRequest = oldNoActivityPullRequest,
             reviews = listOf()
@@ -163,6 +175,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             oldReviewChangedActivityPullRequestWithReviews,
             oldReReviewActivityPullRequestWithReviews,
         ) to listOf(
+            newCreatedPullRequestWithReviews,
             noActivityPullRequestWithReviews,
             checksActivityPullRequestWithReviews,
             mergeableActivityPullRequestWithReviews,

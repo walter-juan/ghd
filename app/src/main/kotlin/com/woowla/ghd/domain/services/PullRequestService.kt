@@ -184,6 +184,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.ALL -> {
                 // new reviews or changed
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
                         pullRequest to reviews.filter { !it.reRequestedReview() }
@@ -198,6 +199,7 @@ class PullRequestService(
                     }
                 // re-reviews
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
                         pullRequest to reviews.filter { it.reRequestedReview() }
@@ -210,12 +212,14 @@ class PullRequestService(
                     }
                 // checks
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
                         notificationsSender.changePullRequestChecks(pullRequestWithRepo.pullRequest)
                     }
                 // mergeable
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
                         notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
@@ -224,6 +228,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.FILTERED -> {
                 // new reviews or changed, from your pull requests
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
                         pullRequest to reviews.filter { !it.reRequestedReview() }
@@ -241,6 +246,7 @@ class PullRequestService(
                     }
                 // re-reviews, from your reviews
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
                         pullRequest to reviews.filter { it.reRequestedReview() }
@@ -257,6 +263,7 @@ class PullRequestService(
                     }
                 // checks, from your pull requests
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
@@ -266,6 +273,7 @@ class PullRequestService(
                     }
                 // mergeable, from your pull requests
                 newPullRequestsWithReviews
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
@@ -280,7 +288,17 @@ class PullRequestService(
     }
 
     /**
-     * Filter the pull requests that have changed his reviews
+     * Returns a list containing all pull requests that are also in the old list
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterNotNewPullRequests(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                oldPullRequestsWithReviews.any { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that has reviews that changed the state
      * @return a list of pairs with the pull request and the reviews that changed
      */
     private fun List<PullRequestWithRepoAndReviews>.filterByReviewStateChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<Pair<PullRequest, List<Review>>> {
@@ -306,7 +324,7 @@ class PullRequestService(
     }
 
     /**
-     * Filter the pull requests that have changed his checks
+     * Returns a list containing all pull requests that has the checks has changed
      */
     private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestChecksChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
         return this
@@ -321,7 +339,7 @@ class PullRequestService(
     }
 
     /**
-     * Filter the pull requests that have changed his checks
+     * Returns a list containing all pull requests that changed the [PullRequest.mergeStateStatus] and it can be merged
      */
     private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
         return this
@@ -337,7 +355,7 @@ class PullRequestService(
     }
 
     /**
-     * Filter the pull requests that have changed his state
+     * Returns a list containing all pull requests that have changed his state
      */
     private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
         return this
