@@ -1,7 +1,6 @@
 package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.RandomEntities
-import com.woowla.ghd.RandomValues
 import com.woowla.ghd.TestNotificationsSender
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
@@ -76,6 +75,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
         val reviewAddedActivityPullRequest = oldReviewAddedActivityPullRequest.copy()
         val reviewAdded = RandomEntities.review().copy(
             author = reviewsAuthor,
+            state = ReviewState.APPROVED,
         )
         // review changed
         val oldReviewChangedActivityPullRequest = RandomEntities.pullRequest().copy(
