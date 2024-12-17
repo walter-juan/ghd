@@ -70,9 +70,9 @@ class NotificationsStateMachine(
                 on<Act.UpdateActivityReviewsFromYourPullRequestsEnabled> { action, state ->
                     state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled } }
                 }
-                on<Act.UpdateActivityReviewsReRequestEnabled> { action, state ->
-                    state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsReRequestEnabled.modify(this) { action.enabled } }
-                }
+//                on<Act.UpdateActivityReviewsReRequestEnabled> { action, state ->
+//                    state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsReRequestEnabled.modify(this) { action.enabled } }
+//                }
                 on<Act.UpdateActivityChecksFromYourPullRequestsEnabled> { action, state ->
                     state.mutate { St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled } }
                 }
@@ -140,7 +140,8 @@ class NotificationsStateMachine(
 
         data class UpdateActivityEnabledOption(val enabledOption: NotificationsSettings.EnabledOption): Act
         data class UpdateActivityReviewsFromYourPullRequestsEnabled(val enabled: Boolean): Act
-        data class UpdateActivityReviewsReRequestEnabled(val enabled: Boolean): Act
+        // TODO [review re-request] disabled
+//        data class UpdateActivityReviewsReRequestEnabled(val enabled: Boolean): Act
         data class UpdateActivityChecksFromYourPullRequestsEnabled(val enabled: Boolean): Act
         data class UpdateActivityMergeableFromYourPullRequestsEnabled(val enabled: Boolean): Act
 

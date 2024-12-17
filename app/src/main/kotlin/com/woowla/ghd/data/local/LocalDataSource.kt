@@ -26,7 +26,8 @@ class LocalDataSource(
 
                     activityEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption,
                     activityReviewsFromYourPullRequestsEnabled = appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled,
-                    activityReviewsReRequestEnabled = appProperties.notificationsActivityReviewsReRequestEnabled,
+                    // TODO [review re-request] always false because it did not have the behavior that was expected at the beginning
+                    activityReviewsReRequestEnabled = false, //appProperties.notificationsActivityReviewsReRequestEnabled,
                     activityChecksFromYourPullRequestsEnabled = appProperties.notificationsActivityChecksFromYourPullRequestsEnabled,
                     activityMergeableFromYourPullRequestsEnabled = appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled,
 

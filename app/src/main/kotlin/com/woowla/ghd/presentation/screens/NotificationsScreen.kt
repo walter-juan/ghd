@@ -234,15 +234,16 @@ object NotificationsScreen {
                                 )
                             },
                             column3 = {
-                                FilterChip(
-                                    label = { Text("Your reviews re-requests") },
-                                    enabled = notificationsSettings.validActivityEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
-                                    leadingIcon = { Icon(Tabler.Outline.Refresh, contentDescription = null) },
-                                    selected = notificationsSettings.activityReviewsReRequestEnabled,
-                                    onClick = {
-                                        dispatchAction.invoke(Act.UpdateActivityReviewsReRequestEnabled(!notificationsSettings.activityReviewsReRequestEnabled))
-                                    }
-                                )
+                                // TODO [review re-request] disabled
+//                                FilterChip(
+//                                    label = { Text("Your reviews re-requests") },
+//                                    enabled = notificationsSettings.validActivityEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
+//                                    leadingIcon = { Icon(Tabler.Outline.Refresh, contentDescription = null) },
+//                                    selected = notificationsSettings.activityReviewsReRequestEnabled,
+//                                    onClick = {
+//                                        dispatchAction.invoke(Act.UpdateActivityReviewsReRequestEnabled(!notificationsSettings.activityReviewsReRequestEnabled))
+//                                    }
+//                                )
                             },
                         )
 

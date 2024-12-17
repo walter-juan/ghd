@@ -198,18 +198,19 @@ class PullRequestService(
                         }
                     }
                 // re-reviews
-                newPullRequestsWithReviews
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-                    .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { it.reRequestedReview() }
-                    }
-                    .filter { (_, reviews) ->
-                        reviews.isNotEmpty()
-                    }
-                    .forEach { (pullRequest, _) ->
-                        notificationsSender.newPullRequestReReview(pullRequest)
-                    }
+                // TODO [review re-request] disabled
+//                newPullRequestsWithReviews
+//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+//                    .map { (pullRequest, reviews) ->
+//                        pullRequest to reviews.filter { it.reRequestedReview() }
+//                    }
+//                    .filter { (_, reviews) ->
+//                        reviews.isNotEmpty()
+//                    }
+//                    .forEach { (pullRequest, _) ->
+//                        notificationsSender.newPullRequestReReview(pullRequest)
+//                    }
                 // checks
                 newPullRequestsWithReviews
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
@@ -245,22 +246,23 @@ class PullRequestService(
                         }
                     }
                 // re-reviews, from your reviews
-                newPullRequestsWithReviews
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-                    .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { it.reRequestedReview() }
-                    }
-                    .map { (pullRequest, reviews) ->
-                        val yourReviews = reviews.filter { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
-                        pullRequest to yourReviews
-                    }
-                    .filter { (_, reviews) ->
-                        reviews.isNotEmpty()
-                    }
-                    .forEach { (pullRequest, _) ->
-                        notificationsSender.newPullRequestReReview(pullRequest)
-                    }
+                // TODO [review re-request]
+//                newPullRequestsWithReviews
+//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+//                    .map { (pullRequest, reviews) ->
+//                        pullRequest to reviews.filter { it.reRequestedReview() }
+//                    }
+//                    .map { (pullRequest, reviews) ->
+//                        val yourReviews = reviews.filter { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
+//                        pullRequest to yourReviews
+//                    }
+//                    .filter { (_, reviews) ->
+//                        reviews.isNotEmpty()
+//                    }
+//                    .forEach { (pullRequest, _) ->
+//                        notificationsSender.newPullRequestReReview(pullRequest)
+//                    }
                 // checks, from your pull requests
                 newPullRequestsWithReviews
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
