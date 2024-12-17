@@ -155,7 +155,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.ALL -> {
                 // state changes
                 newPullRequestsWithReviews
-                    .filterByPullRequestStateChanged(oldPullRequestsWithReviews)
+                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
                         notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
                     }
@@ -163,7 +163,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.FILTERED -> {
                 // state changes, from others pull requests
                 newPullRequestsWithReviews
-                    .filterByPullRequestStateChanged(oldPullRequestsWithReviews)
+                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
                     }
@@ -357,7 +357,7 @@ class PullRequestService(
     /**
      * Returns a list containing all pull requests that have changed his state
      */
-    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
         return this
             .filter { newPullRequestWithRepo ->
                 newPullRequestWithRepo.pullRequest.stateExtended != PullRequestStateExtended.UNKNOWN
