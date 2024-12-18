@@ -66,6 +66,7 @@ fun SectionCategorySwitch(
         }
         AnimatedVisibility(visible = checked) {
             Column {
+                Spacer(modifier = Modifier.height(10.dp))
                 content()
             }
         }

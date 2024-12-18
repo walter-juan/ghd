@@ -26,7 +26,9 @@ class ComponentsViewModel(
         groupName = null,
         pullBranchRegex = null,
         arePullRequestsEnabled = true,
-        areReleasesEnabled = true
+        areReleasesEnabled = true,
+        arePullRequestsNotificationsEnabled = true,
+        areReleasesNotificationsEnabled = true,
     )
     private val pullRequest = PullRequest(
         id = "magna",

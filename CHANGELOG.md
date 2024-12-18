@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Notifications behaviour
   - ⚠️ New screen added, now by default the notifications are disabled go to this screen in order to update it
   - Better notifications per pull request, now you can filter by username, state, activity, etc.
+  - Split enable/disable pull requests and releases between enabled/disable synchronization and enable/disable notifications
 - Pull request card
   - Icons changed for a more descriptive ones
   - Show if the pull request can be merged (mergeable)

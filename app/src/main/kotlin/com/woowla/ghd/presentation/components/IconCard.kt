@@ -273,6 +273,33 @@ fun IconCardRowSmallContent(
     showBadge: Boolean = false,
     badgeColor: Color = MaterialTheme.colorScheme.info,
 ) {
+    IconCardRowSmallContent(
+        icon = icon,
+        iconTint = iconTint,
+        iconBackgroundColor = iconBackgroundColor,
+        rowColor = rowColor,
+        showBadge = showBadge,
+        badgeColor = badgeColor,
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+fun IconCardRowSmallContent(
+    icon: ImageVector? = null,
+    iconTint: Color = LocalContentColor.current,
+    iconBackgroundColor: Color = Color.Transparent,
+    rowColor: Color = Color.Transparent,
+    showBadge: Boolean = false,
+    badgeColor: Color = MaterialTheme.colorScheme.info,
+    content: @Composable () -> Unit,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -296,11 +323,6 @@ fun IconCardRowSmallContent(
                 }
             }
         }
-        Text(
-            text = text,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
+        content()
     }
 }

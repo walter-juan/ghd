@@ -62,6 +62,8 @@ object ComponentsSampleScreen {
         pullBranchRegex = null,
         arePullRequestsEnabled = true,
         areReleasesEnabled = true,
+        arePullRequestsNotificationsEnabled = true,
+        areReleasesNotificationsEnabled = true,
     )
     private val release = Release(
         id = "8u8wuw93u",

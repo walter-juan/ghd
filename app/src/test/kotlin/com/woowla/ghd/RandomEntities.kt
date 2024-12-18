@@ -101,7 +101,9 @@ object RandomEntities {
         groupName = RandomValues.randomString(),
         pullBranchRegex = RandomValues.randomString(),
         arePullRequestsEnabled = false,
-        areReleasesEnabled = false
+        arePullRequestsNotificationsEnabled = false,
+        areReleasesEnabled = false,
+        areReleasesNotificationsEnabled = false,
     )
 
     fun review(

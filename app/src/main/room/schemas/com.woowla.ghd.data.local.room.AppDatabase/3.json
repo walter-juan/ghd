@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "e1490b8adcda1d7765f60fee017326f0",
+    "identityHash": "8c75150f7909fdb5c6b73dd048de68df",
     "entities": [
       {
         "tableName": "pull_request",
@@ -379,7 +379,7 @@
       },
       {
         "tableName": "repo_to_check",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `owner` TEXT NOT NULL, `name` TEXT NOT NULL, `group_name` TEXT, `pull_branch_regex` TEXT, `are_pull_requests_enabled` INTEGER NOT NULL, `are_releases_enabled` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `owner` TEXT NOT NULL, `name` TEXT NOT NULL, `group_name` TEXT, `pull_branch_regex` TEXT, `are_pull_requests_enabled` INTEGER NOT NULL, `are_releases_enabled` INTEGER NOT NULL, `are_pull_requests_notifications_enabled` INTEGER NOT NULL DEFAULT 0, `are_releases_notifications_enabled` INTEGER NOT NULL DEFAULT 0)",
         "fields": [
           {
             "fieldPath": "id",
@@ -420,6 +420,20 @@
             "columnName": "are_releases_enabled",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "arePullRequestsNotificationsEnabled",
+            "columnName": "are_pull_requests_notifications_enabled",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "areReleasesNotificationsEnabled",
+            "columnName": "are_releases_notifications_enabled",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
           }
         ],
         "primaryKey": {
@@ -787,7 +801,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e1490b8adcda1d7765f60fee017326f0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8c75150f7909fdb5c6b73dd048de68df')"
     ]
   }
 }

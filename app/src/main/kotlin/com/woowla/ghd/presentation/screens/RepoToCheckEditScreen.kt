@@ -85,10 +85,12 @@ object RepoToCheckEditScreen {
     ) {
         var owner by remember { mutableStateOf(state.repoToCheck.owner) }
         var name by remember { mutableStateOf(state.repoToCheck.name) }
-        var releaseGroup by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
+        var groupName by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(state.repoToCheck.pullBranchRegex ?: "") }
         var arePullRequestsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsEnabled) }
+        var arePullRequestsNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsNotificationsEnabled) }
         var areReleasesEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesEnabled) }
+        var areReleasesNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesNotificationsEnabled) }
 
         if (state.savedSuccessfully == true) {
             onBackClick.invoke()
@@ -107,13 +109,14 @@ object RepoToCheckEditScreen {
                                     Act.Save(
                                         owner = owner,
                                         name = name,
-                                        groupName = releaseGroup,
+                                        groupName = groupName,
                                         branchRegex = branchRegex,
                                         arePullRequestsEnabled = arePullRequestsEnabled,
+                                        arePullRequestsNotificationsEnabled = arePullRequestsNotificationsEnabled,
                                         areReleasesEnabled = areReleasesEnabled,
+                                        areReleasesNotificationsEnabled = areReleasesNotificationsEnabled,
                                     )
                                 )
-
                             }
                         ) {
                             Icon(
@@ -132,79 +135,133 @@ object RepoToCheckEditScreen {
                     .padding(AppDimens.contentPaddingAllDp)
                     .width(AppDimens.contentWidthDp)
             ) {
-                SectionCategory(i18n.screen_edit_repo_to_check_repository_section) {
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(5.dp),
-                    ) {
-                        OutlinedTextField(
-                            value = owner,
-                            onValueChange = {
-                                owner = it
-                            },
-                            label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
-                            modifier = Modifier.weight(1f),
-                        )
-                        OutlinedTextField(
-                            value = name,
-                            onValueChange = {
-                                name = it
-                            },
-                            label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
+                RepositorySection(
+                    owner = owner,
+                    name = name,
+                    groupName = groupName,
+                    onOwnerChange = { owner = it },
+                    onNameChange = { name = it },
+                    onReleaseGroupChange = { groupName = it },
+                )
 
-                    Spacer(modifier = Modifier.padding(5.dp))
+                PullRequestSection(
+                    arePullRequestsEnabled = arePullRequestsEnabled,
+                    arePullRequestsNotificationsEnabled = arePullRequestsNotificationsEnabled,
+                    branchRegex = branchRegex,
+                    onArePullRequestsEnabledChange = { arePullRequestsEnabled = it },
+                    onArePullRequestsNotificationsEnabledChange = { arePullRequestsNotificationsEnabled = it },
+                    onBranchRegexChange = { branchRegex = it },
+                )
 
-                    SectionItem(
-                        title = i18n.screen_edit_repo_to_check_group_item,
-                        description = i18n.screen_edit_repo_to_check_group_item_description,
-                    ) {
-                        OutlinedTextField(
-                            value = releaseGroup,
-                            onValueChange = {
-                                releaseGroup = it
-                            },
-                            label = { Text(text = i18n.screen_edit_repo_to_check_group_name_label) },
-                        )
-                    }
-                }
-
-                SectionCategory(i18n.screen_edit_repo_to_check_pull_request_section) {
-                    SwitchText(
-                        text = i18n.screen_edit_repo_to_check_enable_pull_requests_item,
-                        checked = arePullRequestsEnabled,
-                        onCheckedChange = {
-                            arePullRequestsEnabled = it
-                        },
-                    )
-
-                    SectionItem(
-                        title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
-                        description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description
-                    ) {
-                        OutlinedTextField(
-                            value = branchRegex,
-                            onValueChange = {
-                                branchRegex = it
-                            },
-                            label = { Text(text = i18n.screen_edit_repo_to_check_href_branch_regex_label) },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true
-                        )
-                    }
-                }
-
-                SectionCategory(i18n.screen_edit_repo_to_check_releaes_section) {
-                    SwitchText(
-                        text = i18n.screen_edit_repo_to_check_enable_releases_item,
-                        checked = areReleasesEnabled,
-                        onCheckedChange = {
-                            areReleasesEnabled = it
-                        },
-                    )
-                }
+                ReleaseSection(
+                    areReleasesEnabled = areReleasesEnabled,
+                    areReleasesNotificationsEnabled = areReleasesNotificationsEnabled,
+                    onAreReleasesEnabledChange = { areReleasesEnabled = it },
+                    onAreReleasesNotificationsEnabledChange = { areReleasesNotificationsEnabled = it },
+                )
             }
+        }
+    }
+
+    @Composable
+    private fun RepositorySection(
+        owner: String,
+        name: String,
+        groupName: String,
+        onOwnerChange: (String) -> Unit,
+        onNameChange: (String) -> Unit,
+        onReleaseGroupChange: (String) -> Unit,
+    ) {
+        SectionCategory(i18n.screen_edit_repo_to_check_repository_section) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+            ) {
+                OutlinedTextField(
+                    value = owner,
+                    onValueChange = onOwnerChange,
+                    label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
+                    modifier = Modifier.weight(1f),
+                )
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = onNameChange,
+                    label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
+                    modifier = Modifier.weight(1f),
+                )
+            }
+
+            Spacer(modifier = Modifier.padding(5.dp))
+
+            SectionItem(
+                title = i18n.screen_edit_repo_to_check_group_item,
+                description = i18n.screen_edit_repo_to_check_group_item_description,
+            ) {
+                OutlinedTextField(
+                    value = groupName,
+                    onValueChange = onReleaseGroupChange,
+                    label = { Text(text = i18n.screen_edit_repo_to_check_group_name_label) },
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun PullRequestSection(
+        arePullRequestsEnabled: Boolean,
+        arePullRequestsNotificationsEnabled: Boolean,
+        branchRegex: String,
+        onArePullRequestsEnabledChange: (Boolean) -> Unit,
+        onArePullRequestsNotificationsEnabledChange: (Boolean) -> Unit,
+        onBranchRegexChange: (String) -> Unit,
+    ) {
+        SectionCategorySwitch(
+            text = i18n.screen_edit_repo_to_check_pull_request_section,
+            checked = arePullRequestsEnabled,
+            onCheckedChange = {
+                onArePullRequestsEnabledChange.invoke(it)
+                onArePullRequestsNotificationsEnabledChange.invoke(false)
+            },
+        ) {
+            SectionItemSwitch(
+                title = "Enable notifications",
+                checked = arePullRequestsNotificationsEnabled,
+                onCheckedChange = onArePullRequestsNotificationsEnabledChange,
+            )
+            SectionItem(
+                title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
+                description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description
+            ) {
+                OutlinedTextField(
+                    value = branchRegex,
+                    onValueChange = onBranchRegexChange,
+                    label = { Text(text = i18n.screen_edit_repo_to_check_href_branch_regex_label) },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun ReleaseSection(
+        areReleasesEnabled: Boolean,
+        areReleasesNotificationsEnabled: Boolean,
+        onAreReleasesEnabledChange: (Boolean) -> Unit,
+        onAreReleasesNotificationsEnabledChange: (Boolean) -> Unit,
+    ) {
+        SectionCategorySwitch(
+            text = i18n.screen_edit_repo_to_check_releaes_section,
+            checked = areReleasesEnabled,
+            onCheckedChange = {
+                onAreReleasesEnabledChange.invoke(it)
+                onAreReleasesNotificationsEnabledChange.invoke(false)
+            },
+        ) {
+            SectionItemSwitch(
+                title = "Enable notifications",
+                checked = areReleasesNotificationsEnabled,
+                onCheckedChange = onAreReleasesNotificationsEnabledChange,
+            )
         }
     }
 }

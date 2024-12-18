@@ -59,7 +59,9 @@ class RepoToCheckEditStateMachine(
             groupName = action.groupName,
             pullBranchRegex = action.branchRegex,
             arePullRequestsEnabled = action.arePullRequestsEnabled,
+            arePullRequestsNotificationsEnabled = action.arePullRequestsNotificationsEnabled,
             areReleasesEnabled = action.areReleasesEnabled,
+            areReleasesNotificationsEnabled = action.areReleasesNotificationsEnabled,
         )
         return repoToCheckService
             .save(updateRequest)
@@ -85,7 +87,9 @@ class RepoToCheckEditStateMachine(
             val groupName: String,
             val branchRegex: String,
             val arePullRequestsEnabled: Boolean,
+            val arePullRequestsNotificationsEnabled: Boolean,
             val areReleasesEnabled: Boolean,
+            val areReleasesNotificationsEnabled: Boolean,
         ): Act
     }
 }
