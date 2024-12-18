@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +47,8 @@ import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
+import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.Act
+import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.St
 
 object SettingsScreen {
     @Composable
@@ -53,15 +56,33 @@ object SettingsScreen {
         onSyncResultsClicked: () -> Unit,
     ) {
         val viewModel = viewModel { SettingsViewModel() }
+        val state by viewModel.state.collectAsState()
+        Screen(
+            state = state,
+            dispatchAction = viewModel::dispatch,
+            onSyncResultsClicked = onSyncResultsClicked
+        )
+    }
+
+    @Composable
+    private fun Screen(
+        state: St?,
+        dispatchAction: (Act) -> Unit,
+        onSyncResultsClicked: () -> Unit,
+    ) {
         val snackbarHostState = remember { SnackbarHostState() }
 
-        val settingsState by viewModel.state.collectAsState()
-
-        LaunchedEffect(snackbarHostState) {
-            viewModel.events.collect { event->
-                when (event) {
-                    SettingsViewModel.Events.Saved -> {
-                        snackbarHostState.showSnackbar(i18n.screen_app_settings_saved)
+        if (state is St.Success) {
+            val snackbarMessage = when {
+                state.savedSuccessfully == true -> i18n.generic_saved
+                state.savedSuccessfully == false -> i18n.generic_error
+                else -> null
+            }
+            if (snackbarMessage != null) {
+                LaunchedEffect(snackbarHostState) {
+                    val result = snackbarHostState.showSnackbar(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Indefinite)
+                    if (result == SnackbarResult.Dismissed) {
+                        dispatchAction.invoke(Act.CleanUpSaveSuccessfully)
                     }
                 }
             }
@@ -75,7 +96,7 @@ object SettingsScreen {
                     actions = {
                         OutlinedIconButton(
                             colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
-                            onClick = { viewModel.saveSettings() }
+                            onClick = { dispatchAction(Act.Save) }
                         ) {
                             Icon(
                                 Tabler.Outline.DeviceFloppy,
@@ -93,27 +114,13 @@ object SettingsScreen {
                     .padding(AppDimens.contentPaddingAllDp)
                     .width(AppDimens.contentWidthDp)
             ) {
-                when(settingsState) {
-                    SettingsViewModel.State.Initializing -> { }
-                    is SettingsViewModel.State.Error -> {
+                when(state) {
+                    null, St.Initializing -> { }
+                    is St.Error -> {
                         Text(i18n.generic_error)
                     }
-                    is SettingsViewModel.State.Success -> {
-                        val successState = (settingsState as SettingsViewModel.State.Success)
-
-                        var gitHubPatToken by remember { mutableStateOf(successState.syncSettings.githubPatToken) }
+                    is St.Success -> {
                         var passwordVisible by remember { mutableStateOf(false) }
-
-                        var pullRequestFilterOptionsOpen by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.open) }
-                        var pullRequestFilterOptionsClosed by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.closed) }
-                        var pullRequestFilterOptionsMerged by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.merged) }
-                        var pullRequestFilterOptionsDraft by remember { mutableStateOf(successState.appSettings.pullRequestNotificationsFilterOptions.draft) }
-
-                        var pullRequestStateNotifications by remember { mutableStateOf(successState.appSettings.pullRequestStateNotificationsEnabled) }
-                        var pullRequestActivityNotifications by remember { mutableStateOf(successState.appSettings.pullRequestActivityNotificationsEnabled) }
-
-                        var newReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.newReleaseNotificationsEnabled) }
-                        var updatedReleaseNotificationsEnabled by remember { mutableStateOf(successState.appSettings.updatedReleaseNotificationsEnabled) }
 
                         SectionCategory(i18n.screen_app_settings_synchronization_section) {
                             SectionItem(
@@ -127,10 +134,9 @@ object SettingsScreen {
                                         .padding(PaddingValues(bottom = 10.dp))
                                 ) {
                                     OutlinedTextField(
-                                        value = gitHubPatToken,
+                                        value = state.syncSettings.githubPatToken,
                                         onValueChange = {
-                                            gitHubPatToken = it
-                                            viewModel.patTokenUpdated(gitHubPatToken = it)
+                                            dispatchAction(Act.UpdatePatToken(it))
                                         },
                                         label = { Text(i18n.screen_app_settings_github_token_field_label) },
                                         visualTransformation = if (passwordVisible) {
@@ -168,12 +174,12 @@ object SettingsScreen {
                                 }.toList()
 
                                 OutlinedSelectField(
-                                    selected = successState.syncSettings.validCheckTimeout,
+                                    selected = state.syncSettings.validCheckTimeout,
                                     values = checkTimeoutMinutes,
                                     emptyText = i18n.app_settings_checkout_time_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                                 ) { value, _ ->
-                                    viewModel.checkTimeoutUpdated(checkTimeout = value)
+                                    dispatchAction(Act.UpdateCheckTimeout(value))
                                 }
                             }
 
@@ -186,12 +192,12 @@ object SettingsScreen {
                                 }.toList()
 
                                 OutlinedSelectField(
-                                    selected = successState.syncSettings.validPullRequestCleanUpTimeout,
+                                    selected = state.syncSettings.validPullRequestCleanUpTimeout,
                                     values = cleanUpTimeoutHours,
                                     emptyText = i18n.app_settings_pr_cleanup_unknown,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                                 ) { value, _ ->
-                                    viewModel.pullRequestCleanUpTimeoutUpdated(cleanUpTimeout = value)
+                                    dispatchAction(Act.UpdatePullRequestCleanUpTimeout(value))
                                 }
                             }
 
@@ -212,124 +218,13 @@ object SettingsScreen {
                                 val appThemeValues = listOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)
 
                                 OutlinedSelectField(
-                                    selected = successState.appSettings.darkTheme,
+                                    selected = state.appSettings.darkTheme,
                                     values = appThemeValues,
                                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                                 ) { value, _ ->
-                                    viewModel.appThemeUpdated(appDarkTheme = value)
+                                    dispatchAction(Act.UpdateAppTheme(value))
                                 }
                             }
-                        }
-
-                        SectionCategory(i18n.screen_app_settings_pull_requests_notifications_section) {
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_filter_out_title,
-                                description = i18n.screen_app_settings_notifications_pr_filter_out_description,
-                                content = {
-                                    Row {
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_draft,
-                                            checked = pullRequestFilterOptionsDraft,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsDraft = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        draft = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_open,
-                                            checked = pullRequestFilterOptionsOpen,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsOpen = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        open = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_closed,
-                                            checked = pullRequestFilterOptionsClosed,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsClosed = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        closed = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                        Spacer(Modifier.width(10.dp))
-                                        LabelledCheckBox(
-                                            label = i18n.pull_request_state_merged,
-                                            checked = pullRequestFilterOptionsMerged,
-                                            onCheckedChange = {
-                                                pullRequestFilterOptionsMerged = it
-                                                viewModel.newPullRequestsNotificationsOptions(
-                                                    successState.appSettings.pullRequestNotificationsFilterOptions.copy(
-                                                        merged = it
-                                                    )
-                                                )
-                                            }
-                                        )
-                                    }
-                                }
-                            )
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_state_title,
-                                description = i18n.screen_app_settings_notifications_pr_state_description,
-                                content = {
-                                    LabelledCheckBox(
-                                        label = i18n.screen_app_settings_notifications_pr_state_checkbox_label,
-                                        checked = pullRequestStateNotifications,
-                                        onCheckedChange = {
-                                            pullRequestStateNotifications = it
-                                            viewModel.newPullRequestsNotificationsEnabledUpdated(it)
-                                        }
-                                    )
-                                }
-                            )
-                            SectionItem(
-                                title = i18n.screen_app_settings_notifications_pr_activity_title,
-                                description = i18n.screen_app_settings_notifications_pr_activity_description,
-                                content = {
-                                    LabelledCheckBox(
-                                        label = i18n.screen_app_settings_notifications_pr_activity_checkbox_label,
-                                        checked = pullRequestActivityNotifications,
-                                        onCheckedChange = {
-                                            pullRequestActivityNotifications = it
-                                            viewModel.updatedPullRequestsNotificationsEnabledUpdated(it)
-                                        }
-                                    )
-                                }
-                            )
-                        }
-
-                        SectionCategory(i18n.screen_app_settings_releases_notifications_section) {
-                            SectionItemSwitch(
-                                title = i18n.screen_app_settings_notifications_new_release_title,
-                                description = i18n.screen_app_settings_notifications_new_release_description,
-                                checked = newReleaseNotificationsEnabled,
-                                onCheckedChange = {
-                                    newReleaseNotificationsEnabled = it
-                                    viewModel.newReleaseNotificationsEnabledUpdated(it)
-                                },
-                            )
-                            SectionItemSwitch(
-                                title = i18n.screen_app_settings_notifications_update_release_title,
-                                description = i18n.screen_app_settings_notifications_update_release_description,
-                                checked = updatedReleaseNotificationsEnabled,
-                                onCheckedChange = {
-                                    updatedReleaseNotificationsEnabled = it
-                                    viewModel.updatedReleaseNotificationsEnabledUpdated(it)
-                                },
-                            )
                         }
                     }
                 }

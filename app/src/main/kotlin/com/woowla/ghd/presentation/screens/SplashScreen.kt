@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,18 +26,27 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.woowla.ghd.presentation.app.AppIconsPainter
+import com.woowla.ghd.presentation.app.AppScreen
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
+import kotlinx.coroutines.delay
 
 object SplashScreen {
     @Composable
     fun Content(navController: NavController) {
-        val viewModel = viewModel { SplashViewModel(navController) }
-        val splashState by viewModel.state.collectAsState()
+        val viewModel = viewModel { SplashViewModel() }
+        val navigateToLogin by viewModel.navigateToLogin.collectAsState()
         var visible by remember { mutableStateOf(false) }
-        visible = when(splashState) {
-            SplashViewModel.State.Initializing -> false
-            SplashViewModel.State.Started -> true
+
+        LaunchedEffect("logo-visibility") {
+            delay(100)
+            visible = true
+        }
+
+        if (navigateToLogin) {
+            navController.navigate(AppScreen.Login.route) {
+                popUpTo(AppScreen.Splash.route) { inclusive = true }
+            }
         }
 
         Scaffold {

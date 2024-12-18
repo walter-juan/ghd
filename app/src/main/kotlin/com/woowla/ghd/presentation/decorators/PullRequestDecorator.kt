@@ -1,14 +1,19 @@
 package com.woowla.ghd.presentation.decorators
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.List
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ListCheck
+import com.woowla.compose.icon.collections.tabler.tabler.outline.PlaylistX
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserCheck
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserEdit
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserQuestion
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserX
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
-import com.woowla.ghd.presentation.app.AppColors.info
-import com.woowla.ghd.presentation.app.AppColors.success
-import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.presentation.app.i18n
 
 class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
@@ -16,7 +21,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
     val updatedAt = i18n.pull_request_updated(pullRequestWithReviews.pullRequest.updatedAt)
     val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
     val authorLogin = pullRequestWithReviews.pullRequest.author?.login ?: i18n.generic_unknown
-    val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateWithDraft)
+    val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
     val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
     val commitChecks = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.ERROR -> "One or more checks failed"
@@ -26,41 +31,13 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         CommitCheckRollupStatus.SUCCESS -> "All checks are success!"
         CommitCheckRollupStatus.UNKNOWN -> "Unknown status for the checks"
     }
-    val showCommitsCheckBadge = pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.EXPECTED && pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS
-    @Composable
-    fun commitsCheckBadgeColor(): Color = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
-        CommitCheckRollupStatus.ERROR -> MaterialTheme.colorScheme.error
-        CommitCheckRollupStatus.EXPECTED -> MaterialTheme.colorScheme.success
-        CommitCheckRollupStatus.FAILURE -> MaterialTheme.colorScheme.error
-        CommitCheckRollupStatus.PENDING -> MaterialTheme.colorScheme.warning
-        CommitCheckRollupStatus.SUCCESS -> MaterialTheme.colorScheme.success
-        CommitCheckRollupStatus.UNKNOWN -> MaterialTheme.colorScheme.info
-    }
-    val mergeable: String = when(pullRequestWithReviews.pullRequest.mergeable) {
-        MergeableGitHubState.CONFLICTING -> "Conflicts found, update before merge"
-        MergeableGitHubState.MERGEABLE -> "No conflicts found!"
-        MergeableGitHubState.UNKNOWN -> "Unknown status to know if the PR can be merged for conflicts"
-    }
-    val showMergeableBadge = !pullRequestWithReviews.pullRequest.canBeMergedByMergeable
-    @Composable
-    fun mergeableBadgeColor(): Color = when(pullRequestWithReviews.pullRequest.mergeable) {
-        MergeableGitHubState.CONFLICTING -> MaterialTheme.colorScheme.error
-        MergeableGitHubState.MERGEABLE -> MaterialTheme.colorScheme.success
-        MergeableGitHubState.UNKNOWN -> MaterialTheme.colorScheme.info
-    }
-
-    val showReviewsBadge = !pullRequestWithReviews.canBeMergedByReviews
-    @Composable
-    fun reviewsBadgeColor(): Color {
-        return if (pullRequestWithReviews.reviews.isEmpty()) {
-            MaterialTheme.colorScheme.warning
-        } else {
-            if (pullRequestWithReviews.canBeMergedByReviews) {
-                MaterialTheme.colorScheme.success
-            } else {
-                MaterialTheme.colorScheme.error
-            }
-        }
+    val commitChecksIcon: ImageVector = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
+        CommitCheckRollupStatus.SUCCESS -> Tabler.Outline.ListCheck
+        CommitCheckRollupStatus.ERROR -> Tabler.Outline.PlaylistX
+        CommitCheckRollupStatus.FAILURE -> Tabler.Outline.PlaylistX
+        CommitCheckRollupStatus.EXPECTED -> Tabler.Outline.List
+        CommitCheckRollupStatus.PENDING -> Tabler.Outline.List
+        CommitCheckRollupStatus.UNKNOWN -> Tabler.Outline.List
     }
     fun reviews(): String {
         return if (pullRequestWithReviews.reviews.isEmpty()) {
@@ -71,6 +48,28 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
                 "${reviewDecorator.authorLogin} (${reviewDecorator.state})"
             }
             "Reviewed by $reviews"
+        }
+    }
+    fun reviewsIcon(): ImageVector {
+        return when {
+            pullRequestWithReviews.reviews.isEmpty() -> return Tabler.Outline.Users
+            pullRequestWithReviews.reviews.size == 1 -> {
+                when(pullRequestWithReviews.reviews.first().state) {
+                    ReviewState.APPROVED -> return Tabler.Outline.UserCheck
+                    ReviewState.CHANGES_REQUESTED -> return Tabler.Outline.UserX
+                    ReviewState.COMMENTED -> return Tabler.Outline.UserQuestion
+                    ReviewState.PENDING -> return Tabler.Outline.UserEdit
+                    ReviewState.DISMISSED -> return Tabler.Outline.Users
+                    ReviewState.UNKNOWN -> return Tabler.Outline.Users
+                }
+            }
+            else -> {
+                if (pullRequestWithReviews.reviews.any { review -> review.state == ReviewState.APPROVED }) {
+                    Tabler.Outline.UserCheck
+                } else {
+                    return Tabler.Outline.Users
+                }
+            }
         }
     }
 }

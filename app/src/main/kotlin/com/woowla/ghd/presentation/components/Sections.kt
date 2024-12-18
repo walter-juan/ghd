@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -65,6 +66,7 @@ fun SectionCategorySwitch(
         }
         AnimatedVisibility(visible = checked) {
             Column {
+                Spacer(modifier = Modifier.height(10.dp))
                 content()
             }
         }
@@ -140,7 +142,7 @@ fun SectionItemSwitch(
 
 @Composable
 fun SectionDivider() {
-    Divider(
+    HorizontalDivider(
         modifier = Modifier.padding(vertical = 15.dp)
     )
 }

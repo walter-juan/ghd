@@ -1,12 +1,15 @@
 [versions]
-kotlin = "2.0.0"
-ksp = "2.0.0-1.0.22"
-compose-jetbrains = "1.6.11"
-apollo3 = "3.8.4"
+kotlin = "2.0.21"
+ksp = "2.0.21-1.0.28"
+compose-jetbrains = "1.7.1"
+apollo3 = "3.8.5"
 kotest = "5.9.1"
-ktor = "2.3.11"
-androidx-room = "2.7.0-alpha04"
-androidx-sqlite = "2.5.0-alpha04"
+ktor = "3.0.1"
+androidx-room = "2.7.0-alpha11"
+androidx-sqlite = "2.5.0-alpha11"
+coil = "3.0.3"
+flowredux = "1.2.2"
+arrow = "1.2.4"
 
 [plugins]
 # Kotlin for JVM
@@ -23,62 +26,87 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 # GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
-buildconfig = { id = "com.github.gmazzo.buildconfig", version = "5.3.5" }
+buildconfig = "com.github.gmazzo.buildconfig:5.5.1"
 # Discover dependency updates
-benmanesversions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+benmanesversions = "com.github.ben-manes.versions:0.51.0"
 # Android multiplatform, room
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
 # Android multiplatform, navigation
-androidx-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version = "2.7.0-alpha07" }
+androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10"
 # Android multiplatform, viewmodel
-androidx-lifecycle-viewmodel-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel-compose", version = "2.8.0" }
+androidx-lifecycle-viewmodel-compose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
 # Android multiplatform, room + sqlite
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
-androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "androidx-sqlite" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version = "1.8.1" }
+kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0"
 # date time kotlin lib
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version = "0.6.0" }
-# ktor http client (needed for kamel and some API requests)
-ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
-ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
+# ktor http client (needed for coil and some API requests)
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # GraphQL client
-apollo3 = { group = "com.apollographql.apollo3", name = "apollo-runtime", version.ref = "apollo3" }
+apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo3" }
 # logger
-logback-classic = { group = "ch.qos.logback", name = "logback-classic", version = "1.5.6" }
+logback-classic = "ch.qos.logback:logback-classic:1.5.12"
 # cross-platform lib to resolve some application directories for desktop
-appdirs = { group = "net.harawata", name = "appdirs", version = "1.2.2" }
-# kamel, media loading and caching (requires Ktor HttpClient)
-kamel = { group = "media.kamel", name = "kamel-image", version = "0.9.5" }
+appdirs = "net.harawata:appdirs:1.2.2"
+# coil, image loading and caching
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+# flowredux, Kotlin Multiplatform Statemachine library
+flowredux-flowredux = { module = "com.freeletics.flowredux:flowredux", version.ref = "flowredux" }
+flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref = "flowredux" }
+# Λrrow is a library for Typed Functional Programming in Kotlin
+arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
+arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 # YAML support for kotlinx.serialization
-kaml = { group = "com.charleskorn.kaml", name = "kaml", version = "0.60.0" }
+kaml = "com.charleskorn.kaml:kaml:0.66.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
-semver = { group = "net.swiftzer.semver", name = "semver", version = "2.0.0" }
-# state machine
-tinder-statemachine = { group = "com.tinder.statemachine", name = "statemachine", version = "0.2.0" }
+semver = "net.swiftzer.semver:semver:2.0.0"
 # multiplatform library for saving simple key-value data
-settings = { group = "com.russhwolf", name = "multiplatform-settings", version = "1.1.1" }
+settings = "com.russhwolf:multiplatform-settings:1.2.0"
 # icons
-icons-tabler = { group = "com.woowla.compose.icon.collections", name = "tabler", version = "3.19.0" }
-
+icons-tabler = "com.woowla.compose.icon.collections:tabler:3.22.0"
+# simple way to work with tray applications with native support for Linux and Windows.
+composenativetray = "io.github.kdroidfilter:composenativetray:0.4.0"
 # mockk, mocking library for Kotlin
-mockk = { group = "io.mockk", name = "mockk", version = "1.13.13" }
+mockk = "io.mockk:mockk:1.13.13"
 # kotest runner
-test-kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
+test-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 # kotest property-based testing (right now used only for the data generators)
-test-kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+test-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 # kotest assertions
-test-kotest-assertions-core = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
+test-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 # kotest assertions, kotlinx DateTime assertions
-test-kotest-assertions-kotlinx-time = { group = "io.kotest", name = "kotest-assertions-kotlinx-time", version = "4.4.3" }
+test-kotest-assertions-kotlinx-time = "io.kotest:kotest-assertions-kotlinx-time:4.4.3"
 # kotest property-based testing, kotlinx DateTime generators
-test-kotest-extensions-property-datetime = { group = "io.kotest.extensions", name = "kotest-property-datetime", version = "2.0.0" }
+test-kotest-extensions-property-datetime = "io.kotest.extensions:kotest-property-datetime:2.0.0"
 
 [bundles]
-ktor-client = ["ktor-client-cio", "ktor-client-logging", "ktor-client-content-negotiation", "ktor-serialization-kotlinx-json"]
-test-kotest = ["test-kotest-runner-junit5", "test-kotest-property", "test-kotest-assertions-core", "test-kotest-assertions-kotlinx-time", "test-kotest-extensions-property-datetime"]
+ktor-client = [
+    "ktor-client-cio",
+    "ktor-client-content-negotiation",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+]
+coil = [
+    "coil-compose",
+    "coil-network-ktor3",
+]
+flowredux = [
+    "flowredux-flowredux",
+    "flowredux-compose",
+]
+test-kotest = [
+    "test-kotest-assertions-core",
+    "test-kotest-assertions-kotlinx-time",
+    "test-kotest-extensions-property-datetime",
+    "test-kotest-property",
+    "test-kotest-runner-junit5",
+]

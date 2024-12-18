@@ -9,10 +9,10 @@ import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import java.time.format.DateTimeFormatter
-
-fun Instant.after(other: Instant) = compareTo(other) > 0
-
-fun Instant.before(other: Instant) = compareTo(other) < 0
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * Format instant
@@ -25,59 +25,57 @@ fun Instant.format(
 }
 
 /**
- * Transform a [Instant] to a human-readable "minutes/hours ago" or date text.
- * This will return the date text formatted if the duration is greater than [maxHours]
- * @param maxHours The maximum hours to be considered as human-readable
+ * Transform a [Instant] to a human-readable relative screen or date text if maximums are reached.
+ * Examples:
+ *  - in 2 minutes
+ *  - in 1 hour
+ *  - 2 hours ago
+ *  - 1 day ago
+ *  - 15 Dec 2024, 18:22:18
  */
-fun Instant.toHRString(
-    maxHours: Long = 24,
+fun Instant.toRelativeString(
     timeZone: TimeZone = TimeZone.currentSystemDefault(),
-): String {
-    val duration: Duration = Clock.System.now() - this
-
-    val minutes = duration.inWholeMinutes
-    val hours = duration.inWholeHours
-
-    return if (minutes <= 0) {
-        i18n.generic_now
-    } else if (minutes < 60) {
-        i18n.generic_minutes_ago(minutes)
-    } else if (hours < maxHours) {
-        i18n.generic_hours_ago(hours)
-    } else {
-        val month = format(timeZone, DateTimeFormatter.ofPattern("MMMM"))
-        val day = format(timeZone, DateTimeFormatter.ofPattern("dd"))
-        val year = format(timeZone, DateTimeFormatter.ofPattern("yyyy"))
-        val hour = format(timeZone, DateTimeFormatter.ofPattern("HH:mm"))
-        i18n.generic_date_format(month, day, year, hour)
-    }
-}
-
-/**
- * Transform a [Instant] to a human-readable "minutes/hours ago" or date text.
- */
-fun Instant.toAgoString(
-    timeZone: TimeZone = TimeZone.currentSystemDefault(),
+    maximumSeconds: Duration = 60.seconds,
+    maximumMinutes: Duration = 60.minutes,
+    maximumHours: Duration = 24.hours,
+    maximumDays: Duration = 20.days,
 ): String {
     val now = Clock.System.now()
-    val diff = now - this
-    val minutes = diff.inWholeMinutes
-    val hours = diff.inWholeHours
-    val days = diff.inWholeDays
+    val duration = now - this
+    val isFuture = duration.isNegative()
+    val durationAbs = duration.absoluteValue
 
-    return if (minutes <= 0) {
-        i18n.generic_now
-    } else if (hours <= 0) {
-        i18n.generic_minutes_ago(minutes)
-    } else if (days <= 0) {
-        i18n.generic_hours_ago(hours)
-    } else if (days <= 20) {
-        i18n.generic_days_ago(days)
-    } else {
-        val month = format(timeZone, DateTimeFormatter.ofPattern("MMMM"))
-        val day = format(timeZone, DateTimeFormatter.ofPattern("dd"))
-        val year = format(timeZone, DateTimeFormatter.ofPattern("yyyy"))
-        val hour = format(timeZone, DateTimeFormatter.ofPattern("HH:mm"))
-        i18n.generic_date_format(month, day, year, hour)
+    return when {
+        durationAbs <= 0.seconds -> {
+            i18n.generic_now
+        }
+
+        durationAbs < maximumSeconds -> {
+            val seconds = durationAbs.inWholeSeconds
+            if (isFuture) { i18n.generic_in_seconds(seconds) } else { i18n.generic_seconds_ago(seconds) }
+        }
+
+        durationAbs < maximumMinutes -> {
+            val minutes = durationAbs.inWholeMinutes
+            if (isFuture) { i18n.generic_in_minutes(minutes) } else { i18n.generic_minutes_ago(minutes) }
+        }
+
+        durationAbs < maximumHours -> {
+            val hours = durationAbs.inWholeHours
+            if (isFuture) { i18n.generic_in_hours(hours) } else { i18n.generic_hours_ago(hours) }
+        }
+
+        durationAbs < maximumDays -> {
+            val days = durationAbs.inWholeDays
+            if (isFuture) { i18n.generic_in_days(days) } else { i18n.generic_days_ago(days) }
+        }
+
+        else -> {
+            val month = format(timeZone, DateTimeFormatter.ofPattern("MMMM"))
+            val day = format(timeZone, DateTimeFormatter.ofPattern("dd"))
+            val year = format(timeZone, DateTimeFormatter.ofPattern("yyyy"))
+            val hour = format(timeZone, DateTimeFormatter.ofPattern("HH:mm"))
+            i18n.generic_date_format(month, day, year, hour)
+        }
     }
 }
