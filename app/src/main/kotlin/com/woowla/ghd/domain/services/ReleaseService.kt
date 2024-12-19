@@ -73,6 +73,9 @@ class ReleaseService(
         }
 
         newReleases
+            .filter { newRelease ->
+                newRelease.repoToCheck.areReleasesNotificationsEnabled
+            }
             .filterNot { newRelease ->
                 oldReleases.any { it.release.id == newRelease.release.id }
             }

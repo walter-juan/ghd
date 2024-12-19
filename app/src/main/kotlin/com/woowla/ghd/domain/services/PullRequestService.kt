@@ -155,6 +155,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.ALL -> {
                 // state changes
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
                         notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
@@ -163,6 +164,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.FILTERED -> {
                 // state changes, from others pull requests
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
@@ -184,6 +186,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.ALL -> {
                 // new reviews or changed
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
@@ -213,6 +216,7 @@ class PullRequestService(
 //                    }
                 // checks
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
@@ -220,6 +224,7 @@ class PullRequestService(
                     }
                 // mergeable
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
@@ -229,6 +234,7 @@ class PullRequestService(
             NotificationsSettings.EnabledOption.FILTERED -> {
                 // new reviews or changed, from your pull requests
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
@@ -265,6 +271,7 @@ class PullRequestService(
 //                    }
                 // checks, from your pull requests
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
@@ -275,6 +282,7 @@ class PullRequestService(
                     }
                 // mergeable, from your pull requests
                 newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
@@ -371,6 +379,16 @@ class PullRequestService(
                 } else {
                     true
                 }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that have the notification enabled
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestNotificationsEnabled(): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                newPullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled
             }
     }
 }
