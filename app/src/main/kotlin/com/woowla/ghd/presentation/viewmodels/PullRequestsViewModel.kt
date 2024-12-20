@@ -11,7 +11,6 @@ import com.woowla.ghd.eventbus.EventBus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 
 class PullRequestsViewModel(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
@@ -37,14 +36,13 @@ class PullRequestsViewModel(
         loadPulls()
     }
 
-    fun markAsSeen(pullRequest: PullRequest) {
+    fun markAsSeen(pullRequest: PullRequestWithRepoAndReviews) {
         viewModelScope.launch {
-            val appSeenAt = if (pullRequest.appSeen) {
-                null
+            if (pullRequest.seen) {
+                pullRequestService.unmarkAsSeen(id = pullRequest.pullRequest.id)
             } else {
-                Clock.System.now()
+                pullRequestService.markAsSeen(id = pullRequest.pullRequest.id)
             }
-            pullRequestService.markAsSeen(id = pullRequest.id, appSeenAt = appSeenAt)
             loadPulls()
         }
     }
@@ -58,9 +56,9 @@ class PullRequestsViewModel(
                 .fold(
                     onSuccess = { pullRequests ->
                         val groupedPullRequests = pullRequests
-                            .groupBy { it.pullRequest.stateWithDraft }
-                            .map { GroupedPullRequests(pullRequestStateWithDraft = it.key, pullRequestsWithReviews = it.value) }
-                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntities = syncResult, appSettings = appSettings)
+                            .groupBy { it.pullRequest.stateExtended }
+                            .map { GroupedPullRequests(pullRequestStateExtended = it.key, pullRequestsWithReviews = it.value) }
+                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntries = syncResult, appSettings = appSettings)
                     },
                     onFailure = {
                         _state.value = State.Error(throwable = it)
@@ -71,9 +69,9 @@ class PullRequestsViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val syncResultWithEntities: SyncResultWithEntitiesAndRepos?, val appSettings: AppSettings?): State()
+        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val syncResultWithEntries: SyncResultWithEntriesAndRepos?, val appSettings: AppSettings?): State()
         data class  Error(val throwable: Throwable): State()
     }
 
-    data class GroupedPullRequests(val pullRequestStateWithDraft: PullRequestStateWithDraft, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
+    data class GroupedPullRequests(val pullRequestStateExtended: PullRequestStateExtended, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
 }

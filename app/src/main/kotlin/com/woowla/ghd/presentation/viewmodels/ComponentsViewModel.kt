@@ -3,7 +3,7 @@ package com.woowla.ghd.presentation.viewmodels
 import androidx.lifecycle.ViewModel
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.Release
@@ -26,7 +26,9 @@ class ComponentsViewModel(
         groupName = null,
         pullBranchRegex = null,
         arePullRequestsEnabled = true,
-        areReleasesEnabled = true
+        areReleasesEnabled = true,
+        arePullRequestsNotificationsEnabled = true,
+        areReleasesNotificationsEnabled = true,
     )
     private val pullRequest = PullRequest(
         id = "magna",
@@ -45,10 +47,10 @@ class ComponentsViewModel(
             url = null,
             avatarUrl = null
         ),
-        appSeenAt = null,
         totalCommentsCount = null,
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.EXPECTED,
-        mergeable = MergeableGitHubState.MERGEABLE,
+        lastCommitSha1 = null,
+        mergeStateStatus = MergeGitHubStateStatus.CLEAN,
         repoToCheckId = repoToCheck.id
     )
     private val release = Release(
@@ -78,15 +80,7 @@ class ComponentsViewModel(
         notificationsSender.newPullRequest(pullRequest)
     }
 
-    fun sendUpdatedPullRequest() {
-        notificationsSender.updatePullRequest(pullRequest)
-    }
-
     fun sendNewRelease() {
         notificationsSender.newRelease(releaseWithRepo)
-    }
-
-    fun sendUpdatedRelease() {
-        notificationsSender.updateRelease(releaseWithRepo)
     }
 }

@@ -1,7 +1,6 @@
 package com.woowla.ghd.presentation.components
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,27 +22,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.filled.CircleCheck
 import com.woowla.compose.icon.collections.tabler.tabler.outline.*
-import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Placeholder
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.utils.openWebpage
-import io.kamel.image.KamelImage
-import io.kamel.image.lazyPainterResource
 
 @Composable
 fun PullRequestCard(
@@ -52,8 +53,9 @@ fun PullRequestCard(
 ) {
     val avatarImageSize = 45.dp
     val pullRequestDecorator = PullRequestDecorator(pullRequestWithReviews)
-    val seen = pullRequestWithReviews.pullRequest.appSeen
-    val showExtras = !seen && (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN || pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.DRAFT)
+    val seen = pullRequestWithReviews.seen
+    val seenDiff = pullRequestWithReviews.seenDiff()
+    val showExtras = !seen && (pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.OPEN || pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.DRAFT)
 
     IconCard(
         selected = seen,
@@ -101,27 +103,17 @@ fun PullRequestCard(
                     if (targetState) {
                         Box(modifier = Modifier.size(avatarImageSize))
                     } else {
-                        KamelImage(
-                            resource = lazyPainterResource(data = pullRequestWithReviews.pullRequest.author?.avatarUrl ?: ""),
-                            contentDescription = null,
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalPlatformContext.current)
+                                .data(pullRequestWithReviews.pullRequest.author?.avatarUrl)
+                                .crossfade(true)
+                                .build(),
+                            placeholder = AppIconsPainter.Placeholder,
+                            error = AppIconsPainter.Placeholder,
+                            fallback = AppIconsPainter.Placeholder,
                             contentScale = ContentScale.Crop,
+                            contentDescription = null,
                             modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                            onLoading = {
-                                Image(
-                                    painter = AppIconsPainter.Placeholder,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                                )
-                            },
-                            onFailure = {
-                                Image(
-                                    painter = AppIconsPainter.Placeholder,
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier.size(avatarImageSize).clip(CircleShape),
-                                )
-                            }
                         )
                     }
                 }
@@ -153,31 +145,37 @@ fun PullRequestCard(
                 icon = Tabler.Outline.Clock
             )
             if (showExtras) {
-                if (pullRequestDecorator.showMergeableBadge) {
+                if (pullRequestWithReviews.pullRequest.canBeMerged) {
                     IconCardRowSmallContent(
-                        text = pullRequestDecorator.mergeable,
+                        text = i18n.screen_pull_requests_can_be_merged,
                         icon = Tabler.Outline.GitMerge,
                         showBadge = true,
-                        badgeColor = pullRequestDecorator.mergeableBadgeColor(),
+                        badgeColor = MaterialTheme.colorScheme.gitPrMerged,
+                    )
+                }
+                if (seenDiff.codeChanged) {
+                    IconCardRowSmallContent(
+                        text = i18n.screen_pull_requests_code_changed,
+                        icon = Tabler.Outline.Code,
+                        showBadge = true,
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.commitChecks,
-                    icon = Tabler.Outline.ListDetails,
-                    showBadge = pullRequestDecorator.showCommitsCheckBadge,
-                    badgeColor = pullRequestDecorator.commitsCheckBadgeColor(),
+                    icon = pullRequestDecorator.commitChecksIcon,
+                    showBadge = seenDiff.checkStatusChanged,
                 )
-                if (pullRequestWithReviews.pullRequest.stateWithDraft == PullRequestStateWithDraft.OPEN) {
+                if (pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.OPEN) {
                     IconCardRowSmallContent(
                         text = pullRequestDecorator.reviews(),
-                        icon = Tabler.Outline.Users,
-                        showBadge = pullRequestDecorator.showReviewsBadge,
-                        badgeColor = pullRequestDecorator.reviewsBadgeColor(),
+                        icon = pullRequestDecorator.reviewsIcon(),
+                        showBadge = seenDiff.reviewsChanged,
                     )
                 }
                 IconCardRowSmallContent(
                     text = pullRequestDecorator.comments,
-                    icon = Tabler.Outline.MessageCircle
+                    icon = Tabler.Outline.MessageCircle,
+                    showBadge = seenDiff.commentAdded,
                 )
             }
         }

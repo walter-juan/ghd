@@ -2,7 +2,7 @@ package com.woowla.ghd.data.local.room.converters
 
 import androidx.room.TypeConverter
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.SyncResultEntry
@@ -21,9 +21,9 @@ class Converters {
     fun originToString(value: SyncResultEntry.Origin?): String? = value?.toString()
 
     @TypeConverter
-    fun stringToMergeableGitHubState(value: String?): MergeableGitHubState = enumValueOfOrDefault(value, MergeableGitHubState.UNKNOWN)
+    fun stringToMergeGitHubStateStatus(value: String?): MergeGitHubStateStatus = enumValueOfOrDefault(value, MergeGitHubStateStatus.UNKNOWN)
     @TypeConverter
-    fun mergeableGitHubStateToString(value: MergeableGitHubState?): String? = value?.toString()
+    fun mergeGitHubStateStatusToString(value: MergeGitHubStateStatus?): String? = value?.toString()
 
     @TypeConverter
     fun stringToCommitCheckRollupStatus(value: String?): CommitCheckRollupStatus = enumValueOfOrDefault(value, CommitCheckRollupStatus.UNKNOWN)

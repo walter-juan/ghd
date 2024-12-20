@@ -2,22 +2,30 @@ package com.woowla.ghd.data.remote.mappers
 
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
+import com.woowla.ghd.data.remote.entities.ApiRateLimit
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.SyncResultRateLimit
 import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
 
-fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: Instant? = null): PullRequestWithRepoAndReviews {
+fun PullRequestFragment.Node.toPullRequest(
+    repoToCheck: RepoToCheck,
+    pullRequestSeen: PullRequestSeen?,
+    reviewsSeen: List<ReviewSeen>,
+): PullRequestWithRepoAndReviews {
     val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
+    val lastCommitSha1 = commits.edges?.firstOrNull()?.node?.commit?.oid?.toString()
 
     val pullRequest = PullRequest(
         id = id,
@@ -25,20 +33,17 @@ fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: 
         url = url.toString(),
         state = enumValueOfOrDefault(state.toString(), PullRequestState.UNKNOWN),
         title = title,
-        createdAt = createdAt.toString().toInstant(),
-        updatedAt = updatedAt.toString().toInstant(),
-        mergedAt = mergedAt?.toString()?.toInstant(),
+        createdAt = Instant.parse(createdAt.toString()),
+        updatedAt = Instant.parse(updatedAt.toString()),
+        mergedAt = mergedAt?.toString()?.let { Instant.parse(it) },
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
         author = author?.toAuthor(),
-        appSeenAt = appSeenAt,
         totalCommentsCount = totalCommentsCount?.toLong(),
-        mergeable = enumValueOfOrDefault(mergeable.toString(), MergeableGitHubState.UNKNOWN),
-        lastCommitCheckRollupStatus = enumValueOfOrDefault(
-            lastCommitCheckRollupStatusString,
-            CommitCheckRollupStatus.UNKNOWN
-        ),
+        mergeStateStatus = enumValueOfOrDefault(mergeStateStatus.toString(), MergeGitHubStateStatus.UNKNOWN),
+        lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN),
+        lastCommitSha1 = lastCommitSha1,
         repoToCheckId = repoToCheck.id,
     )
 
@@ -46,6 +51,8 @@ fun PullRequestFragment.Node.toPullRequest(repoToCheck: RepoToCheck, appSeenAt: 
         pullRequest = pullRequest,
         reviews = latestReviews?.toReviews(pullRequestId = id) ?: listOf(),
         repoToCheck = repoToCheck,
+        pullRequestSeen = pullRequestSeen,
+        reviewsSeen = reviewsSeen,
     )
 }
 
@@ -55,7 +62,7 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
         name = name,
         tagName = tagName,
         url = url.toString(),
-        publishedAt = publishedAt?.toString()?.toInstant(),
+        publishedAt = publishedAt?.toString()?.let { Instant.parse(it) },
         author = author?.toAuthor(),
         repoToCheckId = repoToCheck.id,
     )
@@ -68,12 +75,22 @@ fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Rev
                 id = node.id,
                 state = enumValueOfOrDefault(node.state.toString(), ReviewState.UNKNOWN),
                 url = node.url.toString(),
-                submittedAt = node.submittedAt?.toString()?.toInstant(),
+                submittedAt = node.submittedAt?.toString()?.let { Instant.parse(it) },
                 author = node.author?.toAuthor(),
                 pullRequestId = pullRequestId,
             )
         }
     } ?: listOf()
+}
+
+fun ApiRateLimit.toSyncResultRateLimit(): SyncResultRateLimit {
+    return SyncResultRateLimit(
+        limit = limit,
+        remaining = remaining,
+        used = used,
+        reset = reset,
+        resource = resource,
+    )
 }
 
 fun PullRequestFragment.Author.toAuthor(): Author {
