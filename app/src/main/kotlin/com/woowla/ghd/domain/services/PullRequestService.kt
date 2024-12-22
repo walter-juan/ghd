@@ -95,9 +95,9 @@ class PullRequestService(
                 null
             } else {
                 val pullRequests = apiPullRequests.map { apiPullRequest ->
-                    val asdf = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
-                    val pullRequestSeen = asdf?.pullRequestSeen
-                    val reviewSeen = asdf?.reviewsSeen ?: listOf()
+                    val pullRequestWithRepos = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
+                    val pullRequestSeen = pullRequestWithRepos?.pullRequestSeen
+                    val reviewSeen = pullRequestWithRepos?.reviewsSeen ?: listOf()
                     apiPullRequest.toPullRequest(repoToCheck = repoToCheck, pullRequestSeen = pullRequestSeen, reviewsSeen = reviewSeen)
                 }
                 pullRequests
