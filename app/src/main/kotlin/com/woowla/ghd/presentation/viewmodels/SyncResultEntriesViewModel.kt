@@ -2,7 +2,7 @@ package com.woowla.ghd.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
+import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,7 +37,7 @@ class SyncResultEntriesViewModel(
 
     sealed class State {
         object Initializing: State()
-        data class Success(val syncResultWithEntries: SyncResultWithEntitiesAndRepos): State()
+        data class Success(val syncResultWithEntries: SyncResultWithEntriesAndRepos): State()
         data class Error(val throwable: Throwable): State()
     }
 }

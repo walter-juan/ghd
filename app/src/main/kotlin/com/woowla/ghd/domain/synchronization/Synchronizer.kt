@@ -50,18 +50,18 @@ class Synchronizer private constructor(
         subscribe()
     }
 
-    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
+    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntriesAndRepos>> {
         return localDataSource.getAllSyncResults()
             .mapCatching { syncResults ->
                 syncResults.sortedByDescending { it.syncResult.startAt }
             }
     }
 
-    suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
+    suspend fun getLastSyncResult(): Result<SyncResultWithEntriesAndRepos?> {
         return localDataSource.getLastSyncResult()
     }
 
-    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
+    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntriesAndRepos> {
         return localDataSource.getSyncResult(id)
     }
 
@@ -168,7 +168,8 @@ class Synchronizer private constructor(
             endAt = Clock.System.now(),
             origin = SyncResultEntry.Origin.OTHER,
             error = error,
-            errorMessage = message
+            errorMessage = message,
+            rateLimit = null,
         )
         return syncResultFinish(syncResult, listOf(syncResultEntry))
     }

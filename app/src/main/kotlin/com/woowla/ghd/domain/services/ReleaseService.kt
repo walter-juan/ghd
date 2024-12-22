@@ -68,35 +68,20 @@ class ReleaseService(
     }
 
     suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<ReleaseWithRepo>, newReleases: List<ReleaseWithRepo>): Result<Unit> {
-        val oldReleasesIds = oldReleases.map { it.release.id }
-
-        // notification for a new release
-        if (appSettings.newReleaseNotificationsEnabled) {
-            newReleases
-                .filterNot {
-                    oldReleasesIds.contains(it.release.id)
-                }
-                .forEach { newRelease ->
-                    notificationsSender.newRelease(newRelease)
-                }
+        if (!appSettings.notificationsSettings.newReleaseEnabled) {
+            return Result.success(Unit)
         }
 
-        // notification for an update
-        if (appSettings.updatedReleaseNotificationsEnabled) {
-            newReleases
-                .filter { newRelease ->
-                    val oldRelease = oldReleases.firstOrNull { it.release.id == newRelease.release.id }
-
-                    if (oldRelease != null) {
-                        oldRelease.release.publishedAt != newRelease.release.publishedAt
-                    } else {
-                        false
-                    }
-                }
-                .forEach { newRelease ->
-                    notificationsSender.updateRelease(newRelease)
-                }
-        }
+        newReleases
+            .filter { newRelease ->
+                newRelease.repoToCheck.areReleasesNotificationsEnabled
+            }
+            .filterNot { newRelease ->
+                oldReleases.any { it.release.id == newRelease.release.id }
+            }
+            .forEach { newRelease ->
+                notificationsSender.newRelease(newRelease)
+            }
 
         return Result.success(Unit)
     }
@@ -109,8 +94,9 @@ class ReleaseService(
                 // remove the old one
                 localDataSource.removeReleaseByRepoToCheck(repoToCheckId = repoToCheck.id)
             }
-            .onSuccess { apiRelease ->
+            .onSuccess { apiResult ->
                 // insert the new one
+                val apiRelease = apiResult.data
                 val release = apiRelease.toRelease(repoToCheck)
                 localDataSource.upsertRelease(release)
             }

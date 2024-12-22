@@ -27,6 +27,27 @@ public val AppIconsRes.Launcher: String
         "icons/ic_launcher.svg"
     }
 
+public val AppIconsRes.LauncherIcns: String
+    get() = if (BuildConfig.DEBUG) {
+        "icons/ic_launcher_debug.icns"
+    } else {
+        "icons/ic_launcher.icns"
+    }
+
+public val AppIconsRes.LauncherIco: String
+    get() = if (BuildConfig.DEBUG) {
+        "icons/ic_launcher_debug.ico"
+    } else {
+        "icons/ic_launcher.ico"
+    }
+
+public val AppIconsRes.LauncherPng: String
+    get() = if (BuildConfig.DEBUG) {
+        "icons/ic_launcher_debug.png"
+    } else {
+        "icons/ic_launcher.png"
+    }
+
 public val AppIconsRes.TrayIcon: String
     get() = if (BuildConfig.DEBUG) {
         "icons/ic_tray_debug.svg"

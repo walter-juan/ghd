@@ -1,7 +1,7 @@
 package com.woowla.ghd.domain.entities
 
 // TODO relations
-data class SyncResultWithEntitiesAndRepos(
+data class SyncResultWithEntriesAndRepos(
     val syncResult: SyncResult,
     val syncResultEntries: List<SyncResultEntryWithRepo>,
 ) {

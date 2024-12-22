@@ -14,9 +14,6 @@ interface PullRequestDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(dbPullRequestList: List<PullRequest>)
 
-    @Query("UPDATE pull_request SET app_seen_at = :appSeenAt WHERE id = :id")
-    suspend fun updateSeenAt(id: String, appSeenAt: Instant?)
-
     @Transaction
     @Query("SELECT * FROM pull_request")
     suspend fun getAll(): List<PullRequest>

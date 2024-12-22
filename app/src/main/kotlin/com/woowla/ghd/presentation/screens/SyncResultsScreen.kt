@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.domain.entities.SyncResultWithEntitiesAndRepos
+import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.CardListItem
@@ -61,13 +61,13 @@ object SyncResultsScreen {
     }
 
     @Composable
-    private fun SynResult(syncResultWithEntries: SyncResultWithEntitiesAndRepos, onClick: () -> Unit) {
+    private fun SynResult(syncResultWithEntries: SyncResultWithEntriesAndRepos, onClick: () -> Unit) {
         SynResultCard(syncResultWithEntries, onClick)
         Spacer(modifier = Modifier.height(15.dp))
     }
 
     @Composable
-    private fun SynResultCard(syncResultWithEntries: SyncResultWithEntitiesAndRepos, onClick: () -> Unit) {
+    private fun SynResultCard(syncResultWithEntries: SyncResultWithEntriesAndRepos, onClick: () -> Unit) {
         val decorator = SyncResultDecorator(syncResultWithEntries)
         val overlineText = if (syncResultWithEntries.syncResult.duration == null) {
             i18n.screen_sync_results_in_progress

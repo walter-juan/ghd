@@ -26,6 +26,10 @@ sealed class AppScreen(open val route: String) {
         override val icon: ImageVector = Tabler.Outline.BrandGithub
         override val title: String = i18n.tab_title_repos_to_check
     }
+    data object Notifications : AppScreen(route = "notifications"), NavigationScreen {
+        override val icon: ImageVector = Tabler.Outline.Bell
+        override val title: String = i18n.tab_title_notifications
+    }
     data object Settings : AppScreen(route = "settings"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Settings
         override val title: String = i18n.tab_title_settings
