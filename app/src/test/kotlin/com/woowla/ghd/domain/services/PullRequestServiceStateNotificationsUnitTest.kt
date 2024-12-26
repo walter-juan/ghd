@@ -1,6 +1,7 @@
 package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.RandomEntities
+import com.woowla.ghd.RandomValues
 import com.woowla.ghd.TestNotificationsSender
 import com.woowla.ghd.domain.entities.NotificationsSettings.EnabledOption
 import com.woowla.ghd.domain.entities.PullRequestState
@@ -14,9 +15,11 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
     /**
      * Return a list of old pull request and new pull request for the activity changes.
      * This will contain:
-     * - 1 pull request by [otherUsername] without changes
+     * - 1 pull request by [otherUsername] WITHOUT CHANGED
+     *
      * - 1 new draft pull request by [filteredUsername]
      * - 1 pull request by [otherUsername] that changed from draft to open
+     * - 1 pull request by [otherUsername] that changed from open to merged
      * - 1 new draft pull request by [otherUsername]
      * - 1 new closed pull request by [otherUsername]
      * - 1 new merged pull request by [otherUsername]
@@ -51,47 +54,68 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
             isDraft = false,
             state = PullRequestState.OPEN,
         )
-        require(openPullRequest.stateExtended == PullRequestStateExtended.OPEN)
-        // new pull requests
-        val draftPullRequest = RandomEntities.pullRequest().copy(
-            author = otherAuthor,
-            isDraft = true,
-            state = PullRequestState.OPEN,
-        )
-        require(draftPullRequest.stateExtended == PullRequestStateExtended.DRAFT)
-        val closedPullRequest = RandomEntities.pullRequest().copy(
+        // pull request that changed from open to merged
+        val oldOpenPullRequest = RandomEntities.pullRequest().copy(
             author = otherAuthor,
             isDraft = false,
-            state = PullRequestState.CLOSED,
+            state = PullRequestState.OPEN,
         )
-        require(closedPullRequest.stateExtended == PullRequestStateExtended.CLOSED)
-        val mergedPullRequest = RandomEntities.pullRequest().copy(
-            author = otherAuthor,
+        require(oldOpenPullRequest.stateExtended == PullRequestStateExtended.OPEN)
+        val mergedPullRequest = oldDraftPullRequest.copy(
             isDraft = false,
             state = PullRequestState.MERGED,
         )
         require(mergedPullRequest.stateExtended == PullRequestStateExtended.MERGED)
+        // new pull requests
+        val newDraftPullRequest = RandomEntities.pullRequest().copy(
+            author = otherAuthor,
+            isDraft = true,
+            state = PullRequestState.OPEN,
+        )
+        require(newDraftPullRequest.stateExtended == PullRequestStateExtended.DRAFT)
+        val newClosedPullRequest = RandomEntities.pullRequest().copy(
+            author = otherAuthor,
+            isDraft = false,
+            state = PullRequestState.CLOSED,
+        )
+        require(newClosedPullRequest.stateExtended == PullRequestStateExtended.CLOSED)
+        val newMergedPullRequest = RandomEntities.pullRequest().copy(
+            author = otherAuthor,
+            isDraft = false,
+            state = PullRequestState.MERGED,
+        )
+        require(newMergedPullRequest.stateExtended == PullRequestStateExtended.MERGED)
 
-        val oldPullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = oldPullRequestWithoutChanges)
-        val pullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = pullRequestWithoutChanges)
-        val draftPullRequestWithReviewsFromFilteredUsername = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = draftPullRequestFromFilteredUsername)
-        val oldDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = oldDraftPullRequest)
-        val openPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = openPullRequest)
-        val draftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = draftPullRequest)
-        val closedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = closedPullRequest)
-        val mergedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(pullRequest = mergedPullRequest)
+        val repoToCheck = RandomEntities.repoToCheck().copy(
+            arePullRequestsEnabled = true,
+            arePullRequestsNotificationsEnabled = true,
+            areReleasesEnabled = true,
+            areReleasesNotificationsEnabled = true,
+        )
+        val oldPullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)
+        val pullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)
+        val draftPullRequestWithReviewsFromFilteredUsername = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = draftPullRequestFromFilteredUsername)
+        val oldDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldDraftPullRequest)
+        val openPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = openPullRequest)
+        val oldOpenPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldOpenPullRequest)
+        val mergedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = mergedPullRequest)
+        val newDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newDraftPullRequest)
+        val newClosedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newClosedPullRequest)
+        val newMergedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newMergedPullRequest)
 
         val oldPullRequestsWithReviews = listOf(
             oldPullRequestWithoutChangesWithReviews,
             oldDraftPullRequestWithReviews,
+            oldOpenPullRequestWithReviews,
         )
         val newPullRequestsWithReviews = listOf(
             pullRequestWithoutChangesWithReviews,
             draftPullRequestWithReviewsFromFilteredUsername,
-            draftPullRequestWithReviews,
-            openPullRequestWithReviews,
-            closedPullRequestWithReviews,
             mergedPullRequestWithReviews,
+            newDraftPullRequestWithReviews,
+            openPullRequestWithReviews,
+            newClosedPullRequestWithReviews,
+            newMergedPullRequestWithReviews,
         )
 
         return oldPullRequestsWithReviews to newPullRequestsWithReviews
@@ -135,7 +159,11 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
-                stateEnabledOption = EnabledOption.ALL
+                stateEnabledOption = EnabledOption.ALL,
+                stateOpenFromOthersPullRequestsEnabled = true,
+                stateClosedFromOthersPullRequestsEnabled = true,
+                stateMergedFromOthersPullRequestsEnabled = true,
+                stateDraftFromOthersPullRequestsEnabled = true,
             )
         )
 
@@ -149,7 +177,7 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
         )
 
         // Then
-        testNotificationSender.newPullRequestCount shouldBe 5
+        testNotificationSender.newPullRequestCount shouldBe 6
     }
 
     "when stateEnabledOption is FILTERED then sendNotifications should send notifications for filtered username new pull requests" {
@@ -166,7 +194,11 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
                 filterUsername = filteredUsername,
-                stateEnabledOption = EnabledOption.FILTERED
+                stateEnabledOption = EnabledOption.FILTERED,
+                stateOpenFromOthersPullRequestsEnabled = true,
+                stateClosedFromOthersPullRequestsEnabled = true,
+                stateMergedFromOthersPullRequestsEnabled = true,
+                stateDraftFromOthersPullRequestsEnabled = true,
             )
         )
 
@@ -183,6 +215,44 @@ class PullRequestServiceStateNotificationsUnitTest: StringSpec({
         )
 
         // Then
-        testNotificationSender.newPullRequestCount shouldBe 4
+        testNotificationSender.newPullRequestCount shouldBe 5
+    }
+
+    "when stateEnabledOption is FILTERED but all notifications disabled then sendNotifications should not send notifications" {
+        // Given
+        val otherUsername = "other-user-name"
+        val filteredUsername = "test-user-name"
+        val testNotificationSender = TestNotificationsSender()
+        val pullRequestService = PullRequestService(
+            localDataSource = mockk(),
+            remoteDataSource = mockk(),
+            notificationsSender = testNotificationSender,
+            appSettingsService = mockk()
+        )
+        val appSettings = RandomEntities.appSettings().copy(
+            notificationsSettings = RandomEntities.notificationsSettings().copy(
+                filterUsername = filteredUsername,
+                stateEnabledOption = EnabledOption.FILTERED,
+                stateOpenFromOthersPullRequestsEnabled = false,
+                stateClosedFromOthersPullRequestsEnabled = false,
+                stateMergedFromOthersPullRequestsEnabled = false,
+                stateDraftFromOthersPullRequestsEnabled = false,
+            )
+        )
+
+        val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests(
+            filteredUsername = filteredUsername,
+            otherUsername = otherUsername,
+        )
+
+        // When
+        pullRequestService.sendNotifications(
+            appSettings = appSettings,
+            oldPullRequestsWithReviews = oldPullRequestsWithReviews,
+            newPullRequestsWithReviews = newPullRequestsWithReviews,
+        )
+
+        // Then
+        testNotificationSender.newPullRequestCount shouldBe 0
     }
 })

@@ -1,6 +1,7 @@
 package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.RandomEntities
+import com.woowla.ghd.RandomValues
 import com.woowla.ghd.TestNotificationsSender
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
@@ -114,55 +115,74 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             state = ReviewState.DISMISSED,
         )
 
+        val repoToCheck = RandomEntities.repoToCheck().copy(
+            arePullRequestsEnabled = true,
+            arePullRequestsNotificationsEnabled = true,
+            areReleasesEnabled = true,
+            areReleasesNotificationsEnabled = true,
+        )
         val newCreatedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = newCreatedPullRequest,
             reviews = listOf()
         )
         val oldNoActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldNoActivityPullRequest,
             reviews = listOf()
         )
         val noActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = noActivityPullRequest,
             reviews = listOf()
         )
         val oldChecksActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldChecksActivityPullRequest,
             reviews = listOf()
         )
         val checksActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = checksActivityPullRequest,
             reviews = listOf()
         )
         val oldMergeableActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldMergeableActivityPullRequest,
             reviews = listOf()
         )
         val mergeableActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = mergeableActivityPullRequest,
             reviews = listOf()
         )
         val oldReviewAddedActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldReviewAddedActivityPullRequest,
             reviews = listOf()
         )
         val reviewAddedActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = reviewAddedActivityPullRequest,
             reviews = listOf(reviewAdded)
         )
         val oldReviewChangedActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldReviewChangedActivityPullRequest,
             reviews = listOf(oldReviewChanged)
         )
         val reviewChangedActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = reviewChangedActivityPullRequest,
             reviews = listOf(reviewChanged)
         )
         val oldReReviewActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = oldReReviewActivityPullRequest,
             reviews = listOf(oldReReview)
         )
         val reReviewActivityPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(
+            repoToCheck = repoToCheck,
             pullRequest = reReviewActivityPullRequest,
             reviews = listOf(reReview)
         )
@@ -196,7 +216,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
-                activityEnabledOption = EnabledOption.NONE
+                activityEnabledOption = EnabledOption.NONE,
             )
         )
         val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests()
@@ -235,7 +255,11 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
-                activityEnabledOption = EnabledOption.ALL
+                activityEnabledOption = EnabledOption.ALL,
+                activityReviewsFromYourPullRequestsEnabled = true,
+                activityReviewsReRequestEnabled = true,
+                activityChecksFromYourPullRequestsEnabled = true,
+                activityMergeableFromYourPullRequestsEnabled = true,
             )
         )
         val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests()
@@ -278,6 +302,10 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             notificationsSettings = RandomEntities.notificationsSettings().copy(
                 filterUsername = filterUsername,
                 activityEnabledOption = EnabledOption.FILTERED,
+                activityReviewsFromYourPullRequestsEnabled = true,
+                activityReviewsReRequestEnabled = true,
+                activityChecksFromYourPullRequestsEnabled = true,
+                activityMergeableFromYourPullRequestsEnabled = true,
             )
         )
         val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests(
@@ -322,6 +350,10 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             notificationsSettings = RandomEntities.notificationsSettings().copy(
                 filterUsername = filterUsername,
                 activityEnabledOption = EnabledOption.FILTERED,
+                activityReviewsFromYourPullRequestsEnabled = true,
+                activityReviewsReRequestEnabled = true,
+                activityChecksFromYourPullRequestsEnabled = true,
+                activityMergeableFromYourPullRequestsEnabled = true,
             )
         )
         val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests(
@@ -349,6 +381,54 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
         }
         should("should send notifications for mergeable available") {
             testNotificationSender.mergeablePullRequestCount shouldBe 1
+        }
+    }
+
+    context("when activityEnabledOption is FILTERED but all notifications disabled then sendNotifications with all pull requests and reviews from filtered username should not send notifications") {
+        // Given
+        val filterUsername = "filtered-username"
+        val testNotificationSender = TestNotificationsSender()
+        val pullRequestService = PullRequestService(
+            localDataSource = mockk(),
+            remoteDataSource = mockk(),
+            notificationsSender = testNotificationSender,
+            appSettingsService = mockk()
+        )
+        val appSettings = RandomEntities.appSettings().copy(
+            notificationsSettings = RandomEntities.notificationsSettings().copy(
+                filterUsername = filterUsername,
+                activityEnabledOption = EnabledOption.FILTERED,
+                activityReviewsFromYourPullRequestsEnabled = false,
+                activityReviewsReRequestEnabled = false,
+                activityChecksFromYourPullRequestsEnabled = false,
+                activityMergeableFromYourPullRequestsEnabled = false,
+            )
+        )
+        val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests(
+            pullRequestsAuthorUsername = filterUsername,
+            reviewsAuthorUsername = filterUsername,
+        )
+
+        // When
+        pullRequestService.sendNotifications(
+            appSettings = appSettings,
+            oldPullRequestsWithReviews = oldPullRequestsWithReviews,
+            newPullRequestsWithReviews = newPullRequestsWithReviews,
+        )
+
+        // Then
+        should("should send notifications for new reviews and changed reviews") {
+            testNotificationSender.newPullRequestReviewCount shouldBe 0
+        }
+        // TODO [review re-request]
+        should("should send notifications for re-request reviews").config(enabled = false)  {
+            testNotificationSender.newPullRequestReReviewCount shouldBe 0
+        }
+        should("should send notifications for checks changes") {
+            testNotificationSender.changePullRequestChecksCount shouldBe 0
+        }
+        should("should send notifications for mergeable available") {
+            testNotificationSender.mergeablePullRequestCount shouldBe 0
         }
     }
 })

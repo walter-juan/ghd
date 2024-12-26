@@ -67,11 +67,12 @@ object RandomEntities {
     ) = pullRequest(repoToCheckId).toPullRequestSeen(RandomValues.randomInstant())
 
     fun pullRequestWithRepoAndReviews(
+        repoToCheck: RepoToCheck = repoToCheck(),
         pullRequest: PullRequest = pullRequest(),
         reviews: List<Review> = listOf(review()),
     ) = PullRequestWithRepoAndReviews(
         pullRequest = pullRequest,
-        repoToCheck = repoToCheck(),
+        repoToCheck = repoToCheck,
         reviews = reviews,
         pullRequestSeen = pullRequestSeen(),
         reviewsSeen = listOf(reviewSeen())
@@ -100,10 +101,10 @@ object RandomEntities {
         name = RandomValues.randomString(),
         groupName = RandomValues.randomString(),
         pullBranchRegex = RandomValues.randomString(),
-        arePullRequestsEnabled = false,
-        arePullRequestsNotificationsEnabled = false,
-        areReleasesEnabled = false,
-        areReleasesNotificationsEnabled = false,
+        arePullRequestsEnabled = RandomValues.randomBoolean(),
+        arePullRequestsNotificationsEnabled = RandomValues.randomBoolean(),
+        areReleasesEnabled = RandomValues.randomBoolean(),
+        areReleasesNotificationsEnabled = RandomValues.randomBoolean(),
     )
 
     fun review(

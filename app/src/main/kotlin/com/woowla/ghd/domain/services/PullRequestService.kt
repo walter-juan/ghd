@@ -165,6 +165,7 @@ class PullRequestService(
                 // state changes, from others pull requests
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
+                    .filterByPullRequestStateWithStateNotificationsEnabled(appSettings.notificationsSettings)
                     .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
@@ -235,6 +236,7 @@ class PullRequestService(
                 // new reviews or changed, from your pull requests
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled }
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
@@ -254,6 +256,8 @@ class PullRequestService(
                 // re-reviews, from your reviews
                 // TODO [review re-request]
 //                newPullRequestsWithReviews
+//                    .filterByPullRequestNotificationsEnabled()
+//                    .filter { appSettings.notificationsSettings.activityReviewsReRequestEnabled }
 //                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
 //                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
 //                    .map { (pullRequest, reviews) ->
@@ -272,6 +276,7 @@ class PullRequestService(
                 // checks, from your pull requests
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled }
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
@@ -283,6 +288,7 @@ class PullRequestService(
                 // mergeable, from your pull requests
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled }
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .filter { newPullRequestWithRepo ->
@@ -379,6 +385,24 @@ class PullRequestService(
                 } else {
                     true
                 }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests where their status is enabled in the filtered notifications.
+     * For example a pull request with [PullRequestStateExtended.OPEN] will be returned if the [NotificationsSettings.stateOpenFromOthersPullRequestsEnabled] is true
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateWithStateNotificationsEnabled(notificationsSettings: NotificationsSettings): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                val notificationsEnabled = when(newPullRequestWithRepo.pullRequest.stateExtended) {
+                    PullRequestStateExtended.UNKNOWN -> false
+                    PullRequestStateExtended.OPEN -> notificationsSettings.stateOpenFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.CLOSED -> notificationsSettings.stateClosedFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.MERGED -> notificationsSettings.stateMergedFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.DRAFT -> notificationsSettings.stateDraftFromOthersPullRequestsEnabled
+                }
+                notificationsEnabled
             }
     }
 
