@@ -7,6 +7,18 @@ import java.io.FileOutputStream
 import java.util.*
 import kotlin.io.path.createFile
 
+/**
+ * This object is responsible for managing the properties of the application.
+ * Old properties that can exits in this file:
+ * - pullRequestNotificationsFilterOptionsOpen
+ * - pullRequestNotificationsFilterOptionsClosed
+ * - pullRequestNotificationsFilterOptionsMerged
+ * - pullRequestNotificationsFilterOptionsDraft
+ * - newPullRequestsNotificationsEnabled
+ * - updatedPullRequestsNotificationsEnabled
+ * - newReleaseNotificationsEnabled
+ * - updatedReleaseNotificationsEnabled
+ */
 object AppProperties {
     private const val PROPERTIES_NAME = "ghd.properties"
     private const val PROPERTIES_FOLDER = "prop"
@@ -23,18 +35,19 @@ object AppProperties {
     val settings: Settings = PropertiesSettings(properties)
 
     var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
-    var pullRequestNotificationsFilterOptionsOpen: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsOpen", true)
-    var pullRequestNotificationsFilterOptionsClosed: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsClosed", true)
-    var pullRequestNotificationsFilterOptionsMerged: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsMerged", true)
-    var pullRequestNotificationsFilterOptionsDraft: Boolean by settings.boolean("pullRequestNotificationsFilterOptionsDraft", true)
 
-    // TODO the property should be migrated from newPullRequestsNotificationsEnabled to pullRequestStateNotificationsEnabled
-    var pullRequestStateNotificationsEnabled: Boolean by settings.boolean("newPullRequestsNotificationsEnabled", true)
-    // TODO the property should be migrated from updatedPullRequestsNotificationsEnabled to pullRequestActivityNotificationsEnabled
-    var pullRequestActivityNotificationsEnabled: Boolean by settings.boolean("updatedPullRequestsNotificationsEnabled", true)
-
-    var newReleaseNotificationsEnabled: Boolean by settings.boolean("newReleaseNotificationsEnabled", true)
-    var updatedReleaseNotificationsEnabled: Boolean by settings.boolean("updatedReleaseNotificationsEnabled", true)
+    var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
+    var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")
+    var notificationsStateOpenFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateOpenFromOthersPullRequestsEnabled", false)
+    var notificationsStateClosedFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateClosedFromOthersPullRequestsEnabled", false)
+    var notificationsStateMergedFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateMergedFromOthersPullRequestsEnabled", false)
+    var notificationsStateDraftFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateDraftFromOthersPullRequestsEnabled", false)
+    var notificationsActivityEnabledOption: String? by settings.nullableString("notificationsActivityEnabledOption")
+    var notificationsActivityReviewsFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityReviewsFromYourPullRequestsEnabled", false)
+    var notificationsActivityReviewsReRequestEnabled: Boolean by settings.boolean("notificationsActivityReviewsReRequestEnabled", false)
+    var notificationsActivityChecksFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityChecksFromYourPullRequestsEnabled", false)
+    var notificationsActivityMergeableFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityMergeableFromYourPullRequestsEnabled", false)
+    var notificationsNewReleaseEnabled: Boolean by settings.boolean("notificationsNewReleaseEnabled", true)
 
     fun load() {
         FileInputStream(propertiesPath.toString()).use {

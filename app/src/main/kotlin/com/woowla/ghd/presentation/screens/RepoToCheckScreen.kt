@@ -19,6 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.FileDownload
+import com.woowla.compose.icon.collections.tabler.tabler.outline.FileExport
+import com.woowla.compose.icon.collections.tabler.tabler.outline.FileImport
 import com.woowla.compose.icon.collections.tabler.tabler.outline.FileUpload
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
@@ -103,7 +105,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkImportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                imageVector = Tabler.Outline.FileUpload,
+                                                imageVector = Tabler.Outline.FileImport,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -115,7 +117,7 @@ object RepoToCheckScreen {
                                     Button(onClick = { isBulkExportFileDialogOpen = true }) {
                                         Row {
                                             Icon(
-                                                imageVector = Tabler.Outline.FileDownload,
+                                                imageVector = Tabler.Outline.FileExport,
                                                 contentDescription = null,
                                                 modifier = Modifier.size(20.dp)
                                             )
@@ -167,7 +169,7 @@ object RepoToCheckScreen {
                                             )
                                         }
                                         if (index < lockedState.groupedReposToCheck.size - 1) {
-                                            Divider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
+                                            HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
                                         }
                                     }
                                 }

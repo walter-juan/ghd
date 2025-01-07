@@ -18,6 +18,8 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 pullBranchRegex = yamlRepo.pulls.branchRegexFilter?.trim(),
                 arePullRequestsEnabled = yamlRepo.pulls.enabled ?: true,
                 areReleasesEnabled = yamlRepo.releases.enabled ?: true,
+                arePullRequestsNotificationsEnabled = yamlRepo.pulls.notificationsEnabled ?: false,
+                areReleasesNotificationsEnabled = yamlRepo.releases.notificationsEnabled ?: false,
             )
         }
     }
@@ -30,10 +32,12 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 group = repoToCheck.groupName,
                 pulls = YamlPullConfig(
                     enabled = repoToCheck.arePullRequestsEnabled,
-                    branchRegexFilter = repoToCheck.pullBranchRegex
+                    notificationsEnabled = repoToCheck.arePullRequestsNotificationsEnabled,
+                    branchRegexFilter = repoToCheck.pullBranchRegex,
                 ),
                 releases = YamlReleaseConfig(
-                    enabled = repoToCheck.areReleasesEnabled
+                    enabled = repoToCheck.areReleasesEnabled,
+                    notificationsEnabled = repoToCheck.areReleasesNotificationsEnabled,
                 )
             )
         }
@@ -68,11 +72,15 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val enabled: Boolean? = null,
         @SerialName("branch-regex")
         val branchRegexFilter: String? = null,
+        @SerialName("notifications-enabled")
+        val notificationsEnabled: Boolean? = null,
     )
 
     @Serializable
     data class YamlReleaseConfig(
         @SerialName("enabled")
         val enabled: Boolean? = null,
+        @SerialName("notifications-enabled")
+        val notificationsEnabled: Boolean? = null,
     )
 }

@@ -32,6 +32,7 @@ data class SyncResultEntry(
     @ColumnInfo(name = "origin") val origin: Origin,
     @ColumnInfo(name = "error") val error: String?,
     @ColumnInfo(name = "error_message") val errorMessage: String?,
+    @Embedded val rateLimit: SyncResultRateLimit?,
 ): Comparable<SyncResultEntry> {
     companion object {
         val defaultComparator = compareBy<SyncResultEntry> { it.isSuccess }.thenByDescending { it.origin }.thenByDescending { it.repoToCheckId }

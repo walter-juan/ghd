@@ -35,6 +35,7 @@ object HomeScreen {
             AppScreen.PullRequestList,
             AppScreen.ReleaseList,
             AppScreen.RepoToCheckList,
+            AppScreen.Notifications,
             AppScreen.Settings,
             AppScreen.About,
         )
@@ -113,6 +114,9 @@ object HomeScreen {
                     SettingsScreen.Content(
                         onSyncResultsClicked = { navController.navigate(AppScreen.SyncResultList.route) }
                     )
+                }
+                composable(AppScreen.Notifications.route) {
+                    NotificationsScreen.Content()
                 }
                 composable(AppScreen.SyncResultList.route) {
                     SyncResultsScreen.Content(

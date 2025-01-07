@@ -40,11 +40,12 @@ fragment pullRequestFragment on PullRequestConnection {
                 login
                 avatarUrl
             }
-            mergeable
+            mergeStateStatus
             commits(last: 1) {
                 edges {
                     node {
                         commit {
+                            oid
                             statusCheckRollup {
                                 state
                             }

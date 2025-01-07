@@ -1,17 +1,47 @@
 package com.woowla.ghd
 
+import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
-import com.woowla.ghd.domain.entities.MergeableGitHubState
+import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
+import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.PullRequestState
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.mappers.toPullRequestSeen
+import com.woowla.ghd.domain.mappers.toReviewSeen
 
 object RandomEntities {
+    fun appSettings() = AppSettings(
+        darkTheme = RandomValues.randomBoolean(),
+        notificationsSettings = notificationsSettings()
+    )
+
+    fun notificationsSettings() = NotificationsSettings(
+        filterUsername = RandomValues.randomString(),
+        stateEnabledOption = NotificationsSettings.EnabledOption.values().random(),
+        stateOpenFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
+        stateClosedFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
+        stateMergedFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
+        stateDraftFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
+        activityEnabledOption = NotificationsSettings.EnabledOption.values().random(),
+        activityReviewsFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
+        activityReviewsReRequestEnabled = RandomValues.randomBoolean(),
+        activityChecksFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
+        activityMergeableFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
+        newReleaseEnabled = RandomValues.randomBoolean()
+    )
+
     fun pullRequest(
         repoToCheckId: Long = RandomValues.randomLong(),
+        author: Author = author(),
     ) = PullRequest(
         id = RandomValues.randomId(),
         repoToCheckId = repoToCheckId,
@@ -25,11 +55,44 @@ object RandomEntities {
         isDraft = RandomValues.randomBoolean(),
         baseRef = RandomValues.randomString(),
         headRef = RandomValues.randomString(),
-        appSeenAt = RandomValues.randomInstant(),
         totalCommentsCount = RandomValues.randomLong(),
-        mergeable = MergeableGitHubState.entries.random(),
+        mergeStateStatus = MergeGitHubStateStatus.entries.random(),
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.entries.random(),
+        lastCommitSha1 = RandomValues.randomString(),
+        author = author,
+    )
+
+    fun pullRequestSeen(
+        repoToCheckId: Long = RandomValues.randomLong(),
+    ) = pullRequest(repoToCheckId).toPullRequestSeen(RandomValues.randomInstant())
+
+    fun pullRequestWithRepoAndReviews(
+        repoToCheck: RepoToCheck = repoToCheck(),
+        pullRequest: PullRequest = pullRequest(),
+        reviews: List<Review> = listOf(review()),
+    ) = PullRequestWithRepoAndReviews(
+        pullRequest = pullRequest,
+        repoToCheck = repoToCheck,
+        reviews = reviews,
+        pullRequestSeen = pullRequestSeen(),
+        reviewsSeen = listOf(reviewSeen())
+    )
+
+    fun release(
+        repoToCheckId: Long = RandomValues.randomLong(),
+    ) = Release(
+        id = RandomValues.randomId(),
+        repoToCheckId = repoToCheckId,
+        name = RandomValues.randomString(),
+        tagName = RandomValues.randomString(),
+        url = RandomValues.randomUrl(),
+        publishedAt = RandomValues.randomInstant(),
         author = author(),
+    )
+
+    fun releaseWithRepo(repoToCheck: RepoToCheck = repoToCheck()) = ReleaseWithRepo(
+        release = release(),
+        repoToCheck = repoToCheck,
     )
 
     fun repoToCheck(): RepoToCheck = RepoToCheck(
@@ -38,8 +101,10 @@ object RandomEntities {
         name = RandomValues.randomString(),
         groupName = RandomValues.randomString(),
         pullBranchRegex = RandomValues.randomString(),
-        arePullRequestsEnabled = false,
-        areReleasesEnabled = false
+        arePullRequestsEnabled = RandomValues.randomBoolean(),
+        arePullRequestsNotificationsEnabled = RandomValues.randomBoolean(),
+        areReleasesEnabled = RandomValues.randomBoolean(),
+        areReleasesNotificationsEnabled = RandomValues.randomBoolean(),
     )
 
     fun review(
@@ -52,6 +117,11 @@ object RandomEntities {
         state = ReviewState.entries.random(),
         author = author()
     )
+
+    fun reviewSeen(
+        pullRequestId: String = RandomValues.randomString(),
+    ): ReviewSeen = review(pullRequestId).toReviewSeen()
+
 
     fun author() = Author(
         login = RandomValues.randomString(),

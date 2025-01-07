@@ -13,6 +13,8 @@ data class RepoToCheck(
     @ColumnInfo(name = "pull_branch_regex") val pullBranchRegex: String?,
     @ColumnInfo(name = "are_pull_requests_enabled") val arePullRequestsEnabled: Boolean,
     @ColumnInfo(name = "are_releases_enabled") val areReleasesEnabled: Boolean,
+    @ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean,
+    @ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean,
 ) {
     companion object {
         fun newInstance() = RepoToCheck(
@@ -20,8 +22,10 @@ data class RepoToCheck(
             name = "",
             groupName = null,
             pullBranchRegex = null,
-            arePullRequestsEnabled = true,
-            areReleasesEnabled = true
+            arePullRequestsEnabled = false,
+            areReleasesEnabled = false,
+            arePullRequestsNotificationsEnabled = false,
+            areReleasesNotificationsEnabled = false,
         )
     }
 }

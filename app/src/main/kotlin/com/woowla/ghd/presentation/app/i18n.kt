@@ -1,9 +1,8 @@
 package com.woowla.ghd.presentation.app
 
 import com.woowla.ghd.BuildConfig
-import com.woowla.ghd.extensions.toAgoString
 import com.woowla.ghd.extensions.format
-import com.woowla.ghd.extensions.toHRString
+import com.woowla.ghd.extensions.toRelativeString
 import kotlinx.datetime.Instant
 
 object i18n {
@@ -14,8 +13,14 @@ object i18n {
     }
     val generic_loading = "Loading"
     val generic_error = "Error"
+    val generic_saved = "Saved"
     val generic_now =  "now"
     val generic_delete =  "Delete"
+    val generic_in_seconds: (Long) -> String = { "in $it seconds" }
+    val generic_in_minutes: (Long) -> String = { "in $it minutes" }
+    val generic_in_hours: (Long) -> String = { "in $it hours" }
+    val generic_in_days: (Long) -> String = { "in $it days" }
+    val generic_seconds_ago: (Long) -> String = { "$it seconds ago" }
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
     val generic_hours_ago: (Long) -> String = { "$it hours ago" }
     val generic_days_ago: (Long) -> String = { "$it days ago" }
@@ -29,9 +34,10 @@ object i18n {
 
     val tray_tooltip = app_name
     val tray_item_synchronize = "Synchronize"
-    val tray_item_show_app = "Show GHD"
-    val tray_item_hide_app = "Hide GHD"
+    val tray_item_show_app = "Show"
+    val tray_item_hide_app = "Hide in tray"
     val tray_item_exit = "Exit"
+    val tray_linux_primary_action_label = "Open Application"
 
     val top_bar_title_pull_requests = "Pull Requests"
     val top_bar_title_releases = "Releases"
@@ -43,6 +49,7 @@ object i18n {
     val top_bar_title_synchronization_result_entries = "Synchronization result entries"
     val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
+    val top_bar_title_notifications = "Notifications"
 
     val status_bar_loading = "Loading..."
     val status_bar_error = "Error"
@@ -51,6 +58,7 @@ object i18n {
     val tab_title_pull_requests = "Pulls"
     val tab_title_releases = "Releases"
     val tab_title_repos_to_check = "Repos"
+    val tab_title_notifications = "Notifications"
     val tab_title_settings = "Settings"
     val tab_title_about = "About"
 
@@ -66,14 +74,15 @@ object i18n {
     val screen_edit_repo_to_check_group_item = "Group"
     val screen_edit_repo_to_check_group_item_description = "Group name in case you want the releases grouped"
     val screen_edit_repo_to_check_group_name_label = "Group name"
-    val screen_edit_repo_to_check_pull_request_section = "Pull request options"
-    val screen_edit_repo_to_check_releaes_section = "Release options"
-    val screen_edit_repo_to_check_enable_pull_requests_item = "Enable pull requests"
-    val screen_edit_repo_to_check_enable_releases_item = "Enable releases"
+    val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"
+    val screen_edit_repo_to_check_releaes_section = "Sync releases"
     val screen_edit_repo_to_check_filter_by_branch_item = "Filter by branch"
     val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
     val screen_edit_repo_to_no_group = "(no group)"
+
+    val screen_pull_requests_can_be_merged = "This pull request can be merged"
+    val screen_pull_requests_code_changed = "Code changed since list time"
 
     val screen_app_settings_saved = "Saved"
     val screen_app_settings_save = "Save"
@@ -87,7 +96,7 @@ object i18n {
     val screen_app_settings_notifications_pr_state_description = "Enable to receive notifications when the sate of a pull request changes (e.g., Draft → Open), new pull requests are considered as changes."
     val screen_app_settings_notifications_pr_state_checkbox_label = "State changes"
     val screen_app_settings_notifications_pr_activity_title = "Activity notifications"
-    val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for updates to pull requests (e.g., comments or edits). "
+    val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for activity updates to pull requests. You will receive notifications for new or changed reviews, re-review requested, checks and when a pull request is ready to be merged (mergeable)."
     val screen_app_settings_notifications_pr_activity_checkbox_label = "Activity"
     val screen_app_settings_notifications_new_release_title = "Release created notifications"
     val screen_app_settings_notifications_new_release_description = "Enable to receive notifications when a new release is created."
@@ -165,7 +174,6 @@ repositories:
     val app_theme_dark = "Dark"
     val app_theme_light = "Light"
 
-    val pull_request_updated_at: (Instant) -> String = { "updated ${it.toHRString()}" }
     val pull_request_state_open = "Open"
     val pull_request_state_closed = "Closed"
     val pull_request_state_merged = "Merged"
@@ -181,13 +189,13 @@ repositories:
     }
     val pull_request_opened_by = "opened by"
     val pull_request_on = "on"
-    val pull_request_updated: (Instant) -> String = { "Updated ${it.toAgoString()}" }
+    val pull_request_updated: (Instant) -> String = { "Updated ${it.toRelativeString()}" }
 
-    val review_submitted: (Instant) -> String = { "Submitted ${it.toAgoString()}" }
+    val review_submitted: (Instant) -> String = { "Submitted ${it.toRelativeString()}" }
 
     val release_tag = "Tag"
     val release_on = "on"
-    val release_published: (Instant) -> String = { "Published ${it.toAgoString()}" }
+    val release_published: (Instant) -> String = { "Published ${it.toRelativeString()}" }
 
     val app_settings_checkout_time_in_minutes: (Long) -> String = { "$it minutes" }
     val app_settings_checkout_time_unknown = "?"
@@ -195,7 +203,9 @@ repositories:
     val app_settings_pr_cleanup_unknown = "?"
 
 
-    val sync_result_title: (instant: Instant, emoji: String) -> String = { instant, emoji -> "$emoji Synchronized at ${instant.format()}" }
+    val sync_result_title: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -> String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt ->
+        "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})"
+    }
 
     val file_dialog_choose_file = "Choose a file"
     val file_dialog_save_file = "Save a file"

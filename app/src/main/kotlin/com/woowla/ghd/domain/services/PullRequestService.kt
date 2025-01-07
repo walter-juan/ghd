@@ -8,11 +8,15 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toPullRequest
+import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestStateWithDraft
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
+import com.woowla.ghd.domain.mappers.toPullRequestSeen
+import com.woowla.ghd.domain.mappers.toReviewSeen
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
@@ -20,7 +24,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
 class PullRequestService(
     private val localDataSource: LocalDataSource = LocalDataSource(),
@@ -35,8 +38,21 @@ class PullRequestService(
             }
     }
 
-    suspend fun markAsSeen(id: String, appSeenAt: Instant?): Result<Unit> {
-        return localDataSource.updateAppSeenAt(id = id, appSeenAt = appSeenAt)
+    suspend fun unmarkAsSeen(id: String): Result<Unit> {
+        return localDataSource.removePullRequestSeen(id)
+    }
+
+    suspend fun markAsSeen(id: String): Result<Unit> {
+        val now = Clock.System.now()
+        return localDataSource
+            .getPullRequest(id)
+            .onSuccess { pr ->
+                localDataSource.upsertPullRequestSeen(pr.pullRequest.toPullRequestSeen(now))
+            }
+            .onSuccess { pr ->
+                localDataSource.upsertReviewsSeen(pr.reviews.map { it.toReviewSeen() })
+            }
+            .map { value -> Unit }
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
@@ -59,12 +75,12 @@ class PullRequestService(
                 }
             }
         }
-        val apiPullRequestResults = apiPullRequestResultsDeferred.awaitAll()
+        val apiResponseResults = apiPullRequestResultsDeferred.awaitAll()
         AppLogger.d("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
 
         // map to sync results
-        val syncResultEntries = apiPullRequestResults.map { (repoToCheck, startAt, pullRequestResults) ->
-            pullRequestResults.toSyncResultEntry(
+        val syncResultEntries = apiResponseResults.map { (repoToCheck, startAt, apiResponseResult) ->
+            apiResponseResult.toSyncResultEntry(
                 syncResultId = syncResultId,
                 repoToCheckId = repoToCheck.id,
                 origin = SyncResultEntry.Origin.PULL,
@@ -72,14 +88,17 @@ class PullRequestService(
             )
         }
         // update the local pull requests
-        val pullRequests = apiPullRequestResults.mapNotNull { (repoToCheck, _, pullRequestResults) ->
-            val apiPullRequests = pullRequestResults.getOrElse { listOf() }
+        val pullRequests = apiResponseResults.mapNotNull { (repoToCheck, _, apiResponseResult) ->
+            val apiResponse = apiResponseResult.getOrNull()
+            val apiPullRequests = apiResponse?.data ?: listOf()
             if (apiPullRequests.isEmpty()) {
                 null
             } else {
                 val pullRequests = apiPullRequests.map { apiPullRequest ->
-                    val appSeenAt = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()?.pullRequest?.appSeenAt
-                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, appSeenAt = appSeenAt)
+                    val pullRequestWithRepos = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
+                    val pullRequestSeen = pullRequestWithRepos?.pullRequestSeen
+                    val reviewSeen = pullRequestWithRepos?.reviewsSeen ?: listOf()
+                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, pullRequestSeen = pullRequestSeen, reviewsSeen = reviewSeen)
                 }
                 pullRequests
             }
@@ -123,68 +142,277 @@ class PullRequestService(
     }
 
     suspend fun sendNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
-        // notification for state change
-        val pullRequestsWithStateChange = newPullRequestsWithReviews
-            .filter { newPull ->
-                val oldRelease = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPull.pullRequest.id }
-                if (oldRelease != null) {
-                    shouldNotifyPullRequestStateChange(appSettings, oldRelease.pullRequest, newPull.pullRequest)
-                } else {
-                    shouldNotifyPullRequestStateChange(appSettings, newPull.pullRequest)
-                }
-            }
-        pullRequestsWithStateChange.forEach { notificationsSender.newPullRequest(it.pullRequest) }
+        sendStateNotifications(appSettings, oldPullRequestsWithReviews, newPullRequestsWithReviews)
+        sendActivityNotifications(appSettings, oldPullRequestsWithReviews, newPullRequestsWithReviews)
+        return Result.success(Unit)
+    }
 
-        // notification for activity change
-        if (appSettings.pullRequestActivityNotificationsEnabled) {
-            val nonNotified = newPullRequestsWithReviews - pullRequestsWithStateChange
-            nonNotified
-                .filter { newPull ->
-                    val oldRelease = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPull.pullRequest.id }
-                    if (oldRelease != null) {
-                        shouldNotifyPullRequestActivityChange(appSettings, oldRelease.pullRequest, newPull.pullRequest)
-                    } else {
-                        false
+    suspend fun sendStateNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
+        when(appSettings.notificationsSettings.stateEnabledOption) {
+            NotificationsSettings.EnabledOption.NONE -> {
+                // nothing to do
+            }
+            NotificationsSettings.EnabledOption.ALL -> {
+                // state changes
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
                     }
-                }
-                .forEach { newPull ->
-                    notificationsSender.updatePullRequest(newPull.pullRequest)
-                }
+            }
+            NotificationsSettings.EnabledOption.FILTERED -> {
+                // state changes, from others pull requests
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filterByPullRequestStateWithStateNotificationsEnabled(appSettings.notificationsSettings)
+                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
+                    .filter { newPullRequestWithRepo ->
+                        newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
+                    }
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
+                    }
+            }
         }
 
         return Result.success(Unit)
     }
 
-    private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, pullRequest: PullRequest): Boolean {
-        val validState = appSettings.pullRequestNotificationsFilterOptions.let {
-            when (pullRequest.stateWithDraft) {
-                PullRequestStateWithDraft.OPEN -> it.open
-                PullRequestStateWithDraft.CLOSED -> it.closed
-                PullRequestStateWithDraft.MERGED -> it.merged
-                PullRequestStateWithDraft.DRAFT -> it.draft
-                PullRequestStateWithDraft.UNKNOWN -> false
+    suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
+        when(appSettings.notificationsSettings.activityEnabledOption) {
+            NotificationsSettings.EnabledOption.NONE -> {
+                // nothing to do
+            }
+            NotificationsSettings.EnabledOption.ALL -> {
+                // new reviews or changed
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+                    .map { (pullRequest, reviews) ->
+                        pullRequest to reviews.filter { !it.reRequestedReview() }
+                    }
+                    .filter { (_, reviews) ->
+                        reviews.isNotEmpty()
+                    }
+                    .forEach { (pullRequest, reviews) ->
+                        reviews.forEach { review ->
+                            notificationsSender.newPullRequestReview(pullRequest, review)
+                        }
+                    }
+                // re-reviews
+                // TODO [review re-request] disabled
+//                newPullRequestsWithReviews
+//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+//                    .map { (pullRequest, reviews) ->
+//                        pullRequest to reviews.filter { it.reRequestedReview() }
+//                    }
+//                    .filter { (_, reviews) ->
+//                        reviews.isNotEmpty()
+//                    }
+//                    .forEach { (pullRequest, _) ->
+//                        notificationsSender.newPullRequestReReview(pullRequest)
+//                    }
+                // checks
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.changePullRequestChecks(pullRequestWithRepo.pullRequest)
+                    }
+                // mergeable
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
+                    }
+            }
+            NotificationsSettings.EnabledOption.FILTERED -> {
+                // new reviews or changed, from your pull requests
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled }
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+                    .map { (pullRequest, reviews) ->
+                        pullRequest to reviews.filter { !it.reRequestedReview() }
+                    }
+                    .filter { (_, reviews) ->
+                        reviews.isNotEmpty()
+                    }
+                    .filter { (pullRequest, _) ->
+                        pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
+                    }
+                    .forEach { (pullRequest, reviews) ->
+                        reviews.forEach { review ->
+                            notificationsSender.newPullRequestReview(pullRequest, review)
+                        }
+                    }
+                // re-reviews, from your reviews
+                // TODO [review re-request]
+//                newPullRequestsWithReviews
+//                    .filterByPullRequestNotificationsEnabled()
+//                    .filter { appSettings.notificationsSettings.activityReviewsReRequestEnabled }
+//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
+//                    .map { (pullRequest, reviews) ->
+//                        pullRequest to reviews.filter { it.reRequestedReview() }
+//                    }
+//                    .map { (pullRequest, reviews) ->
+//                        val yourReviews = reviews.filter { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
+//                        pullRequest to yourReviews
+//                    }
+//                    .filter { (_, reviews) ->
+//                        reviews.isNotEmpty()
+//                    }
+//                    .forEach { (pullRequest, _) ->
+//                        notificationsSender.newPullRequestReReview(pullRequest)
+//                    }
+                // checks, from your pull requests
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled }
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
+                    .filter { newPullRequestWithRepo ->
+                        newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
+                    }
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.changePullRequestChecks(pullRequestWithRepo.pullRequest)
+                    }
+                // mergeable, from your pull requests
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled }
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
+                    .filter { newPullRequestWithRepo ->
+                        newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
+                    }
+                    .forEach { pullRequestWithRepo ->
+                        notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
+                    }
             }
         }
-        return appSettings.pullRequestStateNotificationsEnabled && validState
+
+        return Result.success(Unit)
     }
 
-    private fun shouldNotifyPullRequestStateChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
-        val stateChanged = oldPullRequest.state != newPullRequest.state
-        val validState = appSettings.pullRequestNotificationsFilterOptions.let {
-            when (newPullRequest.stateWithDraft) {
-                PullRequestStateWithDraft.OPEN -> it.open
-                PullRequestStateWithDraft.CLOSED -> it.closed
-                PullRequestStateWithDraft.MERGED -> it.merged
-                PullRequestStateWithDraft.DRAFT -> it.draft
-                PullRequestStateWithDraft.UNKNOWN -> false
+    /**
+     * Returns a list containing all pull requests that are also in the old list
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterNotNewPullRequests(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                oldPullRequestsWithReviews.any { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
             }
-        }
-        return appSettings.pullRequestStateNotificationsEnabled && stateChanged && validState
     }
 
-    private fun shouldNotifyPullRequestActivityChange(appSettings: AppSettings, oldPullRequest: PullRequest, newPullRequest: PullRequest): Boolean {
-        val seen = newPullRequest.appSeenAt != null && !newPullRequest.appSeen
-        val updated = oldPullRequest.updatedAt != newPullRequest.updatedAt
-        return appSettings.pullRequestActivityNotificationsEnabled && seen && updated
+    /**
+     * Returns a list containing all pull requests that has reviews that changed the state
+     * @return a list of pairs with the pull request and the reviews that changed
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByReviewStateChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<Pair<PullRequest, List<Review>>> {
+        return this
+            .map { newPullRequestWithRepo ->
+                // return a pair with the pull request and a list of the reviews that changed or are new
+                val oldPullRequestWithRepo = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
+                val oldReviews = oldPullRequestWithRepo?.reviews ?: listOf()
+                val newReviews = newPullRequestWithRepo.reviews
+                val reviewsChanged = newReviews.filter { newReview ->
+                    val oldReview = oldReviews.firstOrNull { it.author?.login == newReview.author?.login }
+                    if (oldReview != null) {
+                        oldReview.state != newReview.state
+                    } else {
+                        true
+                    }
+                }
+                newPullRequestWithRepo.pullRequest to reviewsChanged
+            }
+            .filter { (_, reviews) ->
+                reviews.isNotEmpty()
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that has the checks has changed
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestChecksChanged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                val oldPullRequestWithRepo = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
+                if (oldPullRequestWithRepo != null) {
+                    oldPullRequestWithRepo.pullRequest.lastCommitCheckRollupStatus != newPullRequestWithRepo.pullRequest.lastCommitCheckRollupStatus
+                } else {
+                    true
+                }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that changed the [PullRequest.mergeStateStatus] and it can be merged
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                val oldPullRequestWithRepo = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
+                if (oldPullRequestWithRepo != null) {
+                    val mergeStateStatusChanged = oldPullRequestWithRepo.pullRequest.mergeStateStatus != newPullRequestWithRepo.pullRequest.mergeStateStatus
+                    mergeStateStatusChanged && newPullRequestWithRepo.pullRequest.canBeMerged
+                } else {
+                    true
+                }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that have changed his state
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                newPullRequestWithRepo.pullRequest.stateExtended != PullRequestStateExtended.UNKNOWN
+            }
+            .filter { newPullRequestWithRepo ->
+                val oldPullRequestWithRepo = oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == newPullRequestWithRepo.pullRequest.id }
+                if (oldPullRequestWithRepo != null) {
+                    oldPullRequestWithRepo.pullRequest.stateExtended != newPullRequestWithRepo.pullRequest.stateExtended
+                } else {
+                    true
+                }
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests where their status is enabled in the filtered notifications.
+     * For example a pull request with [PullRequestStateExtended.OPEN] will be returned if the [NotificationsSettings.stateOpenFromOthersPullRequestsEnabled] is true
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestStateWithStateNotificationsEnabled(notificationsSettings: NotificationsSettings): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                val notificationsEnabled = when(newPullRequestWithRepo.pullRequest.stateExtended) {
+                    PullRequestStateExtended.UNKNOWN -> false
+                    PullRequestStateExtended.OPEN -> notificationsSettings.stateOpenFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.CLOSED -> notificationsSettings.stateClosedFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.MERGED -> notificationsSettings.stateMergedFromOthersPullRequestsEnabled
+                    PullRequestStateExtended.DRAFT -> notificationsSettings.stateDraftFromOthersPullRequestsEnabled
+                }
+                notificationsEnabled
+            }
+    }
+
+    /**
+     * Returns a list containing all pull requests that have the notification enabled
+     */
+    private fun List<PullRequestWithRepoAndReviews>.filterByPullRequestNotificationsEnabled(): List<PullRequestWithRepoAndReviews> {
+        return this
+            .filter { newPullRequestWithRepo ->
+                newPullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled
+            }
     }
 }

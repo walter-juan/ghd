@@ -16,7 +16,7 @@ interface SyncResultEntryDao {
     // TODO relations
 //    @Transaction
 //    @Query("SELECT * FROM sync_result_entry WHERE sync_result_id = :syncResultId")
-//    suspend fun getBySyncResultWithRepos(syncResultId: Long): List<SyncResultEntryWithRepoToCheck>
+//    suspend fun getBySyncResultWithRepos(syncResultId: Long): List<SyncResultEntryWithRepo>
 
     @Transaction
     @Query("SELECT * FROM sync_result_entry WHERE sync_result_id = :syncResultId")

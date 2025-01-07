@@ -29,7 +29,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.5.4"
+version = "1.6.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -60,7 +60,6 @@ dependencies {
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
-    implementation(compose.materialIconsExtended)
     implementation(libs.kotlinx.coroutines.swing)
     implementation(libs.ktor.serialization.kotlinx.json)
     implementation(libs.bundles.ktor.client)
@@ -68,10 +67,9 @@ dependencies {
     implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
     implementation(libs.appdirs)
-    implementation(libs.kamel)
+    implementation(libs.bundles.coil)
     implementation(libs.kaml)
     implementation(libs.semver)
-    implementation(libs.tinder.statemachine)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     ksp(libs.androidx.room.compiler)
@@ -79,6 +77,10 @@ dependencies {
     implementation(libs.androidx.sqlite.bundled)
     implementation(libs.settings)
     implementation(libs.icons.tabler)
+    implementation(libs.composenativetray)
+    implementation(libs.bundles.flowredux)
+    implementation(libs.arrow.optics)
+    ksp(libs.arrow.optics.ksp)
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)
@@ -143,14 +145,14 @@ tasks.withType<Test>().configureEach {
 
 tasks.withType<DependencyUpdatesTask> {
     fun isNonStable(version: String): Boolean {
-        val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.toUpperCase().contains(it) }
+        val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
         val regex = "^[0-9,.v-]+(-r)?$".toRegex()
         val isStable = stableKeyword || regex.matches(version)
         return isStable.not()
     }
 
     rejectVersionIf {
-        isNonStable(candidate.version)
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
     }
 
     checkForGradleUpdate = true

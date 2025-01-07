@@ -7,11 +7,11 @@ import net.swiftzer.semver.SemVer
 class AppVersionService(
     private val remoteDataSource: RemoteDataSource = RemoteDataSource()
 ) {
-
     suspend fun checkForNewVersion(): Result<CheckForNewVersionResponse> {
         return remoteDataSource
             .getLastGhdRelease()
-            .mapCatching { apiRelease ->
+            .mapCatching { apiResponse ->
+                val apiRelease = apiResponse.data
                 val currentVersion = SemVer.parse(BuildConfig.APP_VERSION)
                 val latestVersion = SemVer.parse(apiRelease.tag.removePrefix("v"))
 

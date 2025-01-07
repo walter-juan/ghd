@@ -3,7 +3,7 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
-import kotlinx.datetime.Instant
+import com.woowla.ghd.utils.enumValueOfOrNull
 
 class LocalDataSource(
     private val appProperties: AppProperties = AppProperties,
@@ -12,18 +12,27 @@ class LocalDataSource(
     suspend fun getAppSettings(): Result<AppSettings> {
         return runCatching {
             appProperties.load()
+            val defaultEnabledOption = NotificationsSettings.defaultEnabledOption
             AppSettings(
                 darkTheme = appProperties.darkTheme,
-                pullRequestStateNotificationsEnabled = appProperties.pullRequestStateNotificationsEnabled,
-                pullRequestNotificationsFilterOptions = PullRequestNotificationsFilterOptions(
-                    open = appProperties.pullRequestNotificationsFilterOptionsOpen,
-                    closed = appProperties.pullRequestNotificationsFilterOptionsClosed,
-                    merged = appProperties.pullRequestNotificationsFilterOptionsMerged,
-                    draft = appProperties.pullRequestNotificationsFilterOptionsDraft,
-                ),
-                pullRequestActivityNotificationsEnabled = appProperties.pullRequestActivityNotificationsEnabled,
-                newReleaseNotificationsEnabled = appProperties.newReleaseNotificationsEnabled,
-                updatedReleaseNotificationsEnabled = appProperties.updatedReleaseNotificationsEnabled
+                notificationsSettings = NotificationsSettings(
+                    filterUsername = appProperties.notificationsFilterUsername,
+
+                    stateEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsStateEnabledOption) ?: defaultEnabledOption,
+                    stateOpenFromOthersPullRequestsEnabled = appProperties.notificationsStateOpenFromOthersPullRequestsEnabled,
+                    stateClosedFromOthersPullRequestsEnabled = appProperties.notificationsStateClosedFromOthersPullRequestsEnabled,
+                    stateMergedFromOthersPullRequestsEnabled = appProperties.notificationsStateMergedFromOthersPullRequestsEnabled,
+                    stateDraftFromOthersPullRequestsEnabled = appProperties.notificationsStateDraftFromOthersPullRequestsEnabled,
+
+                    activityEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption,
+                    activityReviewsFromYourPullRequestsEnabled = appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled,
+                    // TODO [review re-request] always false because it did not have the behavior that was expected at the beginning
+                    activityReviewsReRequestEnabled = false, //appProperties.notificationsActivityReviewsReRequestEnabled,
+                    activityChecksFromYourPullRequestsEnabled = appProperties.notificationsActivityChecksFromYourPullRequestsEnabled,
+                    activityMergeableFromYourPullRequestsEnabled = appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled,
+
+                    newReleaseEnabled = appProperties.notificationsNewReleaseEnabled,
+                )
             )
         }
     }
@@ -32,20 +41,25 @@ class LocalDataSource(
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
 
-            appProperties.pullRequestNotificationsFilterOptionsOpen = appSettings.pullRequestNotificationsFilterOptions.open
-            appProperties.pullRequestNotificationsFilterOptionsClosed = appSettings.pullRequestNotificationsFilterOptions.closed
-            appProperties.pullRequestNotificationsFilterOptionsMerged = appSettings.pullRequestNotificationsFilterOptions.merged
-            appProperties.pullRequestNotificationsFilterOptionsDraft = appSettings.pullRequestNotificationsFilterOptions.draft
+            appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 
-            appProperties.pullRequestStateNotificationsEnabled = appSettings.pullRequestStateNotificationsEnabled
-            appProperties.pullRequestActivityNotificationsEnabled = appSettings.pullRequestActivityNotificationsEnabled
+            appProperties.notificationsStateEnabledOption = appSettings.notificationsSettings.stateEnabledOption.name
+            appProperties.notificationsStateOpenFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateOpenFromOthersPullRequestsEnabled
+            appProperties.notificationsStateClosedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled
+            appProperties.notificationsStateMergedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateMergedFromOthersPullRequestsEnabled
+            appProperties.notificationsStateDraftFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled
 
-            appProperties.newReleaseNotificationsEnabled = appSettings.newReleaseNotificationsEnabled
-            appProperties.updatedReleaseNotificationsEnabled = appSettings.updatedReleaseNotificationsEnabled
+            appProperties.notificationsActivityEnabledOption = appSettings.notificationsSettings.activityEnabledOption.name
+            appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled
+            appProperties.notificationsActivityReviewsReRequestEnabled = appSettings.notificationsSettings.activityReviewsReRequestEnabled
+            appProperties.notificationsActivityChecksFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled
+            appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled
+
+            appProperties.notificationsNewReleaseEnabled = appSettings.notificationsSettings.newReleaseEnabled
+
             appProperties.store()
         }
     }
-
 
     suspend fun getSyncSettings(): Result<SyncSettings> {
         return runCatching {
@@ -59,7 +73,7 @@ class LocalDataSource(
     }
 
 
-    suspend fun getLastSyncResult(): Result<SyncResultWithEntitiesAndRepos?> {
+    suspend fun getLastSyncResult(): Result<SyncResultWithEntriesAndRepos?> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().getLast()
@@ -70,13 +84,13 @@ class LocalDataSource(
                     repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                 )
             }
-            SyncResultWithEntitiesAndRepos(
+            SyncResultWithEntriesAndRepos(
                 syncResult = syncResult,
                 syncResultEntries = syncResultEntryWithRepoList,
             )
         }
     }
-    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntitiesAndRepos>> {
+    suspend fun getAllSyncResults(): Result<List<SyncResultWithEntriesAndRepos>> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             appDatabase.syncResultDao()
@@ -89,14 +103,14 @@ class LocalDataSource(
                             repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                         )
                     }
-                    SyncResultWithEntitiesAndRepos(
+                    SyncResultWithEntriesAndRepos(
                         syncResult = syncResult,
                         syncResultEntries = syncResultEntryWithRepoList,
                     )
                 }
         }
     }
-    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntitiesAndRepos> {
+    suspend fun getSyncResult(id: Long): Result<SyncResultWithEntriesAndRepos> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val syncResult = appDatabase.syncResultDao().get(id)
@@ -107,7 +121,7 @@ class LocalDataSource(
                     repoToCheck = repoToCheckList.firstOrNull { it.id == syncResultEntry.repoToCheckId }
                 )
             }
-            SyncResultWithEntitiesAndRepos(
+            SyncResultWithEntriesAndRepos(
                 syncResult = syncResult,
                 syncResultEntries = syncResultEntryWithRepoList,
             )
@@ -177,10 +191,14 @@ class LocalDataSource(
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
             val pullRequest = appDatabase.pullRequestDao().get(id)
+            val pullRequestSeen = appDatabase.pullRequestSeenDao().get(id)
+            val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = id)
             PullRequestWithRepoAndReviews(
-                pullRequest = pullRequest,
                 repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                pullRequest = pullRequest,
                 reviews = reviewList,
+                pullRequestSeen = pullRequestSeen,
+                reviewsSeen = reviewsSeen,
             )
         }
     }
@@ -191,17 +209,16 @@ class LocalDataSource(
                 .getAll()
                 .map { pullRequest ->
                     val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
+                    val pullRequestSeen = appDatabase.pullRequestSeenDao().get(pullRequest.id)
+                    val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = pullRequest.id)
                     PullRequestWithRepoAndReviews(
-                        pullRequest = pullRequest,
                         repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
+                        pullRequest = pullRequest,
                         reviews = reviewList,
+                        pullRequestSeen = pullRequestSeen,
+                        reviewsSeen = reviewsSeen,
                     )
                 }
-        }
-    }
-    suspend fun updateAppSeenAt(id: String, appSeenAt: Instant?): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestDao().updateSeenAt(id = id, appSeenAt = appSeenAt)
         }
     }
     suspend fun upsertPullRequests(pullRequests: List<PullRequest>): Result<Unit> {
@@ -215,6 +232,16 @@ class LocalDataSource(
         }
     }
 
+    suspend fun upsertPullRequestSeen(pullRequest: PullRequestSeen): Result<Unit> {
+        return runCatching {
+            appDatabase.pullRequestSeenDao().insert(listOf(pullRequest))
+        }
+    }
+    suspend fun removePullRequestSeen(id: String): Result<Unit> {
+        return runCatching {
+            appDatabase.pullRequestSeenDao().delete(listOf(id))
+        }
+    }
 
     suspend fun getAllReleases(): Result<List<ReleaseWithRepo>> {
         return runCatching {
@@ -254,6 +281,20 @@ class LocalDataSource(
 
         return runCatching {
             appDatabase.reviewDao().insert(reviews)
+        }
+    }
+
+
+    suspend fun removeReviewsSeenByPullRequest(pullRequestIds: List<String>): Result<Unit> {
+        return runCatching {
+            appDatabase.reviewSeenDao().deleteByPullRequest(pullRequestIds)
+        }
+    }
+    suspend fun upsertReviewsSeen(reviews: List<ReviewSeen>): Result<Unit> {
+        if (reviews.isEmpty()) return Result.success(Unit)
+
+        return runCatching {
+            appDatabase.reviewSeenDao().insert(reviews)
         }
     }
 

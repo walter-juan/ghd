@@ -4,8 +4,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import arrow.optics.optics
 
 @Entity(tableName = "sync_setting")
+@optics
 data class SyncSettings(
     @PrimaryKey val id: String = ID,
     @ColumnInfo(name = "github_pat_token") val githubPatToken: String,
