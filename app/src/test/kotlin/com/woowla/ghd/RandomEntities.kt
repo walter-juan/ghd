@@ -90,9 +90,9 @@ object RandomEntities {
         author = author(),
     )
 
-    fun releaseWithRepo() = ReleaseWithRepo(
+    fun releaseWithRepo(repoToCheck: RepoToCheck = repoToCheck()) = ReleaseWithRepo(
         release = release(),
-        repoToCheck = repoToCheck()
+        repoToCheck = repoToCheck,
     )
 
     fun repoToCheck(): RepoToCheck = RepoToCheck(

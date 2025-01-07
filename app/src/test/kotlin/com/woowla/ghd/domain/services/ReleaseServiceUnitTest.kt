@@ -22,11 +22,16 @@ class ReleaseServiceUnitTest: StringSpec({
             )
         )
 
+        val repoToCheck = RandomEntities.repoToCheck().copy(
+            areReleasesNotificationsEnabled = true,
+        )
+        val release = RandomEntities.releaseWithRepo(repoToCheck)
+
         // When
         releaseService.sendNotifications(
             appSettings = appSettings,
             oldReleases = listOf(),
-            newReleases = listOf(RandomEntities.releaseWithRepo()),
+            newReleases = listOf(release),
         )
 
         // Then
@@ -48,11 +53,16 @@ class ReleaseServiceUnitTest: StringSpec({
             )
         )
 
+        val repoToCheck = RandomEntities.repoToCheck().copy(
+            areReleasesNotificationsEnabled = true,
+        )
+        val release = RandomEntities.releaseWithRepo(repoToCheck)
+
         // When
         releaseService.sendNotifications(
             appSettings = appSettings,
             oldReleases = listOf(),
-            newReleases = listOf(RandomEntities.releaseWithRepo()),
+            newReleases = listOf(release),
         )
 
         // Then
@@ -85,8 +95,6 @@ class ReleaseServiceUnitTest: StringSpec({
         testNotificationSender.newReleaseCount shouldBe 0
     }
 
-
-
     "when newReleaseEnabled enabled and old and new releases are the same then sendNotifications should not send any notifications" {
         // Given
         val testNotificationSender = TestNotificationsSender()
@@ -101,7 +109,11 @@ class ReleaseServiceUnitTest: StringSpec({
                 newReleaseEnabled = true
             )
         )
-        val release = RandomEntities.releaseWithRepo()
+
+        val repoToCheck = RandomEntities.repoToCheck().copy(
+            areReleasesNotificationsEnabled = true,
+        )
+        val release = RandomEntities.releaseWithRepo(repoToCheck)
 
         // When
         releaseService.sendNotifications(
