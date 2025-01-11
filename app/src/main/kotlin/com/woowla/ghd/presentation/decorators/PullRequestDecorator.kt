@@ -20,7 +20,6 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
     val fullRepo = "${pullRequestWithReviews.repoToCheck.owner}/${pullRequestWithReviews.repoToCheck.name}"
     val updatedAt = i18n.pull_request_updated(pullRequestWithReviews.pullRequest.updatedAt)
     val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
-    val authorLogin = pullRequestWithReviews.pullRequest.author?.login ?: i18n.generic_unknown
     val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
     val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
     val commitChecks = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
@@ -50,6 +49,23 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
             "Reviewed by $reviews"
         }
     }
+    fun reviewsNonApproved(): String {
+        return if (pullRequestWithReviews.reviews.isEmpty()) {
+            "Pending to be reviewed"
+        } else {
+            val reviews = pullRequestWithReviews.reviews
+                .groupBy { it.state }
+                .toList()
+                .filter { (_, reviews) ->
+                    reviews.isNotEmpty()
+                }
+                .joinToString(separator = ", ") { (state, reviews) ->
+                    val reviewDecorator = ReviewDecorator(reviews.first())
+                    "${reviews.size} ${reviewDecorator.state}"
+                }
+            "${pullRequestWithReviews.reviews.size} Reviews ($reviews)"
+        }
+    }
     fun reviewsIcon(): ImageVector {
         return when {
             pullRequestWithReviews.reviews.isEmpty() -> return Tabler.Outline.Users
@@ -67,7 +83,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
                 if (pullRequestWithReviews.reviews.any { review -> review.state == ReviewState.APPROVED }) {
                     Tabler.Outline.UserCheck
                 } else {
-                    return Tabler.Outline.Users
+                    return Tabler.Outline.UserQuestion
                 }
             }
         }

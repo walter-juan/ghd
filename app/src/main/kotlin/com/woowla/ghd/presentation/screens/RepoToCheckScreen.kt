@@ -4,179 +4,156 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
-import com.woowla.compose.icon.collections.tabler.tabler.outline.FileDownload
-import com.woowla.compose.icon.collections.tabler.tabler.outline.FileExport
-import com.woowla.compose.icon.collections.tabler.tabler.outline.FileImport
-import com.woowla.compose.icon.collections.tabler.tabler.outline.FileUpload
-import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
+import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
+import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
 
 object RepoToCheckScreen {
     @Composable
     fun Content(
         onEditRepoClick: (RepoToCheck) -> Unit,
         onAddNewRepoClick: () -> Unit,
-        onBulkExampleClick: () -> Unit,
+        onBulkClick: () -> Unit,
     ) {
         val viewModel = viewModel { ReposToCheckViewModel() }
-        val reposState by viewModel.state.collectAsState()
+        val state = viewModel.state.collectAsState().value
 
-        var isBulkImportFileDialogOpen by remember { mutableStateOf(false) }
-        if (isBulkImportFileDialogOpen) {
-            FileLoadDialog(
-                onCloseRequest = { file ->
-                    isBulkImportFileDialogOpen = false
-                    viewModel.bulkImportRepo(file)
-                }
-            )
-        }
-
-        var isBulkExportFileDialogOpen by remember { mutableStateOf(false) }
-        if (isBulkExportFileDialogOpen) {
-            FileSaveDialog(
-                fileName = "ghd-repos.yml",
-                onCloseRequest = { file ->
-                    isBulkExportFileDialogOpen = false
-                    viewModel.bulkExportRepo(file)
-                }
-            )
+        val topBarSubtitle = if (state is ReposToCheckStateMachine.St.Success) {
+            i18n.screen_app_settings_repositories_item_description(state.reposToCheck.size)
+        } else {
+            null
         }
 
         ScreenScrollable(
-            topBar = { TopBar(title = i18n.top_bar_title_repos_to_check) }
+            topBar = {
+                TopBar(
+                    title = i18n.top_bar_title_repos_to_check,
+                    subtitle = topBarSubtitle,
+                    actions = {
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            onClick = onBulkClick
+                        ) {
+                            Icon(
+                                Tabler.Outline.TableImport,
+                                contentDescription = i18n.screen_repos_to_check_bulk_item,
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.padding(10.dp).fillMaxWidth()
+                            )
+                        }
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            onClick = onAddNewRepoClick
+                        ) {
+                            Icon(
+                                Tabler.Outline.Plus,
+                                contentDescription = i18n.screen_edit_repo_to_check_save,
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.padding(10.dp).fillMaxWidth()
+                            )
+                        }
+                    }
+                )
+            }
         ) {
             Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp)
-                    .width(AppDimens.contentWidthDp)
+                    .padding(AppDimens.screenPadding)
+                    .fillMaxWidth()
             ) {
-                val lockedState = reposState
-                when(lockedState) {
-                    ReposToCheckViewModel.State.Initializing -> { }
-                    is ReposToCheckViewModel.State.Error -> {
-                        Text(i18n.generic_error)
+                when(state) {
+                    null, ReposToCheckStateMachine.St.Initializing -> {
+                        LoadingComponent()
                     }
-                    is ReposToCheckViewModel.State.Success -> {
-                        SectionCategory(i18n.screen_repos_to_check_new_repositories_section) {
-                            SectionItem(
-                                title = i18n.screen_repos_to_check_add_new_repository_item,
-                                description = i18n.screen_repos_to_check_add_new_repository_item_description,
-                            ) {
-                                Button(onClick = { onAddNewRepoClick.invoke() }) {
-                                    Icon(imageVector = Tabler.Outline.Plus, contentDescription = null, modifier = Modifier.size(20.dp))
-                                }
+                    is ReposToCheckStateMachine.St.Error -> {
+                        ErrorComponent()
+                    }
+                    is ReposToCheckStateMachine.St.Success -> {
+                        ReposFilters(
+                            groupNameFilters = state.groupNameFilters,
+                            groupNameFilterSizes = state.groupNameFilterSizes,
+                            groupNameFiltersSelected = state.groupNameFiltersSelected,
+                            onGroupNameChanged = { isSelected, groupName ->
+                                viewModel.dispatch(
+                                    ReposToCheckStateMachine.Act.GroupNameFilterSelected(
+                                    isSelected = isSelected,
+                                    groupName = groupName,
+                                ))
                             }
-                            SectionItem(
-                                title = i18n.screen_repos_to_check_bulk_item,
-                                description = i18n.screen_repos_to_check_bulk_item_description,
-                            ) {
-                                Row {
-                                    Button(onClick = onBulkExampleClick) {
-                                        Row {
-                                            Icon(
-                                                imageVector = Tabler.Outline.InfoCircle,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(5.dp))
-                                            Text(i18n.screen_repos_to_check_bulk_example)
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                    Button(onClick = { isBulkImportFileDialogOpen = true }) {
-                                        Row {
-                                            Icon(
-                                                imageVector = Tabler.Outline.FileImport,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(5.dp))
-                                            Text(i18n.screen_repos_to_check_bulk_import)
-                                        }
-                                    }
-                                    Spacer(modifier = Modifier.width(5.dp))
-                                    Button(onClick = { isBulkExportFileDialogOpen = true }) {
-                                        Row {
-                                            Icon(
-                                                imageVector = Tabler.Outline.FileExport,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(20.dp)
-                                            )
-                                            Spacer(modifier = Modifier.width(5.dp))
-                                            Text(i18n.screen_repos_to_check_bulk_export)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        SectionCategory(i18n.screen_repos_to_check_repositories_section) {
-                            SectionItem(
-                                title = i18n.screen_app_settings_repositories_item,
-                                description = i18n.screen_app_settings_repositories_item_description(lockedState.size),
-                            ) {
-                                Column(
-                                    verticalArrangement = Arrangement.spacedBy(10.dp),
-                                ) {
-                                    lockedState.groupedReposToCheck.forEachIndexed { index, (groupName, reposToCheck) ->
-                                        if (groupName != null) {
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.Start),
-                                                verticalAlignment = Alignment.CenterVertically,
-                                                modifier = Modifier.width(AppDimens.contentWidthDp)
-                                            ) {
-                                                Text(
-                                                    text = buildAnnotatedString {
-                                                        if(groupName.isBlank()) {
-                                                            withStyle(SpanStyle(fontStyle = FontStyle.Italic)) {
-                                                                append(i18n.screen_edit_repo_to_no_group)
-                                                            }
-                                                        } else {
-                                                            append(groupName)
-                                                        }
-                                                    },
-                                                    style = MaterialTheme.typography.titleMedium,
-                                                )
-                                            }
-                                        }
-                                        reposToCheck.forEach { repoToCheck ->
-                                            RepoToCheckCard(
-                                                repoToCheck = repoToCheck,
-                                                onEditClick = { repoToEdit ->
-                                                    onEditRepoClick.invoke(repoToEdit)
-                                                },
-                                                onDeleteClick = { repoToDelete ->
-                                                    viewModel.deleteRepo(repoToDelete)
-                                                },
-                                            )
-                                        }
-                                        if (index < lockedState.groupedReposToCheck.size - 1) {
-                                            HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp).width(AppDimens.contentWidthDp))
-                                        }
-                                    }
-                                }
-                            }
+                        )
+
+                        if (state.reposToCheckFiltered.isEmpty()) {
+                            EmptyComponent()
+                        } else {
+                            ListRepoToCheck(
+                                repoToCheckList = state.reposToCheckFiltered,
+                                onEditRepoClick = onEditRepoClick,
+                                onDeleteRepoClick = { repoToCheck ->
+                                    viewModel.dispatch(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheck))
+                                },
+                            )
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalLayoutApi::class)
+    @Composable
+    private fun ListRepoToCheck(
+        repoToCheckList: List<RepoToCheck>,
+        onEditRepoClick: (RepoToCheck) -> Unit,
+        onDeleteRepoClick: (RepoToCheck) -> Unit,
+    ) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(AppDimens.cardVerticalSpaceBetween),
+            maxItemsInEachRow = 2
+        ) {
+            repoToCheckList.forEach { repoToCheck ->
+                RepoToCheckCard(
+                    repoToCheck = repoToCheck,
+                    onEditClick = onEditRepoClick,
+                    onDeleteClick = onDeleteRepoClick,
+                    modifier = Modifier.sizeIn(maxWidth = AppDimens.cardMaxWidth).fillMaxWidth(),
+                )
+            }
+        }
+    }
+
+    @Composable
+    private fun ReposFilters(
+        groupNameFilters: Set<String>,
+        groupNameFilterSizes: Map<String, Int>,
+        groupNameFiltersSelected: Set<String>,
+        onGroupNameChanged: (isSelected: Boolean, groupName: String) -> Unit,
+    ) {
+        Header {
+            groupNameFilters.forEach { groupName ->
+                val count = groupNameFilterSizes[groupName] ?: 0
+                val isSelected = groupNameFiltersSelected.contains(groupName)
+                ColoredFilterChip(
+                    text = "$groupName ($count)",
+                    selected = isSelected,
+                    icon = null,
+                    onClick = {
+                        onGroupNameChanged.invoke(isSelected, groupName)
+                    },
+                )
             }
         }
     }

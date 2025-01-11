@@ -1,52 +1,74 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowla.ghd.AppLogger
+import com.freeletics.flowredux.dsl.ChangedState
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import com.woowla.ghd.utils.FlowReduxViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsViewModel(
-    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
-): ViewModel() {
-    private val initialStateValue = State.Initializing
+    stateMachine: SyncResultsStateMachine = SyncResultsStateMachine()
+): FlowReduxViewModel<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(stateMachine) {
+    init {
+        dispatch(SyncResultsStateMachine.Act.Load)
+        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+            dispatch(SyncResultsStateMachine.Act.Load)
+        }
+    }
+}
 
-    private val _state = MutableStateFlow<State>(initialStateValue)
-    val state: StateFlow<State> = _state
+@OptIn(ExperimentalCoroutinesApi::class)
+class SyncResultsStateMachine(
+    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
+): FlowReduxStateMachine<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(initialState = St.Initializing) {
 
     init {
-        load()
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
-            reload()
-        }
-    }
-
-    fun reload() {
-        load()
-    }
-
-    private fun load() {
-        viewModelScope.launch {
-            synchronizer.getAllSyncResults().fold(
-                onSuccess = {
-                    _state.value = State.Success(syncResultWithEntries = it)
-                },
-                onFailure = {
-                    AppLogger.e("sync error", it)
-                    _state.value = State.Error(throwable = it)
+        spec {
+            inState<St.Initializing> {
+                onEnter { state ->
+                    load(state)
                 }
-            )
+                on<Act.Load> { _, state ->
+                    load(state)
+                }
+            }
+            inState<St.Success> {
+                on<Act.Load> { _, state ->
+                    load(state)
+                }
+            }
+            inState<St.Error> {
+                on<Act.Load> { _, state ->
+                    load(state)
+                }
+            }
         }
     }
 
-    sealed class State {
-        object Initializing: State()
-        data class Success(val syncResultWithEntries: List<SyncResultWithEntriesAndRepos>): State()
-        data class Error(val throwable: Throwable): State()
+    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
+        return synchronizer.getAllSyncResults().fold(
+            onSuccess = { syncResults ->
+                state.override { St.Success(syncResultWithEntries = syncResults) }
+            },
+            onFailure = { error ->
+                state.override { St.Error(throwable = error) }
+            }
+        )
+    }
+
+    sealed interface St {
+        data object Initializing: St
+        data class Success(val syncResultWithEntries: List<SyncResultWithEntriesAndRepos>): St
+        data class Error(val throwable: Throwable): St
+    }
+
+    sealed interface Act {
+        data object Load: Act
     }
 }

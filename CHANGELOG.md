@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.0]
+### Changed
+- 🎨 New application design
+
 ## [1.6.0]
 ### Added
 - Add the API rate limit in pull requests and releases top bar
@@ -233,7 +237,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v1.6.0...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.0...dev
+[2.0.0]: https://github.com/walter-juan/ghd/releases/tag/v2.0.0
 [1.6.0]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
 [1.5.4]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4
 [1.5.3]: https://github.com/walter-juan/ghd/releases/tag/v1.5.3

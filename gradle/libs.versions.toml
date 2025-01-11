@@ -75,6 +75,8 @@ settings = "com.russhwolf:multiplatform-settings:1.2.0"
 icons-tabler = "com.woowla.compose.icon.collections:tabler:3.22.0"
 # simple way to work with tray applications with native support for Linux and Windows.
 composenativetray = "io.github.kdroidfilter:composenativetray:0.4.0"
+# Compose multiplatform library for generating dynamic Material3 color schemes from a seed color
+materialkolor = "com.materialkolor:material-kolor:2.0.0"
 # mockk, mocking library for Kotlin
 mockk = "io.mockk:mockk:1.13.13"
 # kotest runner

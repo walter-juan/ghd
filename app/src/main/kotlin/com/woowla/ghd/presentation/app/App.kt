@@ -25,7 +25,6 @@ import com.woowla.ghd.domain.services.AppVersionService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.screens.AboutScreen
-import com.woowla.ghd.presentation.screens.ComponentsSampleScreen
 import com.woowla.ghd.presentation.screens.HomeScreen
 import com.woowla.ghd.presentation.screens.LoginScreen
 import com.woowla.ghd.presentation.screens.SplashScreen
@@ -80,14 +79,6 @@ fun App() {
             composable(AppScreen.About.route) {
                 AboutScreen.Content(
                     onBackClick = { navController.popBackStack() },
-                    onComponentsSampleScreenClick = {
-                        navController.navigate(AppScreen.ComponentsSample.route)
-                    }
-                )
-            }
-            composable(AppScreen.ComponentsSample.route) {
-                ComponentsSampleScreen.Content(
-                    onBackClick = { navController.popBackStack() }
                 )
             }
             composable(AppScreen.Home.route) {

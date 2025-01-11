@@ -29,7 +29,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "1.6.0"
+version = "2.0.0"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.composenativetray)
     implementation(libs.bundles.flowredux)
     implementation(libs.arrow.optics)
+    implementation(libs.materialkolor)
     ksp(libs.arrow.optics.ksp)
 
     testImplementation(libs.mockk)

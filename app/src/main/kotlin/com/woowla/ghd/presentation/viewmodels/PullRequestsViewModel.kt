@@ -1,77 +1,140 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.woowla.ghd.domain.entities.*
+import com.freeletics.flowredux.dsl.ChangedState
+import com.freeletics.flowredux.dsl.FlowReduxStateMachine
+import com.freeletics.flowredux.dsl.State
+import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.PullRequestService
 import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import com.woowla.ghd.utils.FlowReduxViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PullRequestsViewModel(
+    stateMachine: PullRequestsStateMachine = PullRequestsStateMachine()
+): FlowReduxViewModel<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(stateMachine) {
+    init {
+        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+            dispatch(PullRequestsStateMachine.Act.Reload)
+        }
+        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
+            dispatch(PullRequestsStateMachine.Act.Reload)
+        }
+    }
+}
+
+@OptIn(ExperimentalCoroutinesApi::class)
+class PullRequestsStateMachine(
     private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
     private val appSettingsService: AppSettingsService = AppSettingsService(),
     private val pullRequestService: PullRequestService = PullRequestService(),
-): ViewModel() {
-    private val initialStateValue = State.Initializing
-
-    private val _state = MutableStateFlow<State>(initialStateValue)
-    val state: StateFlow<State> = _state
+): FlowReduxStateMachine<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(initialState = St.Initializing) {
 
     init {
-        loadPulls()
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
-            reload()
-        }
-        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
-            reload()
-        }
-    }
-
-    fun reload() {
-        loadPulls()
-    }
-
-    fun markAsSeen(pullRequest: PullRequestWithRepoAndReviews) {
-        viewModelScope.launch {
-            if (pullRequest.seen) {
-                pullRequestService.unmarkAsSeen(id = pullRequest.pullRequest.id)
-            } else {
-                pullRequestService.markAsSeen(id = pullRequest.pullRequest.id)
+        spec {
+            inState<St.Initializing> {
+                onEnter { state ->
+                    load(state, stateExtendedFiltersSelected = emptySet())
+                }
+                on<Act.Reload> { _, state ->
+                    load(state, stateExtendedFiltersSelected = emptySet())
+                }
             }
-            loadPulls()
+            inState<St.Success> {
+                on<Act.Reload> { _, state ->
+                    load(state, stateExtendedFiltersSelected = state.snapshot.stateExtendedFiltersSelected)
+                }
+                on<Act.StateExtendedFilterSelected> { action, state ->
+                    filter(state, stateExtended = action.pullRequestStateExtended, isSelected = action.isSelected)
+                }
+            }
+            inState<St.Error> {
+                on<Act.Reload> { _, state ->
+                    state.override { St.Initializing }
+                }
+            }
         }
     }
 
-    private fun loadPulls() {
-        viewModelScope.launch {
-            val syncResult = synchronizer.getLastSyncResult().getOrNull()
-            val appSettings = appSettingsService.get().getOrNull()
+    private suspend fun <T: St> load(state: State<T>, stateExtendedFiltersSelected: Set<PullRequestStateExtended>): ChangedState<St> {
+        val syncResult = synchronizer.getLastSyncResult().getOrNull()
+        val appSettings = appSettingsService.get().getOrNull()
 
-            pullRequestService.getAll()
-                .fold(
-                    onSuccess = { pullRequests ->
-                        val groupedPullRequests = pullRequests
-                            .groupBy { it.pullRequest.stateExtended }
-                            .map { GroupedPullRequests(pullRequestStateExtended = it.key, pullRequestsWithReviews = it.value) }
-                        _state.value = State.Success(groupedPullRequests = groupedPullRequests, syncResultWithEntries = syncResult, appSettings = appSettings)
-                    },
-                    onFailure = {
-                        _state.value = State.Error(throwable = it)
+        return pullRequestService.getAll()
+            .fold(
+                onSuccess = { pullRequests ->
+                    val stateFilters = PullRequestStateExtended.entries.toSet()
+                    val stateFilterSizes = stateFilters.associateWith { stateExtended ->
+                        pullRequests.count { it.pullRequest.stateExtended == stateExtended }
                     }
-                )
+                    // clean up in case a group is no-available anymore
+                    val stateExtendedFiltersSelectedRecalculated = stateExtendedFiltersSelected.filter { stateFilters.contains(it) }.toSet()
+
+                    val pullRequestsFiltered = pullRequests.filter {
+                        stateExtendedFiltersSelectedRecalculated.isEmpty() || stateExtendedFiltersSelectedRecalculated.contains(it.pullRequest.stateExtended)
+                    }
+                    state.override {
+                        St.Success(
+                            pullRequests = pullRequests,
+                            pullRequestsFiltered = pullRequestsFiltered,
+                            syncResultWithEntries = syncResult,
+                            appSettings = appSettings,
+                            stateExtendedFilters = stateFilters,
+                            stateExtendedFilterSizes = stateFilterSizes,
+                            stateExtendedFiltersSelected = stateExtendedFiltersSelectedRecalculated
+                        )
+                    }
+                },
+                onFailure = {
+                    state.override { St.Error(it) }
+                }
+            )
+    }
+
+    private fun filter(
+        state: State<St.Success>,
+        stateExtended: PullRequestStateExtended,
+        isSelected: Boolean,
+    ): ChangedState<St> {
+        val stateExtendedFiltersSelected = if (isSelected) {
+            state.snapshot.stateExtendedFiltersSelected - stateExtended
+        } else {
+            state.snapshot.stateExtendedFiltersSelected + stateExtended
+        }
+        val pullRequestsFiltered = state.snapshot.pullRequests.filter {
+            stateExtendedFiltersSelected.isEmpty() || stateExtendedFiltersSelected.contains(it.pullRequest.stateExtended)
+        }
+        return state.mutate {
+            this.copy(
+                pullRequestsFiltered = pullRequestsFiltered,
+                stateExtendedFiltersSelected = stateExtendedFiltersSelected,
+            )
         }
     }
 
-    sealed class State {
-        object Initializing: State()
-        data class Success(val groupedPullRequests: List<GroupedPullRequests>, val syncResultWithEntries: SyncResultWithEntriesAndRepos?, val appSettings: AppSettings?): State()
-        data class  Error(val throwable: Throwable): State()
+    sealed interface St {
+        data object Initializing: St
+        data class Success(
+            val pullRequests: List<PullRequestWithRepoAndReviews>,
+            val pullRequestsFiltered: List<PullRequestWithRepoAndReviews>,
+            val syncResultWithEntries: SyncResultWithEntriesAndRepos?,
+            val appSettings: AppSettings?,
+            val stateExtendedFilters: Set<PullRequestStateExtended>,
+            val stateExtendedFilterSizes: Map<PullRequestStateExtended, Int>,
+            val stateExtendedFiltersSelected: Set<PullRequestStateExtended>,
+        ): St
+        data class  Error(val throwable: Throwable): St
     }
 
-    data class GroupedPullRequests(val pullRequestStateExtended: PullRequestStateExtended, val pullRequestsWithReviews: List<PullRequestWithRepoAndReviews>)
+    sealed interface Act {
+        data object Reload: Act
+        data class StateExtendedFilterSelected(val isSelected: Boolean, val pullRequestStateExtended: PullRequestStateExtended): Act
+    }
 }

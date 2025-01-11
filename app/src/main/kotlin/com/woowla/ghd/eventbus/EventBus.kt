@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
+@Deprecated("Future replacement with Flows")
 object EventBus {
     private val eventBusDispatcher: CoroutineContext = Dispatchers.Default
     private val eventBusScope = CoroutineScope(eventBusDispatcher)

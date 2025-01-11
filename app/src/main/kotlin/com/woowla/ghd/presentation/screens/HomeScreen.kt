@@ -14,17 +14,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.woowla.ghd.presentation.app.AppScreen
 
 object HomeScreen {
@@ -105,8 +100,8 @@ object HomeScreen {
                                 route = AppScreen.RepoToCheckNew.route
                             )
                         },
-                        onBulkExampleClick = {
-                            navController.navigate(AppScreen.RepoToCheckBulkSample.route)
+                        onBulkClick = {
+                            navController.navigate(AppScreen.RepoToCheckBulk.route)
                         },
                     )
                 }
@@ -154,22 +149,13 @@ object HomeScreen {
                         onBackClick = { navController.popBackStack() }
                     )
                 }
-                composable(AppScreen.RepoToCheckBulkSample.route) {
-                    RepoToCheckBulkSampleScreen.Content(
-                        onBackClick = { navController.popBackStack() }
+                composable(AppScreen.RepoToCheckBulk.route) {
+                    RepoToCheckBulkScreen.Content(
+                        onBackClick = { navController.popBackStack() },
                     )
                 }
                 composable(AppScreen.About.route) {
-                    AboutScreen.Content(
-                        onComponentsSampleScreenClick = {
-                            navController.navigate(AppScreen.ComponentsSample.route)
-                        }
-                    )
-                }
-                composable(AppScreen.ComponentsSample.route) {
-                    ComponentsSampleScreen.Content(
-                        onBackClick = { navController.popBackStack() }
-                    )
+                    AboutScreen.Content()
                 }
             }
         }

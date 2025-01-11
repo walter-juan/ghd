@@ -1,5 +1,6 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -17,11 +18,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.filled.Bell
+import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
+import com.woowla.compose.icon.collections.tabler.tabler.outline.RefreshOff
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.Section
+import com.woowla.ghd.presentation.components.SectionItem
+import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
@@ -131,9 +141,10 @@ object RepoToCheckEditScreen {
             }
         ) {
             Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp)
-                    .width(AppDimens.contentWidthDp)
+                    .padding(AppDimens.screenPadding)
+                    .fillMaxWidth()
             ) {
                 RepositorySection(
                     owner = owner,
@@ -172,26 +183,34 @@ object RepoToCheckEditScreen {
         onNameChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
     ) {
-        SectionCategory(i18n.screen_edit_repo_to_check_repository_section) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
+        Section(title = i18n.screen_edit_repo_to_check_repository_section) {
+            SectionItem(
+                title = "GitHub repository owner/name",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Tabler.Outline.BrandGithub,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
             ) {
-                OutlinedTextField(
-                    value = owner,
-                    onValueChange = onOwnerChange,
-                    label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
-                    modifier = Modifier.weight(1f),
-                )
-                OutlinedTextField(
-                    value = name,
-                    onValueChange = onNameChange,
-                    label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
-                    modifier = Modifier.weight(1f),
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(5.dp),
+                ) {
+                    OutlinedTextField(
+                        value = owner,
+                        onValueChange = onOwnerChange,
+                        label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
+                        modifier = Modifier.weight(1f),
+                    )
+                    OutlinedTextField(
+                        value = name,
+                        onValueChange = onNameChange,
+                        label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
             }
-
-            Spacer(modifier = Modifier.padding(5.dp))
-
             SectionItem(
                 title = i18n.screen_edit_repo_to_check_group_item,
                 description = i18n.screen_edit_repo_to_check_group_item_description,
@@ -214,28 +233,45 @@ object RepoToCheckEditScreen {
         onArePullRequestsNotificationsEnabledChange: (Boolean) -> Unit,
         onBranchRegexChange: (String) -> Unit,
     ) {
-        SectionCategorySwitch(
-            text = i18n.screen_edit_repo_to_check_pull_request_section,
-            checked = arePullRequestsEnabled,
-            onCheckedChange = {
-                onArePullRequestsEnabledChange.invoke(it)
-                onArePullRequestsNotificationsEnabledChange.invoke(false)
-            },
-        ) {
-            SectionItemSwitch(
+        Section(title = "Pull requests") {
+            SectionItemWithSwitch(
+                title = i18n.screen_edit_repo_to_check_pull_request_section,
+                checked = arePullRequestsEnabled,
+                leadingIcon = {
+                    SynchAndNotificationsIcon(
+                        syncEnabled = arePullRequestsEnabled,
+                        notificationsEnabled = arePullRequestsNotificationsEnabled,
+                    )
+                },
+                onCheckedChange = {
+                    onArePullRequestsEnabledChange.invoke(it)
+                    onArePullRequestsNotificationsEnabledChange.invoke(false)
+                }
+            )
+            SectionItemWithSwitch(
                 title = "Enable notifications",
                 checked = arePullRequestsNotificationsEnabled,
                 onCheckedChange = onArePullRequestsNotificationsEnabledChange,
+                enabled = arePullRequestsEnabled,
             )
             SectionItem(
                 title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
-                description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description
+                description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description,
+                leadingIcon = {
+                    Icon(
+                        imageVector = Tabler.Outline.Filter,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                enabled = arePullRequestsEnabled,
             ) {
                 OutlinedTextField(
                     value = branchRegex,
                     onValueChange = onBranchRegexChange,
                     label = { Text(text = i18n.screen_edit_repo_to_check_href_branch_regex_label) },
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = arePullRequestsEnabled,
                     singleLine = true
                 )
             }
@@ -249,19 +285,64 @@ object RepoToCheckEditScreen {
         onAreReleasesEnabledChange: (Boolean) -> Unit,
         onAreReleasesNotificationsEnabledChange: (Boolean) -> Unit,
     ) {
-        SectionCategorySwitch(
-            text = i18n.screen_edit_repo_to_check_releaes_section,
-            checked = areReleasesEnabled,
-            onCheckedChange = {
-                onAreReleasesEnabledChange.invoke(it)
-                onAreReleasesNotificationsEnabledChange.invoke(false)
-            },
-        ) {
-            SectionItemSwitch(
+        Section(title = "Releases") {
+            SectionItemWithSwitch(
+                title = i18n.screen_edit_repo_to_check_releaes_section,
+                checked = areReleasesEnabled,
+                leadingIcon = {
+                    SynchAndNotificationsIcon(
+                        syncEnabled = areReleasesEnabled,
+                        notificationsEnabled = areReleasesNotificationsEnabled,
+                    )
+                },
+                onCheckedChange = {
+                    onAreReleasesEnabledChange.invoke(it)
+                    onAreReleasesNotificationsEnabledChange.invoke(false)
+                },
+            )
+            SectionItemWithSwitch(
                 title = "Enable notifications",
                 checked = areReleasesNotificationsEnabled,
                 onCheckedChange = onAreReleasesNotificationsEnabledChange,
+                enabled = areReleasesEnabled,
             )
+        }
+    }
+
+    @Composable
+    private fun SynchAndNotificationsIcon(
+        syncEnabled: Boolean,
+        notificationsEnabled: Boolean
+    ) {
+        val icon = when {
+            syncEnabled && notificationsEnabled -> Tabler.Filled.Bell
+            syncEnabled -> Tabler.Outline.Refresh
+            else -> Tabler.Outline.RefreshOff
+        }
+        Crossfade(icon) {
+            when(icon) {
+                Tabler.Filled.Bell -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Tabler.Outline.Refresh -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+                Tabler.Outline.RefreshOff -> {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         }
     }
 }

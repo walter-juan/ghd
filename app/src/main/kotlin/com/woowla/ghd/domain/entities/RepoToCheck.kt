@@ -15,7 +15,7 @@ data class RepoToCheck(
     @ColumnInfo(name = "are_releases_enabled") val areReleasesEnabled: Boolean,
     @ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean,
     @ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean,
-) {
+): Comparable<RepoToCheck> {
     companion object {
         fun newInstance() = RepoToCheck(
             owner = "",
@@ -27,5 +27,10 @@ data class RepoToCheck(
             arePullRequestsNotificationsEnabled = false,
             areReleasesNotificationsEnabled = false,
         )
+        val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.name }
+    }
+
+    override fun compareTo(other: RepoToCheck): Int {
+        return defaultComparator.compare(this, other)
     }
 }

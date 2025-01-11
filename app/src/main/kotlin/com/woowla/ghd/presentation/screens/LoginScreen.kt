@@ -26,7 +26,7 @@ import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.AppTheme
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.ScreenScaffold
+import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import kotlinx.coroutines.launch
 
@@ -49,13 +49,14 @@ object LoginScreen {
             }
         }
 
-        ScreenScaffold {
+        ScreenScrollable {
             Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp)
-                    .width(AppDimens.contentWidthDp)
+                    .padding(AppDimens.screenPadding)
+                    .fillMaxWidth(fraction = 0.75F)
             ) {
+                Spacer(modifier = Modifier.height(20.dp))
                 loginDatabaseAlreadyExists(
                     darkTheme = darkTheme,
                     onAboutClick = onAboutClick,
