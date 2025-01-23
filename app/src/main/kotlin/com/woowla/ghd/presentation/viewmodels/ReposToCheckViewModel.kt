@@ -68,7 +68,7 @@ class ReposToCheckStateMachine(
         return repoToCheckService.getAll()
             .fold(
                 onSuccess = { reposToCheck ->
-                    val groupNameFilters = reposToCheck.mapNotNull { it.groupName }.distinct().toSet()
+                    val groupNameFilters = reposToCheck.mapNotNull { it.groupName }.distinct().filter { it.isNotBlank() }.toSet()
                     val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
                         reposToCheck.count { it.groupName == groupName }
                     }

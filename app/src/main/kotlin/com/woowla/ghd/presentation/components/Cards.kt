@@ -20,14 +20,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
-import com.woowla.compose.icon.collections.tabler.tabler.outline.AlertTriangle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
-import com.woowla.compose.icon.collections.tabler.tabler.outline.CarCrash
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
-import com.woowla.compose.icon.collections.tabler.tabler.outline.GitMerge
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
@@ -37,9 +34,10 @@ import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
+import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
+import com.woowla.ghd.domain.entities.anyNonApproved
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
@@ -272,6 +270,7 @@ fun PullRequestCard(
                     Tag(
                         text = "Conflicts",
                         icon = Tabler.Outline.Boom,
+                        color = MaterialTheme.colorScheme.error,
                     )
                 }
                 if (showExtras) {
@@ -282,16 +281,18 @@ fun PullRequestCard(
                             color = MaterialTheme.colorScheme.gitPrMerged
                         )
                     }
-                    if (pullRequestWithReviews.reviews.isEmpty() || pullRequestWithReviews.reviews.any { it.state != ReviewState.APPROVED }) {
+                    if (pullRequestWithReviews.reviews.isEmpty() || pullRequestWithReviews.reviews.anyNonApproved()) {
                         Tag(
                             text = pullRequestDecorator.reviewsNonApproved(),
-                            icon = pullRequestDecorator.reviewsIcon()
+                            icon = pullRequestDecorator.reviewsIcon(),
+                            color = if (pullRequestWithReviews.reviews.anyCommentedOrChangesRequested()) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
                         )
                     }
                     if (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS) {
                         Tag(
                             text = pullRequestDecorator.commitChecks,
-                            icon = pullRequestDecorator.commitChecksIcon
+                            icon = pullRequestDecorator.commitChecksIcon,
+                            color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
                         )
                     }
                 }

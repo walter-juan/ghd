@@ -81,18 +81,21 @@ object RepoToCheckScreen {
                         ErrorComponent()
                     }
                     is ReposToCheckStateMachine.St.Success -> {
-                        ReposFilters(
-                            groupNameFilters = state.groupNameFilters,
-                            groupNameFilterSizes = state.groupNameFilterSizes,
-                            groupNameFiltersSelected = state.groupNameFiltersSelected,
-                            onGroupNameChanged = { isSelected, groupName ->
-                                viewModel.dispatch(
-                                    ReposToCheckStateMachine.Act.GroupNameFilterSelected(
-                                    isSelected = isSelected,
-                                    groupName = groupName,
-                                ))
-                            }
-                        )
+                        if (state.groupNameFilters.isNotEmpty()) {
+                            ReposFilters(
+                                groupNameFilters = state.groupNameFilters,
+                                groupNameFilterSizes = state.groupNameFilterSizes,
+                                groupNameFiltersSelected = state.groupNameFiltersSelected,
+                                onGroupNameChanged = { isSelected, groupName ->
+                                    viewModel.dispatch(
+                                        ReposToCheckStateMachine.Act.GroupNameFilterSelected(
+                                            isSelected = isSelected,
+                                            groupName = groupName,
+                                        )
+                                    )
+                                }
+                            )
+                        }
 
                         if (state.reposToCheckFiltered.isEmpty()) {
                             EmptyComponent()

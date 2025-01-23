@@ -49,17 +49,19 @@ object ReleasesScreen {
                         ErrorComponent()
                     }
                     is ReleasesStateMachine.St.Success -> {
-                        ReleaseFilters(
-                            groupNameFilters = state.groupNameFilters,
-                            groupNameFilterSizes = state.groupNameFilterSizes,
-                            groupNameFiltersSelected = state.groupNameFiltersSelected,
-                            onGroupNameChanged = { isSelected, groupName ->
-                                viewModel.dispatch(ReleasesStateMachine.Act.GroupNameFilterSelected(
-                                    isSelected = isSelected,
-                                    groupName = groupName,
-                                ))
-                            }
-                        )
+                        if (state.groupNameFilters.isNotEmpty()) {
+                            ReleaseFilters(
+                                groupNameFilters = state.groupNameFilters,
+                                groupNameFilterSizes = state.groupNameFilterSizes,
+                                groupNameFiltersSelected = state.groupNameFiltersSelected,
+                                onGroupNameChanged = { isSelected, groupName ->
+                                    viewModel.dispatch(ReleasesStateMachine.Act.GroupNameFilterSelected(
+                                        isSelected = isSelected,
+                                        groupName = groupName,
+                                    ))
+                                }
+                            )
+                        }
 
                         if (state.releasesFiltered.isEmpty()) {
                             EmptyComponent()

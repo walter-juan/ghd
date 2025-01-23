@@ -69,7 +69,7 @@ class ReleasesStateMachine(
         return releaseService.getAll()
             .fold(
                 onSuccess = { releases ->
-                    val groupNameFilters = releases.mapNotNull { it.repoToCheck.groupName }.distinct().toSet()
+                    val groupNameFilters = releases.mapNotNull { it.repoToCheck.groupName }.distinct().filter { it.isNotBlank() }.toSet()
                     val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
                         releases.count { it.repoToCheck.groupName == groupName }
                     }

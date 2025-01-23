@@ -40,3 +40,11 @@ data class Review(
         return state == ReviewState.DISMISSED
     }
 }
+
+fun List<Review>.anyNonApproved(): Boolean {
+    return any { it.state != ReviewState.APPROVED }
+}
+
+fun List<Review>.anyCommentedOrChangesRequested(): Boolean {
+    return any { it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGES_REQUESTED || it.state == ReviewState.UNKNOWN }
+}

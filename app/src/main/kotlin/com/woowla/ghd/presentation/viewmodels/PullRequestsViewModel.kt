@@ -41,15 +41,15 @@ class PullRequestsStateMachine(
         spec {
             inState<St.Initializing> {
                 onEnter { state ->
-                    load(state, stateExtendedFiltersSelected = emptySet())
+                    load(state)
                 }
                 on<Act.Reload> { _, state ->
-                    load(state, stateExtendedFiltersSelected = emptySet())
+                    load(state)
                 }
             }
             inState<St.Success> {
                 on<Act.Reload> { _, state ->
-                    load(state, stateExtendedFiltersSelected = state.snapshot.stateExtendedFiltersSelected)
+                    load(state)
                 }
                 on<Act.StateExtendedFilterSelected> { action, state ->
                     filter(state, stateExtended = action.pullRequestStateExtended, isSelected = action.isSelected)
@@ -63,12 +63,11 @@ class PullRequestsStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>, stateExtendedFiltersSelected: Set<PullRequestStateExtended>): ChangedState<St> {
+    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
         return try {
             val syncResult = synchronizer.getLastSyncResult().getOrNull()
             val appSettings = appSettingsService.get().getOrThrow()
             val stateExtendedFiltersSelected = appSettings.filtersPullRequestState
-
 
             pullRequestService.getAll()
                 .fold(

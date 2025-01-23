@@ -57,6 +57,11 @@ data class PullRequest(
     val hasConflicts
         @Ignore
         get() = mergeableState == GitHubMergeableState.CONFLICTING
+
+    val checkHaveErrors
+        @Ignore
+        get() = lastCommitCheckRollupStatus == CommitCheckRollupStatus.ERROR || lastCommitCheckRollupStatus == CommitCheckRollupStatus.FAILURE || lastCommitCheckRollupStatus == CommitCheckRollupStatus.UNKNOWN
+
 }
 
 fun PullRequest.isOld(cleanUpTimeout: Long): Boolean {
