@@ -3,6 +3,7 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
+import com.woowla.ghd.utils.enumValueOfOrDefault
 import com.woowla.ghd.utils.enumValueOfOrNull
 
 class LocalDataSource(
@@ -13,8 +14,16 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             val defaultEnabledOption = NotificationsSettings.defaultEnabledOption
+            val filtersPullRequestState = appProperties.filtersPullRequestState
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.map { enumValueOfOrDefault(it, PullRequestStateExtended.UNKNOWN) }
+                ?.toSet()
+                ?: emptySet()
+
             AppSettings(
                 darkTheme = appProperties.darkTheme,
+                filtersPullRequestState = filtersPullRequestState,
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
 
@@ -40,6 +49,8 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
+
+            appProperties.filtersPullRequestState = appSettings.filtersPullRequestState.joinToString(separator = ",")
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 

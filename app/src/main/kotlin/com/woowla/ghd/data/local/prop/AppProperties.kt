@@ -36,6 +36,8 @@ object AppProperties {
 
     var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
 
+    var filtersPullRequestState: String? by settings.nullableString("filtersPullRequestState")
+
     var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
     var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")
     var notificationsStateOpenFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateOpenFromOthersPullRequestsEnabled", false)
