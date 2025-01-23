@@ -20,12 +20,16 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.AlertTriangle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CarCrash
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.GitMerge
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
@@ -260,15 +264,21 @@ fun PullRequestCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Tag(
-                    text = pullRequestDecorator.state.text,
+                    text = "${pullRequestDecorator.state.text} (${pullRequestDecorator.createdAt})",
                     icon = pullRequestDecorator.state.icon,
                     color = pullRequestDecorator.state.iconTint()
                 )
+                if (pullRequestWithReviews.pullRequest.hasConflicts) {
+                    Tag(
+                        text = "Conflicts",
+                        icon = Tabler.Outline.Boom,
+                    )
+                }
                 if (showExtras) {
                     if (pullRequestWithReviews.pullRequest.canBeMerged) {
                         Tag(
                             text = i18n.screen_pull_requests_can_be_merged,
-                            icon = Tabler.Outline.GitMerge,
+                            icon = Tabler.Outline.Rocket,
                             color = MaterialTheme.colorScheme.gitPrMerged
                         )
                     }

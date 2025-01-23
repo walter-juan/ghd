@@ -5,6 +5,7 @@ import com.woowla.ghd.data.remote.GetLastReleaseQuery
 import com.woowla.ghd.data.remote.entities.ApiRateLimit
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.GitHubMergeableState
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestState
@@ -37,6 +38,7 @@ fun PullRequestFragment.Node.toPullRequest(
         headRef = headRefName,
         author = author?.toAuthor(),
         totalCommentsCount = totalCommentsCount?.toLong(),
+        mergeableState = enumValueOfOrDefault(mergeable.toString(), GitHubMergeableState.UNKNOWN),
         mergeStateStatus = enumValueOfOrDefault(mergeStateStatus.toString(), MergeGitHubStateStatus.UNKNOWN),
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN),
         lastCommitSha1 = lastCommitSha1,

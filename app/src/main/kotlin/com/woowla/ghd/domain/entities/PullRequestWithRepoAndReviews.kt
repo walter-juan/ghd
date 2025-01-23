@@ -8,7 +8,7 @@ data class PullRequestWithRepoAndReviews(
     val reviews: List<Review>,
 ): Comparable<PullRequestWithRepoAndReviews> {
     companion object {
-        val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenByDescending { it.pullRequest.updatedAt }
+        val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenByDescending { it.pullRequest.createdAt }
     }
 
     override fun compareTo(other: PullRequestWithRepoAndReviews): Int {

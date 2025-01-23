@@ -38,6 +38,8 @@ data class PullRequest(
     @ColumnInfo(name = "base_ref") val baseRef: String?,
     @ColumnInfo(name = "head_ref") val headRef: String?,
     @ColumnInfo(name = "total_comments_count") val totalCommentsCount: Long?,
+    // TODO why the mergeable_state needed a default value?
+    @ColumnInfo(name = "mergeable_state", defaultValue = "") val mergeableState: GitHubMergeableState,
     // TODO why the merge_state_status needed a default value?
     @ColumnInfo(name = "merge_state_status", defaultValue = "") val mergeStateStatus: MergeGitHubStateStatus,
     @ColumnInfo(name = "last_commit_check_rollup_status") val lastCommitCheckRollupStatus: CommitCheckRollupStatus,
@@ -51,6 +53,10 @@ data class PullRequest(
     val stateExtended: PullRequestStateExtended
         @Ignore
         get() = state.toPullRequestStateExtended(isDraft = isDraft)
+
+    val hasConflicts
+        @Ignore
+        get() = mergeableState == GitHubMergeableState.CONFLICTING
 }
 
 fun PullRequest.isOld(cleanUpTimeout: Long): Boolean {

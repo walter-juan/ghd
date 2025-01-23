@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "47bc3e56162208ca1c783541666b23f0",
+    "identityHash": "8a429db38e7c1bbaa549bc5177a3df75",
     "entities": [
       {
         "tableName": "pull_request",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `repo_to_check_id` INTEGER NOT NULL, `number` INTEGER NOT NULL, `url` TEXT NOT NULL, `state` TEXT NOT NULL, `title` TEXT, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, `merged_at` TEXT, `is_draft` INTEGER NOT NULL, `base_ref` TEXT, `head_ref` TEXT, `total_comments_count` INTEGER, `merge_state_status` TEXT NOT NULL DEFAULT '', `last_commit_check_rollup_status` TEXT NOT NULL, `last_commit_sha1` TEXT, `author_login` TEXT, `author_url` TEXT, `author_avatar_url` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`repo_to_check_id`) REFERENCES `repo_to_check`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `repo_to_check_id` INTEGER NOT NULL, `number` INTEGER NOT NULL, `url` TEXT NOT NULL, `state` TEXT NOT NULL, `title` TEXT, `created_at` TEXT NOT NULL, `updated_at` TEXT NOT NULL, `merged_at` TEXT, `is_draft` INTEGER NOT NULL, `base_ref` TEXT, `head_ref` TEXT, `total_comments_count` INTEGER, `mergeable_state` TEXT NOT NULL DEFAULT '', `merge_state_status` TEXT NOT NULL DEFAULT '', `last_commit_check_rollup_status` TEXT NOT NULL, `last_commit_sha1` TEXT, `author_login` TEXT, `author_url` TEXT, `author_avatar_url` TEXT, PRIMARY KEY(`id`), FOREIGN KEY(`repo_to_check_id`) REFERENCES `repo_to_check`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -80,6 +80,13 @@
             "fieldPath": "totalCommentsCount",
             "columnName": "total_comments_count",
             "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "mergeableState",
+            "columnName": "mergeable_state",
+            "affinity": "TEXT",
+            "notNull": true,
+            "defaultValue": "''"
           },
           {
             "fieldPath": "mergeStateStatus",
@@ -575,7 +582,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '47bc3e56162208ca1c783541666b23f0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '8a429db38e7c1bbaa549bc5177a3df75')"
     ]
   }
 }

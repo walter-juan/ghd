@@ -84,7 +84,7 @@ object i18n {
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
     val screen_edit_repo_to_no_group = "(no group)"
 
-    val screen_pull_requests_can_be_merged = "This pull request can be merged"
+    val screen_pull_requests_can_be_merged = "Ready to merge"
     val screen_pull_requests_code_changed = "Code changed since list time"
 
     val screen_app_settings_saved = "Saved"
