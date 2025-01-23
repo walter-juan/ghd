@@ -7,13 +7,11 @@ import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.SyncResultRateLimit
 import com.woowla.ghd.utils.enumValueOfOrDefault
@@ -21,8 +19,6 @@ import kotlinx.datetime.Instant
 
 fun PullRequestFragment.Node.toPullRequest(
     repoToCheck: RepoToCheck,
-    pullRequestSeen: PullRequestSeen?,
-    reviewsSeen: List<ReviewSeen>,
 ): PullRequestWithRepoAndReviews {
     val lastCommitCheckRollupStatusString = commits.edges?.firstOrNull()?.node?.commit?.statusCheckRollup?.state?.toString()
     val lastCommitSha1 = commits.edges?.firstOrNull()?.node?.commit?.oid?.toString()
@@ -51,8 +47,6 @@ fun PullRequestFragment.Node.toPullRequest(
         pullRequest = pullRequest,
         reviews = latestReviews?.toReviews(pullRequestId = id) ?: listOf(),
         repoToCheck = repoToCheck,
-        pullRequestSeen = pullRequestSeen,
-        reviewsSeen = reviewsSeen,
     )
 }
 

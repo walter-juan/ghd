@@ -3,6 +3,7 @@ package com.woowla.ghd.data.local.room
 import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.DeleteColumn
+import androidx.room.DeleteTable
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -12,34 +13,28 @@ import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.data.local.room.converters.Converters
 import com.woowla.ghd.data.local.room.daos.DatabaseDao
 import com.woowla.ghd.data.local.room.daos.PullRequestDao
-import com.woowla.ghd.data.local.room.daos.PullRequestSeenDao
 import com.woowla.ghd.data.local.room.daos.ReleaseDao
 import com.woowla.ghd.data.local.room.daos.RepoToCheckDao
 import com.woowla.ghd.data.local.room.daos.ReviewDao
-import com.woowla.ghd.data.local.room.daos.ReviewSeenDao
 import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import kotlinx.coroutines.Dispatchers
 
 @Database(
-    version = 3,
+    version = 4,
     entities = [
         PullRequest::class,
-        PullRequestSeen::class,
         Release::class,
         RepoToCheck::class,
         Review::class,
-        ReviewSeen::class,
         SyncResult::class,
         SyncResultEntry::class,
         SyncSettings::class,
@@ -47,6 +42,7 @@ import kotlinx.coroutines.Dispatchers
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3, spec = AppDatabase.AutoMigrationFrom2To3::class),
+        AutoMigration(from = 3, to = 4, spec = AppDatabase.AutoMigrationFrom3To4::class),
     ],
 )
 @TypeConverters(Converters::class)
@@ -72,11 +68,9 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun databaseDao(): DatabaseDao
     abstract fun pullRequestDao(): PullRequestDao
-    abstract fun pullRequestSeenDao(): PullRequestSeenDao
     abstract fun releaseDao(): ReleaseDao
     abstract fun repoToCheckDao(): RepoToCheckDao
     abstract fun reviewDao(): ReviewDao
-    abstract fun reviewSeenDao(): ReviewSeenDao
     abstract fun syncResultDao(): SyncResultDao
     abstract fun syncResultEntryDao(): SyncResultEntryDao
     abstract fun syncSettingsDao(): SyncSettingsDao
@@ -84,4 +78,8 @@ abstract class AppDatabase : RoomDatabase() {
     @DeleteColumn(tableName = "pull_request", columnName = "mergeable")
     @DeleteColumn(tableName = "pull_request", columnName = "app_seen_at")
     class AutoMigrationFrom2To3 : AutoMigrationSpec
+
+    @DeleteTable(tableName = "pull_request_seen")
+    @DeleteTable(tableName = "review_seen")
+    class AutoMigrationFrom3To4 : AutoMigrationSpec
 }

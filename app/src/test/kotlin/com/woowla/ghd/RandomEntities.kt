@@ -6,17 +6,13 @@ import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
-import com.woowla.ghd.domain.entities.PullRequestSeen
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
-import com.woowla.ghd.domain.entities.ReviewSeen
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.domain.mappers.toPullRequestSeen
-import com.woowla.ghd.domain.mappers.toReviewSeen
 
 object RandomEntities {
     fun appSettings() = AppSettings(
@@ -62,10 +58,6 @@ object RandomEntities {
         author = author,
     )
 
-    fun pullRequestSeen(
-        repoToCheckId: Long = RandomValues.randomLong(),
-    ) = pullRequest(repoToCheckId).toPullRequestSeen(RandomValues.randomInstant())
-
     fun pullRequestWithRepoAndReviews(
         repoToCheck: RepoToCheck = repoToCheck(),
         pullRequest: PullRequest = pullRequest(),
@@ -74,8 +66,6 @@ object RandomEntities {
         pullRequest = pullRequest,
         repoToCheck = repoToCheck,
         reviews = reviews,
-        pullRequestSeen = pullRequestSeen(),
-        reviewsSeen = listOf(reviewSeen())
     )
 
     fun release(
@@ -117,11 +107,6 @@ object RandomEntities {
         state = ReviewState.entries.random(),
         author = author()
     )
-
-    fun reviewSeen(
-        pullRequestId: String = RandomValues.randomString(),
-    ): ReviewSeen = review(pullRequestId).toReviewSeen()
-
 
     fun author() = Author(
         login = RandomValues.randomString(),

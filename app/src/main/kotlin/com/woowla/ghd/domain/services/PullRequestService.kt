@@ -15,8 +15,6 @@ import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
-import com.woowla.ghd.domain.mappers.toPullRequestSeen
-import com.woowla.ghd.domain.mappers.toReviewSeen
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
@@ -36,23 +34,6 @@ class PullRequestService(
             .mapCatching { pullRequests ->
                 pullRequests.sorted()
             }
-    }
-
-    suspend fun unmarkAsSeen(id: String): Result<Unit> {
-        return localDataSource.removePullRequestSeen(id)
-    }
-
-    suspend fun markAsSeen(id: String): Result<Unit> {
-        val now = Clock.System.now()
-        return localDataSource
-            .getPullRequest(id)
-            .onSuccess { pr ->
-                localDataSource.upsertPullRequestSeen(pr.pullRequest.toPullRequestSeen(now))
-            }
-            .onSuccess { pr ->
-                localDataSource.upsertReviewsSeen(pr.reviews.map { it.toReviewSeen() })
-            }
-            .map { value -> Unit }
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
@@ -95,10 +76,7 @@ class PullRequestService(
                 null
             } else {
                 val pullRequests = apiPullRequests.map { apiPullRequest ->
-                    val pullRequestWithRepos = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
-                    val pullRequestSeen = pullRequestWithRepos?.pullRequestSeen
-                    val reviewSeen = pullRequestWithRepos?.reviewsSeen ?: listOf()
-                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, pullRequestSeen = pullRequestSeen, reviewsSeen = reviewSeen)
+                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck)
                 }
                 pullRequests
             }

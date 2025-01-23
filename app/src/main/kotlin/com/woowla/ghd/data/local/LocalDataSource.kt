@@ -191,14 +191,10 @@ class LocalDataSource(
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
             val pullRequest = appDatabase.pullRequestDao().get(id)
-            val pullRequestSeen = appDatabase.pullRequestSeenDao().get(id)
-            val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = id)
             PullRequestWithRepoAndReviews(
                 repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                 pullRequest = pullRequest,
                 reviews = reviewList,
-                pullRequestSeen = pullRequestSeen,
-                reviewsSeen = reviewsSeen,
             )
         }
     }
@@ -209,14 +205,10 @@ class LocalDataSource(
                 .getAll()
                 .map { pullRequest ->
                     val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
-                    val pullRequestSeen = appDatabase.pullRequestSeenDao().get(pullRequest.id)
-                    val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = pullRequest.id)
                     PullRequestWithRepoAndReviews(
                         repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                         pullRequest = pullRequest,
                         reviews = reviewList,
-                        pullRequestSeen = pullRequestSeen,
-                        reviewsSeen = reviewsSeen,
                     )
                 }
         }
@@ -229,17 +221,6 @@ class LocalDataSource(
     suspend fun removePullRequests(ids: List<String>): Result<Unit> {
         return runCatching {
             appDatabase.pullRequestDao().delete(ids)
-        }
-    }
-
-    suspend fun upsertPullRequestSeen(pullRequest: PullRequestSeen): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestSeenDao().insert(listOf(pullRequest))
-        }
-    }
-    suspend fun removePullRequestSeen(id: String): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestSeenDao().delete(listOf(id))
         }
     }
 
@@ -281,20 +262,6 @@ class LocalDataSource(
 
         return runCatching {
             appDatabase.reviewDao().insert(reviews)
-        }
-    }
-
-
-    suspend fun removeReviewsSeenByPullRequest(pullRequestIds: List<String>): Result<Unit> {
-        return runCatching {
-            appDatabase.reviewSeenDao().deleteByPullRequest(pullRequestIds)
-        }
-    }
-    suspend fun upsertReviewsSeen(reviews: List<ReviewSeen>): Result<Unit> {
-        if (reviews.isEmpty()) return Result.success(Unit)
-
-        return runCatching {
-            appDatabase.reviewSeenDao().insert(reviews)
         }
     }
 

@@ -183,8 +183,6 @@ repositories:
     val pull_request_state_merged = "Merged"
     val pull_request_state_draft = "Draft"
     val pull_request_state_unknown = "Unknown"
-    val pull_request_seen = "Seen"
-    val pull_request_unseen = "Unseen"
     val pull_request_comments: (Long) -> String = {
         when(it) {
             1L -> "$it comment"
