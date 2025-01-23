@@ -1,15 +1,15 @@
 [versions]
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.28"
-compose-jetbrains = "1.7.1"
+kotlin = "2.1.0"
+ksp = "2.1.0-1.0.29"
+compose-jetbrains = "1.7.3"
 apollo3 = "3.8.5"
 kotest = "5.9.1"
-ktor = "3.0.1"
-androidx-room = "2.7.0-alpha11"
-androidx-sqlite = "2.5.0-alpha11"
-coil = "3.0.3"
+ktor = "3.0.3"
+androidx-room = "2.7.0-alpha12"
+androidx-sqlite = "2.5.0-alpha12"
+coil = "3.0.4"
 flowredux = "1.2.2"
-arrow = "1.2.4"
+arrow = "2.0.0"
 
 [plugins]
 # Kotlin for JVM
@@ -28,13 +28,13 @@ apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
 buildconfig = "com.github.gmazzo.buildconfig:5.5.1"
 # Discover dependency updates
-benmanesversions = "com.github.ben-manes.versions:0.51.0"
+benmanesversions = "com.github.ben-manes.versions:0.52.0"
 # Android multiplatform, room
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 
 [libraries]
 # Android multiplatform, navigation
-androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10"
+androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha12"
 # Android multiplatform, viewmodel
 androidx-lifecycle-viewmodel-compose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
 # Android multiplatform, room + sqlite
@@ -42,7 +42,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.9.0"
+kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1"
 # date time kotlin lib
 kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
 # ktor http client (needed for coil and some API requests)
@@ -53,9 +53,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 # GraphQL client
 apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo3" }
 # logger
-logback-classic = "ch.qos.logback:logback-classic:1.5.12"
+logback-classic = "ch.qos.logback:logback-classic:1.5.16"
 # cross-platform lib to resolve some application directories for desktop
-appdirs = "net.harawata:appdirs:1.2.2"
+appdirs = "net.harawata:appdirs:1.3.0"
 # coil, image loading and caching
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
@@ -66,19 +66,19 @@ flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref =
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
 # YAML support for kotlinx.serialization
-kaml = "com.charleskorn.kaml:kaml:0.66.0"
+kaml = "com.charleskorn.kaml:kaml:0.67.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
 semver = "net.swiftzer.semver:semver:2.0.0"
 # multiplatform library for saving simple key-value data
-settings = "com.russhwolf:multiplatform-settings:1.2.0"
+settings = "com.russhwolf:multiplatform-settings:1.3.0"
 # icons
-icons-tabler = "com.woowla.compose.icon.collections:tabler:3.22.0"
+icons-tabler = "com.woowla.compose.icon.collections:tabler:3.28.1"
 # simple way to work with tray applications with native support for Linux and Windows.
-composenativetray = "io.github.kdroidfilter:composenativetray:0.4.0"
+composenativetray = "io.github.kdroidfilter:composenativetray:0.5.4"
 # Compose multiplatform library for generating dynamic Material3 color schemes from a seed color
 materialkolor = "com.materialkolor:material-kolor:2.0.0"
 # mockk, mocking library for Kotlin
-mockk = "io.mockk:mockk:1.13.13"
+mockk = "io.mockk:mockk:1.13.16"
 # kotest runner
 test-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 # kotest property-based testing (right now used only for the data generators)
