@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0]
 ### Changed
 - 🎨 New application design
+### Removed
+- Mark as seen
 
 ## [1.6.0]
 ### Added
