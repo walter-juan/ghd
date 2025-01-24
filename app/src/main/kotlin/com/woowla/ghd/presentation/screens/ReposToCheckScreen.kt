@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Search
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
@@ -19,7 +20,7 @@ import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
 import org.koin.compose.viewmodel.koinViewModel
 
-object RepoToCheckScreen {
+object ReposToCheckScreen {
     @Composable
     fun Content(
         viewModel : ReposToCheckViewModel = koinViewModel(),
@@ -83,9 +84,13 @@ object RepoToCheckScreen {
                     is ReposToCheckStateMachine.St.Success -> {
                         if (state.groupNameFilters.isNotEmpty()) {
                             ReposFilters(
+                                searchQuery = state.searchQuery,
                                 groupNameFilters = state.groupNameFilters,
                                 groupNameFilterSizes = state.groupNameFilterSizes,
                                 groupNameFiltersSelected = state.groupNameFiltersSelected,
+                                onSearchQueryChanged = { searchQuery ->
+                                    viewModel.dispatch(ReposToCheckStateMachine.Act.SearchQueryChanged(searchQuery))
+                                },
                                 onGroupNameChanged = { isSelected, groupName ->
                                     viewModel.dispatch(
                                         ReposToCheckStateMachine.Act.GroupNameFilterSelected(
@@ -140,9 +145,11 @@ object RepoToCheckScreen {
 
     @Composable
     private fun ReposFilters(
+        searchQuery: String,
         groupNameFilters: Set<String>,
         groupNameFilterSizes: Map<String, Int>,
         groupNameFiltersSelected: Set<String>,
+        onSearchQueryChanged: (String) -> Unit,
         onGroupNameChanged: (isSelected: Boolean, groupName: String) -> Unit,
     ) {
         Header {
@@ -158,6 +165,20 @@ object RepoToCheckScreen {
                     },
                 )
             }
+            Spacer(modifier = Modifier.width(10.dp))
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = onSearchQueryChanged,
+                leadingIcon = {
+                    Icon(
+                        Tabler.Outline.Search,
+                        contentDescription = null,
+                    )
+                },
+                supportingText = { Text("Search by name or group") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

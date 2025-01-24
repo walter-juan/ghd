@@ -62,13 +62,9 @@ import io.ktor.client.*
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
-import org.koin.core.module.dsl.factoryOf
-import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
-import kotlin.math.sin
 
 fun main() {
     startKoin {
@@ -91,7 +87,7 @@ fun main() {
                 viewModel<ReleasesViewModel> { ReleasesViewModel(get()) }
                 viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get()) }
                 viewModel<ReposToCheckViewModel> { ReposToCheckViewModel(get()) }
-                viewModel<RepoToCheckEditViewModel> { (repoToCheckId : Long) ->
+                viewModel<RepoToCheckEditViewModel> { (repoToCheckId : Long?) ->
                     RepoToCheckEditViewModel(get { parametersOf(repoToCheckId) })
                 }
                 viewModel<SettingsViewModel> { SettingsViewModel(get()) }
@@ -105,7 +101,7 @@ fun main() {
                 factory<ReleasesStateMachine> { ReleasesStateMachine(get(), get(), get()) }
                 factory<ReposToCheckBulkStateMachine> { ReposToCheckBulkStateMachine(get()) }
                 factory<ReposToCheckStateMachine> { ReposToCheckStateMachine(get(), get()) }
-                factory<RepoToCheckEditStateMachine> { (repoToCheckId : Long) ->
+                factory<RepoToCheckEditStateMachine> { (repoToCheckId : Long?) ->
                     RepoToCheckEditStateMachine(repoToCheckId = repoToCheckId, get())
                 }
                 factory<SettingsStateMachine> { SettingsStateMachine(get(), get()) }

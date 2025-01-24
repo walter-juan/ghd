@@ -89,7 +89,7 @@ object HomeScreen {
                     )
                 }
                 composable(AppScreen.RepoToCheckList.route) {
-                    RepoToCheckScreen.Content(
+                    ReposToCheckScreen.Content(
                         onEditRepoClick = { repoToCheck ->
                             navController.navigate(
                                 route = AppScreen.RepoToCheckEdit.route.replace("{id}", repoToCheck.id.toString()),
