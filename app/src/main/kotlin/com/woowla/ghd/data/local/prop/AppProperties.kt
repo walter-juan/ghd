@@ -39,6 +39,8 @@ class AppProperties {
     var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
 
     var filtersPullRequestState: String? by settings.nullableString("filtersPullRequestState")
+    var filtersReleaseGroupName: String? by settings.nullableString("filtersReleaseGroupName")
+    var filtersRepoToCheckGroupName: String? by settings.nullableString("filtersRepoToCheckGroupName")
 
     var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
     var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")

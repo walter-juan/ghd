@@ -37,15 +37,15 @@ class ReposToCheckStateMachine(
         spec {
             inState<St.Initializing> {
                 onEnter { state ->
-                    load(state, searchQuery = "", groupNameFiltersSelected = emptySet())
+                    load(state, searchQuery = "")
                 }
                 on<Act.Reload> { _, state ->
-                    load(state, searchQuery = "", groupNameFiltersSelected = emptySet())
+                    load(state, searchQuery = "")
                 }
             }
             inState<St.Success> {
                 on<Act.Reload> { _, state ->
-                    load(state, searchQuery = state.snapshot.searchQuery, groupNameFiltersSelected = state.snapshot.groupNameFiltersSelected)
+                    load(state, searchQuery = state.snapshot.searchQuery)
                 }
                 on<Act.GroupNameFilterSelected> { action, state ->
                     filter(state, groupName = action.groupName, isSelected = action.isSelected)
@@ -65,44 +65,49 @@ class ReposToCheckStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>, searchQuery: String, groupNameFiltersSelected: Set<String>): ChangedState<St> {
-        val appSettings = appSettingsService.get().getOrNull()
+    private suspend fun <T: St> load(state: State<T>, searchQuery: String): ChangedState<St> {
+        return try {
+            val appSettings = appSettingsService.get().getOrThrow()
+            val groupNameFiltersSelected = appSettings.filtersRepoToCheckGroupName
 
-        return repoToCheckService.getAll()
-            .fold(
-                onSuccess = { reposToCheck ->
-                    val groupNameFilters = reposToCheck.mapNotNull { it.groupName }.distinct().filter { it.isNotBlank() }.toSet()
-                    val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
-                        reposToCheck.count { it.groupName == groupName }
-                    }
-                    // clean up in case a group is no-available anymore
-                    val groupNameFiltersSelectedRecalculated = groupNameFiltersSelected.filter { groupNameFilters.contains(it) }.toSet()
+            repoToCheckService.getAll()
+                .fold(
+                    onSuccess = { reposToCheck ->
+                        val groupNameFilters = reposToCheck.mapNotNull { it.groupName }.distinct().filter { it.isNotBlank() }.toSet()
+                        val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
+                            reposToCheck.count { it.groupName == groupName }
+                        }
+                        // clean up in case a group is no-available anymore
+                        val groupNameFiltersSelectedRecalculated = groupNameFiltersSelected.filter { groupNameFilters.contains(it) }.toSet()
 
-                    val releasesFiltered = reposToCheck.filter {
-                        groupNameFiltersSelectedRecalculated.isEmpty() || groupNameFiltersSelectedRecalculated.contains(it.groupName)
-                    }
+                        val releasesFiltered = reposToCheck.filter {
+                            groupNameFiltersSelectedRecalculated.isEmpty() || groupNameFiltersSelectedRecalculated.contains(it.groupName)
+                        }
 
-                    state.override {
-                        St.Success(
-                            reposToCheck = reposToCheck,
-                            reposToCheckFiltered = releasesFiltered,
-                            appSettings = appSettings,
-                            groupNameFilters = groupNameFilters,
-                            groupNameFilterSizes = groupNameFilterSizes,
-                            groupNameFiltersSelected = groupNameFiltersSelectedRecalculated,
-                            searchQuery = searchQuery,
-                        )
+                        state.override {
+                            St.Success(
+                                reposToCheck = reposToCheck,
+                                reposToCheckFiltered = releasesFiltered,
+                                appSettings = appSettings,
+                                groupNameFilters = groupNameFilters,
+                                groupNameFilterSizes = groupNameFilterSizes,
+                                groupNameFiltersSelected = groupNameFiltersSelectedRecalculated,
+                                searchQuery = searchQuery,
+                            )
+                        }
+                    },
+                    onFailure = {
+                        state.override { St.Error(it) }
                     }
-                },
-                onFailure = {
-                    state.override { St.Error(it) }
-                }
-            )
+                )
+        } catch (throwable: Throwable) {
+            state.override { St.Error(throwable) }
+        }
     }
 
     private suspend fun deleteRepo(state: State<St.Success>, repoToCheck: RepoToCheck): ChangedState<St> {
         repoToCheckService.delete(repoToCheck.id)
-        return load(state, searchQuery = state.snapshot.searchQuery, groupNameFiltersSelected = state.snapshot.groupNameFiltersSelected)
+        return load(state, searchQuery = state.snapshot.searchQuery)
     }
 
     private fun filter(state: State<St.Success>, searchQuery: String): ChangedState<St> {
@@ -118,22 +123,18 @@ class ReposToCheckStateMachine(
         }
     }
 
-    private fun filter(state: State<St.Success>, groupName: String, isSelected: Boolean): ChangedState<St> {
+    private suspend fun filter(state: State<St.Success>, groupName: String, isSelected: Boolean): ChangedState<St> {
         val groupNameFiltersSelected = if (isSelected) {
             state.snapshot.groupNameFiltersSelected - groupName
         } else {
             state.snapshot.groupNameFiltersSelected + groupName
         }
-        val reposToCheckFiltered = state.snapshot.reposToCheck.filter(
-            searchQuery = state.snapshot.searchQuery,
-            groupNames = groupNameFiltersSelected,
-        )
-        return state.mutate {
-            this.copy(
-                reposToCheckFiltered = reposToCheckFiltered,
-                groupNameFiltersSelected = groupNameFiltersSelected,
-            )
-        }
+
+        val appSettings = state.snapshot.appSettings.copy(filtersRepoToCheckGroupName = groupNameFiltersSelected)
+        appSettingsService.save(appSettings)
+
+        // no change because the SETTINGS_UPDATED will be triggered automatically
+        return state.noChange()
     }
 
     private fun List<RepoToCheck>.filter(searchQuery: String, groupNames: Set<String>): List<RepoToCheck> {
@@ -160,7 +161,7 @@ class ReposToCheckStateMachine(
         data class Success(
             val reposToCheck: List<RepoToCheck>,
             val reposToCheckFiltered: List<RepoToCheck>,
-            val appSettings: AppSettings?,
+            val appSettings: AppSettings,
             val searchQuery: String,
             val groupNameFilters: Set<String>,
             val groupNameFilterSizes: Map<String, Int>,

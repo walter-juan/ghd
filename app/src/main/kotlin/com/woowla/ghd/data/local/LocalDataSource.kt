@@ -21,9 +21,23 @@ class LocalDataSource(
                 ?.toSet()
                 ?: emptySet()
 
+            val filtersReleaseGroupName = appProperties.filtersReleaseGroupName
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.toSet()
+                ?: emptySet()
+
+            val filtersRepoToCheckGroupName = appProperties.filtersRepoToCheckGroupName
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.toSet()
+                ?: emptySet()
+
             AppSettings(
                 darkTheme = appProperties.darkTheme,
                 filtersPullRequestState = filtersPullRequestState,
+                filtersReleaseGroupName = filtersReleaseGroupName,
+                filtersRepoToCheckGroupName = filtersRepoToCheckGroupName,
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
 
@@ -51,6 +65,8 @@ class LocalDataSource(
             appProperties.darkTheme = appSettings.darkTheme
 
             appProperties.filtersPullRequestState = appSettings.filtersPullRequestState.joinToString(separator = ",")
+            appProperties.filtersReleaseGroupName = appSettings.filtersReleaseGroupName.joinToString(separator = ",")
+            appProperties.filtersRepoToCheckGroupName = appSettings.filtersRepoToCheckGroupName.joinToString(separator = ",")
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 

@@ -40,15 +40,15 @@ class ReleasesStateMachine(
         spec {
             inState<St.Initializing> {
                 onEnter { state ->
-                    load(state, groupNameFiltersSelected = emptySet())
+                    load(state)
                 }
                 on<Act.Reload> { _, state ->
-                    load(state, groupNameFiltersSelected = emptySet())
+                    load(state)
                 }
             }
             inState<St.Success> {
                 on<Act.Reload> { _, state ->
-                    load(state, groupNameFiltersSelected = state.snapshot.groupNameFiltersSelected)
+                    load(state)
                 }
                 on<Act.GroupNameFilterSelected> { action, state ->
                     filter(state, groupName = action.groupName, isSelected = action.isSelected)
@@ -62,60 +62,58 @@ class ReleasesStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>, groupNameFiltersSelected: Set<String>): ChangedState<St> {
-        val syncResult = synchronizer.getLastSyncResult().getOrNull()
-        val appSettings = appSettingsService.get().getOrNull()
+    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
+        return try {
+            val syncResult = synchronizer.getLastSyncResult().getOrNull()
+            val appSettings = appSettingsService.get().getOrThrow()
+            val groupNameFiltersSelected = appSettings.filtersReleaseGroupName
 
-        return releaseService.getAll()
-            .fold(
-                onSuccess = { releases ->
-                    val groupNameFilters = releases.mapNotNull { it.repoToCheck.groupName }.distinct().filter { it.isNotBlank() }.toSet()
-                    val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
-                        releases.count { it.repoToCheck.groupName == groupName }
-                    }
-                    // clean up in case a group is no-available anymore
-                    val groupNameFiltersSelectedRecalculated = groupNameFiltersSelected.filter { groupNameFilters.contains(it) }.toSet()
+            releaseService.getAll()
+                .fold(
+                    onSuccess = { releases ->
+                        val groupNameFilters = releases.mapNotNull { it.repoToCheck.groupName }.distinct().filter { it.isNotBlank() }.toSet()
+                        val groupNameFilterSizes = groupNameFilters.associateWith { groupName ->
+                            releases.count { it.repoToCheck.groupName == groupName }
+                        }
+                        // clean up in case a group is no-available anymore
+                        val groupNameFiltersSelectedRecalculated = groupNameFiltersSelected.filter { groupNameFilters.contains(it) }.toSet()
 
-                    val releasesFiltered = releases.filter {
-                        groupNameFiltersSelectedRecalculated.isEmpty() || groupNameFiltersSelectedRecalculated.contains(it.repoToCheck.groupName)
+                        val releasesFiltered = releases.filter {
+                            groupNameFiltersSelectedRecalculated.isEmpty() || groupNameFiltersSelectedRecalculated.contains(it.repoToCheck.groupName)
+                        }
+                        state.override {
+                            St.Success(
+                                releases = releases,
+                                releasesFiltered = releasesFiltered,
+                                syncResultWithEntries = syncResult,
+                                appSettings = appSettings,
+                                groupNameFilters = groupNameFilters,
+                                groupNameFilterSizes = groupNameFilterSizes,
+                                groupNameFiltersSelected = groupNameFiltersSelectedRecalculated
+                            )
+                        }
+                    },
+                    onFailure = {
+                        state.override { St.Error(it) }
                     }
-                    state.override {
-                        St.Success(
-                            releases = releases,
-                            releasesFiltered = releasesFiltered,
-                            syncResultWithEntries = syncResult,
-                            appSettings = appSettings,
-                            groupNameFilters = groupNameFilters,
-                            groupNameFilterSizes = groupNameFilterSizes,
-                            groupNameFiltersSelected = groupNameFiltersSelectedRecalculated
-                        )
-                    }
-                },
-                onFailure = {
-                    state.override { St.Error(it) }
-                }
-            )
+                )
+        } catch (e: Throwable) {
+            state.override { St.Error(e) }
+        }
     }
 
-    private fun filter(
-        state: State<St.Success>,
-        groupName: String,
-        isSelected: Boolean,
-    ): ChangedState<St> {
+    private suspend fun filter(state: State<St.Success>, groupName: String, isSelected: Boolean): ChangedState<St> {
         val groupNameFiltersSelected = if (isSelected) {
             state.snapshot.groupNameFiltersSelected - groupName
         } else {
             state.snapshot.groupNameFiltersSelected + groupName
         }
-        val releasesFiltered = state.snapshot.releases.filter {
-            groupNameFiltersSelected.isEmpty() || groupNameFiltersSelected.contains(it.repoToCheck.groupName)
-        }
-        return state.mutate {
-            this.copy(
-                releasesFiltered = releasesFiltered,
-                groupNameFiltersSelected = groupNameFiltersSelected,
-            )
-        }
+
+        val appSettings = state.snapshot.appSettings.copy(filtersReleaseGroupName = groupNameFiltersSelected)
+        appSettingsService.save(appSettings)
+
+        // no change because the SETTINGS_UPDATED will be triggered automatically
+        return state.noChange()
     }
 
     sealed interface St {
@@ -124,7 +122,7 @@ class ReleasesStateMachine(
             val releases: List<ReleaseWithRepo>,
             val releasesFiltered: List<ReleaseWithRepo>,
             val syncResultWithEntries: SyncResultWithEntriesAndRepos?,
-            val appSettings: AppSettings?,
+            val appSettings: AppSettings,
             val groupNameFilters: Set<String>,
             val groupNameFilterSizes: Map<String, Int>,
             val groupNameFiltersSelected: Set<String>,
