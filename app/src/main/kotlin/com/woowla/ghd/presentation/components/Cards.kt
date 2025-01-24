@@ -27,6 +27,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Edit
 import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
@@ -124,7 +125,7 @@ fun RepoToCheckCard(
 
     CardListItem(
         modifier = modifier,
-        onClick = { onEditClick.invoke(repoToCheck) },
+        onClick = { onOpenClick.invoke(repoToCheck) },
         title = repoToCheckDecorator.fullRepo,
         subtitle = if(repoToCheck.groupName.isNullOrBlank()) { i18n.screen_edit_repo_to_no_group } else { repoToCheck.groupName },
         leadingContent = {
@@ -179,17 +180,17 @@ fun RepoToCheckCard(
                         labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         trailingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     ),
-                    onClick = { onOpenClick.invoke(repoToCheck) },
+                    onClick = { onEditClick.invoke(repoToCheck) },
                     modifier = Modifier.height(30.dp),
                     trailingIcon = {
                         Icon(
-                            imageVector = Tabler.Outline.ExternalLink,
+                            imageVector = Tabler.Outline.Edit,
                             contentDescription = null,
                             modifier = Modifier.padding(vertical = 5.dp)
                         )
                     },
                     label = {
-                        Text(text = "Open")
+                        Text(text = "Edit")
                     }
                 )
                 Spacer(modifier = Modifier.height(15.dp))
