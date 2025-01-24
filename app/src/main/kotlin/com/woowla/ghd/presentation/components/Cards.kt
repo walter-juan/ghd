@@ -3,7 +3,9 @@ package com.woowla.ghd.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
@@ -14,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,6 +27,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
@@ -111,6 +115,7 @@ fun SynResultEntryCard(
 @Composable
 fun RepoToCheckCard(
     repoToCheck: RepoToCheck,
+    onOpenClick: (RepoToCheck) -> Unit,
     onEditClick: (RepoToCheck) -> Unit,
     onDeleteClick: (RepoToCheck) -> Unit,
     modifier: Modifier = Modifier,
@@ -161,11 +166,33 @@ fun RepoToCheckCard(
             }
         },
         hoverContent = { paddingValues ->
-            Row(
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.fillMaxWidth().padding(paddingValues)
+            Column(
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(paddingValues)
             ) {
+                ElevatedAssistChip(
+                    colors = AssistChipDefaults.elevatedAssistChipColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        labelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        trailingIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
+                    onClick = { onOpenClick.invoke(repoToCheck) },
+                    modifier = Modifier.height(30.dp),
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Tabler.Outline.ExternalLink,
+                            contentDescription = null,
+                            modifier = Modifier.padding(vertical = 5.dp)
+                        )
+                    },
+                    label = {
+                        Text(text = "Open")
+                    }
+                )
+                Spacer(modifier = Modifier.height(15.dp))
                 ElevatedAssistChip(
                     colors = AssistChipDefaults.elevatedAssistChipColors(
                         containerColor = MaterialTheme.colorScheme.errorContainer,

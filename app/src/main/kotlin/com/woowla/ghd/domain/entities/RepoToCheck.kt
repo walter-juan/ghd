@@ -2,6 +2,7 @@ package com.woowla.ghd.domain.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "repo_to_check")
@@ -29,6 +30,10 @@ data class RepoToCheck(
         )
         val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.name }
     }
+
+    val url
+        @Ignore
+        get() = "https://github.com/$owner/$name"
 
     override fun compareTo(other: RepoToCheck): Int {
         return defaultComparator.compare(this, other)

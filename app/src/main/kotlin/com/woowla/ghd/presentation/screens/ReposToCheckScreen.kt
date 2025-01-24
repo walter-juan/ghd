@@ -18,6 +18,7 @@ import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
+import com.woowla.ghd.utils.openWebpage
 import org.koin.compose.viewmodel.koinViewModel
 
 object ReposToCheckScreen {
@@ -107,6 +108,9 @@ object ReposToCheckScreen {
                         } else {
                             ListRepoToCheck(
                                 repoToCheckList = state.reposToCheckFiltered,
+                                onOpenClick = { repoToCheck ->
+                                    openWebpage(repoToCheck.url)
+                                },
                                 onEditRepoClick = onEditRepoClick,
                                 onDeleteRepoClick = { repoToCheck ->
                                     viewModel.dispatch(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheck))
@@ -123,6 +127,7 @@ object ReposToCheckScreen {
     @Composable
     private fun ListRepoToCheck(
         repoToCheckList: List<RepoToCheck>,
+        onOpenClick: (RepoToCheck) -> Unit,
         onEditRepoClick: (RepoToCheck) -> Unit,
         onDeleteRepoClick: (RepoToCheck) -> Unit,
     ) {
@@ -135,6 +140,7 @@ object ReposToCheckScreen {
             repoToCheckList.forEach { repoToCheck ->
                 RepoToCheckCard(
                     repoToCheck = repoToCheck,
+                    onOpenClick = onOpenClick,
                     onEditClick = onEditRepoClick,
                     onDeleteClick = onDeleteRepoClick,
                     modifier = Modifier.sizeIn(maxWidth = AppDimens.cardMaxWidth).fillMaxWidth(),
