@@ -37,10 +37,6 @@ class PullRequestService(
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
-        return newSync(syncResultId, syncSettings, repoToCheckList)
-    }
-
-    suspend fun newSync(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
         AppLogger.d("Synchronizer :: sync :: pulls :: start")
         val prSyncStartAt = Clock.System.now()
         val pullRequestsBefore = getAll().getOrDefault(listOf())
@@ -69,32 +65,24 @@ class PullRequestService(
             )
         }
         // update the local pull requests
-        val pullRequests = apiResponseResults.mapNotNull { (repoToCheck, _, apiResponseResult) ->
-            val apiResponse = apiResponseResult.getOrNull()
-            val apiPullRequests = apiResponse?.data ?: listOf()
-            if (apiPullRequests.isEmpty()) {
-                null
-            } else {
-                val pullRequests = apiPullRequests.map { apiPullRequest ->
+        val pullRequestsWithRepos = apiResponseResults
+            .map { (repoToCheck, _, apiResponseResult) ->
+                val apiPullRequests = apiResponseResult.getOrNull()?.data ?: listOf()
+                apiPullRequests.map { apiPullRequest ->
                     apiPullRequest.toPullRequest(repoToCheck = repoToCheck)
                 }
-                pullRequests
             }
-        }
-
-        val validPullRequests = pullRequests.map { pullRequestsWithRepoAndReviews ->
-            pullRequestsWithRepoAndReviews.filterSyncValid(syncSettings = syncSettings)
-        }
-        validPullRequests.map { pullRequestsWithRepoAndReviews ->
-            localDataSource.upsertPullRequests(pullRequestsWithRepoAndReviews.map { it.pullRequest })
-            localDataSource.removeReviewsByPullRequest(pullRequestsWithRepoAndReviews.map { it.pullRequest.id })
-            val reviews = pullRequestsWithRepoAndReviews.map { it.reviews }.flatten()
-            localDataSource.upsertReviews(reviews)
-        }
+            .flatten()
+            .filterSyncValid(syncSettings = syncSettings)
+        localDataSource.upsertPullRequests(pullRequestsWithRepos.map { it.pullRequest })
+        localDataSource.removeReviewsByPullRequest(pullRequestsWithRepos.map { it.pullRequest.id })
+        val reviews = pullRequestsWithRepos.map { it.reviews }.flatten()
+        localDataSource.upsertReviews(reviews)
 
         // remove pull requests non returned from remote
-        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - validPullRequests.flatten().map { it.pullRequest.id }.toSet()
+        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - pullRequestsWithRepos.map { it.pullRequest.id }.toSet()
         localDataSource.removePullRequests(pullRequestIdsToRemove)
+        cleanUp(syncSettings)
 
         // send the notifications
         val pullRequestsAfter = getAll().getOrDefault(listOf())
