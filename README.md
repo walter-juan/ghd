@@ -108,9 +108,10 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew packageDistributionForCurrentOS
     ```
-- To know which dependencies have updates
+- To know which dependencies have updates, you can use `openBrowser` to open directly the browser with the HTML report:
     ```shell
     ./gradlew dependencyUpdates
+    ./gradlew dependencyUpdates -PopenBrowser=true
     ```
 - Update Gradle version
     ```shell

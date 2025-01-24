@@ -14,11 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [2.0.0]
+### Added
+- `openBrowser` flag to open browser automatically after run `dependencyUpdates`
 ### Changed
 - 🎨 New application design
 - Update dependencies
 ### Removed
 - Mark as seen
+- `Dependency updates` GitHub action
 
 ## [1.6.0]
 ### Added
