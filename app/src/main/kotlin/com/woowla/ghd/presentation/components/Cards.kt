@@ -266,14 +266,14 @@ fun PullRequestCard(
                     icon = pullRequestDecorator.state.icon,
                     color = pullRequestDecorator.state.iconTint()
                 )
-                if (pullRequestWithReviews.pullRequest.hasConflicts) {
-                    Tag(
-                        text = "Conflicts",
-                        icon = Tabler.Outline.Boom,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
                 if (showExtras) {
+                    if (pullRequestWithReviews.pullRequest.hasConflicts) {
+                        Tag(
+                            text = "Conflicts",
+                            icon = Tabler.Outline.Boom,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
                     if (pullRequestWithReviews.pullRequest.canBeMerged) {
                         Tag(
                             text = i18n.screen_pull_requests_can_be_merged,
