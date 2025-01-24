@@ -13,7 +13,7 @@ import java.io.File
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckBulkViewModel(
-    stateMachine: ReposToCheckBulkStateMachine = ReposToCheckBulkStateMachine()
+    stateMachine: ReposToCheckBulkStateMachine,
 ): FlowReduxViewModel<ReposToCheckBulkStateMachine.St, ReposToCheckBulkStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
@@ -24,7 +24,7 @@ class ReposToCheckBulkViewModel(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckBulkStateMachine(
-    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
+    private val repoToCheckService: RepoToCheckService,
 ): FlowReduxStateMachine<ReposToCheckBulkStateMachine.St, ReposToCheckBulkStateMachine.Act>(initialState = St.Success) {
 
     init {

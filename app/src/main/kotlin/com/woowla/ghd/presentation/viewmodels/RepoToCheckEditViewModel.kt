@@ -10,15 +10,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepoToCheckEditViewModel(
-    private val repoToCheckId: Long?,
-    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
-    stateMachine: RepoToCheckEditStateMachine = RepoToCheckEditStateMachine(repoToCheckId, repoToCheckService)
+    stateMachine: RepoToCheckEditStateMachine,
 ): FlowReduxViewModel<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepoToCheckEditStateMachine(
     private val repoToCheckId: Long?,
-    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
+    private val repoToCheckService: RepoToCheckService,
 ) : FlowReduxStateMachine<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(initialState = St.Loading) {
     init {
         spec {

@@ -1,6 +1,5 @@
 package com.woowla.ghd.presentation.viewmodels
 
-import androidx.lifecycle.viewModelScope
 import com.freeletics.flowredux.dsl.ChangedState
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
@@ -11,8 +10,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultEntriesViewModel(
-    private val syncResultId: Long,
-    stateMachine: SyncResultEntriesStateMachine = SyncResultEntriesStateMachine(syncResultId)
+    stateMachine: SyncResultEntriesStateMachine,
 ): FlowReduxViewModel<SyncResultEntriesStateMachine.St, SyncResultEntriesStateMachine.Act>(stateMachine) {
     init {
         dispatch(SyncResultEntriesStateMachine.Act.Load)
@@ -22,7 +20,7 @@ class SyncResultEntriesViewModel(
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultEntriesStateMachine(
     private val syncResultId: Long,
-    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
+    private val synchronizer: Synchronizer,
 ): FlowReduxStateMachine<SyncResultEntriesStateMachine.St, SyncResultEntriesStateMachine.Act>(initialState = St.Initializing) {
 
     init {

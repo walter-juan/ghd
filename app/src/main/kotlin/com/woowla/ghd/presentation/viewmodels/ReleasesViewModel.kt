@@ -17,7 +17,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReleasesViewModel(
-    stateMachine: ReleasesStateMachine = ReleasesStateMachine()
+    stateMachine: ReleasesStateMachine,
 ): FlowReduxViewModel<ReleasesStateMachine.St, ReleasesStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
@@ -31,9 +31,9 @@ class ReleasesViewModel(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReleasesStateMachine(
-    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
-    private val releaseService: ReleaseService = ReleaseService(),
+    private val synchronizer: Synchronizer,
+    private val appSettingsService: AppSettingsService,
+    private val releaseService: ReleaseService,
 ): FlowReduxStateMachine<ReleasesStateMachine.St, ReleasesStateMachine.Act>(initialState = St.Initializing) {
 
     init {

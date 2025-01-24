@@ -17,13 +17,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModel(
-    stateMachine: SettingsStateMachine = SettingsStateMachine()
+    stateMachine: SettingsStateMachine,
 ): FlowReduxViewModel<SettingsStateMachine.St, SettingsStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsStateMachine(
-    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val syncSettingsService: SyncSettingsService,
+    private val appSettingsService: AppSettingsService,
 ) : FlowReduxStateMachine<SettingsStateMachine.St, SettingsStateMachine.Act>(initialState = St.Initializing) {
     init {
         spec {

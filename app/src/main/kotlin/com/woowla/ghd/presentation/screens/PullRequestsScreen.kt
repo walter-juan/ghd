@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.SyncResult
@@ -17,11 +16,14 @@ import com.woowla.ghd.presentation.decorators.PullRequestStateDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.PullRequestsStateMachine
 import com.woowla.ghd.presentation.viewmodels.PullRequestsViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 object PullRequestsScreen {
     @Composable
-    fun Content(onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit) {
-        val viewModel = viewModel { PullRequestsViewModel() }
+    fun Content(
+        viewModel : PullRequestsViewModel = koinViewModel(),
+        onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit,
+    ) {
         val state = viewModel.state.collectAsState().value
 
         ScreenScrollable(

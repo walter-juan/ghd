@@ -24,14 +24,13 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-class Synchronizer private constructor(
-    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
-    private val syncSettingsService: SyncSettingsService = SyncSettingsService(),
-    private val synchronizableServiceList: List<SynchronizableService> = listOf(PullRequestService(), ReleaseService()),
-    private val localDataSource: LocalDataSource = LocalDataSource(),
+class Synchronizer(
+    private val repoToCheckService: RepoToCheckService,
+    private val syncSettingsService: SyncSettingsService,
+    private val synchronizableServiceList: List<SynchronizableService>,
+    private val localDataSource: LocalDataSource,
 ) {
     companion object {
-        val INSTANCE = Synchronizer()
         val MAX_SYNC_RESULTS = 1_000
     }
 

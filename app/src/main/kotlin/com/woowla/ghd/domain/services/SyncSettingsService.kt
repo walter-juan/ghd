@@ -6,7 +6,7 @@ import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 
 class SyncSettingsService(
-    private val localDataSource: LocalDataSource = LocalDataSource(),
+    private val localDataSource: LocalDataSource,
 ) {
     suspend fun get(): Result<SyncSettings> {
         return localDataSource.getSyncSettings()

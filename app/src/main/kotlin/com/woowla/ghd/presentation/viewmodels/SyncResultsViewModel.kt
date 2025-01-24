@@ -13,7 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsViewModel(
-    stateMachine: SyncResultsStateMachine = SyncResultsStateMachine()
+    stateMachine: SyncResultsStateMachine
 ): FlowReduxViewModel<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(stateMachine) {
     init {
         dispatch(SyncResultsStateMachine.Act.Load)
@@ -25,7 +25,7 @@ class SyncResultsViewModel(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsStateMachine(
-    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
+    private val synchronizer: Synchronizer,
 ): FlowReduxStateMachine<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(initialState = St.Initializing) {
 
     init {

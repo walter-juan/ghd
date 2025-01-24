@@ -15,7 +15,7 @@ class SplashViewModel: ViewModel() {
     }
 
     private val _navigateToLogin = MutableStateFlow(false)
-    val navigateToLogin: StateFlow<Boolean> = _navigateToLogin
+    val splashFinished: StateFlow<Boolean> = _navigateToLogin
 
     init {
         viewModelScope.launch {

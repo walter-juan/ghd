@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.arrow.optics)
     implementation(libs.materialkolor)
     ksp(libs.arrow.optics.ksp)
+    implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.bundles.koin)
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)

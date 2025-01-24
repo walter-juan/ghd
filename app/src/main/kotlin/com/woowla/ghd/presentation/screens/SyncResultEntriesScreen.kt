@@ -12,7 +12,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -25,14 +24,16 @@ import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesViewModel
 import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesStateMachine
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 object SyncResultEntriesScreen {
     @Composable
     fun Content(
         syncResultId: Long,
+        viewModel : SyncResultEntriesViewModel = koinViewModel { parametersOf(syncResultId) },
         onBackClick: () -> Unit,
     ) {
-        val viewModel = viewModel { SyncResultEntriesViewModel(syncResultId) }
         val state = viewModel.state.collectAsState().value
 
         ScreenScrollable(

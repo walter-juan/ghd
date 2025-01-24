@@ -15,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckViewModel(
-    stateMachine: ReposToCheckStateMachine = ReposToCheckStateMachine()
+    stateMachine: ReposToCheckStateMachine,
 ): FlowReduxViewModel<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
@@ -29,8 +29,8 @@ class ReposToCheckViewModel(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckStateMachine(
-    private val repoToCheckService: RepoToCheckService = RepoToCheckService(),
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val repoToCheckService: RepoToCheckService,
+    private val appSettingsService: AppSettingsService,
 ): FlowReduxStateMachine<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(initialState = St.Initializing) {
 
     init {

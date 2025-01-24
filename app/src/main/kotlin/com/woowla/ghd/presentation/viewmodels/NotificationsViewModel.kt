@@ -25,12 +25,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel(
-    stateMachine: NotificationsStateMachine = NotificationsStateMachine()
+    stateMachine: NotificationsStateMachine,
 ): FlowReduxViewModel<NotificationsStateMachine.St, NotificationsStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsStateMachine(
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val appSettingsService: AppSettingsService,
 ) : FlowReduxStateMachine<NotificationsStateMachine.St, NotificationsStateMachine.Act>(initialState = St.Loading) {
     init {
         spec {

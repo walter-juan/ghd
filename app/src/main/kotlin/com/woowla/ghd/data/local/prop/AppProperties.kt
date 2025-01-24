@@ -19,9 +19,11 @@ import kotlin.io.path.createFile
  * - newReleaseNotificationsEnabled
  * - updatedReleaseNotificationsEnabled
  */
-object AppProperties {
-    private const val PROPERTIES_NAME = "ghd.properties"
-    private const val PROPERTIES_FOLDER = "prop"
+class AppProperties {
+    companion object {
+        private const val PROPERTIES_NAME = "ghd.properties"
+        private const val PROPERTIES_FOLDER = "prop"
+    }
     private val propFolderPath by lazy {
         AppFolderFactory.folder.resolve(PROPERTIES_FOLDER)
     }

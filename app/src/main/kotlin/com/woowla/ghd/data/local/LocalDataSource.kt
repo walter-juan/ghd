@@ -7,8 +7,8 @@ import com.woowla.ghd.utils.enumValueOfOrDefault
 import com.woowla.ghd.utils.enumValueOfOrNull
 
 class LocalDataSource(
-    private val appProperties: AppProperties = AppProperties,
-    private val appDatabase: AppDatabase = AppDatabase.getInstance()
+    private val appProperties: AppProperties,
+    private val appDatabase: AppDatabase,
 ) {
     suspend fun getAppSettings(): Result<AppSettings> {
         return runCatching {

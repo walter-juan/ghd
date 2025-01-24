@@ -18,33 +18,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.rememberDialogState
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.woowla.ghd.domain.services.AppSettingsService
+import com.woowla.ghd.domain.synchronization.Synchronizer
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.app.AppDimens
+import com.woowla.ghd.presentation.app.AppScreen
 import com.woowla.ghd.presentation.app.AppTheme
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 object LoginScreen {
     @Composable
     fun Content(
         navController: NavController,
         onAboutClick: () -> Unit,
+        viewModel : LoginViewModel = koinViewModel(),
     ) {
         val systemDarkTheme = isSystemInDarkTheme()
         var darkTheme by remember { mutableStateOf(systemDarkTheme) }
-        val viewModel = viewModel { LoginViewModel(navController) }
+        val appSettingsService: AppSettingsService = koinInject()
+        val synchronizer: Synchronizer = koinInject()
 
         LaunchedEffect("login-app-theme") {
-            AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+            appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
             EventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
                 launch {
-                    AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+                    appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
                 }
             }
         }
@@ -61,7 +66,11 @@ object LoginScreen {
                     darkTheme = darkTheme,
                     onAboutClick = onAboutClick,
                     onContinue = {
-                        viewModel.navigateHomeScreen()
+                        synchronizer.initialize()
+                        EventBus.publish(Event.APP_UNLOCKED)
+                        navController.navigate(AppScreen.Home.route) {
+                            popUpTo(AppScreen.Login.route) { inclusive = true }
+                        }
                     },
                     onResetDatabase = {
                         viewModel.resetDatabase()

@@ -11,7 +11,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableExport
@@ -23,13 +22,14 @@ import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckBulkViewModel
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckBulkStateMachine
+import org.koin.compose.viewmodel.koinViewModel
 
 object RepoToCheckBulkScreen {
     @Composable
     fun Content(
+        viewModel : ReposToCheckBulkViewModel = koinViewModel(),
         onBackClick: (() -> Unit),
     ) {
-        val viewModel = viewModel { ReposToCheckBulkViewModel() }
         val state = viewModel.state.collectAsState().value
 
         var isBulkImportFileDialogOpen by remember { mutableStateOf(false) }

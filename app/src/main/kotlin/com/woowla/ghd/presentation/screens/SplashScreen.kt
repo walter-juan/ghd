@@ -23,19 +23,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.woowla.ghd.presentation.app.AppIconsPainter
-import com.woowla.ghd.presentation.app.AppScreen
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
 import kotlinx.coroutines.delay
+import org.koin.compose.viewmodel.koinViewModel
 
 object SplashScreen {
     @Composable
-    fun Content(navController: NavController) {
-        val viewModel = viewModel { SplashViewModel() }
-        val navigateToLogin by viewModel.navigateToLogin.collectAsState()
+    fun Content(
+        navigateToLogin: () -> Unit,
+        viewModel : SplashViewModel = koinViewModel(),
+    ) {
+        val splashFinished by viewModel.splashFinished.collectAsState()
         var visible by remember { mutableStateOf(false) }
 
         LaunchedEffect("logo-visibility") {
@@ -43,10 +43,8 @@ object SplashScreen {
             visible = true
         }
 
-        if (navigateToLogin) {
-            navController.navigate(AppScreen.Login.route) {
-                popUpTo(AppScreen.Splash.route) { inclusive = true }
-            }
+        if (splashFinished) {
+            navigateToLogin.invoke()
         }
 
         Scaffold {

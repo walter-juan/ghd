@@ -35,7 +35,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
@@ -54,13 +53,14 @@ import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.St
+import org.koin.compose.viewmodel.koinViewModel
 
 object SettingsScreen {
     @Composable
     fun Content(
+        viewModel : SettingsViewModel = koinViewModel(),
         onSyncResultsClicked: () -> Unit,
     ) {
-        val viewModel = viewModel { SettingsViewModel() }
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,

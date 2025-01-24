@@ -18,7 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PullRequestsViewModel(
-    stateMachine: PullRequestsStateMachine = PullRequestsStateMachine()
+    stateMachine: PullRequestsStateMachine,
 ): FlowReduxViewModel<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
@@ -32,9 +32,9 @@ class PullRequestsViewModel(
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PullRequestsStateMachine(
-    private val synchronizer: Synchronizer = Synchronizer.INSTANCE,
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
-    private val pullRequestService: PullRequestService = PullRequestService(),
+    private val synchronizer: Synchronizer,
+    private val appSettingsService: AppSettingsService,
+    private val pullRequestService: PullRequestService,
 ): FlowReduxStateMachine<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(initialState = St.Initializing) {
 
     init {

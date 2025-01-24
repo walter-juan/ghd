@@ -24,10 +24,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.Clock
 
 class PullRequestService(
-    private val localDataSource: LocalDataSource = LocalDataSource(),
-    private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
-    private val notificationsSender: NotificationsSender = NotificationsSender.getInstance(),
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val notificationsSender: NotificationsSender,
+    private val appSettingsService: AppSettingsService,
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<PullRequestWithRepoAndReviews>> {
         return localDataSource.getAllPullRequests()

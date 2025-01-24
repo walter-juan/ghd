@@ -30,6 +30,7 @@ import com.woowla.ghd.presentation.screens.LoginScreen
 import com.woowla.ghd.presentation.screens.SplashScreen
 import com.woowla.ghd.utils.openWebpage
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 
 @Composable
 fun App() {
@@ -37,12 +38,14 @@ fun App() {
     var darkTheme by remember { mutableStateOf(systemDarkTheme) }
     val openNewAppVersionDialog = remember { mutableStateOf(false)  }
     val newAppVersion = remember { mutableStateOf("")  }
+    val appSettingsService: AppSettingsService = koinInject()
+    val appVersionService: AppVersionService = koinInject()
 
     LaunchedEffect("app-theme") {
-        AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+        appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
         EventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
             launch {
-                AppSettingsService().get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
+                appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
             }
         }
     }
@@ -50,7 +53,7 @@ fun App() {
     LaunchedEffect("check-app-update") {
         if (!BuildConfig.DEBUG) {
             // check only on prod releases to avoid checking each time the app is opened
-            AppVersionService().checkForNewVersion().onSuccess { response ->
+            appVersionService.checkForNewVersion().onSuccess { response ->
                 openNewAppVersionDialog.value = response.newVersion
                 newAppVersion.value = response.latestVersion.toString()
             }
@@ -66,7 +69,13 @@ fun App() {
             exitTransition = { ExitTransition.None },
         ) {
             composable(AppScreen.Splash.route) {
-                SplashScreen.Content(navController)
+                SplashScreen.Content(
+                    navigateToLogin = {
+                        navController.navigate(AppScreen.Login.route) {
+                            popUpTo(AppScreen.Splash.route) { inclusive = true }
+                        }
+                    }
+                )
             }
             composable(AppScreen.Login.route) {
                 LoginScreen.Content(

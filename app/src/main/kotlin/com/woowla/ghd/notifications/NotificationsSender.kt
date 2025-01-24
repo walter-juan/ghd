@@ -7,9 +7,6 @@ import com.woowla.ghd.presentation.decorators.PullRequestStateDecorator
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
 
 interface NotificationsSender {
-    companion object {
-        fun getInstance(client: NotificationClient = NotificationClient()): NotificationsSender = NotificationsSenderDefault(client)
-    }
     fun newPullRequest(pull: PullRequest)
     fun newPullRequestReview(pull: PullRequest, review: Review)
     fun newPullRequestReReview(pull: PullRequest)
@@ -18,9 +15,7 @@ interface NotificationsSender {
     fun newRelease(releaseWithRepo: ReleaseWithRepo)
 }
 
-private class NotificationsSenderDefault(
-    private val client: NotificationClient = NotificationClient()
-): NotificationsSender {
+class NotificationsSenderDefault(private val client: NotificationClient): NotificationsSender {
     override fun newPullRequest(pull: PullRequest) {
         val pullRequestDecorator = PullRequestStateDecorator(pull.stateExtended)
         client.sendNotification(

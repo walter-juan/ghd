@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
@@ -35,14 +34,17 @@ import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
+import io.ktor.http.*
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 object RepoToCheckEditScreen {
     @Composable
     fun Content(
         repoToCheckId: Long?,
+        viewModel : RepoToCheckEditViewModel = koinViewModel { parametersOf(repoToCheckId) },
         onBackClick: () -> Unit
     ) {
-        val viewModel = viewModel { RepoToCheckEditViewModel(repoToCheckId = repoToCheckId) }
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,

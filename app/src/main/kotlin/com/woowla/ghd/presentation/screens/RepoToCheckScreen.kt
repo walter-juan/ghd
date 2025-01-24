@@ -7,7 +7,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
@@ -18,15 +17,16 @@ import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
+import org.koin.compose.viewmodel.koinViewModel
 
 object RepoToCheckScreen {
     @Composable
     fun Content(
+        viewModel : ReposToCheckViewModel = koinViewModel(),
         onEditRepoClick: (RepoToCheck) -> Unit,
         onAddNewRepoClick: () -> Unit,
         onBulkClick: () -> Unit,
     ) {
-        val viewModel = viewModel { ReposToCheckViewModel() }
         val state = viewModel.state.collectAsState().value
 
         val topBarSubtitle = if (state is ReposToCheckStateMachine.St.Success) {

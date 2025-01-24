@@ -10,6 +10,7 @@ androidx-sqlite = "2.5.0-alpha12"
 coil = "3.0.4"
 flowredux = "1.2.2"
 arrow = "2.0.0"
+koin-bom = "4.0.2"
 
 [plugins]
 # Kotlin for JVM
@@ -77,6 +78,11 @@ icons-tabler = "com.woowla.compose.icon.collections:tabler:3.28.1"
 composenativetray = "io.github.kdroidfilter:composenativetray:0.5.4"
 # Compose multiplatform library for generating dynamic Material3 color schemes from a seed color
 materialkolor = "com.materialkolor:material-kolor:2.0.0"
+# Dependency injection framework
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 # mockk, mocking library for Kotlin
 mockk = "io.mockk:mockk:1.13.16"
 # kotest runner
@@ -104,6 +110,11 @@ coil = [
 flowredux = [
     "flowredux-flowredux",
     "flowredux-compose",
+]
+koin = [
+    "koin-core",
+    "koin-compose",
+    "koin-compose-viewmodel",
 ]
 test-kotest = [
     "test-kotest-assertions-core",

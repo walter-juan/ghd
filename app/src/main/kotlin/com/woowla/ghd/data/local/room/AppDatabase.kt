@@ -48,16 +48,7 @@ import kotlinx.coroutines.Dispatchers
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getInstance(): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                getRoomDatabase().also { INSTANCE = it }
-            }
-        }
-
-        private fun getRoomDatabase(): AppDatabase {
+        fun getRoomDatabase(): AppDatabase {
             val dbFile = AppFolderFactory.folder.resolve("room-db").resolve("ghd.db")
             return Room.databaseBuilder<AppDatabase>(name = dbFile.toString())
                 .setDriver(BundledSQLiteDriver())

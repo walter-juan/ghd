@@ -6,7 +6,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
@@ -15,11 +14,14 @@ import com.woowla.ghd.presentation.components.*
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.ReleasesViewModel
 import com.woowla.ghd.presentation.viewmodels.ReleasesStateMachine
+import org.koin.compose.viewmodel.koinViewModel
 
 object ReleasesScreen {
     @Composable
-    fun Content(onSyncResultEntriesClick: (SyncResult) -> Unit) {
-        val viewModel = viewModel { ReleasesViewModel() }
+    fun Content(
+        viewModel : ReleasesViewModel = koinViewModel(),
+        onSyncResultEntriesClick: (SyncResult) -> Unit
+    ) {
         val state = viewModel.state.collectAsState().value
 
         ScreenScrollable(

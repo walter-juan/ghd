@@ -1,16 +1,14 @@
 package com.woowla.ghd.domain.services
 
-import arrow.core.some
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.parsers.RepoToCheckFileParser
-import com.woowla.ghd.domain.parsers.YamlRepoToCheckFileParser
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 
 class RepoToCheckService(
-    private val localDataSource: LocalDataSource = LocalDataSource(),
-    private val fileParser: RepoToCheckFileParser = YamlRepoToCheckFileParser(),
+    private val localDataSource: LocalDataSource,
+    private val fileParser: RepoToCheckFileParser,
 ) {
     suspend fun get(id: Long): Result<RepoToCheck> {
         return localDataSource.getRepoToCheck(id = id)

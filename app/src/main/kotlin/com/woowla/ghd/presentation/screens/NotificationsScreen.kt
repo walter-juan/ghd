@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Activity
@@ -50,13 +49,14 @@ import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 object NotificationsScreen {
     @Composable
     fun Content(
+        viewModel : NotificationsViewModel = koinViewModel(),
         onBackClick: (() -> Unit)? = null,
     ) {
-        val viewModel = viewModel { NotificationsViewModel() }
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,
