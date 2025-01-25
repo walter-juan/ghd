@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0]
 ### Added
 - `openBrowser` flag to open browser automatically after run `dependencyUpdates`
+- Confirmation before delete a repository
 - Koin as dependency injection
 ### Changed
 - 🎨 New application design
@@ -23,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Mark as seen
 - `Dependency updates` GitHub action
+- Login screen
 
 ## [1.6.0]
 ### Added
