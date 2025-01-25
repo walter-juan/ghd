@@ -208,7 +208,7 @@ object SettingsScreen {
                                 i18n.screen_app_settings_github_field_show
                             }
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                                Icon(imageVector = image, contentDescription = description, tint = MaterialTheme.colorScheme.outline, modifier = Modifier.size(25.dp))
+                                Icon(imageVector = image, contentDescription = description, modifier = Modifier.size(25.dp))
                             }
                         },
                         modifier = Modifier.weight(1f)

@@ -9,6 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleX
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ClearAll
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Eye
+import com.woowla.compose.icon.collections.tabler.tabler.outline.EyeOff
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Search
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
@@ -180,6 +184,11 @@ object ReposToCheckScreen {
                         Tabler.Outline.Search,
                         contentDescription = null,
                     )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
+                        Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                    }
                 },
                 supportingText = { Text("Search by name or group") },
                 singleLine = true,
