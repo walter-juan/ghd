@@ -155,38 +155,6 @@ object ReposToCheckScreen {
         )
     }
 
-    @Composable
-    private fun ConfirmationDialog(
-        title: String,
-        message: String,
-        onConfirm: () -> Unit,
-        onDismiss: () -> Unit,
-    ) {
-        AlertDialog(
-            onDismissRequest = onDismiss,
-            title = { Text(title) },
-            text = { Text(message) },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        onConfirm()
-                    }
-                ) {
-                    Text("Yes")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = {
-                        onDismiss()
-                    }
-                ) {
-                    Text("No")
-                }
-            }
-        )
-    }
-
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     private fun ListRepoToCheck(
