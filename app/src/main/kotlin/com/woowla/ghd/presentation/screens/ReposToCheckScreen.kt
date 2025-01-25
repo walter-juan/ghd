@@ -4,15 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleX
-import com.woowla.compose.icon.collections.tabler.tabler.outline.ClearAll
-import com.woowla.compose.icon.collections.tabler.tabler.outline.Eye
-import com.woowla.compose.icon.collections.tabler.tabler.outline.EyeOff
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Search
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
@@ -34,6 +33,8 @@ object ReposToCheckScreen {
         onBulkClick: () -> Unit,
     ) {
         val state = viewModel.state.collectAsState().value
+        val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
+        var repoToCheckToDelete: RepoToCheck? = remember { null }
 
         val topBarSubtitle = if (state is ReposToCheckStateMachine.St.Success) {
             i18n.screen_app_settings_repositories_item_description(state.reposToCheck.size)
@@ -117,14 +118,73 @@ object ReposToCheckScreen {
                                 },
                                 onEditRepoClick = onEditRepoClick,
                                 onDeleteRepoClick = { repoToCheck ->
-                                    viewModel.dispatch(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheck))
+                                    repoToCheckToDelete = repoToCheck
+                                    showDeleteConfirmationDialog.value = true
                                 },
                             )
                         }
+
+                        if (showDeleteConfirmationDialog.value) {
+                            DeleteConfirmationDialog(
+                                onConfirm = {
+                                    viewModel.dispatch(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheckToDelete!!))
+                                    showDeleteConfirmationDialog.value = false
+                                },
+                                onDismiss = {
+                                    showDeleteConfirmationDialog.value = false
+                                }
+                            )
+                        }
+
                     }
                 }
             }
         }
+    }
+
+    @Composable
+    private fun DeleteConfirmationDialog(
+        onConfirm: () -> Unit,
+        onDismiss: () -> Unit,
+    ) {
+        ConfirmationDialog(
+            title = "Delete repository",
+            message = "Are you sure you want to delete this repository?",
+            onConfirm = onConfirm,
+            onDismiss = onDismiss,
+        )
+    }
+
+    @Composable
+    private fun ConfirmationDialog(
+        title: String,
+        message: String,
+        onConfirm: () -> Unit,
+        onDismiss: () -> Unit,
+    ) {
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            title = { Text(title) },
+            text = { Text(message) },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onConfirm()
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text("No")
+                }
+            }
+        )
     }
 
     @OptIn(ExperimentalLayoutApi::class)
