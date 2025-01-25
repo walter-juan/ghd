@@ -14,8 +14,8 @@ class SplashViewModel: ViewModel() {
         private const val MIN_LOADING_TIME = 1200
     }
 
-    private val _navigateToLogin = MutableStateFlow(false)
-    val splashFinished: StateFlow<Boolean> = _navigateToLogin
+    private val _splashFinished = MutableStateFlow(false)
+    val splashFinished: StateFlow<Boolean> = _splashFinished
 
     init {
         viewModelScope.launch {
@@ -23,7 +23,7 @@ class SplashViewModel: ViewModel() {
                 AppFolderFactory.createFolder()
             }
             delay(MIN_LOADING_TIME - timeMillis)
-            _navigateToLogin.value = true
+            _splashFinished.value = true
         }
     }
 }

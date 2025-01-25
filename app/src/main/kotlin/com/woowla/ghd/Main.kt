@@ -1,4 +1,3 @@
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,8 +26,6 @@ import com.woowla.ghd.domain.services.ReleaseService
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.domain.synchronization.Synchronizer
-import com.woowla.ghd.eventbus.Event
-import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.notifications.NotificationsSender
 import com.woowla.ghd.notifications.NotificationsSenderDefault
@@ -38,7 +35,6 @@ import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.app.TrayIcon
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.viewmodels.LoginViewModel
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
 import com.woowla.ghd.presentation.viewmodels.PullRequestsStateMachine
@@ -80,7 +76,6 @@ fun main() {
                 }
 
                 viewModel<SplashViewModel> { SplashViewModel() }
-                viewModel<LoginViewModel> { LoginViewModel(get()) }
                 viewModel<PullRequestsViewModel> { PullRequestsViewModel(get()) }
 
                 viewModel<NotificationsViewModel> { NotificationsViewModel(get()) }
@@ -143,11 +138,11 @@ fun main() {
 
     application {
         val synchronizer: Synchronizer = GlobalContext.get().get()
+        synchronizer.initialize()
         val trayState: TrayState = GlobalContext.get().get()
 
         val coroutineScope = rememberCoroutineScope()
         var isWindowVisible by remember { mutableStateOf(true) }
-        var appUnlocked by remember { mutableStateOf(false) }
         val isSingleInstance = SingleInstanceManager.isSingleInstance(onRestoreRequest = {
             isWindowVisible = true
         })
@@ -155,12 +150,6 @@ fun main() {
         if (!isSingleInstance) {
             exitApplication()
             return@application
-        }
-
-        LaunchedEffect("main-synchronizer") {
-            EventBus.subscribe("main-subscriber", this, Event.APP_UNLOCKED) {
-                appUnlocked = true
-            }
         }
 
         Window(
@@ -172,7 +161,7 @@ fun main() {
         ) {
             MenuBar {
                 Menu(i18n.menu_bar_menu_actions) {
-                    Item(i18n.menu_bar_menu_item_synchronize, enabled = appUnlocked, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                    Item(i18n.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 }
             }
             App()
@@ -184,7 +173,7 @@ fun main() {
             tooltip = i18n.tray_tooltip,
             onAction = { isWindowVisible = true },
             menu = {
-                Item(i18n.tray_item_synchronize, enabled = appUnlocked, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                Item(i18n.tray_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 if (isWindowVisible) {
                     Item(i18n.tray_item_hide_app, onClick = { isWindowVisible = false })
                 } else {

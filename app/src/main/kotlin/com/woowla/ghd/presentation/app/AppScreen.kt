@@ -11,7 +11,6 @@ interface NavigationScreen {
 }
 sealed class AppScreen(open val route: String) {
     data object Splash : AppScreen(route = "splash")
-    data object Login : AppScreen(route = "login")
     data object Home : AppScreen(route = "home")
 
     data object PullRequestList : AppScreen(route = "pull-request"), NavigationScreen {

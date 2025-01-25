@@ -32,7 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 object SplashScreen {
     @Composable
     fun Content(
-        navigateToLogin: () -> Unit,
+        onSplashFinished: () -> Unit,
         viewModel : SplashViewModel = koinViewModel(),
     ) {
         val splashFinished by viewModel.splashFinished.collectAsState()
@@ -44,7 +44,7 @@ object SplashScreen {
         }
 
         if (splashFinished) {
-            navigateToLogin.invoke()
+            onSplashFinished.invoke()
         }
 
         Scaffold {

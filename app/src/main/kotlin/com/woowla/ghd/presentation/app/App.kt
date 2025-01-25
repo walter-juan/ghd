@@ -24,9 +24,7 @@ import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.AppVersionService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
-import com.woowla.ghd.presentation.screens.AboutScreen
 import com.woowla.ghd.presentation.screens.HomeScreen
-import com.woowla.ghd.presentation.screens.LoginScreen
 import com.woowla.ghd.presentation.screens.SplashScreen
 import com.woowla.ghd.utils.openWebpage
 import kotlinx.coroutines.launch
@@ -70,24 +68,11 @@ fun App() {
         ) {
             composable(AppScreen.Splash.route) {
                 SplashScreen.Content(
-                    navigateToLogin = {
-                        navController.navigate(AppScreen.Login.route) {
+                    onSplashFinished = {
+                        navController.navigate(AppScreen.Home.route) {
                             popUpTo(AppScreen.Splash.route) { inclusive = true }
                         }
                     }
-                )
-            }
-            composable(AppScreen.Login.route) {
-                LoginScreen.Content(
-                    navController = navController,
-                    onAboutClick = {
-                        navController.navigate(AppScreen.About.route)
-                    }
-                )
-            }
-            composable(AppScreen.About.route) {
-                AboutScreen.Content(
-                    onBackClick = { navController.popBackStack() },
                 )
             }
             composable(AppScreen.Home.route) {
