@@ -44,7 +44,7 @@ object PullRequestsScreen {
             ) {
                 when(state) {
                     null, is PullRequestsStateMachine.St.Initializing -> {
-                        LoadingComponent()
+                        // do not show a loading because is shown only some milliseconds
                     }
                     is PullRequestsStateMachine.St.Error -> {
                         ErrorComponent()

@@ -82,7 +82,7 @@ object ReposToCheckScreen {
             ) {
                 when(state) {
                     null, ReposToCheckStateMachine.St.Initializing -> {
-                        LoadingComponent()
+                        // do not show a loading because is shown only some milliseconds
                     }
                     is ReposToCheckStateMachine.St.Error -> {
                         ErrorComponent()

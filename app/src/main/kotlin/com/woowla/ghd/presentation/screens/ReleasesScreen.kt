@@ -45,7 +45,7 @@ object ReleasesScreen {
             ) {
                 when(state) {
                     null, ReleasesStateMachine.St.Initializing -> {
-                        LoadingComponent()
+                        // do not show a loading because is shown only some milliseconds
                     }
                     is ReleasesStateMachine.St.Error -> {
                         ErrorComponent()
