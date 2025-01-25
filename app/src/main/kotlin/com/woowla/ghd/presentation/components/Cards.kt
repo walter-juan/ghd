@@ -43,6 +43,7 @@ import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
 import com.woowla.ghd.domain.entities.anyNonApproved
+import com.woowla.ghd.extensions.toColor
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
@@ -143,7 +144,7 @@ fun RepoToCheckCard(
                     Tag(
                         text = repoToCheck.groupName,
                         icon = null,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = repoToCheck.groupName.toColor(),
                     )
                 }
                 if (repoToCheck.arePullRequestsEnabled) {
@@ -246,7 +247,7 @@ fun ReleaseCard(
                     Tag(
                         text = releaseWithRepo.repoToCheck.groupName,
                         icon = null,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = releaseWithRepo.repoToCheck.groupName.toColor(),
                     )
                 }
                 Tag(
