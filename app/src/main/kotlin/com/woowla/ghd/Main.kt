@@ -66,6 +66,7 @@ fun main() {
     startKoin {
         modules(
             module {
+                // synchronization
                 single<Synchronizer> {
                     Synchronizer(
                         repoToCheckService = get(),
@@ -75,9 +76,9 @@ fun main() {
                     )
                 }
 
+                // view models
                 viewModel<SplashViewModel> { SplashViewModel() }
                 viewModel<PullRequestsViewModel> { PullRequestsViewModel(get()) }
-
                 viewModel<NotificationsViewModel> { NotificationsViewModel(get()) }
                 viewModel<ReleasesViewModel> { ReleasesViewModel(get()) }
                 viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get()) }
@@ -91,6 +92,7 @@ fun main() {
                 }
                 viewModel<SyncResultsViewModel> { SyncResultsViewModel(get()) }
 
+                // state machines
                 factory<PullRequestsStateMachine> { PullRequestsStateMachine(get(), get(), get()) }
                 factory<NotificationsStateMachine> { NotificationsStateMachine(get()) }
                 factory<ReleasesStateMachine> { ReleasesStateMachine(get(), get(), get()) }
@@ -118,20 +120,18 @@ fun main() {
                 single<PullRequestService> { PullRequestService(get(), get(), get(), get()) }
                 single<ReleaseService> { ReleaseService(get(), get(), get(), get()) }
 
-                single<GitHubPATTokenProvider> { GitHubPATTokenProvider(get()) }
-                single<AuthorizationInterceptor> { AuthorizationInterceptor(get()) }
-
-                single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }
-
                 // remote data layer
                 single<RemoteDataSource> { RemoteDataSource(get(), get()) }
                 single<ApolloClient> { RemoteDataSource.apolloClientInstance(get()) }
                 single<HttpClient> { RemoteDataSource.ktorClientInstance() }
+                single<GitHubPATTokenProvider> { GitHubPATTokenProvider(get()) }
+                single<AuthorizationInterceptor> { AuthorizationInterceptor(get()) }
 
                 // local data layer
                 single<LocalDataSource> { LocalDataSource(get(), get()) }
                 single<AppDatabase> { AppDatabase.getRoomDatabase() }
                 single<AppProperties> { AppProperties() }
+                single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }
             }
         )
     }
