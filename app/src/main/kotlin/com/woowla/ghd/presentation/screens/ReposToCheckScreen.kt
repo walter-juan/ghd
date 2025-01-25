@@ -1,13 +1,24 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
@@ -35,6 +46,7 @@ object ReposToCheckScreen {
         val state = viewModel.state.collectAsState().value
         val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
         var repoToCheckToDelete: RepoToCheck? = remember { null }
+        val textFieldFocusRequester = remember { FocusRequester() }
 
         val topBarSubtitle = if (state is ReposToCheckStateMachine.St.Success) {
             i18n.screen_app_settings_repositories_item_description(state.reposToCheck.size)
@@ -94,6 +106,7 @@ object ReposToCheckScreen {
                                 groupNameFilters = state.groupNameFilters,
                                 groupNameFilterSizes = state.groupNameFilterSizes,
                                 groupNameFiltersSelected = state.groupNameFiltersSelected,
+                                focusRequester = textFieldFocusRequester,
                                 onSearchQueryChanged = { searchQuery ->
                                     viewModel.dispatch(ReposToCheckStateMachine.Act.SearchQueryChanged(searchQuery))
                                 },
@@ -136,6 +149,10 @@ object ReposToCheckScreen {
                             )
                         }
 
+                        LaunchedEffect("request-focus") {
+                            // request focus after first composition to avoid FocusRequester not initialized crash
+                            textFieldFocusRequester.requestFocus()
+                        }
                     }
                 }
             }
@@ -187,6 +204,7 @@ object ReposToCheckScreen {
         groupNameFilters: Set<String>,
         groupNameFilterSizes: Map<String, Int>,
         groupNameFiltersSelected: Set<String>,
+        focusRequester: FocusRequester,
         onSearchQueryChanged: (String) -> Unit,
         onGroupNameChanged: (isSelected: Boolean, groupName: String) -> Unit,
     ) {
@@ -214,13 +232,19 @@ object ReposToCheckScreen {
                     )
                 },
                 trailingIcon = {
-                    IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
-                        Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                    AnimatedVisibility(
+                        visible = searchQuery.isNotBlank(),
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                    ) {
+                        IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
+                            Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                        }
                     }
                 },
                 supportingText = { Text("Search by name or group") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.focusRequester(focusRequester).fillMaxWidth()
             )
         }
     }

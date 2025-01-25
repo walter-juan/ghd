@@ -9,12 +9,15 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Filled
@@ -104,6 +107,8 @@ object RepoToCheckEditScreen {
         var areReleasesEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesEnabled) }
         var areReleasesNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesNotificationsEnabled) }
 
+        val textFieldFocusRequester = remember { FocusRequester() }
+
         if (state.savedSuccessfully == true) {
             onBackClick.invoke()
         }
@@ -152,6 +157,7 @@ object RepoToCheckEditScreen {
                     owner = owner,
                     name = name,
                     groupName = groupName,
+                    focusRequester = textFieldFocusRequester,
                     onOwnerChange = { owner = it },
                     onNameChange = { name = it },
                     onReleaseGroupChange = { groupName = it },
@@ -174,6 +180,11 @@ object RepoToCheckEditScreen {
                 )
             }
         }
+
+        LaunchedEffect("request-focus") {
+            // request focus after first composition to avoid FocusRequester not initialized crash
+            textFieldFocusRequester.requestFocus()
+        }
     }
 
     @Composable
@@ -181,6 +192,7 @@ object RepoToCheckEditScreen {
         owner: String,
         name: String,
         groupName: String,
+        focusRequester: FocusRequester,
         onOwnerChange: (String) -> Unit,
         onNameChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
@@ -203,12 +215,16 @@ object RepoToCheckEditScreen {
                         value = owner,
                         onValueChange = onOwnerChange,
                         label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
-                        modifier = Modifier.weight(1f),
+                        singleLine = true,
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .weight(1f),
                     )
                     OutlinedTextField(
                         value = name,
                         onValueChange = onNameChange,
                         label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
+                        singleLine = true,
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -221,6 +237,7 @@ object RepoToCheckEditScreen {
                     value = groupName,
                     onValueChange = onReleaseGroupChange,
                     label = { Text(text = i18n.screen_edit_repo_to_check_group_name_label) },
+                    singleLine = true,
                 )
             }
         }

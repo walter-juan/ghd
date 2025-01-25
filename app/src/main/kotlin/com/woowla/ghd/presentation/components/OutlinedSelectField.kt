@@ -60,6 +60,7 @@ fun <T: Any?> OutlinedSelectField(
                 value = textFieldText,
                 onValueChange = { textFieldText = it },
                 readOnly = true,
+                singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .onGloballyPositioned { coordinates ->
