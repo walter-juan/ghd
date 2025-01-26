@@ -22,8 +22,9 @@ Features:
 
 ☀️ Light Theme | 🌒 Dark Theme
 :------:|:------:|
-<img width="400" alt="ghd-pull-requests-light" src="https://github.com/walter-juan/ghd/assets/4141614/c0fd183c-439c-47df-bd9e-93e62a7de91e">|<img width="400" alt="ghd-pull-requests-dark" src="https://github.com/walter-juan/ghd/assets/4141614/db441d1d-fa4c-41a7-93a6-7f50842703ce">
-<img width="400" alt="ghd-releases-light" src="https://github.com/walter-juan/ghd/assets/4141614/7544a17b-dc65-455c-8303-ae466b63aea0">|<img width="400" alt="ghd-releases-dark" src="https://github.com/walter-juan/ghd/assets/4141614/841fd970-b0fe-46ab-bd46-27b8c6294857">
+<img width="350" src="https://github.com/user-attachments/assets/3740f75c-5105-44cc-b93c-4b84044b7a36">|<img width="350" src="https://github.com/user-attachments/assets/4d566f57-04ef-4af9-ac0b-27a6f5680401">
+<img width="350" src="https://github.com/user-attachments/assets/91436ec4-6dd8-4b2d-966a-ac4a41a65322">|<img width="350" src="https://github.com/user-attachments/assets/61e76de6-6d66-4bba-825e-9a3c20ca136c">
+<img width="350" src="https://github.com/user-attachments/assets/a81b730e-04a1-4ce1-abca-1055329a4294">|<img width="350" src="https://github.com/user-attachments/assets/3010fc5b-6f35-4649-97ff-3c4604f92f0e">
 
 # Installation
 
