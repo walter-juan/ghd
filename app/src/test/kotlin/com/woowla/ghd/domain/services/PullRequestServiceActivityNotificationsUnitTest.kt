@@ -1,7 +1,6 @@
 package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.RandomEntities
-import com.woowla.ghd.RandomValues
 import com.woowla.ghd.TestNotificationsSender
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus

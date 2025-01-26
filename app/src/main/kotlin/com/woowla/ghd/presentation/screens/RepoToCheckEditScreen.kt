@@ -37,7 +37,6 @@ import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
-import io.ktor.http.*
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 

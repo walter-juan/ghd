@@ -3,8 +3,6 @@ package com.woowla.ghd.domain.synchronization
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.domain.entities.*
-import com.woowla.ghd.domain.services.PullRequestService
-import com.woowla.ghd.domain.services.ReleaseService
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.eventbus.Event
@@ -123,7 +121,7 @@ class Synchronizer(
         }
 
         val githubPatToken = syncSettings.githubPatToken
-        if (githubPatToken.isNullOrBlank()) {
+        if (githubPatToken.isBlank()) {
             syncResultFinishWithError(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")
             AppLogger.d("Synchronizer :: sync :: finished because the github token is null or blank")
             EventBus.publish(Event.SYNCHRONIZED)

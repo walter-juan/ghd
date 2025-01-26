@@ -1,24 +1,20 @@
 package com.woowla.ghd.presentation.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandIn
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
@@ -226,19 +222,19 @@ object ReposToCheckScreen {
                 value = searchQuery,
                 onValueChange = onSearchQueryChanged,
                 leadingIcon = {
-                    Icon(
-                        Tabler.Outline.Search,
-                        contentDescription = null,
-                    )
-                },
-                trailingIcon = {
-                    AnimatedVisibility(
-                        visible = searchQuery.isNotBlank(),
-                        enter = fadeIn(),
-                        exit = fadeOut(),
+                    AnimatedContent(
+                        targetState = searchQuery.isBlank(),
+                        transitionSpec = { fadeIn().togetherWith(fadeOut()) }
                     ) {
-                        IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
-                            Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                        if (searchQuery.isBlank()) {
+                            Icon(
+                                Tabler.Outline.Search,
+                                contentDescription = null,
+                            )
+                        } else {
+                            IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
+                                Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                            }
                         }
                     }
                 },

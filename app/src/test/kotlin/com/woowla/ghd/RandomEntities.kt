@@ -3,6 +3,7 @@ package com.woowla.ghd
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
+import com.woowla.ghd.domain.entities.GitHubMergeableState
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
@@ -17,17 +18,20 @@ import com.woowla.ghd.domain.entities.ReviewState
 object RandomEntities {
     fun appSettings() = AppSettings(
         darkTheme = RandomValues.randomBoolean(),
-        notificationsSettings = notificationsSettings()
+        notificationsSettings = notificationsSettings(),
+        filtersPullRequestState = emptySet(),
+        filtersReleaseGroupName = emptySet(),
+        filtersRepoToCheckGroupName = emptySet()
     )
 
     fun notificationsSettings() = NotificationsSettings(
         filterUsername = RandomValues.randomString(),
-        stateEnabledOption = NotificationsSettings.EnabledOption.values().random(),
+        stateEnabledOption = NotificationsSettings.EnabledOption.entries.random(),
         stateOpenFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
         stateClosedFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
         stateMergedFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
         stateDraftFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
-        activityEnabledOption = NotificationsSettings.EnabledOption.values().random(),
+        activityEnabledOption = NotificationsSettings.EnabledOption.entries.random(),
         activityReviewsFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
         activityReviewsReRequestEnabled = RandomValues.randomBoolean(),
         activityChecksFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
@@ -56,6 +60,7 @@ object RandomEntities {
         lastCommitCheckRollupStatus = CommitCheckRollupStatus.entries.random(),
         lastCommitSha1 = RandomValues.randomString(),
         author = author,
+        mergeableState = GitHubMergeableState.entries.random(),
     )
 
     fun pullRequestWithRepoAndReviews(

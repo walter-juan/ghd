@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.woowla.ghd.domain.entities.PullRequest
-import kotlinx.datetime.Instant
 
 @Dao
 interface PullRequestDao {

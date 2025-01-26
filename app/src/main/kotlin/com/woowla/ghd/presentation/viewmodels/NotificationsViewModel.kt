@@ -10,7 +10,6 @@ import com.woowla.ghd.domain.entities.activityChecksFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.activityEnabledOption
 import com.woowla.ghd.domain.entities.activityMergeableFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.activityReviewsFromYourPullRequestsEnabled
-import com.woowla.ghd.domain.entities.activityReviewsReRequestEnabled
 import com.woowla.ghd.domain.entities.filterUsername
 import com.woowla.ghd.domain.entities.newReleaseEnabled
 import com.woowla.ghd.domain.entities.notificationsSettings

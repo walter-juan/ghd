@@ -3,9 +3,7 @@ package com.woowla.ghd.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
@@ -16,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,7 +25,6 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Edit
-import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
