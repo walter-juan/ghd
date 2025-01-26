@@ -41,8 +41,8 @@ apollo {
 
 detekt {
     toolVersion = libs.versions.detekt.get()
-    config.from(project.rootProject.file("config/detekt/detekt.yml"))
-    baseline = project.rootProject.file("config/detekt/baseline.xml")
+    config.from(project.rootProject.file("config/detekt/detekt-config.yml"))
+    baseline = project.rootProject.file("config/detekt/detekt-baseline.xml")
     buildUponDefaultConfig = true
 }
 
