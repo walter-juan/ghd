@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.reporter.HtmlReporter
 import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
+import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.PrintStream
 
@@ -17,6 +18,7 @@ plugins {
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.detekt)
 }
 
 group = "com.woowla"
@@ -35,6 +37,12 @@ apollo {
         packageName.set("com.woowla.ghd.data.remote")
         generateOptionalOperationVariables.set(false)
     }
+}
+
+detekt {
+    toolVersion = libs.versions.detekt.get()
+    config.from(project.rootProject.file("config/detekt/detekt.yml"))
+    buildUponDefaultConfig = true
 }
 
 buildConfig {
@@ -75,6 +83,8 @@ dependencies {
     ksp(libs.arrow.optics.ksp)
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.bundles.koin)
+
+    detektPlugins(libs.detekt.formatting)
 
     testImplementation(libs.mockk)
     testImplementation(libs.bundles.test.kotest)
