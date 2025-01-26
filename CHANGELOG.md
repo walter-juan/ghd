@@ -15,17 +15,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0]
 ### Added
-- `openBrowser` flag to open browser automatically after run `dependencyUpdates`
 - Confirmation before delete a repository
 - Koin as dependency injection
+- `openBrowser` flag to open browser automatically after run `dependencyUpdates`
 ### Changed
 - 🎨 New application design
-- Update dependencies
 - Default synchronization interval changed from 1 to 5 minutes
+- Update dependencies
 ### Removed
 - Mark as seen
-- `Dependency updates` GitHub action
 - Login screen
+- `Dependency updates` GitHub action
 - MaterialColors
 
 ## [1.6.0]
