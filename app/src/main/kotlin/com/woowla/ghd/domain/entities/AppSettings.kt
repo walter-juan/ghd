@@ -9,5 +9,5 @@ import arrow.optics.optics
     val filtersRepoToCheckGroupName: Set<String>,
     val notificationsSettings: NotificationsSettings
 ) {
-    companion object {}
+    companion object
 }

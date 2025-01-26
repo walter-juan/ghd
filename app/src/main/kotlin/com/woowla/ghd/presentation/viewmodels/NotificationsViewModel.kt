@@ -119,7 +119,7 @@ class NotificationsStateMachine(
     sealed interface St {
         data object Loading: St
         @optics data class Success(val appSettings: AppSettings, val savedSuccessfully: Boolean? = null): St {
-            companion object {}
+            companion object
             val notificationsSettings: NotificationsSettings = appSettings.notificationsSettings
         }
         data class Error(val error : Throwable): St

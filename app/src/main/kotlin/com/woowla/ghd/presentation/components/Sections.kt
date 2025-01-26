@@ -128,4 +128,4 @@ fun SectionItemWithSwitch(
         },
         content = if (checked || showAlwaysTheContent) content else null
     )
-} 
+}
