@@ -5,7 +5,7 @@ import com.woowla.ghd.data.remote.RemoteDataSource
 import net.swiftzer.semver.SemVer
 
 class AppVersionService(
-    private val remoteDataSource: RemoteDataSource = RemoteDataSource()
+    private val remoteDataSource: RemoteDataSource
 ) {
     suspend fun checkForNewVersion(): Result<CheckForNewVersionResponse> {
         return remoteDataSource

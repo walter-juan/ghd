@@ -14,22 +14,23 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.extensions.toRelativeString
 import com.woowla.ghd.presentation.app.i18n
+import kotlin.time.Duration.Companion.days
 
 class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
     val fullRepo = "${pullRequestWithReviews.repoToCheck.owner}/${pullRequestWithReviews.repoToCheck.name}"
-    val updatedAt = i18n.pull_request_updated(pullRequestWithReviews.pullRequest.updatedAt)
+    val createdAt = pullRequestWithReviews.pullRequest.createdAt.toRelativeString(maximumDays = 999.days)
     val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
-    val authorLogin = pullRequestWithReviews.pullRequest.author?.login ?: i18n.generic_unknown
     val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
     val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
     val commitChecks = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
-        CommitCheckRollupStatus.ERROR -> "One or more checks failed"
-        CommitCheckRollupStatus.EXPECTED -> "All checks are as expected"
-        CommitCheckRollupStatus.FAILURE -> "One or more checks failed"
-        CommitCheckRollupStatus.PENDING -> "Checks are running"
-        CommitCheckRollupStatus.SUCCESS -> "All checks are success!"
-        CommitCheckRollupStatus.UNKNOWN -> "Unknown status for the checks"
+        CommitCheckRollupStatus.ERROR -> "Checks failed"
+        CommitCheckRollupStatus.EXPECTED -> "Checks passed"
+        CommitCheckRollupStatus.FAILURE -> "Checks failed"
+        CommitCheckRollupStatus.PENDING -> "Running checks"
+        CommitCheckRollupStatus.SUCCESS -> "Checks successful"
+        CommitCheckRollupStatus.UNKNOWN -> "Checks unknown"
     }
     val commitChecksIcon: ImageVector = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.SUCCESS -> Tabler.Outline.ListCheck
@@ -39,15 +40,21 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         CommitCheckRollupStatus.PENDING -> Tabler.Outline.List
         CommitCheckRollupStatus.UNKNOWN -> Tabler.Outline.List
     }
-    fun reviews(): String {
+    fun reviewsNonApproved(): String {
         return if (pullRequestWithReviews.reviews.isEmpty()) {
-            "Pending to be reviewed"
+            "Review pending"
         } else {
-            val reviews = pullRequestWithReviews.reviews.joinToString {
-                val reviewDecorator = ReviewDecorator(it)
-                "${reviewDecorator.authorLogin} (${reviewDecorator.state})"
-            }
-            "Reviewed by $reviews"
+            val reviews = pullRequestWithReviews.reviews
+                .groupBy { it.state }
+                .toList()
+                .filter { (_, reviews) ->
+                    reviews.isNotEmpty()
+                }
+                .joinToString(separator = ", ") { (state, reviews) ->
+                    val reviewDecorator = ReviewDecorator(reviews.first())
+                    "${reviews.size} ${reviewDecorator.state}"
+                }
+            "${pullRequestWithReviews.reviews.size} Reviews ($reviews)"
         }
     }
     fun reviewsIcon(): ImageVector {
@@ -67,7 +74,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
                 if (pullRequestWithReviews.reviews.any { review -> review.state == ReviewState.APPROVED }) {
                     Tabler.Outline.UserCheck
                 } else {
-                    return Tabler.Outline.Users
+                    return Tabler.Outline.UserQuestion
                 }
             }
         }

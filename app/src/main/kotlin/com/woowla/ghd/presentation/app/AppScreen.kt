@@ -11,7 +11,6 @@ interface NavigationScreen {
 }
 sealed class AppScreen(open val route: String) {
     data object Splash : AppScreen(route = "splash")
-    data object Login : AppScreen(route = "login")
     data object Home : AppScreen(route = "home")
 
     data object PullRequestList : AppScreen(route = "pull-request"), NavigationScreen {
@@ -41,8 +40,7 @@ sealed class AppScreen(open val route: String) {
 
     data object RepoToCheckNew : AppScreen(route = "repo-to-check/new")
     data object RepoToCheckEdit : AppScreen(route = "repo-to-check/{id}/edit")
-    data object RepoToCheckBulkSample : AppScreen(route = "repo-to-check-bulk-sample")
+    data object RepoToCheckBulk : AppScreen(route = "repo-to-check-bulk")
     data object SyncResultList : AppScreen(route = "sync-results")
     data object SyncResult : AppScreen(route = "sync-results/{id}")
-    data object ComponentsSample : AppScreen(route = "components-sample")
 }

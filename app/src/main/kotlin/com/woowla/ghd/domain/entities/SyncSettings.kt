@@ -28,18 +28,19 @@ data class SyncSettings(
         }
 
         val availableCheckTimeouts = listOf<Long>(1, 5, 10, 15, 30)
-        val defaultCheckTimeout = requireNotNull(availableCheckTimeouts.minOrNull())
+        const val DEFAULT_CHECKOUT_TIMEOUT = 5L
         fun getValidCheckTimeout(checkTimeout: Long?): Long {
             return if (availableCheckTimeouts.contains(checkTimeout)) {
                 requireNotNull(checkTimeout)
             } else {
-                defaultCheckTimeout
+                DEFAULT_CHECKOUT_TIMEOUT
             }
         }
     }
 
     @Ignore
     val validCheckTimeout: Long = getValidCheckTimeout(checkTimeout)
+
     @Ignore
     val validPullRequestCleanUpTimeout: Long = getValidPullRequestCleanUpTimeout(pullRequestCleanUpTimeout)
 }

@@ -38,7 +38,7 @@ fun Instant.toRelativeString(
     maximumSeconds: Duration = 60.seconds,
     maximumMinutes: Duration = 60.minutes,
     maximumHours: Duration = 24.hours,
-    maximumDays: Duration = 20.days,
+    maximumDays: Duration = 400.days,
 ): String {
     val now = Clock.System.now()
     val duration = now - this

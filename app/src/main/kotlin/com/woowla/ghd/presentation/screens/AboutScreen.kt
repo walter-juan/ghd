@@ -1,18 +1,32 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.woowla.compose.icon.collections.tabler.Tabler
+import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Folder
+import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
+import com.woowla.compose.icon.collections.tabler.tabler.outline.PhotoCircle
 import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.Section
+import com.woowla.ghd.presentation.components.SectionItem
+import com.woowla.ghd.presentation.components.ScreenScrollable
+import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.utils.openFolder
+import com.woowla.ghd.utils.openWebpage
 import java.nio.file.Path
 
 object AboutScreen {
@@ -20,7 +34,6 @@ object AboutScreen {
     fun Content(
         appDir: Path = AppFolderFactory.folder,
         onBackClick: (() -> Unit)? = null,
-        onComponentsSampleScreenClick: (() -> Unit),
     ) {
         ScreenScrollable(
             topBar = {
@@ -31,43 +44,108 @@ object AboutScreen {
             }
         ) {
             Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .padding(AppDimens.contentPaddingAllDp)
-                    .width(AppDimens.contentWidthDp)
+                    .padding(AppDimens.screenPadding)
+                    .fillMaxWidth()
             ) {
-                SectionCategory("Regarding ghd") {
+                Section(
+                    title = "App Overview"
+                ) {
                     SectionItem(
-                        title = "What is it?",
-                        description = "This app will show your pull requests and GitHub releases"
+                        title = "What is this app?",
+                        description = "GHD (GitHub dashboard) is designed to display your GitHub pull requests and release updates in a streamlined interface.",
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.InfoCircle,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
                     )
                     SectionItem(
                         title = "Version",
-                        description = "This app version is '${BuildConfig.APP_VERSION}'"
+                        description = BuildConfig.APP_VERSION,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.InfoCircle,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     )
-                    SelectionContainer {
-                        SectionItem(
-                            title = "Application directory",
-                            description = "This application stores some data into '$appDir' directory"
-                        )
-                    }
-                    SelectionContainer {
-                        SectionItem(
-                            title = "Icons",
-                            description = "The icons used are Tabler (https://github.com/tabler/tabler-icons)"
-                        )
-                    }
-                }
-                if (BuildConfig.DEBUG) {
-                    SectionCategory("Debug only sections") {
-                        SectionItem(
-                            title = "Components",
-                            description = "Sample screen with this app theme with typographies, components, etc..."
-                        ) {
-                            Button(onClick = onComponentsSampleScreenClick) {
-                                Text("open components screen sample")
+                    SectionItem(
+                        title = "GitHub Repository",
+                        description = "View source code and report issues",
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.BrandGithub,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(
+                                onClick = {
+                                    openWebpage(i18n.githubRepoLink)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Tabler.Outline.ExternalLink,
+                                    contentDescription = null,
+                                )
                             }
                         }
-                    }
+                    )
+                }
+
+                Section(title = "App Information") {
+                    SectionItem(
+                        title = "Application directory",
+                        description = "Data for this application is stored in the following location: '$appDir'",
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.Folder,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(
+                                onClick = {
+                                    openFolder(appDir.toFile())
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Tabler.Outline.ExternalLink,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
+                    )
+                    SectionItem(
+                        title = "Icons",
+                        description = "This app utilizes icons from the Tabler Icons library",
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.PhotoCircle,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(
+                                onClick = {
+                                    openWebpage(i18n.tablerIconsRepoLink)
+                                }
+                            ) {
+                                Icon(
+                                    imageVector = Tabler.Outline.ExternalLink,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
+                    )
                 }
             }
         }

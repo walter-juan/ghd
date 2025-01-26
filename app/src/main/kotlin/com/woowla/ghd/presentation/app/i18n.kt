@@ -11,6 +11,8 @@ object i18n {
     } else {
         "GHD - GitHub Dashboard"
     }
+    val githubRepoLink = "https://github.com/walter-juan/ghd"
+    val tablerIconsRepoLink = "https://github.com/tabler/tabler-icons"
     val generic_loading = "Loading"
     val generic_error = "Error"
     val generic_saved = "Saved"
@@ -43,11 +45,12 @@ object i18n {
     val top_bar_title_releases = "Releases"
     val top_bar_title_repos_to_check = "Repos"
     val top_bar_title_repos_to_check_edit = "Repos"
+    val top_bar_title_repos_to_check_bulk = "Bulk import/export"
     val top_bar_title_repos_to_check_bulk_sample = "Bulk file sample"
     val top_bar_title_settings = "Settings"
     val top_bar_title_synchronization_results = "Synchronization results"
     val top_bar_title_synchronization_result_entries = "Synchronization result entries"
-    val top_bar_subtitle_synchronization_result_entries: (emoji: String, errorPercentage: Int, total: Int) -> String = { emoji, errorPercentage, total -> "$emoji $errorPercentage% errors out of a total of $total" }
+    val top_bar_subtitle_synchronization_result_entries: (errorPercentage: Int, total: Int) -> String = { errorPercentage, total -> "$errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
     val top_bar_title_notifications = "Notifications"
 
@@ -72,7 +75,7 @@ object i18n {
     val screen_edit_repo_to_check_owner_label = "Owner"
     val screen_edit_repo_to_check_name_label = "Name"
     val screen_edit_repo_to_check_group_item = "Group"
-    val screen_edit_repo_to_check_group_item_description = "Group name in case you want the releases grouped"
+    val screen_edit_repo_to_check_group_item_description = "Join several repositories in the same group"
     val screen_edit_repo_to_check_group_name_label = "Group name"
     val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"
     val screen_edit_repo_to_check_releaes_section = "Sync releases"
@@ -81,7 +84,7 @@ object i18n {
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
     val screen_edit_repo_to_no_group = "(no group)"
 
-    val screen_pull_requests_can_be_merged = "This pull request can be merged"
+    val screen_pull_requests_can_be_merged = "Ready to merge"
     val screen_pull_requests_code_changed = "Code changed since list time"
 
     val screen_app_settings_saved = "Saved"
@@ -98,19 +101,19 @@ object i18n {
     val screen_app_settings_notifications_pr_activity_title = "Activity notifications"
     val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for activity updates to pull requests. You will receive notifications for new or changed reviews, re-review requested, checks and when a pull request is ready to be merged (mergeable)."
     val screen_app_settings_notifications_pr_activity_checkbox_label = "Activity"
-    val screen_app_settings_notifications_new_release_title = "Release created notifications"
+    val screen_app_settings_notifications_new_release_title = "Created notifications"
     val screen_app_settings_notifications_new_release_description = "Enable to receive notifications when a new release is created."
     val screen_app_settings_notifications_update_release_title = "Release updated notifications"
     val screen_app_settings_notifications_update_release_description = "Enable to receive notifications when an existing release is updated."
-    val screen_app_settings_github_token_field_label = "GitHub PAT token"
-    val screen_app_settings_github_field_show = "Show GitHub PAT token"
-    val screen_app_settings_github_field_hide = "Hide GitHub PAT token"
-    val screen_app_settings_github_token_item = "GitHub PAT token"
-    val screen_app_settings_github_token_item_description = "The minimum permissions for the PAT token are 'repo' (full). You can create a new PAT token from 'GitHub > Settings > Developer settings > Personal access tokens > Tokens (classic)'"
+    val screen_app_settings_github_token_field_label = "Token"
+    val screen_app_settings_github_field_show = "Show token"
+    val screen_app_settings_github_field_hide = "Hide token"
+    val screen_app_settings_github_token_item = "Personal Access Token"
+    val screen_app_settings_github_token_item_description = "Configure your GitHub Personal Access Token for authentication. The minimum permissions for the PAT token are 'repo' (full)."
     val screen_app_settings_repositories_item = "Repositories"
-    val screen_app_settings_repositories_item_description: (Int) -> String = { "There are $it which will be checked every time for a new release or pull request status." }
-    val screen_app_settings_checkout_timeout_item = "Refresh timeout"
-    val screen_app_settings_checkout_timeout_item_description = "The timeout in minutes each time the pull requests and releases are checked"
+    val screen_app_settings_repositories_item_description: (Int) -> String = { "You have a total of $it repositories." }
+    val screen_app_settings_checkout_timeout_item = "Sync Interval"
+    val screen_app_settings_checkout_timeout_item_description = "How often to check for updates"
 
     val screen_repos_to_check_bulk_item = "Bulk import/export"
     val screen_repos_to_check_bulk_item_description = "Import or export a list of repositories in YML format"
@@ -121,20 +124,21 @@ object i18n {
     val screen_repos_to_check_bulk_sample_sample_file = """
 #
 # The only required values are the owner and name 
-# and by default the pull requests and releases are enabled
+# and by default the pull requests and releases synchronization 
+# is enabled but not the notifications
 # 
-# This example has 2 repositories, the first one has all available 
-# values and the second only the minimum ones
 #
 repositories:
 - owner: "owner-1"
   name: "project-1"
   group: "my group"
   pulls:
-    enabled: false
-    branch-regex: "XXXX"
+    enabled: true
+    branch-regex: ""
+    notifications-enabled: true
   releases:
     enabled: true
+    notifications-enabled: false
 - owner: "owner-1"
   name: "project-2"
 - owner: "owner-2"
@@ -149,7 +153,7 @@ repositories:
     val screen_app_settings_last_synchronization_results_button = "See the latest synchronization results"
 
     val screen_login_unlock_button = "Open the app"
-    val screen_login_about_app_button = "About the app"
+    val screen_login_about_app_button = "About"
     val screen_login_fresh_start = "Fresh start"
     val screen_login_fresh_start_confirmation_dialog_title = "Fresh start"
     val screen_login_fresh_start_confirmation_dialog_text = "A fresh start will erase your data, are you sure?"
@@ -178,9 +182,7 @@ repositories:
     val pull_request_state_closed = "Closed"
     val pull_request_state_merged = "Merged"
     val pull_request_state_draft = "Draft"
-    val pull_request_state_unknown = "Draft"
-    val pull_request_seen = "Seen"
-    val pull_request_unseen = "Unseen"
+    val pull_request_state_unknown = "Unknown"
     val pull_request_comments: (Long) -> String = {
         when(it) {
             1L -> "$it comment"
@@ -203,9 +205,13 @@ repositories:
     val app_settings_pr_cleanup_unknown = "?"
 
 
-    val sync_result_title: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -> String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt ->
+    val sync_result_title_old: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -> String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt ->
         "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})"
     }
+    val sync_result_title: (syncAt: Instant, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -> String = { instant, rateLimitPercentageUsed, rateLimitResetAt ->
+        "Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})"
+    }
+
 
     val file_dialog_choose_file = "Choose a file"
     val file_dialog_save_file = "Save a file"

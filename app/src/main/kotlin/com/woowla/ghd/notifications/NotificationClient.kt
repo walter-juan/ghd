@@ -3,12 +3,7 @@ package com.woowla.ghd.notifications
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 
-class NotificationClient(
-    private val trayState: TrayState = trayStateInstance,
-) {
-    companion object {
-        val trayStateInstance = TrayState()
-    }
+class NotificationClient(private val trayState: TrayState) {
     fun sendNotification(title: String, message: String, type: NotificationType) {
         val notification = Notification(
             title = title,

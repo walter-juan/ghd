@@ -3,18 +3,41 @@ package com.woowla.ghd.data.local
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.domain.entities.*
+import com.woowla.ghd.utils.enumValueOfOrDefault
 import com.woowla.ghd.utils.enumValueOfOrNull
 
 class LocalDataSource(
-    private val appProperties: AppProperties = AppProperties,
-    private val appDatabase: AppDatabase = AppDatabase.getInstance()
+    private val appProperties: AppProperties,
+    private val appDatabase: AppDatabase,
 ) {
     suspend fun getAppSettings(): Result<AppSettings> {
         return runCatching {
             appProperties.load()
             val defaultEnabledOption = NotificationsSettings.defaultEnabledOption
+            val filtersPullRequestState = appProperties.filtersPullRequestState
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.map { enumValueOfOrDefault(it, PullRequestStateExtended.UNKNOWN) }
+                ?.toSet()
+                ?: emptySet()
+
+            val filtersReleaseGroupName = appProperties.filtersReleaseGroupName
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.toSet()
+                ?: emptySet()
+
+            val filtersRepoToCheckGroupName = appProperties.filtersRepoToCheckGroupName
+                ?.split(",")
+                ?.filterNot { it.isBlank() }
+                ?.toSet()
+                ?: emptySet()
+
             AppSettings(
                 darkTheme = appProperties.darkTheme,
+                filtersPullRequestState = filtersPullRequestState,
+                filtersReleaseGroupName = filtersReleaseGroupName,
+                filtersRepoToCheckGroupName = filtersRepoToCheckGroupName,
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
 
@@ -40,6 +63,10 @@ class LocalDataSource(
         return runCatching {
             appProperties.load()
             appProperties.darkTheme = appSettings.darkTheme
+
+            appProperties.filtersPullRequestState = appSettings.filtersPullRequestState.joinToString(separator = ",")
+            appProperties.filtersReleaseGroupName = appSettings.filtersReleaseGroupName.joinToString(separator = ",")
+            appProperties.filtersRepoToCheckGroupName = appSettings.filtersRepoToCheckGroupName.joinToString(separator = ",")
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 
@@ -191,14 +218,10 @@ class LocalDataSource(
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
             val pullRequest = appDatabase.pullRequestDao().get(id)
-            val pullRequestSeen = appDatabase.pullRequestSeenDao().get(id)
-            val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = id)
             PullRequestWithRepoAndReviews(
                 repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                 pullRequest = pullRequest,
                 reviews = reviewList,
-                pullRequestSeen = pullRequestSeen,
-                reviewsSeen = reviewsSeen,
             )
         }
     }
@@ -209,14 +232,10 @@ class LocalDataSource(
                 .getAll()
                 .map { pullRequest ->
                     val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
-                    val pullRequestSeen = appDatabase.pullRequestSeenDao().get(pullRequest.id)
-                    val reviewsSeen = appDatabase.reviewSeenDao().getByPullRequest(pullRequestId = pullRequest.id)
                     PullRequestWithRepoAndReviews(
                         repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                         pullRequest = pullRequest,
                         reviews = reviewList,
-                        pullRequestSeen = pullRequestSeen,
-                        reviewsSeen = reviewsSeen,
                     )
                 }
         }
@@ -229,17 +248,6 @@ class LocalDataSource(
     suspend fun removePullRequests(ids: List<String>): Result<Unit> {
         return runCatching {
             appDatabase.pullRequestDao().delete(ids)
-        }
-    }
-
-    suspend fun upsertPullRequestSeen(pullRequest: PullRequestSeen): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestSeenDao().insert(listOf(pullRequest))
-        }
-    }
-    suspend fun removePullRequestSeen(id: String): Result<Unit> {
-        return runCatching {
-            appDatabase.pullRequestSeenDao().delete(listOf(id))
         }
     }
 
@@ -281,20 +289,6 @@ class LocalDataSource(
 
         return runCatching {
             appDatabase.reviewDao().insert(reviews)
-        }
-    }
-
-
-    suspend fun removeReviewsSeenByPullRequest(pullRequestIds: List<String>): Result<Unit> {
-        return runCatching {
-            appDatabase.reviewSeenDao().deleteByPullRequest(pullRequestIds)
-        }
-    }
-    suspend fun upsertReviewsSeen(reviews: List<ReviewSeen>): Result<Unit> {
-        if (reviews.isEmpty()) return Result.success(Unit)
-
-        return runCatching {
-            appDatabase.reviewSeenDao().insert(reviews)
         }
     }
 

@@ -15,8 +15,6 @@ import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
-import com.woowla.ghd.domain.mappers.toPullRequestSeen
-import com.woowla.ghd.domain.mappers.toReviewSeen
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
 import com.woowla.ghd.notifications.NotificationsSender
@@ -26,10 +24,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.datetime.Clock
 
 class PullRequestService(
-    private val localDataSource: LocalDataSource = LocalDataSource(),
-    private val remoteDataSource: RemoteDataSource = RemoteDataSource(),
-    private val notificationsSender: NotificationsSender = NotificationsSender.getInstance(),
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val notificationsSender: NotificationsSender,
+    private val appSettingsService: AppSettingsService,
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<PullRequestWithRepoAndReviews>> {
         return localDataSource.getAllPullRequests()
@@ -38,28 +36,7 @@ class PullRequestService(
             }
     }
 
-    suspend fun unmarkAsSeen(id: String): Result<Unit> {
-        return localDataSource.removePullRequestSeen(id)
-    }
-
-    suspend fun markAsSeen(id: String): Result<Unit> {
-        val now = Clock.System.now()
-        return localDataSource
-            .getPullRequest(id)
-            .onSuccess { pr ->
-                localDataSource.upsertPullRequestSeen(pr.pullRequest.toPullRequestSeen(now))
-            }
-            .onSuccess { pr ->
-                localDataSource.upsertReviewsSeen(pr.reviews.map { it.toReviewSeen() })
-            }
-            .map { value -> Unit }
-    }
-
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
-        return newSync(syncResultId, syncSettings, repoToCheckList)
-    }
-
-    suspend fun newSync(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
         AppLogger.d("Synchronizer :: sync :: pulls :: start")
         val prSyncStartAt = Clock.System.now()
         val pullRequestsBefore = getAll().getOrDefault(listOf())
@@ -88,35 +65,24 @@ class PullRequestService(
             )
         }
         // update the local pull requests
-        val pullRequests = apiResponseResults.mapNotNull { (repoToCheck, _, apiResponseResult) ->
-            val apiResponse = apiResponseResult.getOrNull()
-            val apiPullRequests = apiResponse?.data ?: listOf()
-            if (apiPullRequests.isEmpty()) {
-                null
-            } else {
-                val pullRequests = apiPullRequests.map { apiPullRequest ->
-                    val pullRequestWithRepos = localDataSource.getPullRequest(apiPullRequest.id).getOrNull()
-                    val pullRequestSeen = pullRequestWithRepos?.pullRequestSeen
-                    val reviewSeen = pullRequestWithRepos?.reviewsSeen ?: listOf()
-                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck, pullRequestSeen = pullRequestSeen, reviewsSeen = reviewSeen)
+        val pullRequestsWithRepos = apiResponseResults
+            .map { (repoToCheck, _, apiResponseResult) ->
+                val apiPullRequests = apiResponseResult.getOrNull()?.data ?: listOf()
+                apiPullRequests.map { apiPullRequest ->
+                    apiPullRequest.toPullRequest(repoToCheck = repoToCheck)
                 }
-                pullRequests
             }
-        }
-
-        val validPullRequests = pullRequests.map { pullRequestsWithRepoAndReviews ->
-            pullRequestsWithRepoAndReviews.filterSyncValid(syncSettings = syncSettings)
-        }
-        validPullRequests.map { pullRequestsWithRepoAndReviews ->
-            localDataSource.upsertPullRequests(pullRequestsWithRepoAndReviews.map { it.pullRequest })
-            localDataSource.removeReviewsByPullRequest(pullRequestsWithRepoAndReviews.map { it.pullRequest.id })
-            val reviews = pullRequestsWithRepoAndReviews.map { it.reviews }.flatten()
-            localDataSource.upsertReviews(reviews)
-        }
+            .flatten()
+            .filterSyncValid(syncSettings = syncSettings)
+        localDataSource.upsertPullRequests(pullRequestsWithRepos.map { it.pullRequest })
+        localDataSource.removeReviewsByPullRequest(pullRequestsWithRepos.map { it.pullRequest.id })
+        val reviews = pullRequestsWithRepos.map { it.reviews }.flatten()
+        localDataSource.upsertReviews(reviews)
 
         // remove pull requests non returned from remote
-        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - validPullRequests.flatten().map { it.pullRequest.id }.toSet()
+        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - pullRequestsWithRepos.map { it.pullRequest.id }.toSet()
         localDataSource.removePullRequests(pullRequestIdsToRemove)
+        cleanUp(syncSettings)
 
         // send the notifications
         val pullRequestsAfter = getAll().getOrDefault(listOf())

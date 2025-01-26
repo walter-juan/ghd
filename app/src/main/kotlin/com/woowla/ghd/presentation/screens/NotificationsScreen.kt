@@ -1,5 +1,6 @@
 package com.woowla.ghd.presentation.screens
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,33 +28,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Activity
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
-import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
+import com.woowla.compose.icon.collections.tabler.tabler.outline.StatusChange
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.User
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.LabelledCheckBox
 import com.woowla.ghd.presentation.components.LabelledRadioButton
 import com.woowla.ghd.presentation.components.ScreenScrollable
-import com.woowla.ghd.presentation.components.SectionCategory
-import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.TableCell
 import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.components.Section
+import com.woowla.ghd.presentation.components.SectionItem
+import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 object NotificationsScreen {
     @Composable
     fun Content(
+        viewModel : NotificationsViewModel = koinViewModel(),
         onBackClick: (() -> Unit)? = null,
     ) {
-        val viewModel = viewModel { NotificationsViewModel() }
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,
@@ -136,11 +139,13 @@ object NotificationsScreen {
     ) {
         val notificationsSettings = state.notificationsSettings
         Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
-                .padding(AppDimens.contentPaddingAllDp)
-                .width(AppDimens.contentWidthDp)
+                .padding(AppDimens.screenPadding)
+                .fillMaxWidth()
         ) {
-            SectionCategory("Filters") {
+
+            Section("Filters") {
                 SectionItem(
                     title = "Username",
                     description = "Add your login username in order to have a better notifications. Adding your username will enable the specific notifications.",
@@ -157,10 +162,18 @@ object NotificationsScreen {
                     }
                 )
             }
-            SectionCategory(i18n.screen_app_settings_pull_requests_notifications_section) {
+
+            Section(i18n.screen_app_settings_pull_requests_notifications_section) {
                 SectionItem(
                     title = "State notifications",
                     description = "Notify me when a pull request has been created in an specific state or changed for example from Draft to Open",
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Tabler.Outline.StatusChange,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
                     content = {
                         SelectedOptions(
                             notificationsSettings = notificationsSettings,
@@ -210,6 +223,13 @@ object NotificationsScreen {
                 SectionItem(
                     title = i18n.screen_app_settings_notifications_pr_activity_title,
                     description = i18n.screen_app_settings_notifications_pr_activity_description,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Tabler.Outline.Activity,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
                     content = {
                         SelectedOptions(
                             notificationsSettings = notificationsSettings,
@@ -286,10 +306,17 @@ object NotificationsScreen {
                 )
             }
 
-            SectionCategory(i18n.screen_app_settings_releases_notifications_section) {
-                LabelledCheckBox(
-                    label = i18n.screen_app_settings_notifications_new_release_title,
+            Section(i18n.screen_app_settings_releases_notifications_section) {
+                SectionItemWithSwitch(
+                    title = i18n.screen_app_settings_notifications_new_release_title,
                     description = i18n.screen_app_settings_notifications_new_release_description,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Tabler.Outline.Tag,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
                     checked = notificationsSettings.newReleaseEnabled,
                     onCheckedChange = {
                         dispatchAction.invoke(Act.UpdateNewReleaseEnabled(!notificationsSettings.newReleaseEnabled))
@@ -360,6 +387,8 @@ object NotificationsScreen {
                 Column {
                     Text(
                         text = title,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.then(if (!enabled) Modifier.alpha(ContentAlpha.disabled) else Modifier)
                     )
                     Spacer(Modifier.size(5.dp))

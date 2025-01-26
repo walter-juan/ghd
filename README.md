@@ -5,7 +5,7 @@
 
 > [!CAUTION]
 > Migrated to Compose navigation, view models and Room KMP with non-final versions it could be unstable
-> 
+>
 > Things to solve in a future:
 >   - [ ] Whole database encryption removed, PAT will be stored as plain text
 >   - [ ] Relations with [Intermediate data class](https://developer.android.com/training/data-storage/room/relationships#data-class), seems not to be working (search for `TODO relations`)
@@ -15,19 +15,16 @@
 [GHD (GitHub Dashboard)](https://github.com/walter-juan/ghd), is an application to show the pull requests and releases from your GitHub repositories.
 
 Features:
-- List of the pull requests (open, draft, merged & closed)
-  - Mark a pull request as seen to know later if it has been updated
-  - Filter pull request by branch
+- List of the pull requests
 - List latest releases from a repository
 - Notifications
-  - Notify when pull request is created or updated
-  - Notify when a new release is created
 - Light and dark themes
 
 ☀️ Light Theme | 🌒 Dark Theme
 :------:|:------:|
-<img width="400" alt="ghd-pull-requests-light" src="https://github.com/walter-juan/ghd/assets/4141614/c0fd183c-439c-47df-bd9e-93e62a7de91e">|<img width="400" alt="ghd-pull-requests-dark" src="https://github.com/walter-juan/ghd/assets/4141614/db441d1d-fa4c-41a7-93a6-7f50842703ce">
-<img width="400" alt="ghd-releases-light" src="https://github.com/walter-juan/ghd/assets/4141614/7544a17b-dc65-455c-8303-ae466b63aea0">|<img width="400" alt="ghd-releases-dark" src="https://github.com/walter-juan/ghd/assets/4141614/841fd970-b0fe-46ab-bd46-27b8c6294857">
+<img width="350" src="https://github.com/user-attachments/assets/3740f75c-5105-44cc-b93c-4b84044b7a36">|<img width="350" src="https://github.com/user-attachments/assets/4d566f57-04ef-4af9-ac0b-27a6f5680401">
+<img width="350" src="https://github.com/user-attachments/assets/91436ec4-6dd8-4b2d-966a-ac4a41a65322">|<img width="350" src="https://github.com/user-attachments/assets/61e76de6-6d66-4bba-825e-9a3c20ca136c">
+<img width="350" src="https://github.com/user-attachments/assets/a81b730e-04a1-4ce1-abca-1055329a4294">|<img width="350" src="https://github.com/user-attachments/assets/3010fc5b-6f35-4649-97ff-3c4604f92f0e">
 
 # Installation
 
@@ -81,7 +78,12 @@ So if you want to use this app you should remove the `com.apple.quarantine`.
   sudo xattr -cr /path/to/my-app.app
   ```
 
-# Useful Gradle commands
+# IntelliJ IDEA plugins
+
+- [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
+- [Detekt](https://plugins.jetbrains.com/plugin/10761-detekt)
+
+# Gradle commands
 
 **By default, the debug flag is enabled**, example how to remove it:
 ```shell
@@ -108,9 +110,14 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew packageDistributionForCurrentOS
     ```
-- To know which dependencies have updates
+- To know which dependencies have updates, you can use `openBrowser` to open directly the browser with the HTML report:
     ```shell
     ./gradlew dependencyUpdates
+    ./gradlew dependencyUpdates -PopenBrowser=true
+    ```
+- Run static code analysis:
+    ```shell
+    ./gradlew detekt
     ```
 - Update Gradle version
     ```shell
@@ -153,5 +160,5 @@ $ ./gradlew build -PdebugConfig=false
   - [Material colors](https://material.io/design/color/the-color-system.html#tools-for-picking-colors), other resource [materialui](https://materialui.co/colors)
 - Others
   - [Boxy SVG editor](https://boxy-svg.com/)
-  - [Coroutine-based solution for delayed and periodic work](https://gist.github.com/gmk57/67591e0c878cedc2a318c10b9d9f4c0c) 
+  - [Coroutine-based solution for delayed and periodic work](https://gist.github.com/gmk57/67591e0c878cedc2a318c10b9d9f4c0c)
   - [Composables](https://www.composables.com/)

@@ -6,44 +6,13 @@ data class PullRequestWithRepoAndReviews(
 
     val pullRequest: PullRequest,
     val reviews: List<Review>,
-
-    val pullRequestSeen: PullRequestSeen?,
-    val reviewsSeen: List<ReviewSeen>,
 ): Comparable<PullRequestWithRepoAndReviews> {
     companion object {
-        val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenBy { it.seen }.thenByDescending { it.pullRequest.updatedAt }
+        val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenByDescending { it.pullRequest.createdAt }
     }
 
     override fun compareTo(other: PullRequestWithRepoAndReviews): Int {
         return defaultComparator.compare(this, other)
-    }
-
-    val seen = pullRequestSeen != null && pullRequestSeen.updatedAt >= pullRequest.updatedAt
-
-    fun seenDiff(): PullRequestDiff {
-        return if (pullRequestSeen == null) {
-            PullRequestDiff(
-                stateChanged = false,
-                commentAdded = false,
-                reviewsChanged = false,
-                checkStatusChanged = false,
-                codeChanged = false,
-            )
-        } else {
-            val allReviewsString = reviews
-                .sortedBy { review -> review.id }
-                .map { review -> review.id }
-            val allReviewsSeenString = reviewsSeen
-                .sortedBy { review -> review.id }
-                .map { review -> review.id }
-            PullRequestDiff(
-                stateChanged = pullRequest.state != pullRequestSeen.state,
-                commentAdded = (pullRequest.totalCommentsCount ?: 0) > (pullRequestSeen.totalCommentsCount ?: 0),
-                reviewsChanged = allReviewsString != allReviewsSeenString,
-                checkStatusChanged = pullRequest.lastCommitCheckRollupStatus != pullRequestSeen.lastCommitCheckRollupStatus,
-                codeChanged = pullRequest.lastCommitSha1 != pullRequestSeen.lastCommitSha1,
-            )
-        }
     }
 }
 

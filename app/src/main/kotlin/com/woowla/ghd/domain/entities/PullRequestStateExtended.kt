@@ -5,9 +5,9 @@ package com.woowla.ghd.domain.entities
  * as it is used for sorting, see [PullRequestWithRepoAndReviews.defaultComparator]
  */
 enum class PullRequestStateExtended {
-    UNKNOWN,
     OPEN,
     DRAFT,
     CLOSED,
     MERGED,
+    UNKNOWN,
 }

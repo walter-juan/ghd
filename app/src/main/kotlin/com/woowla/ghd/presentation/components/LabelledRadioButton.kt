@@ -17,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -44,14 +45,18 @@ fun LabelledRadioButton(
             Spacer(Modifier.size(5.dp))
             Text(
                 text = label,
-                modifier = Modifier.then(if (!enabled) Modifier.alpha(ContentAlpha.disabled) else Modifier)
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.then(if (!enabled) Modifier.alpha(ContentAlpha.disabled) else Modifier),
             )
         }
         if (description != null) {
             Text(
                 text = description,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.then(if (!enabled) Modifier.alpha(ContentAlpha.disabled) else Modifier)
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.then(if (!enabled) Modifier.alpha(ContentAlpha.disabled) else Modifier),
             )
         }
     }

@@ -19,9 +19,11 @@ import kotlin.io.path.createFile
  * - newReleaseNotificationsEnabled
  * - updatedReleaseNotificationsEnabled
  */
-object AppProperties {
-    private const val PROPERTIES_NAME = "ghd.properties"
-    private const val PROPERTIES_FOLDER = "prop"
+class AppProperties {
+    companion object {
+        private const val PROPERTIES_NAME = "ghd.properties"
+        private const val PROPERTIES_FOLDER = "prop"
+    }
     private val propFolderPath by lazy {
         AppFolderFactory.folder.resolve(PROPERTIES_FOLDER)
     }
@@ -35,6 +37,10 @@ object AppProperties {
     val settings: Settings = PropertiesSettings(properties)
 
     var darkTheme: Boolean? by settings.nullableBoolean("darkTheme")
+
+    var filtersPullRequestState: String? by settings.nullableString("filtersPullRequestState")
+    var filtersReleaseGroupName: String? by settings.nullableString("filtersReleaseGroupName")
+    var filtersRepoToCheckGroupName: String? by settings.nullableString("filtersRepoToCheckGroupName")
 
     var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
     var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")

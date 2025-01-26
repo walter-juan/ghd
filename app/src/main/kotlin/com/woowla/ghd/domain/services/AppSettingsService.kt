@@ -6,7 +6,7 @@ import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 
 class AppSettingsService(
-    private val localDataSource: LocalDataSource = LocalDataSource(),
+    private val localDataSource: LocalDataSource,
 ) {
     suspend fun get(): Result<AppSettings> {
         return localDataSource.getAppSettings()

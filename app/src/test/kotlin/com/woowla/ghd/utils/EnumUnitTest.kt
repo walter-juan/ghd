@@ -18,7 +18,7 @@ class EnumUnitTest : StringSpec({
 
     "enum value or default/else with invalid string return the default value" {
         val expectedDefault = City.GERMANY
-        val name: String = "this is an invalid string"
+        val name = "this is an invalid string"
 
         val orDefault = enumValueOfOrDefault(name, expectedDefault)
         val orElse = enumValueOfOrElse(name) { expectedDefault }

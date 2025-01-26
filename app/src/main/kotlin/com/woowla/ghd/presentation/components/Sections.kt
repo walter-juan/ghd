@@ -1,76 +1,46 @@
 package com.woowla.ghd.presentation.components
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Divider
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-val preferenceSwitchHeight = 35.dp
-
 @Composable
-fun SectionCategory(
-    text: String,
+fun Section(
+    title: String?,
+    modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
-        ) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        if (!title.isNullOrBlank()) {
             Text(
-                text = text,
-                style = MaterialTheme.typography.titleLarge,
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(bottom = 12.dp)
             )
         }
-        content()
-        SectionDivider()
-    }
-}
-
-@Composable
-fun SectionCategorySwitch(
-    text: String,
-    checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 1.dp
         ) {
-            Text(
-                text = text,
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.weight(1F))
-            Switch(
-                checked = checked,
-                onCheckedChange = onCheckedChange,
-                modifier = Modifier.height(preferenceSwitchHeight)
-            )
-        }
-        AnimatedVisibility(visible = checked) {
-            Column {
-                Spacer(modifier = Modifier.height(10.dp))
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
                 content()
             }
         }
-        SectionDivider()
     }
 }
 
@@ -78,71 +48,84 @@ fun SectionCategorySwitch(
 fun SectionItem(
     title: String,
     description: String? = null,
-    content: @Composable ColumnScope.() -> Unit = {}
+    enabled: Boolean = true,
+    leadingIcon: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+    content: (@Composable () -> Unit)? = null,
 ) {
-    Column {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            modifier = Modifier.height(preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
+    val enabledAlpha = if (enabled) { 1F } else { 0.5F }
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().alpha(enabledAlpha),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium
-            )
+            if (leadingIcon != null) {
+                Box(
+                    modifier = Modifier.size(40.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    leadingIcon()
+                }
+            }
+
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Medium,
+                )
+                if (description != null) {
+                    Text(
+                        text = description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
+
+            if (trailingContent != null) {
+                trailingContent()
+            }
         }
-        if (description != null) {
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
-            )
+
+        if (content != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            content()
         }
-        content()
     }
 }
 
 @Composable
-fun SectionItemSwitch(
+fun SectionItemWithSwitch(
     title: String,
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?,
+    onCheckedChange: (Boolean) -> Unit,
+    leadingIcon: (@Composable () -> Unit)? = null,
+    enabled: Boolean = true,
     description: String? = null,
-    content: @Composable ColumnScope.() -> Unit = {}
+    showAlwaysTheContent: Boolean = false,
+    content: (@Composable () -> Unit)? = null
 ) {
-    Column {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(preferenceSwitchHeight).padding(PaddingValues(bottom = 10.dp))
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(modifier = Modifier.weight(1F))
+    SectionItem(
+        title = title,
+        description = description,
+        enabled = enabled,
+        leadingIcon = leadingIcon,
+        trailingContent = {
             Switch(
                 checked = checked,
                 onCheckedChange = onCheckedChange,
-                modifier = Modifier.height(preferenceSwitchHeight)
+                enabled = enabled,
             )
-        }
-        if (description != null) {
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
-            )
-        }
-        AnimatedVisibility(visible = checked) {
-            Column {
-                content()
-            }
-        }
-    }
-}
-
-@Composable
-fun SectionDivider() {
-    HorizontalDivider(
-        modifier = Modifier.padding(vertical = 15.dp)
+        },
+        content = if (checked || showAlwaysTheContent) content else null
     )
 }

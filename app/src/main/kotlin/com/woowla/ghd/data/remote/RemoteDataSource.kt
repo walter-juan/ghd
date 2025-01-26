@@ -22,16 +22,16 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 
 class RemoteDataSource(
-    private val apolloClient: ApolloClient = apolloClientInstance,
-    private val ktorClient: HttpClient = ktorClientInstance
+    private val apolloClient: ApolloClient,
+    private val ktorClient: HttpClient,
 ) {
     companion object {
-        val apolloClientInstance = ApolloClient.Builder()
+        fun apolloClientInstance(authorizationInterceptor: AuthorizationInterceptor) = ApolloClient.Builder()
             .serverUrl("https://api.github.com/graphql")
-            .addHttpInterceptor(AuthorizationInterceptor())
+            .addHttpInterceptor(authorizationInterceptor)
             .build()
 
-        val ktorClientInstance = HttpClient(CIO) {
+        fun ktorClientInstance() = HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(Json {
                     prettyPrint = true

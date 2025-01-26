@@ -10,7 +10,6 @@ import com.woowla.ghd.domain.entities.activityChecksFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.activityEnabledOption
 import com.woowla.ghd.domain.entities.activityMergeableFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.activityReviewsFromYourPullRequestsEnabled
-import com.woowla.ghd.domain.entities.activityReviewsReRequestEnabled
 import com.woowla.ghd.domain.entities.filterUsername
 import com.woowla.ghd.domain.entities.newReleaseEnabled
 import com.woowla.ghd.domain.entities.notificationsSettings
@@ -25,12 +24,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel(
-    stateMachine: NotificationsStateMachine = NotificationsStateMachine()
+    stateMachine: NotificationsStateMachine,
 ): FlowReduxViewModel<NotificationsStateMachine.St, NotificationsStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsStateMachine(
-    private val appSettingsService: AppSettingsService = AppSettingsService(),
+    private val appSettingsService: AppSettingsService,
 ) : FlowReduxStateMachine<NotificationsStateMachine.St, NotificationsStateMachine.Act>(initialState = St.Loading) {
     init {
         spec {
@@ -120,7 +119,7 @@ class NotificationsStateMachine(
     sealed interface St {
         data object Loading: St
         @optics data class Success(val appSettings: AppSettings, val savedSuccessfully: Boolean? = null): St {
-            companion object {}
+            companion object
             val notificationsSettings: NotificationsSettings = appSettings.notificationsSettings
         }
         data class Error(val error : Throwable): St
