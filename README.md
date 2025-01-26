@@ -5,7 +5,7 @@
 
 > [!CAUTION]
 > Migrated to Compose navigation, view models and Room KMP with non-final versions it could be unstable
-> 
+>
 > Things to solve in a future:
 >   - [ ] Whole database encryption removed, PAT will be stored as plain text
 >   - [ ] Relations with [Intermediate data class](https://developer.android.com/training/data-storage/room/relationships#data-class), seems not to be working (search for `TODO relations`)
@@ -15,13 +15,9 @@
 [GHD (GitHub Dashboard)](https://github.com/walter-juan/ghd), is an application to show the pull requests and releases from your GitHub repositories.
 
 Features:
-- List of the pull requests (open, draft, merged & closed)
-  - Mark a pull request as seen to know later if it has been updated
-  - Filter pull request by branch
+- List of the pull requests
 - List latest releases from a repository
 - Notifications
-  - Notify when pull request is created or updated
-  - Notify when a new release is created
 - Light and dark themes
 
 ☀️ Light Theme | 🌒 Dark Theme
@@ -81,7 +77,12 @@ So if you want to use this app you should remove the `com.apple.quarantine`.
   sudo xattr -cr /path/to/my-app.app
   ```
 
-# Useful Gradle commands
+# IntelliJ IDEA plugins
+
+- [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
+- [Detekt](https://plugins.jetbrains.com/plugin/10761-detekt)
+
+# Gradle commands
 
 **By default, the debug flag is enabled**, example how to remove it:
 ```shell
@@ -112,6 +113,10 @@ $ ./gradlew build -PdebugConfig=false
     ```shell
     ./gradlew dependencyUpdates
     ./gradlew dependencyUpdates -PopenBrowser=true
+    ```
+- Run static code analysis:
+    ```shell
+    ./gradlew detekt
     ```
 - Update Gradle version
     ```shell
@@ -154,5 +159,5 @@ $ ./gradlew build -PdebugConfig=false
   - [Material colors](https://material.io/design/color/the-color-system.html#tools-for-picking-colors), other resource [materialui](https://materialui.co/colors)
 - Others
   - [Boxy SVG editor](https://boxy-svg.com/)
-  - [Coroutine-based solution for delayed and periodic work](https://gist.github.com/gmk57/67591e0c878cedc2a318c10b9d9f4c0c) 
+  - [Coroutine-based solution for delayed and periodic work](https://gist.github.com/gmk57/67591e0c878cedc2a318c10b9d9f4c0c)
   - [Composables](https://www.composables.com/)
