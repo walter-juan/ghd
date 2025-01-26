@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - 🎨 New application design
 - Update dependencies
+- Default synchronization interval changed from 1 to 5 minutes
 ### Removed
 - Mark as seen
 - `Dependency updates` GitHub action

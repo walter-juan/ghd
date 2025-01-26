@@ -36,7 +36,7 @@ class Synchronizer(
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
     private val isInitialized = AtomicBoolean(false)
-    private var checkTimeout = SyncSettings.defaultCheckTimeout
+    private var checkTimeout = SyncSettings.DEFAULT_CHECKOUT_TIMEOUT
     private var timerJob: Job? = null
 
     private var syncJob: Job? = null
