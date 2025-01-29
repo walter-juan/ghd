@@ -12,7 +12,7 @@ import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
-class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
+class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
     /**
      * Return a list of old pull request and new pull request for the activity changes.
      * This will contain:
@@ -275,7 +275,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             testNotificationSender.newPullRequestReviewCount shouldBe 2
         }
         // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false)  {
+        should("should send notifications for re-request reviews").config(enabled = false) {
             testNotificationSender.newPullRequestReReviewCount shouldBe 1
         }
         should("should send notifications for checks changes") {
@@ -372,7 +372,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             testNotificationSender.newPullRequestReviewCount shouldBe 2
         }
         // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false)  {
+        should("should send notifications for re-request reviews").config(enabled = false) {
             testNotificationSender.newPullRequestReReviewCount shouldBe 1
         }
         should("should send notifications for checks changes") {
@@ -420,7 +420,7 @@ class PullRequestServiceActivityNotificationsUnitTest: ShouldSpec({
             testNotificationSender.newPullRequestReviewCount shouldBe 0
         }
         // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false)  {
+        should("should send notifications for re-request reviews").config(enabled = false) {
             testNotificationSender.newPullRequestReReviewCount shouldBe 0
         }
         should("should send notifications for checks changes") {

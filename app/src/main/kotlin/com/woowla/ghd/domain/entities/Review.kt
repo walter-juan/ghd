@@ -27,7 +27,7 @@ data class Review(
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "state") val state: ReviewState,
     @Embedded val author: Author?,
-): Comparable<Review> {
+) : Comparable<Review> {
     companion object {
         val defaultComparator = compareByDescending<Review> { it.submittedAt }
     }

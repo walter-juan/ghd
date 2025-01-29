@@ -18,7 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReleasesViewModel(
     stateMachine: ReleasesStateMachine,
-): FlowReduxViewModel<ReleasesStateMachine.St, ReleasesStateMachine.Act>(stateMachine) {
+) : FlowReduxViewModel<ReleasesStateMachine.St, ReleasesStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             dispatch(ReleasesStateMachine.Act.Reload)
@@ -34,7 +34,7 @@ class ReleasesStateMachine(
     private val synchronizer: Synchronizer,
     private val appSettingsService: AppSettingsService,
     private val releaseService: ReleaseService,
-): FlowReduxStateMachine<ReleasesStateMachine.St, ReleasesStateMachine.Act>(initialState = St.Initializing) {
+) : FlowReduxStateMachine<ReleasesStateMachine.St, ReleasesStateMachine.Act>(initialState = St.Initializing) {
 
     init {
         spec {
@@ -62,7 +62,7 @@ class ReleasesStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
+    private suspend fun <T : St> load(state: State<T>): ChangedState<St> {
         return try {
             val syncResult = synchronizer.getLastSyncResult().getOrNull()
             val appSettings = appSettingsService.get().getOrThrow()
@@ -117,7 +117,7 @@ class ReleasesStateMachine(
     }
 
     sealed interface St {
-        data object Initializing: St
+        data object Initializing : St
         data class Success(
             val releases: List<ReleaseWithRepo>,
             val releasesFiltered: List<ReleaseWithRepo>,
@@ -126,12 +126,12 @@ class ReleasesStateMachine(
             val groupNameFilters: Set<String>,
             val groupNameFilterSizes: Map<String, Int>,
             val groupNameFiltersSelected: Set<String>,
-        ): St
-        data class  Error(val throwable: Throwable): St
+        ) : St
+        data class Error(val throwable: Throwable) : St
     }
 
     sealed interface Act {
-        data object Reload: Act
-        data class GroupNameFilterSelected(val isSelected: Boolean, val groupName: String): Act
+        data object Reload : Act
+        data class GroupNameFilterSelected(val isSelected: Boolean, val groupName: String) : Act
     }
 }

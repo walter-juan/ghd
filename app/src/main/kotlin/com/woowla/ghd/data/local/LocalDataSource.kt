@@ -2,7 +2,20 @@ package com.woowla.ghd.data.local
 
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
-import com.woowla.ghd.domain.entities.*
+import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.NotificationsSettings
+import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestStateExtended
+import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.entities.Release
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
+import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
+import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.utils.enumValueOfOrDefault
 import com.woowla.ghd.utils.enumValueOfOrNull
 
@@ -99,7 +112,6 @@ class LocalDataSource(
         }
     }
 
-
     suspend fun getLastSyncResult(): Result<SyncResultWithEntriesAndRepos?> {
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
@@ -167,7 +179,6 @@ class LocalDataSource(
         }
     }
 
-
     /**
      * Get the sync result entries by the sync result id with the repo to check
      */
@@ -190,7 +201,6 @@ class LocalDataSource(
         }
     }
 
-
     suspend fun getRepoToCheck(id: Long): Result<RepoToCheck> {
         return runCatching {
             appDatabase.repoToCheckDao().get(id)
@@ -211,7 +221,6 @@ class LocalDataSource(
             appDatabase.repoToCheckDao().delete(id)
         }
     }
-
 
     suspend fun getPullRequest(id: String): Result<PullRequestWithRepoAndReviews> {
         return runCatching {
@@ -278,7 +287,6 @@ class LocalDataSource(
         }
     }
 
-
     suspend fun removeReviewsByPullRequest(pullRequestIds: List<String>): Result<Unit> {
         return runCatching {
             appDatabase.reviewDao().deleteByPullRequest(pullRequestIds)
@@ -291,7 +299,6 @@ class LocalDataSource(
             appDatabase.reviewDao().insert(reviews)
         }
     }
-
 
     private suspend fun getOrCreateSyncSettings(): SyncSettings {
         val dbSyncSettings = appDatabase.syncSettingsDao().get()

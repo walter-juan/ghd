@@ -3,7 +3,12 @@ package com.woowla.ghd.presentation.app
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
-import com.woowla.compose.icon.collections.tabler.tabler.outline.*
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Bell
+import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequest
+import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Package
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Settings
 
 interface NavigationScreen {
     val icon: ImageVector

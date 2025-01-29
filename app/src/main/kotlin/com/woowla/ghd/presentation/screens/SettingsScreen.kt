@@ -10,18 +10,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -47,18 +47,20 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.OutlinedSelectField
+import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine.St
+import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 object SettingsScreen {
     @Composable
     fun Content(
-        viewModel : SettingsViewModel = koinViewModel(),
+        viewModel: SettingsViewModel = koinViewModel(),
         onSyncResultsClicked: () -> Unit,
     ) {
         val state by viewModel.state.collectAsState()
@@ -120,7 +122,7 @@ object SettingsScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, St.Initializing -> { }
                     is St.Error -> {
                         Text(i18n.generic_error)

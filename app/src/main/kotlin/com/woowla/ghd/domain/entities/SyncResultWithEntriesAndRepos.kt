@@ -17,7 +17,7 @@ data class SyncResultWithEntriesAndRepos(
             syncResultEntries.count { !it.syncResultEntry.isSuccess } * 100 / syncResultEntries.size
         }
 
-        status = when(errorPercentage) {
+        status = when (errorPercentage) {
             0 -> SyncResult.Status.SUCCESS
             in 0..5 -> SyncResult.Status.WARNING
             in 5..25 -> SyncResult.Status.ERROR

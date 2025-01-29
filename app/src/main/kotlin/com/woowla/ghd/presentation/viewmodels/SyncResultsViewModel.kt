@@ -14,7 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsViewModel(
     stateMachine: SyncResultsStateMachine
-): FlowReduxViewModel<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(stateMachine) {
+) : FlowReduxViewModel<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(stateMachine) {
     init {
         dispatch(SyncResultsStateMachine.Act.Load)
         EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
@@ -26,7 +26,7 @@ class SyncResultsViewModel(
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsStateMachine(
     private val synchronizer: Synchronizer,
-): FlowReduxStateMachine<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(initialState = St.Initializing) {
+) : FlowReduxStateMachine<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(initialState = St.Initializing) {
 
     init {
         spec {
@@ -51,7 +51,7 @@ class SyncResultsStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
+    private suspend fun <T : St> load(state: State<T>): ChangedState<St> {
         return synchronizer.getAllSyncResults().fold(
             onSuccess = { syncResults ->
                 state.override { St.Success(syncResultWithEntries = syncResults) }
@@ -63,12 +63,12 @@ class SyncResultsStateMachine(
     }
 
     sealed interface St {
-        data object Initializing: St
-        data class Success(val syncResultWithEntries: List<SyncResultWithEntriesAndRepos>): St
-        data class Error(val throwable: Throwable): St
+        data object Initializing : St
+        data class Success(val syncResultWithEntries: List<SyncResultWithEntriesAndRepos>) : St
+        data class Error(val throwable: Throwable) : St
     }
 
     sealed interface Act {
-        data object Load: Act
+        data object Load : Act
     }
 }

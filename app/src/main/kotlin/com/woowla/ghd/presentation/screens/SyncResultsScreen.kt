@@ -22,14 +22,14 @@ import com.woowla.ghd.presentation.components.LoadingComponent
 import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.SynResultCard
 import com.woowla.ghd.presentation.components.TopBar
-import com.woowla.ghd.presentation.viewmodels.SyncResultsViewModel
 import com.woowla.ghd.presentation.viewmodels.SyncResultsStateMachine
+import com.woowla.ghd.presentation.viewmodels.SyncResultsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 object SyncResultsScreen {
     @Composable
     fun Content(
-        viewModel : SyncResultsViewModel = koinViewModel(),
+        viewModel: SyncResultsViewModel = koinViewModel(),
         onBackClick: () -> Unit,
         onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit,
     ) {
@@ -46,7 +46,7 @@ object SyncResultsScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, SyncResultsStateMachine.St.Initializing -> {
                         LoadingComponent()
                     }

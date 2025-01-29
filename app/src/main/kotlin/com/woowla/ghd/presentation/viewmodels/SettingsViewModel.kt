@@ -18,7 +18,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModel(
     stateMachine: SettingsStateMachine,
-): FlowReduxViewModel<SettingsStateMachine.St, SettingsStateMachine.Act>(stateMachine)
+) : FlowReduxViewModel<SettingsStateMachine.St, SettingsStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsStateMachine(
@@ -83,20 +83,24 @@ class SettingsStateMachine(
     }
 
     sealed interface St {
-        data object Initializing: St
-        @optics data class Success(val syncSettings: SyncSettings, val appSettings: AppSettings, val savedSuccessfully: Boolean? = null): St {
+        data object Initializing : St
+        @optics data class Success(
+            val syncSettings: SyncSettings,
+            val appSettings: AppSettings,
+            val savedSuccessfully: Boolean? = null
+        ) : St {
             companion object
         }
-        data class Error(val throwable: Throwable): St
+        data class Error(val throwable: Throwable) : St
     }
     sealed interface Act {
-        data object Save: Act
-        data object Reload: Act
-        data object CleanUpSaveSuccessfully: Act
+        data object Save : Act
+        data object Reload : Act
+        data object CleanUpSaveSuccessfully : Act
 
-        data class UpdatePatToken(val gitHubPatToken: String): Act
-        data class UpdateCheckTimeout(val checkTimeout: Long): Act
-        data class UpdatePullRequestCleanUpTimeout(val cleanUpTimeout: Long): Act
-        data class UpdateAppTheme(val appDarkTheme: Boolean?): Act
+        data class UpdatePatToken(val gitHubPatToken: String) : Act
+        data class UpdateCheckTimeout(val checkTimeout: Long) : Act
+        data class UpdatePullRequestCleanUpTimeout(val cleanUpTimeout: Long) : Act
+        data class UpdateAppTheme(val appDarkTheme: Boolean?) : Act
     }
 }

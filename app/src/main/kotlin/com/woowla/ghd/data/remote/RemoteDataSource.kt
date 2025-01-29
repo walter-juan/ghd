@@ -10,14 +10,15 @@ import com.woowla.ghd.data.remote.entities.ApiRelease
 import com.woowla.ghd.data.remote.entities.ApiResponse
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.data.remote.type.PullRequestState
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.engine.cio.*
-import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.serialization.kotlinx.json.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.get
+import io.ktor.client.statement.HttpResponse
+import io.ktor.http.URLProtocol
+import io.ktor.http.appendPathSegments
+import io.ktor.serialization.kotlinx.json.json
 import kotlinx.datetime.Instant
 import kotlinx.serialization.json.Json
 
@@ -33,11 +34,13 @@ class RemoteDataSource(
 
         fun ktorClientInstance() = HttpClient(CIO) {
             install(ContentNegotiation) {
-                json(Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+                json(
+                    Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    }
+                )
             }
         }
     }
@@ -47,7 +50,14 @@ class RemoteDataSource(
             val pullRequestsQuery = GetPullRequestsQuery(owner = owner, name = repo, states = listOf(state), last = 25)
             val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
 
-            val data = pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
+            val data = pullRequestsResponse
+                .dataAssertNoErrors
+                .repository
+                ?.pullRequests
+                ?.pullRequestFragment
+                ?.edges
+                ?.mapNotNull { it?.node }
+                ?: listOf()
             val rateLimit = pullRequestsResponse.getHeadersAsMap().getRateLimit()
 
             ApiResponse(data = data, rateLimit = rateLimit)
@@ -79,7 +89,11 @@ class RemoteDataSource(
             val getLastReleaseQuery = GetLastReleaseQuery(owner = owner, name = repo)
             val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).execute()
 
-            val data = getLastReleaseResponse.dataAssertNoErrors.repository?.latestRelease ?: throw NotFoundException("Last release not found for $owner/$repo")
+            val data = getLastReleaseResponse
+                .dataAssertNoErrors
+                .repository
+                ?.latestRelease
+                ?: throw NotFoundException("Last release not found for $owner/$repo")
             val rateLimit = getLastReleaseResponse.getHeadersAsMap().getRateLimit()
 
             ApiResponse(data = data, rateLimit = rateLimit)
@@ -115,7 +129,7 @@ class RemoteDataSource(
         return headers.entries().associate { it.key to it.value.joinToString(separator = ", ") }
     }
 
-    private fun <D: Operation.Data> ApolloResponse<D>.getHeadersAsMap(): Map<String, String> {
+    private fun <D : Operation.Data> ApolloResponse<D>.getHeadersAsMap(): Map<String, String> {
         return executionContext[HttpInfo]?.headers?.associate { (key, value) -> key to value } ?: mapOf()
     }
 

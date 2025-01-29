@@ -74,4 +74,7 @@ formatting:
     active: false
   MaximumLineLength: # duplicate of MaxLineLength
     maxLineLength: 150
-
+  Wrapping:
+    maxLineLength: 150
+  SpacingBetweenDeclarationsWithAnnotations:
+    active: false

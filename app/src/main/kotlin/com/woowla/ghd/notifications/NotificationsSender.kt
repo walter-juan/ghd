@@ -15,7 +15,7 @@ interface NotificationsSender {
     fun newRelease(releaseWithRepo: ReleaseWithRepo)
 }
 
-class NotificationsSenderDefault(private val client: NotificationClient): NotificationsSender {
+class NotificationsSenderDefault(private val client: NotificationClient) : NotificationsSender {
     override fun newPullRequest(pull: PullRequest) {
         val pullRequestDecorator = PullRequestStateDecorator(pull.stateExtended)
         client.sendNotification(

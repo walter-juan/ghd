@@ -7,9 +7,9 @@ import androidx.room.ForeignKey
 import androidx.room.Ignore
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlin.time.Duration
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import kotlin.time.Duration
 
 @Entity(
     tableName = "pull_request",
@@ -61,7 +61,6 @@ data class PullRequest(
     val checkHaveErrors
         @Ignore
         get() = lastCommitCheckRollupStatus == CommitCheckRollupStatus.ERROR || lastCommitCheckRollupStatus == CommitCheckRollupStatus.FAILURE || lastCommitCheckRollupStatus == CommitCheckRollupStatus.UNKNOWN
-
 }
 
 fun PullRequest.isOld(cleanUpTimeout: Long): Boolean {

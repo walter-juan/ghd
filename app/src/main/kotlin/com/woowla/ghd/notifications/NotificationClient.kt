@@ -8,7 +8,7 @@ class NotificationClient(private val trayState: TrayState) {
         val notification = Notification(
             title = title,
             message = message,
-            type = when(type) {
+            type = when (type) {
                 NotificationType.NONE -> Notification.Type.None
                 NotificationType.INFO -> Notification.Type.Info
                 NotificationType.WARNING -> Notification.Type.Warning

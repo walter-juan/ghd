@@ -21,9 +21,9 @@ import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
+import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
-import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.utils.openFolder
 import com.woowla.ghd.utils.openWebpage

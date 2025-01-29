@@ -3,16 +3,16 @@ package com.woowla.ghd.domain.services
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
-import com.woowla.ghd.domain.entities.AppSettings
-import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.SyncResultEntry
-import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.data.remote.mappers.toPullRequest
+import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
+import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.entities.filterSyncValid
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
@@ -114,7 +114,7 @@ class PullRequestService(
     }
 
     suspend fun sendStateNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
-        when(appSettings.notificationsSettings.stateEnabledOption) {
+        when (appSettings.notificationsSettings.stateEnabledOption) {
             NotificationsSettings.EnabledOption.NONE -> {
                 // nothing to do
             }
@@ -146,7 +146,7 @@ class PullRequestService(
     }
 
     suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
-        when(appSettings.notificationsSettings.activityEnabledOption) {
+        when (appSettings.notificationsSettings.activityEnabledOption) {
             NotificationsSettings.EnabledOption.NONE -> {
                 // nothing to do
             }

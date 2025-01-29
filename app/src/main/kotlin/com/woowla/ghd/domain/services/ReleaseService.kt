@@ -2,12 +2,12 @@ package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.data.remote.mappers.toRelease
 import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.data.remote.mappers.toRelease
-import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.filterNotSyncValid
 import com.woowla.ghd.domain.mappers.toSyncResultEntry
 import com.woowla.ghd.domain.synchronization.SynchronizableService
@@ -47,7 +47,7 @@ class ReleaseService(
         }
 
         val releasesAfter = getAll().getOrDefault(listOf())
-        appSettingsService.get().onSuccess {  appSettings ->
+        appSettingsService.get().onSuccess { appSettings ->
             sendNotifications(appSettings = appSettings, oldReleases = releasesBefore, newReleases = releasesAfter)
         }
 

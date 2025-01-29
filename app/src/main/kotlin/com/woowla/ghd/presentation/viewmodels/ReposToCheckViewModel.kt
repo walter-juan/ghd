@@ -16,7 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckViewModel(
     stateMachine: ReposToCheckStateMachine,
-): FlowReduxViewModel<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(stateMachine) {
+) : FlowReduxViewModel<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
             dispatch(ReposToCheckStateMachine.Act.Reload)
@@ -31,7 +31,7 @@ class ReposToCheckViewModel(
 class ReposToCheckStateMachine(
     private val repoToCheckService: RepoToCheckService,
     private val appSettingsService: AppSettingsService,
-): FlowReduxStateMachine<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(initialState = St.Initializing) {
+) : FlowReduxStateMachine<ReposToCheckStateMachine.St, ReposToCheckStateMachine.Act>(initialState = St.Initializing) {
 
     init {
         spec {
@@ -65,7 +65,7 @@ class ReposToCheckStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>, searchQuery: String): ChangedState<St> {
+    private suspend fun <T : St> load(state: State<T>, searchQuery: String): ChangedState<St> {
         return try {
             val appSettings = appSettingsService.get().getOrThrow()
             val groupNameFiltersSelected = appSettings.filtersRepoToCheckGroupName
@@ -157,7 +157,7 @@ class ReposToCheckStateMachine(
     }
 
     sealed interface St {
-        data object Initializing: St
+        data object Initializing : St
         data class Success(
             val reposToCheck: List<RepoToCheck>,
             val reposToCheckFiltered: List<RepoToCheck>,
@@ -166,14 +166,14 @@ class ReposToCheckStateMachine(
             val groupNameFilters: Set<String>,
             val groupNameFilterSizes: Map<String, Int>,
             val groupNameFiltersSelected: Set<String>,
-        ): St
-        data class  Error(val throwable: Throwable): St
+        ) : St
+        data class Error(val throwable: Throwable) : St
     }
 
     sealed interface Act {
-        data object Reload: Act
-        data class DeleteRepoToCheck(val repoToCheck: RepoToCheck): Act
-        data class GroupNameFilterSelected(val isSelected: Boolean, val groupName: String): Act
-        data class SearchQueryChanged(val searchQuery: String): Act
+        data object Reload : Act
+        data class DeleteRepoToCheck(val repoToCheck: RepoToCheck) : Act
+        data class GroupNameFilterSelected(val isSelected: Boolean, val groupName: String) : Act
+        data class SearchQueryChanged(val searchQuery: String) : Act
     }
 }

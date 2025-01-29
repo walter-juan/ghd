@@ -1,13 +1,17 @@
 package com.woowla.ghd.presentation.screens
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,12 +34,13 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.RefreshOff
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.SectionItemWithSwitch
-import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -44,7 +49,7 @@ object RepoToCheckEditScreen {
     @Composable
     fun Content(
         repoToCheckId: Long?,
-        viewModel : RepoToCheckEditViewModel = koinViewModel { parametersOf(repoToCheckId) },
+        viewModel: RepoToCheckEditViewModel = koinViewModel { parametersOf(repoToCheckId) },
         onBackClick: () -> Unit
     ) {
         val state by viewModel.state.collectAsState()
@@ -61,7 +66,7 @@ object RepoToCheckEditScreen {
         dispatchAction: (Act) -> Unit,
         onBackClick: () -> Unit
     ) {
-        when(state) {
+        when (state) {
             null, St.Loading -> {
                 Loading(onBackClick = onBackClick)
             }
@@ -338,7 +343,7 @@ object RepoToCheckEditScreen {
             else -> Tabler.Outline.RefreshOff
         }
         Crossfade(icon) {
-            when(icon) {
+            when (icon) {
                 Tabler.Filled.Bell -> {
                     Icon(
                         imageVector = icon,

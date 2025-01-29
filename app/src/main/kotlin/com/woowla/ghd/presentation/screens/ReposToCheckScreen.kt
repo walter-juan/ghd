@@ -4,8 +4,23 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedIconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,16 +40,23 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
-import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
+import com.woowla.ghd.presentation.components.ColoredFilterChip
+import com.woowla.ghd.presentation.components.ConfirmationDialog
+import com.woowla.ghd.presentation.components.EmptyComponent
+import com.woowla.ghd.presentation.components.ErrorComponent
+import com.woowla.ghd.presentation.components.Header
+import com.woowla.ghd.presentation.components.RepoToCheckCard
+import com.woowla.ghd.presentation.components.ScreenScrollable
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
+import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
 import com.woowla.ghd.utils.openWebpage
 import org.koin.compose.viewmodel.koinViewModel
 
 object ReposToCheckScreen {
     @Composable
     fun Content(
-        viewModel : ReposToCheckViewModel = koinViewModel(),
+        viewModel: ReposToCheckViewModel = koinViewModel(),
         onEditRepoClick: (RepoToCheck) -> Unit,
         onAddNewRepoClick: () -> Unit,
         onBulkClick: () -> Unit,
@@ -88,7 +110,7 @@ object ReposToCheckScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, ReposToCheckStateMachine.St.Initializing -> {
                         // do not show a loading because is shown only some milliseconds
                     }

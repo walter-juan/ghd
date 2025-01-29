@@ -3,14 +3,29 @@ package com.woowla.ghd.presentation.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -83,12 +98,16 @@ fun SynResultEntryCard(
 ) {
     val decorator = SyncResultEntryDecorator(syncResultEntryWithRepo.syncResultEntry)
 
-    val title = syncResultEntryWithRepo.syncResultEntry.origin.toString() + " " + (syncResultEntryWithRepo.repoToCheck?.let { RepoToCheckDecorator(it) }?.fullRepo ?: "")
+    val title = syncResultEntryWithRepo
+        .syncResultEntry
+        .origin.toString() + " " + (syncResultEntryWithRepo.repoToCheck?.let { RepoToCheckDecorator(it) }?.fullRepo ?: "")
     CardListItem(
         modifier = modifier,
         onClick = {},
         title = title,
-        subtitle = i18n.screen_sync_result_entries_took_seconds((syncResultEntryWithRepo.syncResultEntry.duration.inWholeMilliseconds / 1000.0)),
+        subtitle = i18n.screen_sync_result_entries_took_seconds(
+            (syncResultEntryWithRepo.syncResultEntry.duration.inWholeMilliseconds / 1000.0)
+        ),
         leadingContent = {
             Avatar(
                 image = decorator.originIcon,
@@ -124,7 +143,7 @@ fun RepoToCheckCard(
         modifier = modifier,
         onClick = { onOpenClick.invoke(repoToCheck) },
         title = repoToCheckDecorator.fullRepo,
-        subtitle = if(repoToCheck.groupName.isNullOrBlank()) { i18n.screen_edit_repo_to_no_group } else { repoToCheck.groupName },
+        subtitle = if (repoToCheck.groupName.isNullOrBlank()) { i18n.screen_edit_repo_to_no_group } else { repoToCheck.groupName },
         leadingContent = {
             Avatar(
                 image = Tabler.Outline.BrandGithub,
@@ -267,7 +286,7 @@ fun PullRequestCard(
 ) {
     val pullRequestDecorator = PullRequestDecorator(pullRequestWithReviews)
     val showExtras = pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.OPEN ||
-            pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.DRAFT
+        pullRequestWithReviews.pullRequest.stateExtended == PullRequestStateExtended.DRAFT
 
     CardListItem(
         modifier = modifier,
@@ -310,14 +329,22 @@ fun PullRequestCard(
                         Tag(
                             text = pullRequestDecorator.reviewsNonApproved(),
                             icon = pullRequestDecorator.reviewsIcon(),
-                            color = if (pullRequestWithReviews.reviews.anyCommentedOrChangesRequested()) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
+                            color = if (pullRequestWithReviews.reviews.anyCommentedOrChangesRequested()) {
+                                MaterialTheme.colorScheme.error
+                            } else {
+                                MaterialTheme.colorScheme.secondary
+                            },
                         )
                     }
                     if (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS) {
                         Tag(
                             text = pullRequestDecorator.commitChecks,
                             icon = pullRequestDecorator.commitChecksIcon,
-                            color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary,
+                            color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) {
+                                MaterialTheme.colorScheme.error
+                            } else {
+                                MaterialTheme.colorScheme.secondary
+                            },
                         )
                     }
                 }
@@ -380,8 +407,10 @@ fun CardListItem(
                 enter = fadeIn(),
                 exit = fadeOut(),
             ) {
-                Box(modifier = Modifier
-                    .fillMaxSize()) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
                     hoverContent?.invoke(paddingValues)
                 }
             }

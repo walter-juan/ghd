@@ -54,7 +54,7 @@ import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesStateMachine
 import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesViewModel
 import com.woowla.ghd.presentation.viewmodels.SyncResultsStateMachine
 import com.woowla.ghd.presentation.viewmodels.SyncResultsViewModel
-import io.ktor.client.*
+import io.ktor.client.HttpClient
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.startKoin
@@ -83,11 +83,11 @@ fun main() {
                 viewModel<ReleasesViewModel> { ReleasesViewModel(get()) }
                 viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get()) }
                 viewModel<ReposToCheckViewModel> { ReposToCheckViewModel(get()) }
-                viewModel<RepoToCheckEditViewModel> { (repoToCheckId : Long?) ->
+                viewModel<RepoToCheckEditViewModel> { (repoToCheckId: Long?) ->
                     RepoToCheckEditViewModel(get { parametersOf(repoToCheckId) })
                 }
                 viewModel<SettingsViewModel> { SettingsViewModel(get()) }
-                viewModel<SyncResultEntriesViewModel> { (syncResultId : Long) ->
+                viewModel<SyncResultEntriesViewModel> { (syncResultId: Long) ->
                     SyncResultEntriesViewModel(get { parametersOf(syncResultId) })
                 }
                 viewModel<SyncResultsViewModel> { SyncResultsViewModel(get()) }
@@ -98,11 +98,11 @@ fun main() {
                 factory<ReleasesStateMachine> { ReleasesStateMachine(get(), get(), get()) }
                 factory<ReposToCheckBulkStateMachine> { ReposToCheckBulkStateMachine(get()) }
                 factory<ReposToCheckStateMachine> { ReposToCheckStateMachine(get(), get()) }
-                factory<RepoToCheckEditStateMachine> { (repoToCheckId : Long?) ->
+                factory<RepoToCheckEditStateMachine> { (repoToCheckId: Long?) ->
                     RepoToCheckEditStateMachine(repoToCheckId = repoToCheckId, get())
                 }
                 factory<SettingsStateMachine> { SettingsStateMachine(get(), get()) }
-                factory<SyncResultEntriesStateMachine> { (syncResultId : Long) ->
+                factory<SyncResultEntriesStateMachine> { (syncResultId: Long) ->
                     SyncResultEntriesStateMachine(syncResultId = syncResultId, get())
                 }
                 factory<SyncResultsStateMachine> { SyncResultsStateMachine(get()) }

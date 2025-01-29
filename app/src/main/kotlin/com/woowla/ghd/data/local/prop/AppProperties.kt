@@ -1,6 +1,11 @@
 package com.woowla.ghd.data.local.prop
 
-import com.russhwolf.settings.*
+import com.russhwolf.settings.PropertiesSettings
+import com.russhwolf.settings.Settings
+import com.russhwolf.settings.boolean
+import com.russhwolf.settings.nullableBoolean
+import com.russhwolf.settings.nullableString
+import com.russhwolf.settings.string
 import com.woowla.ghd.AppFolderFactory
 import java.io.FileInputStream
 import java.io.FileOutputStream

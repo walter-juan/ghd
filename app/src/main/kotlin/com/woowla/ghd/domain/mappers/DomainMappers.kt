@@ -6,7 +6,7 @@ import com.woowla.ghd.domain.entities.SyncResultEntry
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-fun <T: Any> Result<ApiResponse<T>>.toSyncResultEntry(
+fun <T : Any> Result<ApiResponse<T>>.toSyncResultEntry(
     syncResultId: Long,
     repoToCheckId: Long?,
     origin: SyncResultEntry.Origin,

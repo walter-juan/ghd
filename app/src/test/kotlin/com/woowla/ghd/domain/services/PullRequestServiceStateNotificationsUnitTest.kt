@@ -10,7 +10,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
-class PullRequestServiceStateNotificationsUnitTest: StringSpec({
+class PullRequestServiceStateNotificationsUnitTest : StringSpec({
     /**
      * Return a list of old pull request and new pull request for the activity changes.
      * This will contain:

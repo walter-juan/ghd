@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun RowScope.TableCell(
     weight: Float,
@@ -15,8 +14,8 @@ fun RowScope.TableCell(
 ) {
     Box(
         modifier = Modifier
-        .weight(weight)
-        .padding(8.dp)
+            .weight(weight)
+            .padding(8.dp)
     ) {
         composable()
     }

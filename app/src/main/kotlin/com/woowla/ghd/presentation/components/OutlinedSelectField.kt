@@ -31,7 +31,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.ChevronDown
 import com.woowla.compose.icon.collections.tabler.tabler.outline.ChevronUp
 
 @Composable
-fun <T: Any?> OutlinedSelectField(
+fun <T : Any?> OutlinedSelectField(
     values: List<Pair<T, String>>,
     selected: T? = null,
     emptyText: String = "",
@@ -78,10 +78,10 @@ fun <T: Any?> OutlinedSelectField(
                         .clickable(
                             onClick = {
                                 dropDownExpanded = !dropDownExpanded
-                                focusRequester.requestFocus() //to give the focus to the TextField
+                                focusRequester.requestFocus() // to give the focus to the TextField
                             },
                             interactionSource = interactionSource,
-                            indication = null //to avoid the ripple on the Box
+                            indication = null // to avoid the ripple on the Box
                         )
                 )
             }
@@ -91,7 +91,7 @@ fun <T: Any?> OutlinedSelectField(
             expanded = dropDownExpanded,
             onDismissRequest = { dropDownExpanded = false },
             modifier = Modifier
-                .width(with(LocalDensity.current){ textFieldSize.width.toDp() })
+                .width(with(LocalDensity.current) { textFieldSize.width.toDp() })
         ) {
             values.forEach { (value, text) ->
                 DropdownMenuItem(

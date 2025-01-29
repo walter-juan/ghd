@@ -1,9 +1,9 @@
 package com.woowla.ghd.data.remote.mappers
 
-import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
 import com.woowla.ghd.data.remote.entities.ApiRateLimit
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
+import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.GitHubMergeableState
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus

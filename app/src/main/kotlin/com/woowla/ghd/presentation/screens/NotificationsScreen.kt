@@ -41,20 +41,20 @@ import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
 import com.woowla.ghd.presentation.components.LabelledRadioButton
 import com.woowla.ghd.presentation.components.ScreenScrollable
-import com.woowla.ghd.presentation.components.TableCell
-import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.SectionItemWithSwitch
-import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.St
+import com.woowla.ghd.presentation.components.TableCell
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.Act
+import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 object NotificationsScreen {
     @Composable
     fun Content(
-        viewModel : NotificationsViewModel = koinViewModel(),
+        viewModel: NotificationsViewModel = koinViewModel(),
         onBackClick: (() -> Unit)? = null,
     ) {
         val state by viewModel.state.collectAsState()
@@ -97,8 +97,7 @@ object NotificationsScreen {
                 )
             }
         ) {
-
-            when(state) {
+            when (state) {
                 null, St.Loading -> {
                     Text(i18n.generic_loading)
                 }
@@ -144,7 +143,6 @@ object NotificationsScreen {
                 .padding(AppDimens.screenPadding)
                 .fillMaxWidth()
         ) {
-
             Section("Filters") {
                 SectionItem(
                     title = "Username",
@@ -369,7 +367,6 @@ object NotificationsScreen {
                 )
             },
             column3 = {
-
             },
         )
     }
