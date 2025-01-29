@@ -29,12 +29,4 @@ data class Release(
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "published_at") val publishedAt: Instant?,
     @Embedded val author: Author?,
-): Comparable<Release> {
-    companion object {
-        val defaultComparator = compareByDescending<Release> { it.publishedAt }
-    }
-
-    override fun compareTo(other: Release): Int {
-        return defaultComparator.compare(this, other)
-    }
-}
+)
