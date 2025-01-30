@@ -5,13 +5,12 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,9 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogWindow
-import androidx.compose.ui.window.WindowPosition
-import androidx.compose.ui.window.rememberDialogState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -92,7 +88,6 @@ fun App() {
 
         if (openNewAppVersionDialog.value) {
             newAppVersionDialog(
-                darkTheme = darkTheme,
                 newVersion = newAppVersion.value,
                 onCloseRequest = { openNewAppVersionDialog.value = false },
                 onDiscardClick = { openNewAppVersionDialog.value = false },
@@ -106,13 +101,11 @@ fun App() {
 }
 
 @Composable
-private fun newAppVersionDialog(darkTheme: Boolean, newVersion: String, onCloseRequest: () -> Unit, onDownloadClick: () -> Unit, onDiscardClick: () -> Unit, ) {
-    DialogWindow(
-        title = i18n.dialog_new_app_version_title,
-        onCloseRequest = onCloseRequest,
-        state = rememberDialogState(position = WindowPosition(Alignment.Center)),
-    ) {
-        AppTheme(darkTheme = darkTheme) {
+private fun newAppVersionDialog(newVersion: String, onCloseRequest: () -> Unit, onDownloadClick: () -> Unit, onDiscardClick: () -> Unit, ) {
+    AlertDialog(
+        onDismissRequest = onCloseRequest,
+        title = { Text(i18n.dialog_new_app_version_title) },
+        text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -133,22 +126,21 @@ private fun newAppVersionDialog(darkTheme: Boolean, newVersion: String, onCloseR
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodySmall,
                 )
-                Spacer(modifier = Modifier.width(10.dp))
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                ) {
-                    OutlinedButton(
-                        onClick = onDiscardClick
-                    ) {
-                        Text(i18n.dialog_new_app_version_ignore_button)
-                    }
-                    Button(
-                        onClick = onDownloadClick
-                    ) {
-                        Text(i18n.dialog_new_app_version_update_button)
-                    }
-                }
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = onDownloadClick
+            ) {
+                Text(i18n.dialog_new_app_version_update_button)
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDiscardClick
+            ) {
+                Text(i18n.dialog_new_app_version_ignore_button)
             }
         }
-    }
+    )
 }

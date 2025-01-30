@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Order the releases by group then by published date
 ### Fixed
 - 🐛 Fix crash when the repos are empty
+- Update app dialog
 
 ## [2.0.0]
 ### Added
