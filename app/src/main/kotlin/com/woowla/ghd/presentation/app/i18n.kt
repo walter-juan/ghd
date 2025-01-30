@@ -26,7 +26,7 @@ object i18n {
     val generic_minutes_ago: (Long) -> String = { "$it minutes ago" }
     val generic_hours_ago: (Long) -> String = { "$it hours ago" }
     val generic_days_ago: (Long) -> String = { "$it days ago" }
-    val generic_date_format: (String, String, String, String) -> String = {month, day, year, hour -> "$month $day, $year at $hour" }
+    val generic_date_format: (String, String, String, String) -> String = { month, day, year, hour -> "$month $day, $year at $hour" }
     val generic_unknown = "unknown"
     val generic_enabled = "Enabled"
     val generic_disabled = "Disabled"

@@ -27,7 +27,7 @@ class SyncResultEntryDecorator(private val syncResultEntry: SyncResultEntry) {
         MaterialTheme.colorScheme.error
     }
 
-    val originIcon: ImageVector = when(syncResultEntry.origin) {
+    val originIcon: ImageVector = when (syncResultEntry.origin) {
         SyncResultEntry.Origin.PULL -> AppScreen.PullRequestList.icon
         SyncResultEntry.Origin.RELEASE -> AppScreen.ReleaseList.icon
         SyncResultEntry.Origin.UNKNOWN -> Tabler.Outline.QuestionMark

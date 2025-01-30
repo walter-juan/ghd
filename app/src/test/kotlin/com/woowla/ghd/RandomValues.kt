@@ -1,10 +1,10 @@
 package com.woowla.ghd
 
-import kotlinx.datetime.Instant
-import java.util.UUID
+import java.util.*
 import kotlin.random.Random
 import kotlin.random.nextInt
 import kotlin.random.nextLong
+import kotlinx.datetime.Instant
 
 object RandomValues {
     val alphabet: List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')

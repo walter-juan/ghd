@@ -33,7 +33,7 @@ object SplashScreen {
     @Composable
     fun Content(
         onSplashFinished: () -> Unit,
-        viewModel : SplashViewModel = koinViewModel(),
+        viewModel: SplashViewModel = koinViewModel(),
     ) {
         val splashFinished by viewModel.splashFinished.collectAsState()
         var visible by remember { mutableStateOf(false) }

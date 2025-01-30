@@ -5,7 +5,6 @@ import com.materialkolor.ktx.lighten
 import com.woowla.ghd.presentation.app.AppColors
 import kotlin.math.absoluteValue
 
-
 /**
  * Return a color from string text, each call from the same string will return the same color
  */

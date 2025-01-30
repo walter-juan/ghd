@@ -21,13 +21,41 @@ console-reports:
 output-reports:
   active: true
 
+comments:
+  active: true
+
+complexity:
+  active: true
+  LongParameterList:
+    functionThreshold: 10 # for compose
+    ignoreDefaultParameters: true # for compose
+  TooManyFunctions:
+    ignoreAnnotatedFunctions: ['Preview'] # for compose previews
+
+coroutines:
+  active: true
+
+empty-blocks:
+  active: true
+
+exceptions:
+  active: true
+
 naming:
+  active: true
   FunctionNaming:
     ignoreAnnotated: ['Composable'] # for compose
   TopLevelPropertyNaming:
     constantPattern: '[A-Z][A-Za-z0-9]*' # for compose
 
+performance:
+  active: true
+
+potential-bugs:
+  active: true
+
 style:
+  active: true
   MaxLineLength:
     maxLineLength: 150
   MagicNumber:
@@ -38,18 +66,15 @@ style:
   NewLineAtEndOfFile:
     active: false
 
-complexity:
-  LongParameterList:
-    functionThreshold: 10 # for compose
-    ignoreDefaultParameters: true # for compose
-  TooManyFunctions:
-    ignoreAnnotatedFunctions: ['Preview'] # for compose previews
-
 formatting:
+  active: true
   ImportOrdering:
     active: false
   FinalNewline: # duplicate of NewLineAtEndOfFile
     active: false
   MaximumLineLength: # duplicate of MaxLineLength
     maxLineLength: 150
-
+  Wrapping:
+    maxLineLength: 150
+  SpacingBetweenDeclarationsWithAnnotations:
+    active: false

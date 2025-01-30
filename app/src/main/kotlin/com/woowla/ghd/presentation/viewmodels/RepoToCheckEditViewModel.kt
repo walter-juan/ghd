@@ -11,7 +11,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepoToCheckEditViewModel(
     stateMachine: RepoToCheckEditStateMachine,
-): FlowReduxViewModel<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(stateMachine)
+) : FlowReduxViewModel<RepoToCheckEditStateMachine.St, RepoToCheckEditStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepoToCheckEditStateMachine(
@@ -33,7 +33,7 @@ class RepoToCheckEditStateMachine(
         }
     }
 
-    private suspend fun load(state: State<St.Loading>) : ChangedState<St> {
+    private suspend fun load(state: State<St.Loading>): ChangedState<St> {
         return if (repoToCheckId == null) {
             state.override { St.Success(RepoToCheck.newInstance()) }
         } else {
@@ -74,9 +74,9 @@ class RepoToCheckEditStateMachine(
     }
 
     sealed interface St {
-        data object Loading: St
-        data class Success(val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null): St
-        data class Error(val throwable: Throwable): St
+        data object Loading : St
+        data class Success(val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null) : St
+        data class Error(val throwable: Throwable) : St
     }
     sealed interface Act {
         data class Save(
@@ -88,6 +88,6 @@ class RepoToCheckEditStateMachine(
             val arePullRequestsNotificationsEnabled: Boolean,
             val areReleasesEnabled: Boolean,
             val areReleasesNotificationsEnabled: Boolean,
-        ): Act
+        ) : Act
     }
 }

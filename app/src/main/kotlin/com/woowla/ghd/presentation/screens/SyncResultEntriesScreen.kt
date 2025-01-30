@@ -22,8 +22,8 @@ import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.SynResultEntryCard
 import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
-import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesViewModel
 import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesStateMachine
+import com.woowla.ghd.presentation.viewmodels.SyncResultEntriesViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -31,7 +31,7 @@ object SyncResultEntriesScreen {
     @Composable
     fun Content(
         syncResultId: Long,
-        viewModel : SyncResultEntriesViewModel = koinViewModel { parametersOf(syncResultId) },
+        viewModel: SyncResultEntriesViewModel = koinViewModel { parametersOf(syncResultId) },
         onBackClick: () -> Unit,
     ) {
         val state = viewModel.state.collectAsState().value
@@ -53,7 +53,7 @@ object SyncResultEntriesScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, SyncResultEntriesStateMachine.St.Initializing -> {
                         LoadingComponent()
                     }

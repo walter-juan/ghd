@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalCoroutinesApi::class)
-open class FlowReduxViewModel<S: Any, A: Any>(
+open class FlowReduxViewModel<S : Any, A : Any>(
     protected val stateMachine: FlowReduxStateMachine<S, A>
-): ViewModel() {
+) : ViewModel() {
     private val _state = MutableStateFlow<S?>(null)
     val state: StateFlow<S?> = _state
 

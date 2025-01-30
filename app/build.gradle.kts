@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.reporter.HtmlReporter
 import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.PrintStream
 
@@ -22,7 +21,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "2.0.0"
+version = "2.0.1"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 

@@ -86,6 +86,6 @@ object AppColors {
         Color(0xFF80CBC4), // Seafoam Green
         Color(0xFFFFE082), // Peach Yellow
         Color(0xFFB39DDB), // Pastel Purple
-        Color(0xFFF48FB1)  // Pastel Pink
+        Color(0xFFF48FB1) // Pastel Pink
     )
 }

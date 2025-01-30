@@ -1,8 +1,13 @@
 package com.woowla.ghd.domain.entities
 
-import androidx.room.*
-import kotlinx.datetime.Instant
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import kotlin.time.Duration
+import kotlinx.datetime.Instant
 
 @Entity(
     tableName = "sync_result_entry",
@@ -33,7 +38,7 @@ data class SyncResultEntry(
     @ColumnInfo(name = "error") val error: String?,
     @ColumnInfo(name = "error_message") val errorMessage: String?,
     @Embedded val rateLimit: SyncResultRateLimit?,
-): Comparable<SyncResultEntry> {
+) : Comparable<SyncResultEntry> {
     companion object {
         val defaultComparator = compareBy<SyncResultEntry> { it.isSuccess }.thenByDescending { it.origin }.thenByDescending { it.repoToCheckId }
     }

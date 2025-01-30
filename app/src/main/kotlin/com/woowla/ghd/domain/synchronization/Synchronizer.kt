@@ -2,12 +2,19 @@ package com.woowla.ghd.domain.synchronization
 
 import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
-import com.woowla.ghd.domain.entities.*
+import com.woowla.ghd.domain.entities.SyncResult
+import com.woowla.ghd.domain.entities.SyncResultEntry
+import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
+import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
+import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.eventbus.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.extensions.timer
+import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,9 +25,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.minutes
 
 class Synchronizer(
     private val repoToCheckService: RepoToCheckService,

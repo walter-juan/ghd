@@ -19,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class PullRequestsViewModel(
     stateMachine: PullRequestsStateMachine,
-): FlowReduxViewModel<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(stateMachine) {
+) : FlowReduxViewModel<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(stateMachine) {
     init {
         EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             dispatch(PullRequestsStateMachine.Act.Reload)
@@ -35,7 +35,7 @@ class PullRequestsStateMachine(
     private val synchronizer: Synchronizer,
     private val appSettingsService: AppSettingsService,
     private val pullRequestService: PullRequestService,
-): FlowReduxStateMachine<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(initialState = St.Initializing) {
+) : FlowReduxStateMachine<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(initialState = St.Initializing) {
 
     init {
         spec {
@@ -63,7 +63,7 @@ class PullRequestsStateMachine(
         }
     }
 
-    private suspend fun <T: St> load(state: State<T>): ChangedState<St> {
+    private suspend fun <T : St> load(state: State<T>): ChangedState<St> {
         return try {
             val syncResult = synchronizer.getLastSyncResult().getOrNull()
             val appSettings = appSettingsService.get().getOrThrow()
@@ -122,7 +122,7 @@ class PullRequestsStateMachine(
     }
 
     sealed interface St {
-        data object Initializing: St
+        data object Initializing : St
         data class Success(
             val pullRequests: List<PullRequestWithRepoAndReviews>,
             val pullRequestsFiltered: List<PullRequestWithRepoAndReviews>,
@@ -131,12 +131,15 @@ class PullRequestsStateMachine(
             val stateExtendedFilters: Set<PullRequestStateExtended>,
             val stateExtendedFilterSizes: Map<PullRequestStateExtended, Int>,
             val stateExtendedFiltersSelected: Set<PullRequestStateExtended>,
-        ): St
-        data class  Error(val throwable: Throwable): St
+        ) : St
+        data class Error(val throwable: Throwable) : St
     }
 
     sealed interface Act {
-        data object Reload: Act
-        data class StateExtendedFilterSelected(val isSelected: Boolean, val pullRequestStateExtended: PullRequestStateExtended): Act
+        data object Reload : Act
+        data class StateExtendedFilterSelected(
+            val isSelected: Boolean,
+            val pullRequestStateExtended: PullRequestStateExtended
+        ) : Act
     }
 }

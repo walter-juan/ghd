@@ -20,7 +20,7 @@ inline fun <reified T : Enum<T>> enumValueOfOrElse(name: String?, defaultValue: 
 inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String?): T? {
     return try {
         enumValueOfOrThrow<T>(name)
-    } catch (ex: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         null
     }
 }

@@ -6,7 +6,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
-class ReleaseServiceUnitTest: StringSpec({
+class ReleaseServiceUnitTest : StringSpec({
     "when newReleaseEnabled disabled then sendNotifications should NOT send any notifications" {
         // Given
         val testNotificationSender = TestNotificationsSender()

@@ -6,7 +6,7 @@ data class PullRequestWithRepoAndReviews(
 
     val pullRequest: PullRequest,
     val reviews: List<Review>,
-): Comparable<PullRequestWithRepoAndReviews> {
+) : Comparable<PullRequestWithRepoAndReviews> {
     companion object {
         val defaultComparator = compareBy<PullRequestWithRepoAndReviews> { it.pullRequest.stateExtended }.thenByDescending { it.pullRequest.createdAt }
     }

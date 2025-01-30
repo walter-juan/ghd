@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import kotlinx.datetime.Instant
 import kotlin.time.Duration
+import kotlinx.datetime.Instant
 
 @Entity(tableName = "sync_result")
 data class SyncResult(

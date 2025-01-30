@@ -29,8 +29,22 @@ import arrow.optics.optics
 
     enum class EnabledOption { NONE, ALL, FILTERED }
 
-    val validStateEnabledOption: EnabledOption = if (isEnabledOptionAvailable(stateEnabledOption)) stateEnabledOption else defaultEnabledOption
-    val validActivityEnabledOption: EnabledOption = if (isEnabledOptionAvailable(activityEnabledOption)) activityEnabledOption else defaultEnabledOption
+    val validStateEnabledOption: EnabledOption = if (isEnabledOptionAvailable(
+            stateEnabledOption
+        )
+    ) {
+        stateEnabledOption
+    } else {
+        defaultEnabledOption
+    }
+    val validActivityEnabledOption: EnabledOption = if (isEnabledOptionAvailable(
+            activityEnabledOption
+        )
+    ) {
+        activityEnabledOption
+    } else {
+        defaultEnabledOption
+    }
 
     fun isEnabledOptionAvailable(option: EnabledOption): Boolean {
         return if (option == EnabledOption.FILTERED) {

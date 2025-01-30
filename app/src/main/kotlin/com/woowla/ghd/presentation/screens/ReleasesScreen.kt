@@ -1,6 +1,12 @@
 package com.woowla.ghd.presentation.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -10,16 +16,22 @@ import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.ColoredFilterChip
+import com.woowla.ghd.presentation.components.EmptyComponent
+import com.woowla.ghd.presentation.components.ErrorComponent
+import com.woowla.ghd.presentation.components.Header
+import com.woowla.ghd.presentation.components.ReleaseCard
+import com.woowla.ghd.presentation.components.ScreenScrollable
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
-import com.woowla.ghd.presentation.viewmodels.ReleasesViewModel
 import com.woowla.ghd.presentation.viewmodels.ReleasesStateMachine
+import com.woowla.ghd.presentation.viewmodels.ReleasesViewModel
 import org.koin.compose.viewmodel.koinViewModel
 
 object ReleasesScreen {
     @Composable
     fun Content(
-        viewModel : ReleasesViewModel = koinViewModel(),
+        viewModel: ReleasesViewModel = koinViewModel(),
         onSyncResultEntriesClick: (SyncResult) -> Unit
     ) {
         val state = viewModel.state.collectAsState().value
@@ -43,7 +55,7 @@ object ReleasesScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, ReleasesStateMachine.St.Initializing -> {
                         // do not show a loading because is shown only some milliseconds
                     }
@@ -57,10 +69,12 @@ object ReleasesScreen {
                                 groupNameFilterSizes = state.groupNameFilterSizes,
                                 groupNameFiltersSelected = state.groupNameFiltersSelected,
                                 onGroupNameChanged = { isSelected, groupName ->
-                                    viewModel.dispatch(ReleasesStateMachine.Act.GroupNameFilterSelected(
-                                        isSelected = isSelected,
-                                        groupName = groupName,
-                                    ))
+                                    viewModel.dispatch(
+                                        ReleasesStateMachine.Act.GroupNameFilterSelected(
+                                            isSelected = isSelected,
+                                            groupName = groupName,
+                                        )
+                                    )
                                 }
                             )
                         }
@@ -113,7 +127,10 @@ object ReleasesScreen {
     private fun ListReleases(releases: List<ReleaseWithRepo>) {
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(
+                space = AppDimens.cardHorizontalSpaceBetween,
+                alignment = Alignment.CenterHorizontally
+            ),
             verticalArrangement = Arrangement.spacedBy(AppDimens.cardVerticalSpaceBetween),
             maxItemsInEachRow = 2
         ) {

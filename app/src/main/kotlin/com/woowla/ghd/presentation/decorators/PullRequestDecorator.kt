@@ -24,7 +24,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
     val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
     val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
     val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
-    val commitChecks = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
+    val commitChecks = when (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.ERROR -> "Checks failed"
         CommitCheckRollupStatus.EXPECTED -> "Checks passed"
         CommitCheckRollupStatus.FAILURE -> "Checks failed"
@@ -32,7 +32,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         CommitCheckRollupStatus.SUCCESS -> "Checks successful"
         CommitCheckRollupStatus.UNKNOWN -> "Checks unknown"
     }
-    val commitChecksIcon: ImageVector = when(pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
+    val commitChecksIcon: ImageVector = when (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.SUCCESS -> Tabler.Outline.ListCheck
         CommitCheckRollupStatus.ERROR -> Tabler.Outline.PlaylistX
         CommitCheckRollupStatus.FAILURE -> Tabler.Outline.PlaylistX
@@ -61,7 +61,7 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         return when {
             pullRequestWithReviews.reviews.isEmpty() -> return Tabler.Outline.Users
             pullRequestWithReviews.reviews.size == 1 -> {
-                when(pullRequestWithReviews.reviews.first().state) {
+                when (pullRequestWithReviews.reviews.first().state) {
                     ReviewState.APPROVED -> return Tabler.Outline.UserCheck
                     ReviewState.CHANGES_REQUESTED -> return Tabler.Outline.UserX
                     ReviewState.COMMENTED -> return Tabler.Outline.UserQuestion

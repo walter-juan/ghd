@@ -7,7 +7,7 @@ import com.apollographql.apollo3.network.http.HttpInterceptorChain
 
 class AuthorizationInterceptor(
     private val gitHubPATTokenProvider: GitHubPATTokenProvider
-): HttpInterceptor {
+) : HttpInterceptor {
     override suspend fun intercept(request: HttpRequest, chain: HttpInterceptorChain): HttpResponse {
         val requestBuilder = request.newBuilder()
         val token = gitHubPATTokenProvider.get()

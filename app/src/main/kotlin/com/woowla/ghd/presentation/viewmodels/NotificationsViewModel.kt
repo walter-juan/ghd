@@ -25,7 +25,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsViewModel(
     stateMachine: NotificationsStateMachine,
-): FlowReduxViewModel<NotificationsStateMachine.St, NotificationsStateMachine.Act>(stateMachine)
+) : FlowReduxViewModel<NotificationsStateMachine.St, NotificationsStateMachine.Act>(stateMachine)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsStateMachine(
@@ -117,34 +117,34 @@ class NotificationsStateMachine(
     }
 
     sealed interface St {
-        data object Loading: St
-        @optics data class Success(val appSettings: AppSettings, val savedSuccessfully: Boolean? = null): St {
+        data object Loading : St
+        @optics data class Success(val appSettings: AppSettings, val savedSuccessfully: Boolean? = null) : St {
             companion object
             val notificationsSettings: NotificationsSettings = appSettings.notificationsSettings
         }
-        data class Error(val error : Throwable): St
+        data class Error(val error: Throwable) : St
     }
     sealed interface Act {
-        data object Reload: Act
-        data object Save: Act
-        data object CleanUpSaveSuccessfully: Act
+        data object Reload : Act
+        data object Save : Act
+        data object CleanUpSaveSuccessfully : Act
 
-        data class UpdateFilterUsername(val filterUsername: String): Act
+        data class UpdateFilterUsername(val filterUsername: String) : Act
 
-        data class UpdateStateEnabledOption(val enabledOption: NotificationsSettings.EnabledOption): Act
-        data class UpdateStateOpenFromOthersPullRequestsEnabled(val enabled: Boolean): Act
-        data class UpdateStateClosedFromOthersPullRequestsEnabled(val enabled: Boolean): Act
-        data class UpdateStateMergedFromOthersPullRequestsEnabled(val enabled: Boolean): Act
-        data class UpdateStateDraftFromOthersPullRequestsEnabled(val enabled: Boolean): Act
+        data class UpdateStateEnabledOption(val enabledOption: NotificationsSettings.EnabledOption) : Act
+        data class UpdateStateOpenFromOthersPullRequestsEnabled(val enabled: Boolean) : Act
+        data class UpdateStateClosedFromOthersPullRequestsEnabled(val enabled: Boolean) : Act
+        data class UpdateStateMergedFromOthersPullRequestsEnabled(val enabled: Boolean) : Act
+        data class UpdateStateDraftFromOthersPullRequestsEnabled(val enabled: Boolean) : Act
 
-        data class UpdateActivityEnabledOption(val enabledOption: NotificationsSettings.EnabledOption): Act
-        data class UpdateActivityReviewsFromYourPullRequestsEnabled(val enabled: Boolean): Act
+        data class UpdateActivityEnabledOption(val enabledOption: NotificationsSettings.EnabledOption) : Act
+        data class UpdateActivityReviewsFromYourPullRequestsEnabled(val enabled: Boolean) : Act
+
         // TODO [review re-request] disabled
 //        data class UpdateActivityReviewsReRequestEnabled(val enabled: Boolean): Act
-        data class UpdateActivityChecksFromYourPullRequestsEnabled(val enabled: Boolean): Act
-        data class UpdateActivityMergeableFromYourPullRequestsEnabled(val enabled: Boolean): Act
+        data class UpdateActivityChecksFromYourPullRequestsEnabled(val enabled: Boolean) : Act
+        data class UpdateActivityMergeableFromYourPullRequestsEnabled(val enabled: Boolean) : Act
 
-        data class UpdateNewReleaseEnabled(val enabled: Boolean): Act
+        data class UpdateNewReleaseEnabled(val enabled: Boolean) : Act
     }
 }
-

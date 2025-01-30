@@ -2,14 +2,6 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM pull_request") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM release") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM repo_to_check") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM review") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sqlite_sequence") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_result") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_result_entry") suspend</ID>
-    <ID>AnnotationOnSeparateLine:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_setting") suspend</ID>
     <ID>ArgumentListWrapping:ApiToDomainMappers.kt$(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityChecksFromYourPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityMergeableFromYourPullRequestsEnabled", false)</ID>
@@ -19,8 +11,6 @@
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateDraftFromOthersPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateMergedFromOthersPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateOpenFromOthersPullRequestsEnabled", false)</ID>
-    <ID>ArgumentListWrapping:Cards.kt$((syncResultEntryWithRepo.syncResultEntry.duration.inWholeMilliseconds / 1000.0))</ID>
-    <ID>ArgumentListWrapping:Cards.kt$(modifier = Modifier .fillMaxSize())</ID>
     <ID>ArgumentListWrapping:Converters.kt$Converters$(value, CommitCheckRollupStatus.UNKNOWN)</ID>
     <ID>ArgumentListWrapping:Converters.kt$Converters$(value, MergeGitHubStateStatus.UNKNOWN)</ID>
     <ID>ArgumentListWrapping:Converters.kt$Converters$(value, PullRequestState.UNKNOWN)</ID>
@@ -44,8 +34,6 @@
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateMergedFromOthersPullRequestsEnabled(!notificationsSettings.stateMergedFromOthersPullRequestsEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateOpenFromOthersPullRequestsEnabled(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
-    <ID>ArgumentListWrapping:NotificationsSettings.kt$NotificationsSettings$(activityEnabledOption)</ID>
-    <ID>ArgumentListWrapping:NotificationsSettings.kt$NotificationsSettings$(stateEnabledOption)</ID>
     <ID>ArgumentListWrapping:NotificationsViewModel.kt$NotificationsStateMachine$(this)</ID>
     <ID>ArgumentListWrapping:Others.kt$(space = 8.dp, alignment = Alignment.CenterHorizontally)</ID>
     <ID>ArgumentListWrapping:OutlinedSelectField.kt$(25.dp)</ID>
@@ -67,9 +55,7 @@
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = openPullRequest)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
-    <ID>ArgumentListWrapping:PullRequestsScreen.kt$PullRequestsScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
     <ID>ArgumentListWrapping:PullRequestsViewModel.kt$PullRequestsStateMachine$(it)</ID>
-    <ID>ArgumentListWrapping:ReleasesScreen.kt$ReleasesScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
     <ID>ArgumentListWrapping:ReleasesViewModel.kt$ReleasesStateMachine$(it)</ID>
     <ID>ArgumentListWrapping:RepoToCheck.kt$RepoToCheck$(name = "are_pull_requests_notifications_enabled", defaultValue = "0")</ID>
     <ID>ArgumentListWrapping:RepoToCheck.kt$RepoToCheck$(name = "are_releases_notifications_enabled", defaultValue = "0")</ID>
@@ -93,7 +79,6 @@
     <ID>ArgumentListWrapping:SettingsViewModel.kt$SettingsStateMachine$(this)</ID>
     <ID>ArgumentListWrapping:SyncResultDecorator.kt$SyncResultDecorator$(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize)</ID>
     <ID>ArgumentListWrapping:SyncResultDecorator.kt$SyncResultDecorator$(syncResultWithEntities.syncResult.startAt, rateLimit?.percentageUsed, rateLimit?.reset)</ID>
-    <ID>ArgumentListWrapping:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine$(initialState = St.Initializing)</ID>
     <ID>ArgumentListWrapping:SyncResultsScreen.kt$SyncResultsScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
     <ID>ArgumentListWrapping:Synchronizer.kt$Synchronizer$("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")</ID>
     <ID>ArgumentListWrapping:Synchronizer.kt$Synchronizer$(endAt = Clock.System.now())</ID>
@@ -102,26 +87,20 @@
     <ID>ArgumentListWrapping:Synchronizer.kt$Synchronizer$(syncResult.copy(endAt = Clock.System.now()))</ID>
     <ID>ClassNaming:i18n.kt$i18n</ID>
     <ID>CommentSpacing:LocalDataSource.kt$LocalDataSource$//appProperties.notificationsActivityReviewsReRequestEnabled,</ID>
-    <ID>CommentSpacing:OutlinedSelectField.kt$//to avoid the ripple on the Box</ID>
-    <ID>CommentSpacing:OutlinedSelectField.kt$//to give the focus to the TextField</ID>
     <ID>Filename:i18n.kt$com.woowla.ghd.presentation.app.i18n.kt</ID>
-    <ID>FunctionReturnTypeSpacing:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine$private suspend fun load(state: State&lt;St.Loading&gt;) : ChangedState&lt;St&gt;</ID>
-    <ID>FunctionReturnTypeSpacing:RepoToCheckFileParser.kt$RepoToCheckFileParser$fun encode(repoToCheckList : List&lt;RepoToCheck&gt;) : String</ID>
-    <ID>Indentation:Cards.kt$ </ID>
-    <ID>Indentation:Table.kt$ </ID>
     <ID>LongMethod:AboutScreen.kt$AboutScreen$@Composable fun Content( appDir: Path = AppFolderFactory.folder, onBackClick: (() -&gt; Unit)? = null, )</ID>
     <ID>LongMethod:Cards.kt$@OptIn(ExperimentalLayoutApi::class) @Composable fun PullRequestCard( pullRequestWithReviews: PullRequestWithRepoAndReviews, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:Cards.kt$@OptIn(ExperimentalLayoutApi::class) @Composable fun RepoToCheckCard( repoToCheck: RepoToCheck, onOpenClick: (RepoToCheck) -&gt; Unit, onEditClick: (RepoToCheck) -&gt; Unit, onDeleteClick: (RepoToCheck) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
     <ID>LongMethod:HomeScreen.kt$HomeScreen$@Composable fun Content()</ID>
     <ID>LongMethod:Main.kt$fun main()</ID>
     <ID>LongMethod:NotificationsScreen.kt$NotificationsScreen$@Composable private fun NotificationsContent( state: St.Success, dispatchAction: (Act) -&gt; Unit, )</ID>
-    <ID>LongMethod:OutlinedSelectField.kt$@Composable fun &lt;T: Any?&gt; OutlinedSelectField( values: List&lt;Pair&lt;T, String&gt;&gt;, selected: T? = null, emptyText: String = "", modifier: Modifier = Modifier, onSelected: (T, String) -&gt; Unit, )</ID>
+    <ID>LongMethod:OutlinedSelectField.kt$@Composable fun &lt;T : Any?&gt; OutlinedSelectField( values: List&lt;Pair&lt;T, String&gt;&gt;, selected: T? = null, emptyText: String = "", modifier: Modifier = Modifier, onSelected: (T, String) -&gt; Unit, )</ID>
     <ID>LongMethod:PullRequestService.kt$PullRequestService$suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;, newPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;): Result&lt;Unit&gt;</ID>
     <ID>LongMethod:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$fun buildActivityChangedPullRequests( pullRequestsAuthorUsername: String = "author-login", reviewsAuthorUsername: String = "author-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
     <ID>LongMethod:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$fun buildActivityChangedPullRequests( filteredUsername: String = "filtered-username-login", otherUsername: String = "other-username-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
-    <ID>LongMethod:RepoToCheckBulkScreen.kt$RepoToCheckBulkScreen$@Composable fun Content( viewModel : ReposToCheckBulkViewModel = koinViewModel(), onBackClick: (() -&gt; Unit), )</ID>
+    <ID>LongMethod:RepoToCheckBulkScreen.kt$RepoToCheckBulkScreen$@Composable fun Content( viewModel: ReposToCheckBulkViewModel = koinViewModel(), onBackClick: (() -&gt; Unit), )</ID>
     <ID>LongMethod:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$@Composable private fun Success( state: St.Success, dispatchAction: (Act) -&gt; Unit, onBackClick: () -&gt; Unit )</ID>
-    <ID>LongMethod:ReposToCheckScreen.kt$ReposToCheckScreen$@Composable fun Content( viewModel : ReposToCheckViewModel = koinViewModel(), onEditRepoClick: (RepoToCheck) -&gt; Unit, onAddNewRepoClick: () -&gt; Unit, onBulkClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:ReposToCheckScreen.kt$ReposToCheckScreen$@Composable fun Content( viewModel: ReposToCheckViewModel = koinViewModel(), onEditRepoClick: (RepoToCheck) -&gt; Unit, onAddNewRepoClick: () -&gt; Unit, onBulkClick: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun Screen( state: St?, dispatchAction: (Act) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun SynchronizationSection( githubPatToken: String, onGithubPatTokenUpdated: (String) -&gt; Unit, selectedCheckTimeoutMinutes: Long, availableCheckTimeoutMinutes: List&lt;Pair&lt;Long, String&gt;&gt;, onCheckTimeoutMinutes: (Long) -&gt; Unit, selectedCleanUpTimeoutHours: Long, availableCleanUpTimeoutHours: List&lt;Pair&lt;Long, String&gt;&gt;, onCleanUpTimeoutHours: (Long) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
     <ID>MagicNumber:Cards.kt$1000.0</ID>
@@ -142,9 +121,6 @@
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsStateClosedFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateClosedFromOthersPullRequestsEnabled", false)</ID>
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsStateDraftFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateDraftFromOthersPullRequestsEnabled", false)</ID>
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsStateMergedFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateMergedFromOthersPullRequestsEnabled", false)</ID>
-    <ID>MaxLineLength:Cards.kt$color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary</ID>
-    <ID>MaxLineLength:Cards.kt$color = if (pullRequestWithReviews.reviews.anyCommentedOrChangesRequested()) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.secondary</ID>
-    <ID>MaxLineLength:Cards.kt$val title = syncResultEntryWithRepo.syncResultEntry.origin.toString() + " " + (syncResultEntryWithRepo.repoToCheck?.let { RepoToCheckDecorator(it) }?.fullRepo ?: "")</ID>
     <ID>MaxLineLength:Enum.kt$* Returns an enum entry with specified name, or the result of [defaultValue] function if the specified name does not match any of the enum constants defined in the class.</ID>
     <ID>MaxLineLength:LocalDataSource.kt$LocalDataSource$activityEnabledOption = enumValueOfOrNull&lt;NotificationsSettings.EnabledOption&gt;(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption</ID>
     <ID>MaxLineLength:LocalDataSource.kt$LocalDataSource$appProperties.notificationsActivityChecksFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled</ID>
@@ -165,7 +141,6 @@
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateDraftFromOthersPullRequestsEnabled(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateMergedFromOthersPullRequestsEnabled(!notificationsSettings.stateMergedFromOthersPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateOpenFromOthersPullRequestsEnabled(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled))</ID>
-    <ID>MaxLineLength:NotificationsSettings.kt$NotificationsSettings$val validActivityEnabledOption: EnabledOption = if (isEnabledOptionAvailable(activityEnabledOption)) activityEnabledOption else defaultEnabledOption</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
@@ -189,8 +164,6 @@
     <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val pullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
     <ID>MaxLineLength:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews.Companion$val defaultComparator = compareBy&lt;PullRequestWithRepoAndReviews&gt; { it.pullRequest.stateExtended }.thenByDescending { it.pullRequest.createdAt }</ID>
     <ID>MaxLineLength:PullRequestsViewModel.kt$PullRequestsStateMachine$stateExtendedFiltersSelectedRecalculated.isEmpty() || stateExtendedFiltersSelectedRecalculated.contains(it.pullRequest.stateExtended)</ID>
-    <ID>MaxLineLength:RemoteDataSource.kt$RemoteDataSource$val data = getLastReleaseResponse.dataAssertNoErrors.repository?.latestRelease ?: throw NotFoundException("Last release not found for $owner/$repo")</ID>
-    <ID>MaxLineLength:RemoteDataSource.kt$RemoteDataSource$val data = pullRequestsResponse.dataAssertNoErrors.repository?.pullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()</ID>
     <ID>MaxLineLength:SettingsScreen.kt$SettingsScreen$availableThemes = listOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)</ID>
     <ID>MaxLineLength:SettingsScreen.kt$SettingsScreen$val result = snackbarHostState.showSnackbar(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Indefinite)</ID>
     <ID>MaxLineLength:SyncResultDecorator.kt$SyncResultDecorator$text = i18n.top_bar_subtitle_synchronization_result_entries(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize)</ID>
@@ -206,10 +179,8 @@
     <ID>MaximumLineLength:AboutScreen.kt$AboutScreen$ </ID>
     <ID>MaximumLineLength:App.kt$private</ID>
     <ID>MaximumLineLength:AppProperties.kt$AppProperties$ </ID>
-    <ID>MaximumLineLength:Cards.kt$ </ID>
     <ID>MaximumLineLength:LocalDataSource.kt$LocalDataSource$ </ID>
     <ID>MaximumLineLength:NotificationsScreen.kt$NotificationsScreen$ </ID>
-    <ID>MaximumLineLength:NotificationsSettings.kt$NotificationsSettings$ </ID>
     <ID>MaximumLineLength:NotificationsViewModel.kt$NotificationsStateMachine$ </ID>
     <ID>MaximumLineLength:PullRequest.kt$PullRequest$ </ID>
     <ID>MaximumLineLength:PullRequestService.kt$PullRequestService$ </ID>
@@ -217,7 +188,6 @@
     <ID>MaximumLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$ </ID>
     <ID>MaximumLineLength:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews.Companion$ </ID>
     <ID>MaximumLineLength:PullRequestsViewModel.kt$PullRequestsStateMachine$ </ID>
-    <ID>MaximumLineLength:RemoteDataSource.kt$RemoteDataSource$ </ID>
     <ID>MaximumLineLength:SettingsScreen.kt$SettingsScreen$ </ID>
     <ID>MaximumLineLength:SyncResultDecorator.kt$SyncResultDecorator$ </ID>
     <ID>MaximumLineLength:Synchronizer.kt$Synchronizer$ </ID>
@@ -343,69 +313,16 @@
     <ID>MayBeConst:i18n.kt$i18n$val tray_item_show_app = "Show"</ID>
     <ID>MayBeConst:i18n.kt$i18n$val tray_item_synchronize = "Synchronize"</ID>
     <ID>MayBeConst:i18n.kt$i18n$val tray_linux_primary_action_label = "Open Application"</ID>
-    <ID>NoBlankLineBeforeRbrace:NotificationsScreen.kt$NotificationsScreen$ </ID>
-    <ID>NoBlankLineBeforeRbrace:PullRequest.kt$PullRequest$ </ID>
-    <ID>NoConsecutiveBlankLines:Chip.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:ColorScheme.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:LocalDataSource.kt$LocalDataSource$ </ID>
-    <ID>NoConsecutiveBlankLines:NotificationsViewModel.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:Screen.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:String.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:Table.kt$ </ID>
     <ID>NoConsecutiveBlankLines:i18n.kt$i18n$ </ID>
-    <ID>NoEmptyFirstLineInMethodBlock:NotificationsScreen.kt$NotificationsScreen$ </ID>
-    <ID>NoMultipleSpaces:App.kt$ </ID>
-    <ID>NoMultipleSpaces:AppColors.kt$AppColors$ </ID>
     <ID>NoMultipleSpaces:PullRequestService.kt$PullRequestService$ </ID>
     <ID>NoMultipleSpaces:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$ </ID>
-    <ID>NoMultipleSpaces:PullRequestsViewModel.kt$PullRequestsStateMachine.St.Error$ </ID>
-    <ID>NoMultipleSpaces:ReleaseService.kt$ReleaseService$ </ID>
-    <ID>NoMultipleSpaces:ReleasesViewModel.kt$ReleasesStateMachine.St.Error$ </ID>
-    <ID>NoMultipleSpaces:ReposToCheckViewModel.kt$ReposToCheckStateMachine.St.Error$ </ID>
     <ID>NoMultipleSpaces:SettingsScreen.kt$SettingsScreen$ </ID>
     <ID>NoMultipleSpaces:i18n.kt$i18n$ </ID>
-    <ID>NoWildcardImports:App.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:App.kt$import androidx.compose.runtime.*</ID>
-    <ID>NoWildcardImports:AppProperties.kt$import com.russhwolf.settings.*</ID>
-    <ID>NoWildcardImports:AppScreen.kt$import com.woowla.compose.icon.collections.tabler.tabler.outline.*</ID>
-    <ID>NoWildcardImports:Cards.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:Cards.kt$import androidx.compose.runtime.*</ID>
-    <ID>NoWildcardImports:LocalDataSource.kt$import com.woowla.ghd.domain.entities.*</ID>
-    <ID>NoWildcardImports:Main.kt$import io.ktor.client.*</ID>
-    <ID>NoWildcardImports:PullRequestStateDecorator.kt$import com.woowla.compose.icon.collections.tabler.tabler.outline.*</ID>
-    <ID>NoWildcardImports:PullRequestsScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:PullRequestsScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:ReleasesScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:ReleasesScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.call.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.engine.cio.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.request.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.client.statement.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.http.*</ID>
-    <ID>NoWildcardImports:RemoteDataSource.kt$import io.ktor.serialization.kotlinx.json.*</ID>
-    <ID>NoWildcardImports:RepoToCheckBulkScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:RepoToCheckBulkScreen.kt$import androidx.compose.material3.*</ID>
-    <ID>NoWildcardImports:RepoToCheckBulkScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:RepoToCheckEditScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:RepoToCheckEditScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:ReposToCheckScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:ReposToCheckScreen.kt$import androidx.compose.material3.*</ID>
-    <ID>NoWildcardImports:ReposToCheckScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:Screen.kt$import androidx.compose.foundation.*</ID>
-    <ID>NoWildcardImports:Sections.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>NoWildcardImports:Sections.kt$import androidx.compose.material3.*</ID>
-    <ID>NoWildcardImports:SettingsScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>NoWildcardImports:SyncResultEntry.kt$import androidx.room.*</ID>
-    <ID>NoWildcardImports:Synchronizer.kt$import com.woowla.ghd.domain.entities.*</ID>
     <ID>ParameterListWrapping:App.kt$(darkTheme: Boolean, newVersion: String, onCloseRequest: () -&gt; Unit, onDownloadClick: () -&gt; Unit, onDiscardClick: () -&gt; Unit, )</ID>
     <ID>ParameterListWrapping:Converters.kt$Converters$(value: String?)</ID>
     <ID>ParameterListWrapping:PullRequestService.kt$PullRequestService$(notificationsSettings: NotificationsSettings)</ID>
     <ID>ParameterListWrapping:PullRequestService.kt$PullRequestService$(oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;)</ID>
     <ID>ParameterListWrapping:PullRequestWithRepoAndReviews.kt$(syncSettings: SyncSettings)</ID>
-    <ID>ParameterListWrapping:PullRequestsViewModel.kt$PullRequestsStateMachine.Act.StateExtendedFilterSelected$(val isSelected: Boolean, val pullRequestStateExtended: PullRequestStateExtended)</ID>
-    <ID>ParameterListWrapping:SettingsViewModel.kt$SettingsStateMachine.St.Success$(val syncSettings: SyncSettings, val appSettings: AppSettings, val savedSuccessfully: Boolean? = null)</ID>
     <ID>ParameterListWrapping:SynchronizableService.kt$SynchronizableService$(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List&lt;RepoToCheck&gt;)</ID>
     <ID>ParameterListWrapping:i18n.kt$i18n$(String)</ID>
     <ID>ParameterListWrapping:i18n.kt$i18n$(String, String, String, String)</ID>
@@ -416,157 +333,10 @@
     <ID>ParameterWrapping:RepoToCheck.kt$RepoToCheck$@ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean</ID>
     <ID>PropertyWrapping:i18n.kt$i18n$val sync_result_title_old: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -&gt; String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt -&gt; "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})" }</ID>
     <ID>ReturnCount:PullRequestDecorator.kt$PullRequestDecorator$fun reviewsIcon(): ImageVector</ID>
-    <ID>SpacingAroundColon:ApiResponse.kt$ApiResponse$:</ID>
-    <ID>SpacingAroundColon:AuthorizationInterceptor.kt$AuthorizationInterceptor$:</ID>
-    <ID>SpacingAroundColon:DomainMappers.kt$:</ID>
-    <ID>SpacingAroundColon:FlowReduxViewModel.kt$FlowReduxViewModel$:</ID>
-    <ID>SpacingAroundColon:Main.kt$:</ID>
-    <ID>SpacingAroundColon:NotificationsScreen.kt$NotificationsScreen$:</ID>
-    <ID>SpacingAroundColon:NotificationsSender.kt$NotificationsSenderDefault$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.CleanUpSaveSuccessfully$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.Save$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateActivityChecksFromYourPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateActivityEnabledOption$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateActivityMergeableFromYourPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateActivityReviewsFromYourPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateFilterUsername$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateNewReleaseEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateStateClosedFromOthersPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateStateDraftFromOthersPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateStateEnabledOption$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateStateMergedFromOthersPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateStateOpenFromOthersPullRequestsEnabled$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.St.Loading$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:NotificationsViewModel.kt$NotificationsViewModel$:</ID>
-    <ID>SpacingAroundColon:OutlinedSelectField.kt$:</ID>
-    <ID>SpacingAroundColon:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$:</ID>
-    <ID>SpacingAroundColon:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$:</ID>
-    <ID>SpacingAroundColon:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews$:</ID>
-    <ID>SpacingAroundColon:PullRequestsScreen.kt$PullRequestsScreen$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine.Act.StateExtendedFilterSelected$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:PullRequestsViewModel.kt$PullRequestsViewModel$:</ID>
-    <ID>SpacingAroundColon:Release.kt$Release$:</ID>
-    <ID>SpacingAroundColon:ReleaseServiceUnitTest.kt$ReleaseServiceUnitTest$:</ID>
-    <ID>SpacingAroundColon:ReleaseWithRepo.kt$ReleaseWithRepo$:</ID>
-    <ID>SpacingAroundColon:ReleasesScreen.kt$ReleasesScreen$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine.Act.GroupNameFilterSelected$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:ReleasesViewModel.kt$ReleasesViewModel$:</ID>
-    <ID>SpacingAroundColon:RemoteDataSource.kt$RemoteDataSource$:</ID>
-    <ID>SpacingAroundColon:RepoToCheck.kt$RepoToCheck$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckBulkScreen.kt$RepoToCheckBulkScreen$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine.Act.Save$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine.St.Loading$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckEditViewModel.kt$RepoToCheckEditViewModel$:</ID>
-    <ID>SpacingAroundColon:RepoToCheckFileParser.kt$RepoToCheckFileParser$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine.Act.ExportRepos$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine.Act.ImportRepos$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckBulkViewModel.kt$ReposToCheckBulkViewModel$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckScreen.kt$ReposToCheckScreen$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.Act.DeleteRepoToCheck$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.Act.GroupNameFilterSelected$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.Act.SearchQueryChanged$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:ReposToCheckViewModel.kt$ReposToCheckViewModel$:</ID>
-    <ID>SpacingAroundColon:Review.kt$Review$:</ID>
-    <ID>SpacingAroundColon:SettingsScreen.kt$SettingsScreen$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.CleanUpSaveSuccessfully$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.Reload$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.Save$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.UpdateAppTheme$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.UpdateCheckTimeout$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.UpdatePatToken$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.Act.UpdatePullRequestCleanUpTimeout$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:SettingsViewModel.kt$SettingsViewModel$:</ID>
-    <ID>SpacingAroundColon:SplashScreen.kt$SplashScreen$:</ID>
-    <ID>SpacingAroundColon:SplashViewModel.kt$SplashViewModel$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesScreen.kt$SyncResultEntriesScreen$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine.Act.Load$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntriesViewModel.kt$SyncResultEntriesViewModel$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntry.kt$SyncResultEntry$:</ID>
-    <ID>SpacingAroundColon:SyncResultEntryWithRepo.kt$SyncResultEntryWithRepo$:</ID>
-    <ID>SpacingAroundColon:SyncResultsScreen.kt$SyncResultsScreen$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsStateMachine$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsStateMachine.Act.Load$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsStateMachine.St.Error$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsStateMachine.St.Initializing$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsStateMachine.St.Success$:</ID>
-    <ID>SpacingAroundColon:SyncResultsViewModel.kt$SyncResultsViewModel$:</ID>
-    <ID>SpacingAroundCurly:OutlinedSelectField.kt${</ID>
-    <ID>SpacingAroundCurly:i18n.kt$i18n${</ID>
-    <ID>SpacingAroundKeyword:Cards.kt$if</ID>
-    <ID>SpacingAroundKeyword:NotificationClient.kt$NotificationClient$when</ID>
-    <ID>SpacingAroundKeyword:NotificationsScreen.kt$NotificationsScreen$when</ID>
-    <ID>SpacingAroundKeyword:PullRequestDecorator.kt$PullRequestDecorator$when</ID>
     <ID>SpacingAroundKeyword:PullRequestService.kt$PullRequestService$when</ID>
-    <ID>SpacingAroundKeyword:PullRequestStateDecorator.kt$PullRequestStateDecorator$when</ID>
-    <ID>SpacingAroundKeyword:PullRequestsScreen.kt$PullRequestsScreen$when</ID>
-    <ID>SpacingAroundKeyword:ReleasesScreen.kt$ReleasesScreen$when</ID>
-    <ID>SpacingAroundKeyword:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$when</ID>
-    <ID>SpacingAroundKeyword:ReposToCheckScreen.kt$ReposToCheckScreen$when</ID>
-    <ID>SpacingAroundKeyword:ReviewDecorator.kt$ReviewDecorator$when</ID>
-    <ID>SpacingAroundKeyword:SettingsScreen.kt$SettingsScreen$when</ID>
-    <ID>SpacingAroundKeyword:SyncResultDecorator.kt$SyncResultDecorator$when</ID>
-    <ID>SpacingAroundKeyword:SyncResultEntriesScreen.kt$SyncResultEntriesScreen$when</ID>
-    <ID>SpacingAroundKeyword:SyncResultEntryDecorator.kt$SyncResultEntryDecorator$when</ID>
-    <ID>SpacingAroundKeyword:SyncResultWithEntriesAndRepos.kt$SyncResultWithEntriesAndRepos$when</ID>
-    <ID>SpacingAroundKeyword:SyncResultsScreen.kt$SyncResultsScreen$when</ID>
     <ID>SpacingAroundKeyword:i18n.kt$i18n$when</ID>
-    <ID>SpacingAroundOperators:SyncResultDecorator.kt$SyncResultDecorator$-&gt;</ID>
     <ID>SpacingAroundParens:App.kt$)</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun commitCheckRollupStatusToString(value: CommitCheckRollupStatus?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun instantToString(value: Instant?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun mergeGitHubStateStatusToString(value: MergeGitHubStateStatus?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun originToString(value: SyncResultEntry.Origin?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun pullRequestStateToString(value: PullRequestState?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:Converters.kt$Converters$@TypeConverter fun reviewStateToString(value: ReviewState?): String?</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM release") suspend fun deleteAllRelease()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM repo_to_check") suspend fun deleteAllRepoToCheck()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM review") suspend fun deleteAllReview()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_result") suspend fun deleteAllSyncResult()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_result_entry") suspend fun deleteAllSynResultEntry()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:DatabaseDao.kt$DatabaseDao$@Transaction @Query("DELETE FROM sync_setting") suspend fun deleteAllSyncSetting()</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:FileDialog.kt$@Composable fun FileSaveDialog( parent: Frame? = null, fileName: String, onCloseRequest: (file: File?) -&gt; Unit )</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:NotificationsViewModel.kt$NotificationsStateMachine.St$Success : St</ID>
-    <ID>SpacingBetweenDeclarationsWithAnnotations:SettingsViewModel.kt$SettingsStateMachine.St$Success : St</ID>
-    <ID>SpacingBetweenDeclarationsWithComments:NotificationType.kt$NotificationType.ERROR$/** Error notification */</ID>
-    <ID>SpacingBetweenDeclarationsWithComments:NotificationType.kt$NotificationType.INFO$/** Info notification */</ID>
-    <ID>SpacingBetweenDeclarationsWithComments:NotificationType.kt$NotificationType.WARNING$/** Warning notification */</ID>
-    <ID>SpacingBetweenDeclarationsWithComments:NotificationsViewModel.kt$NotificationsStateMachine.Act.UpdateActivityChecksFromYourPullRequestsEnabled$// TODO [review re-request] disabled</ID>
-    <ID>SpacingBetweenDeclarationsWithComments:RepoToCheckFileParser.kt$RepoToCheckFileParser$/** * Decode a String content to a RepoToCheck * The [RepoToCheck.id] will be set to [ID] */</ID>
     <ID>StringTemplate:i18n.kt$i18n$${percentage}</ID>
-    <ID>SwallowedException:Enum.kt$ex: IllegalArgumentException</ID>
     <ID>TooGenericExceptionCaught:Browser.kt$e: Exception</ID>
     <ID>TooGenericExceptionCaught:PullRequestsViewModel.kt$PullRequestsStateMachine$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:ReleasesViewModel.kt$ReleasesStateMachine$e: Throwable</ID>
@@ -578,71 +348,5 @@
     <ID>TooManyFunctions:LocalDataSource.kt$LocalDataSource</ID>
     <ID>TooManyFunctions:PullRequestService.kt$PullRequestService : SynchronizableService</ID>
     <ID>TooManyFunctions:Synchronizer.kt$Synchronizer</ID>
-    <ID>UnusedParameter:Avatar.kt$imageUrl: String?</ID>
-    <ID>WildcardImport:App.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:App.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:AppProperties.kt$import com.russhwolf.settings.*</ID>
-    <ID>WildcardImport:AppScreen.kt$import com.woowla.compose.icon.collections.tabler.tabler.outline.*</ID>
-    <ID>WildcardImport:Cards.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:Cards.kt$import androidx.compose.runtime.*</ID>
-    <ID>WildcardImport:LocalDataSource.kt$import com.woowla.ghd.domain.entities.*</ID>
-    <ID>WildcardImport:Main.kt$import io.ktor.client.*</ID>
-    <ID>WildcardImport:PullRequestStateDecorator.kt$import com.woowla.compose.icon.collections.tabler.tabler.outline.*</ID>
-    <ID>WildcardImport:PullRequestsScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:PullRequestsScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:ReleasesScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:ReleasesScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.call.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.engine.cio.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.request.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.client.statement.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.http.*</ID>
-    <ID>WildcardImport:RemoteDataSource.kt$import io.ktor.serialization.kotlinx.json.*</ID>
-    <ID>WildcardImport:RepoToCheckBulkScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:RepoToCheckBulkScreen.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:RepoToCheckBulkScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:RepoToCheckEditScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:RepoToCheckEditScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:ReposToCheckScreen.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:ReposToCheckScreen.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:ReposToCheckScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:Screen.kt$import androidx.compose.foundation.*</ID>
-    <ID>WildcardImport:Sections.kt$import androidx.compose.foundation.layout.*</ID>
-    <ID>WildcardImport:Sections.kt$import androidx.compose.material3.*</ID>
-    <ID>WildcardImport:SettingsScreen.kt$import com.woowla.ghd.presentation.components.*</ID>
-    <ID>WildcardImport:SyncResultEntry.kt$import androidx.room.*</ID>
-    <ID>WildcardImport:Synchronizer.kt$import com.woowla.ghd.domain.entities.*</ID>
-    <ID>Wrapping:Cards.kt$(</ID>
-    <ID>Wrapping:Cards.kt$RepoToCheckDecorator(it)</ID>
-    <ID>Wrapping:Cards.kt${ i18n.screen_edit_repo_to_no_group }</ID>
-    <ID>Wrapping:Cards.kt${ repoToCheck.groupName }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.activityEnabledOption.modify(this) { action.enabledOption }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.stateMergedFromOthersPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$St.Success.appSettings.notificationsSettings.stateOpenFromOthersPullRequestsEnabled.modify(this) { action.enabled }</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$action.enabled</ID>
-    <ID>Wrapping:NotificationsViewModel.kt$NotificationsStateMachine$action.enabledOption</ID>
-    <ID>Wrapping:PullRequestService.kt$PullRequestService$it.pullRequest.id</ID>
-    <ID>Wrapping:PullRequestService.kt$PullRequestService$it.pullRequest.id == newPullRequestWithRepo.pullRequest.id</ID>
-    <ID>Wrapping:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews.Companion$it.pullRequest.createdAt</ID>
-    <ID>Wrapping:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews.Companion$it.pullRequest.stateExtended</ID>
-    <ID>Wrapping:PullRequestsScreen.kt$PullRequestsScreen$(</ID>
-    <ID>Wrapping:ReleaseDecorator.kt$ReleaseDecorator$i18n.release_published(it)</ID>
-    <ID>Wrapping:ReleasesScreen.kt$ReleasesScreen$(</ID>
-    <ID>Wrapping:RemoteDataSource.kt$RemoteDataSource$it?.node</ID>
-    <ID>Wrapping:RemoteDataSource.kt$RemoteDataSource.Companion$(</ID>
-    <ID>Wrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$mutableStateOf(state.repoToCheck.arePullRequestsNotificationsEnabled)</ID>
-    <ID>Wrapping:Review.kt$it.state == ReviewState.COMMENTED || it.state == ReviewState.CHANGES_REQUESTED || it.state == ReviewState.UNKNOWN</ID>
-    <ID>Wrapping:SyncResultDecorator.kt$SyncResultDecorator$it.syncResultEntry.endAt</ID>
-    <ID>Wrapping:SyncResultEntry.kt$SyncResultEntry.Companion$it.isSuccess</ID>
-    <ID>Wrapping:SyncResultEntry.kt$SyncResultEntry.Companion$it.origin</ID>
-    <ID>Wrapping:SyncResultEntry.kt$SyncResultEntry.Companion$it.repoToCheckId</ID>
-    <ID>Wrapping:i18n.kt$i18n$"A new version of GHD ($it) is available for download! Would you like to update it now?"</ID>
   </CurrentIssues>
 </SmellBaseline>

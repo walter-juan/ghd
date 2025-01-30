@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SplashViewModel: ViewModel() {
+class SplashViewModel : ViewModel() {
     companion object {
         private const val MIN_LOADING_TIME = 1200
     }

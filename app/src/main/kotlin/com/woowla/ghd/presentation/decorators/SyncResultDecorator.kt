@@ -27,15 +27,15 @@ import com.woowla.ghd.presentation.app.AppColors.warning
 import com.woowla.ghd.presentation.app.i18n
 
 class SyncResultDecorator(private val syncResultWithEntities: SyncResultWithEntriesAndRepos) {
-    val icon: ImageVector = when(syncResultWithEntities.status) {
+    val icon: ImageVector = when (syncResultWithEntities.status) {
         SyncResult.Status.SUCCESS -> Tabler.Outline.CircleCheck
-        SyncResult.Status.WARNING ->Tabler.Outline.AlertCircle
+        SyncResult.Status.WARNING -> Tabler.Outline.AlertCircle
         SyncResult.Status.ERROR -> Tabler.Outline.Flame
         SyncResult.Status.CRITICAL -> Tabler.Outline.Skull
     }
 
     @Composable
-    fun iconTint(): Color = when(syncResultWithEntities.status) {
+    fun iconTint(): Color = when (syncResultWithEntities.status) {
         SyncResult.Status.SUCCESS -> MaterialTheme.colorScheme.success
         SyncResult.Status.WARNING -> MaterialTheme.colorScheme.warning
         SyncResult.Status.ERROR -> MaterialTheme.colorScheme.error

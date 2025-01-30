@@ -1,6 +1,12 @@
 package com.woowla.ghd.presentation.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -11,7 +17,13 @@ import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
-import com.woowla.ghd.presentation.components.*
+import com.woowla.ghd.presentation.components.ColoredFilterChip
+import com.woowla.ghd.presentation.components.EmptyComponent
+import com.woowla.ghd.presentation.components.ErrorComponent
+import com.woowla.ghd.presentation.components.Header
+import com.woowla.ghd.presentation.components.PullRequestCard
+import com.woowla.ghd.presentation.components.ScreenScrollable
+import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.presentation.decorators.PullRequestStateDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.viewmodels.PullRequestsStateMachine
@@ -21,7 +33,7 @@ import org.koin.compose.viewmodel.koinViewModel
 object PullRequestsScreen {
     @Composable
     fun Content(
-        viewModel : PullRequestsViewModel = koinViewModel(),
+        viewModel: PullRequestsViewModel = koinViewModel(),
         onSyncResultEntriesClick: (syncResult: SyncResult) -> Unit,
     ) {
         val state = viewModel.state.collectAsState().value
@@ -42,7 +54,7 @@ object PullRequestsScreen {
                     .padding(AppDimens.screenPadding)
                     .fillMaxWidth()
             ) {
-                when(state) {
+                when (state) {
                     null, is PullRequestsStateMachine.St.Initializing -> {
                         // do not show a loading because is shown only some milliseconds
                     }
@@ -55,10 +67,12 @@ object PullRequestsScreen {
                             stateExtendedFilters = state.stateExtendedFilters,
                             stateExtendedFiltersSelected = state.stateExtendedFiltersSelected,
                             onStateChanged = { isSelected, pullRequestState ->
-                                viewModel.dispatch(PullRequestsStateMachine.Act.StateExtendedFilterSelected(
-                                    isSelected = isSelected,
-                                    pullRequestStateExtended = pullRequestState
-                                ))
+                                viewModel.dispatch(
+                                    PullRequestsStateMachine.Act.StateExtendedFilterSelected(
+                                        isSelected = isSelected,
+                                        pullRequestStateExtended = pullRequestState
+                                    )
+                                )
                             }
                         )
 
@@ -114,7 +128,10 @@ object PullRequestsScreen {
     private fun ListPullRequests(pullRequests: List<PullRequestWithRepoAndReviews>) {
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(
+                space = AppDimens.cardHorizontalSpaceBetween,
+                alignment = Alignment.CenterHorizontally
+            ),
             verticalArrangement = Arrangement.spacedBy(AppDimens.cardVerticalSpaceBetween),
             maxItemsInEachRow = 2
         ) {
