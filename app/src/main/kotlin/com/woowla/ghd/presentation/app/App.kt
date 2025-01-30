@@ -101,7 +101,12 @@ fun App() {
 }
 
 @Composable
-private fun newAppVersionDialog(newVersion: String, onCloseRequest: () -> Unit, onDownloadClick: () -> Unit, onDiscardClick: () -> Unit, ) {
+private fun newAppVersionDialog(
+    newVersion: String,
+    onCloseRequest: () -> Unit,
+    onDownloadClick: () -> Unit,
+    onDiscardClick: () -> Unit,
+) {
     AlertDialog(
         onDismissRequest = onCloseRequest,
         title = { Text(i18n.dialog_new_app_version_title) },
