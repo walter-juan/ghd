@@ -137,6 +137,11 @@ object ReposToCheckScreen {
                                     )
                                 }
                             )
+
+                            LaunchedEffect("request-focus") {
+                                // request focus after first composition to avoid FocusRequester not initialized crash
+                                textFieldFocusRequester.requestFocus()
+                            }
                         }
 
                         if (state.reposToCheckFiltered.isEmpty()) {
@@ -165,11 +170,6 @@ object ReposToCheckScreen {
                                     showDeleteConfirmationDialog.value = false
                                 }
                             )
-                        }
-
-                        LaunchedEffect("request-focus") {
-                            // request focus after first composition to avoid FocusRequester not initialized crash
-                            textFieldFocusRequester.requestFocus()
                         }
                     }
                 }
