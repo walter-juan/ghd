@@ -19,12 +19,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class PullRequestsViewModel(
     stateMachine: PullRequestsStateMachine,
+    private val eventBus: EventBus,
 ) : FlowReduxViewModel<PullRequestsStateMachine.St, PullRequestsStateMachine.Act>(stateMachine) {
     init {
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+        eventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             dispatch(PullRequestsStateMachine.Act.Reload)
         }
-        EventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
+        eventBus.subscribe(this, viewModelScope, Event.SETTINGS_UPDATED) {
             dispatch(PullRequestsStateMachine.Act.Reload)
         }
     }

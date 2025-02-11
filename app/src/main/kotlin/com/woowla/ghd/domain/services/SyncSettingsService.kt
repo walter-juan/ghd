@@ -7,6 +7,7 @@ import com.woowla.ghd.eventbus.EventBus
 
 class SyncSettingsService(
     private val localDataSource: LocalDataSource,
+    private val eventBus: EventBus,
 ) {
     suspend fun get(): Result<SyncSettings> {
         return localDataSource.getSyncSettings()
@@ -15,7 +16,7 @@ class SyncSettingsService(
     suspend fun save(params: SyncSettings): Result<Unit> {
         return localDataSource.updateSyncSettings(params)
             .onSuccess {
-                EventBus.publish(Event.SETTINGS_UPDATED)
+                eventBus.publish(Event.SETTINGS_UPDATED)
             }
     }
 }

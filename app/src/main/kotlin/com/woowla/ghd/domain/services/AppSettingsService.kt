@@ -7,6 +7,7 @@ import com.woowla.ghd.eventbus.EventBus
 
 class AppSettingsService(
     private val localDataSource: LocalDataSource,
+    private val eventBus: EventBus,
 ) {
     suspend fun get(): Result<AppSettings> {
         return localDataSource.getAppSettings()
@@ -15,7 +16,7 @@ class AppSettingsService(
     suspend fun save(params: AppSettings): Result<Unit> {
         return localDataSource.updateAppSettings(params)
             .onSuccess {
-                EventBus.publish(Event.SETTINGS_UPDATED)
+                eventBus.publish(Event.SETTINGS_UPDATED)
             }
     }
 }

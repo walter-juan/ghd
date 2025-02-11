@@ -9,6 +9,7 @@ import com.woowla.ghd.eventbus.EventBus
 class RepoToCheckService(
     private val localDataSource: LocalDataSource,
     private val fileParser: RepoToCheckFileParser,
+    private val eventBus: EventBus
 ) {
     suspend fun get(id: Long): Result<RepoToCheck> {
         return localDataSource.getRepoToCheck(id = id)
@@ -28,7 +29,7 @@ class RepoToCheckService(
     suspend fun save(repoToCheck: RepoToCheck): Result<Unit> {
         return localDataSource.upsertRepoToCheck(repoToCheck)
             .onSuccess {
-                EventBus.publish(Event.REPO_TO_CHECK_UPDATED)
+                eventBus.publish(Event.REPO_TO_CHECK_UPDATED)
             }
     }
 
@@ -47,7 +48,7 @@ class RepoToCheckService(
                 save(repoToCheck)
             }
 
-        EventBus.publish(Event.REPO_TO_CHECK_UPDATED)
+        eventBus.publish(Event.REPO_TO_CHECK_UPDATED)
 
         return Result.success(Unit)
     }

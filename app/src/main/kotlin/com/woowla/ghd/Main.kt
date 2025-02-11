@@ -26,6 +26,7 @@ import com.woowla.ghd.domain.services.ReleaseService
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.domain.synchronization.Synchronizer
+import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.notifications.NotificationClient
 import com.woowla.ghd.notifications.NotificationsSender
 import com.woowla.ghd.notifications.NotificationsSenderDefault
@@ -73,16 +74,20 @@ fun main() {
                         syncSettingsService = get(),
                         synchronizableServiceList = listOf(get<PullRequestService>(), get<ReleaseService>()),
                         localDataSource = get(),
+                        eventBus = get(),
                     )
                 }
 
+                // others
+                single { EventBus() }
+
                 // view models
                 viewModel<SplashViewModel> { SplashViewModel() }
-                viewModel<PullRequestsViewModel> { PullRequestsViewModel(get()) }
+                viewModel<PullRequestsViewModel> { PullRequestsViewModel(get(), get()) }
                 viewModel<NotificationsViewModel> { NotificationsViewModel(get()) }
-                viewModel<ReleasesViewModel> { ReleasesViewModel(get()) }
-                viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get()) }
-                viewModel<ReposToCheckViewModel> { ReposToCheckViewModel(get()) }
+                viewModel<ReleasesViewModel> { ReleasesViewModel(get(), get()) }
+                viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get(), get()) }
+                viewModel<ReposToCheckViewModel> { ReposToCheckViewModel(get(), get()) }
                 viewModel<RepoToCheckEditViewModel> { (repoToCheckId: Long?) ->
                     RepoToCheckEditViewModel(get { parametersOf(repoToCheckId) })
                 }
@@ -90,7 +95,7 @@ fun main() {
                 viewModel<SyncResultEntriesViewModel> { (syncResultId: Long) ->
                     SyncResultEntriesViewModel(get { parametersOf(syncResultId) })
                 }
-                viewModel<SyncResultsViewModel> { SyncResultsViewModel(get()) }
+                viewModel<SyncResultsViewModel> { SyncResultsViewModel(get(), get()) }
 
                 // state machines
                 factory<PullRequestsStateMachine> { PullRequestsStateMachine(get(), get(), get()) }
@@ -113,9 +118,9 @@ fun main() {
                 single<TrayState> { TrayState() }
 
                 // services
-                single<AppSettingsService> { AppSettingsService(get()) }
-                single<SyncSettingsService> { SyncSettingsService(get()) }
-                single<RepoToCheckService> { RepoToCheckService(get(), get()) }
+                single<AppSettingsService> { AppSettingsService(get(), get()) }
+                single<SyncSettingsService> { SyncSettingsService(get(), get()) }
+                single<RepoToCheckService> { RepoToCheckService(get(), get(), get()) }
                 single<AppVersionService> { AppVersionService(get()) }
                 single<PullRequestService> { PullRequestService(get(), get(), get(), get()) }
                 single<ReleaseService> { ReleaseService(get(), get(), get(), get()) }

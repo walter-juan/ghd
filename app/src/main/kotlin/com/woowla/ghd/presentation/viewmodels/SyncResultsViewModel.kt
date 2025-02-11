@@ -13,11 +13,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SyncResultsViewModel(
-    stateMachine: SyncResultsStateMachine
+    stateMachine: SyncResultsStateMachine,
+    private val eventBus: EventBus,
 ) : FlowReduxViewModel<SyncResultsStateMachine.St, SyncResultsStateMachine.Act>(stateMachine) {
     init {
         dispatch(SyncResultsStateMachine.Act.Load)
-        EventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
+        eventBus.subscribe(this, viewModelScope, Event.SYNCHRONIZED) {
             dispatch(SyncResultsStateMachine.Act.Load)
         }
     }

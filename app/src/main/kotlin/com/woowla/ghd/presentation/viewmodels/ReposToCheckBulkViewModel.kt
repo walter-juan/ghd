@@ -14,9 +14,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @OptIn(ExperimentalCoroutinesApi::class)
 class ReposToCheckBulkViewModel(
     stateMachine: ReposToCheckBulkStateMachine,
+    private val eventBus: EventBus,
 ) : FlowReduxViewModel<ReposToCheckBulkStateMachine.St, ReposToCheckBulkStateMachine.Act>(stateMachine) {
     init {
-        EventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
+        eventBus.subscribe(this, viewModelScope, Event.REPO_TO_CHECK_UPDATED) {
             dispatch(ReposToCheckBulkStateMachine.Act.Reload)
         }
     }

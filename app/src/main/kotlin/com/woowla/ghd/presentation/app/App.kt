@@ -42,12 +42,13 @@ fun App() {
     var darkTheme by remember { mutableStateOf(systemDarkTheme) }
     val openNewAppVersionDialog = remember { mutableStateOf(false) }
     val newAppVersion = remember { mutableStateOf("") }
+    val eventBus: EventBus = koinInject()
     val appSettingsService: AppSettingsService = koinInject()
     val appVersionService: AppVersionService = koinInject()
 
     LaunchedEffect("app-theme") {
         appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
-        EventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
+        eventBus.subscribe("app-subscriber", this, Event.SETTINGS_UPDATED) {
             launch {
                 appSettingsService.get().onSuccess { darkTheme = it.darkTheme ?: systemDarkTheme }
             }

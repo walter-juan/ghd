@@ -31,6 +31,7 @@ class Synchronizer(
     private val syncSettingsService: SyncSettingsService,
     private val synchronizableServiceList: List<SynchronizableService>,
     private val localDataSource: LocalDataSource,
+    private val eventBus: EventBus,
 ) {
     companion object {
         val MAX_SYNC_RESULTS = 1_000
@@ -120,7 +121,7 @@ class Synchronizer(
         if (syncSettings == null) {
             syncResultFinishWithError(syncResult = syncResultFinish, error = "Unknown error", message = "Synchronization settings are null")
             AppLogger.d("Synchronizer :: sync :: finished because the synchronization settings are null")
-            EventBus.publish(Event.SYNCHRONIZED)
+            eventBus.publish(Event.SYNCHRONIZED)
             return
         }
 
@@ -128,7 +129,7 @@ class Synchronizer(
         if (githubPatToken.isBlank()) {
             syncResultFinishWithError(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")
             AppLogger.d("Synchronizer :: sync :: finished because the github token is null or blank")
-            EventBus.publish(Event.SYNCHRONIZED)
+            eventBus.publish(Event.SYNCHRONIZED)
             return
         }
 
@@ -151,7 +152,7 @@ class Synchronizer(
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
         delay(150)
-        EventBus.publish(Event.SYNCHRONIZED)
+        eventBus.publish(Event.SYNCHRONIZED)
     }
 
     private suspend fun syncResultFinish(syncResult: SyncResult, syncResultEntryList: List<SyncResultEntry>): SyncResult {
@@ -198,12 +199,12 @@ class Synchronizer(
     }
 
     private fun subscribe() {
-        EventBus.subscribe(this, scope, Event.SETTINGS_UPDATED) {
+        eventBus.subscribe(this, scope, Event.SETTINGS_UPDATED) {
             reloadCheckTimeout()
         }
     }
 
     private fun unsubscribe() {
-        EventBus.unsubscribe(this)
+        eventBus.unsubscribe(this)
     }
 }
