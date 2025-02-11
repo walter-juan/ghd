@@ -32,6 +32,7 @@ class Synchronizer(
     private val synchronizableServiceList: List<SynchronizableService>,
     private val localDataSource: LocalDataSource,
     private val eventBus: EventBus,
+    private val appLogger: AppLogger,
 ) {
     companion object {
         val MAX_SYNC_RESULTS = 1_000
@@ -94,14 +95,14 @@ class Synchronizer(
 
         // don't sync if it's still running
         if (syncJob?.isCompleted ?: true) {
-            AppLogger.d("Synchronizer :: sync :: start")
+            appLogger.d("Synchronizer :: sync :: start")
             syncJob = scope.launch {
                 unsubscribe()
                 executeAllSynchronizables()
                 subscribe()
             }
         } else {
-            AppLogger.d("Synchronizer :: sync :: don't sync, still in progress")
+            appLogger.d("Synchronizer :: sync :: don't sync, still in progress")
         }
     }
 
@@ -120,7 +121,7 @@ class Synchronizer(
         val syncSettings = syncSettingsService.get().getOrNull()
         if (syncSettings == null) {
             syncResultFinishWithError(syncResult = syncResultFinish, error = "Unknown error", message = "Synchronization settings are null")
-            AppLogger.d("Synchronizer :: sync :: finished because the synchronization settings are null")
+            appLogger.d("Synchronizer :: sync :: finished because the synchronization settings are null")
             eventBus.publish(Event.SYNCHRONIZED)
             return
         }
@@ -128,7 +129,7 @@ class Synchronizer(
         val githubPatToken = syncSettings.githubPatToken
         if (githubPatToken.isBlank()) {
             syncResultFinishWithError(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")
-            AppLogger.d("Synchronizer :: sync :: finished because the github token is null or blank")
+            appLogger.d("Synchronizer :: sync :: finished because the github token is null or blank")
             eventBus.publish(Event.SYNCHRONIZED)
             return
         }
@@ -148,7 +149,7 @@ class Synchronizer(
         cleanUpSyncResult()
 
         val syncResult = getSyncResult(syncResultFinish.id).getOrThrow()
-        AppLogger.d("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
+        appLogger.d("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")
 
         // add some small delay because sometimes some kind of flickering is shown (it shows large amount of PRs and later on they disappear)
         delay(150)

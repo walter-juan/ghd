@@ -11,6 +11,7 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
 import com.kdroid.composetray.utils.SingleInstanceManager
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
@@ -62,6 +63,7 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
+import org.slf4j.LoggerFactory
 
 fun main() {
     startKoin {
@@ -75,11 +77,13 @@ fun main() {
                         synchronizableServiceList = listOf(get<PullRequestService>(), get<ReleaseService>()),
                         localDataSource = get(),
                         eventBus = get(),
+                        appLogger = get(),
                     )
                 }
 
                 // others
-                single { EventBus() }
+                single { EventBus(get()) }
+                single { AppLogger(logger = LoggerFactory.getLogger(AppLogger::class.java)) }
 
                 // view models
                 viewModel<SplashViewModel> { SplashViewModel() }
@@ -122,7 +126,7 @@ fun main() {
                 single<SyncSettingsService> { SyncSettingsService(get(), get()) }
                 single<RepoToCheckService> { RepoToCheckService(get(), get(), get()) }
                 single<AppVersionService> { AppVersionService(get()) }
-                single<PullRequestService> { PullRequestService(get(), get(), get(), get()) }
+                single<PullRequestService> { PullRequestService(get(), get(), get(), get(), get()) }
                 single<ReleaseService> { ReleaseService(get(), get(), get(), get()) }
 
                 // remote data layer

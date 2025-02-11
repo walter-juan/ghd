@@ -28,6 +28,7 @@ class PullRequestService(
     private val remoteDataSource: RemoteDataSource,
     private val notificationsSender: NotificationsSender,
     private val appSettingsService: AppSettingsService,
+    private val appLogger: AppLogger,
 ) : SynchronizableService {
     suspend fun getAll(): Result<List<PullRequestWithRepoAndReviews>> {
         return localDataSource.getAllPullRequests()
@@ -37,7 +38,7 @@ class PullRequestService(
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
-        AppLogger.d("Synchronizer :: sync :: pulls :: start")
+        appLogger.d("Synchronizer :: sync :: pulls :: start")
         val prSyncStartAt = Clock.System.now()
         val pullRequestsBefore = getAll().getOrDefault(listOf())
         val enabledRepoToCheckList = repoToCheckList.filter { it.arePullRequestsEnabled }
@@ -53,7 +54,7 @@ class PullRequestService(
             }
         }
         val apiResponseResults = apiPullRequestResultsDeferred.awaitAll()
-        AppLogger.d("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
+        appLogger.d("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
 
         // map to sync results
         val syncResultEntries = apiResponseResults.map { (repoToCheck, startAt, apiResponseResult) ->
@@ -90,7 +91,7 @@ class PullRequestService(
             sendNotifications(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)
         }
 
-        AppLogger.d("Synchronizer :: sync :: pulls :: finish took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
+        appLogger.d("Synchronizer :: sync :: pulls :: finish took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")
         return syncResultEntries
     }
 

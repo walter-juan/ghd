@@ -1,10 +1,8 @@
 package com.woowla.ghd
 
-import org.slf4j.LoggerFactory
+import org.slf4j.Logger
 
-object AppLogger {
-    private val logger = LoggerFactory.getLogger(AppLogger::class.java)
-
+class AppLogger(private val logger: Logger) {
     fun d(msg: String) {
         logger.debug(msg)
     }

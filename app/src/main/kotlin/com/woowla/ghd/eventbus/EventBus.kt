@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Deprecated("Future replacement with Flows")
-class EventBus {
+class EventBus(
+    private val appLogger: AppLogger,
+) {
     private val eventBusDispatcher: CoroutineContext = Dispatchers.Default
     private val eventBusScope = CoroutineScope(eventBusDispatcher)
 
@@ -28,7 +30,7 @@ class EventBus {
         val subscriberJob = events
             .filter { it == event }
             .onEach { action.invoke() }
-            .catch { ex -> AppLogger.e("EventBus :: Exception, ${ex.message}", ex) }
+            .catch { ex -> appLogger.e("EventBus :: Exception, ${ex.message}", ex) }
             .launchIn(scope)
         subscriberJobs[subscriber] = getJobs(subscriber) + subscriberJob
     }
