@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SplashViewModel : ViewModel() {
+class SplashViewModel(
+    appFolderFactory: AppFolderFactory,
+) : ViewModel() {
     companion object {
         private const val MIN_LOADING_TIME = 1200
     }
@@ -20,7 +22,7 @@ class SplashViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             val timeMillis = measureTimeMillis {
-                AppFolderFactory.createFolder()
+                appFolderFactory.createFolder()
             }
             delay(MIN_LOADING_TIME - timeMillis)
             _splashFinished.value = true

@@ -5,10 +5,9 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import net.harawata.appdirs.AppDirsFactory
 
-object AppFolderFactory {
-    val folder: Path = if (BuildConfig.DEBUG) {
-
-        Paths.get(FileSystems.getDefault().getPath("").toAbsolutePath().parent.toString(), BuildConfig.DEBUG_APP_FOLDER)
+class AppFolderFactory(isDebug: Boolean, debugAppFolder: String) {
+    val folder: Path = if (isDebug) {
+        Paths.get(FileSystems.getDefault().getPath("").toAbsolutePath().parent.toString(), debugAppFolder)
     } else {
         val appDirs = AppDirsFactory.getInstance()
         val pathStr = appDirs.getUserDataDir("ghd", null, "woowla")

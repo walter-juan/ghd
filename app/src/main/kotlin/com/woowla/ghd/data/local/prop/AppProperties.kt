@@ -24,13 +24,13 @@ import kotlin.io.path.createFile
  * - newReleaseNotificationsEnabled
  * - updatedReleaseNotificationsEnabled
  */
-class AppProperties {
+class AppProperties(appFolderFactory: AppFolderFactory) {
     companion object {
         private const val PROPERTIES_NAME = "ghd.properties"
         private const val PROPERTIES_FOLDER = "prop"
     }
     private val propFolderPath by lazy {
-        AppFolderFactory.folder.resolve(PROPERTIES_FOLDER)
+        appFolderFactory.folder.resolve(PROPERTIES_FOLDER)
     }
     private val propertiesPath by lazy { propFolderPath.resolve(PROPERTIES_NAME) }
 

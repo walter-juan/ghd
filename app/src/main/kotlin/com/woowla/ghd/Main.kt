@@ -11,7 +11,9 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import com.apollographql.apollo3.ApolloClient
 import com.kdroid.composetray.utils.SingleInstanceManager
+import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.AppLogger
+import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
@@ -37,6 +39,7 @@ import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.app.TrayIcon
 import com.woowla.ghd.presentation.app.i18n
+import com.woowla.ghd.presentation.viewmodels.AboutViewModel
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
 import com.woowla.ghd.presentation.viewmodels.PullRequestsStateMachine
@@ -84,9 +87,11 @@ fun main() {
                 // others
                 single { EventBus(get()) }
                 single { AppLogger(logger = LoggerFactory.getLogger(AppLogger::class.java)) }
+                single<AppFolderFactory> { AppFolderFactory(BuildConfig.DEBUG, BuildConfig.DEBUG_APP_FOLDER) }
 
                 // view models
-                viewModel<SplashViewModel> { SplashViewModel() }
+                viewModel<SplashViewModel> { SplashViewModel(get()) }
+                viewModel<AboutViewModel> { AboutViewModel(get()) }
                 viewModel<PullRequestsViewModel> { PullRequestsViewModel(get(), get()) }
                 viewModel<NotificationsViewModel> { NotificationsViewModel(get()) }
                 viewModel<ReleasesViewModel> { ReleasesViewModel(get(), get()) }
@@ -138,8 +143,8 @@ fun main() {
 
                 // local data layer
                 single<LocalDataSource> { LocalDataSource(get(), get()) }
-                single<AppDatabase> { AppDatabase.getRoomDatabase() }
-                single<AppProperties> { AppProperties() }
+                single<AppDatabase> { AppDatabase.getRoomDatabase(get()) }
+                single<AppProperties> { AppProperties(get()) }
                 single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }
             }
         )

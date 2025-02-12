@@ -17,7 +17,6 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Folder
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.PhotoCircle
-import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.i18n
@@ -25,14 +24,15 @@ import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.viewmodels.AboutViewModel
 import com.woowla.ghd.utils.openFolder
 import com.woowla.ghd.utils.openWebpage
-import java.nio.file.Path
+import org.koin.compose.viewmodel.koinViewModel
 
 object AboutScreen {
     @Composable
     fun Content(
-        appDir: Path = AppFolderFactory.folder,
+        viewModel: AboutViewModel = koinViewModel(),
         onBackClick: (() -> Unit)? = null,
     ) {
         ScreenScrollable(
@@ -102,7 +102,7 @@ object AboutScreen {
                 Section(title = "App Information") {
                     SectionItem(
                         title = "Application directory",
-                        description = "Data for this application is stored in the following location: '$appDir'",
+                        description = "Data for this application is stored in the following location: '${viewModel.appDir}'",
                         leadingIcon = {
                             Icon(
                                 imageVector = Tabler.Outline.Folder,
@@ -113,7 +113,7 @@ object AboutScreen {
                         trailingContent = {
                             IconButton(
                                 onClick = {
-                                    openFolder(appDir.toFile())
+                                    openFolder(viewModel.appDir.toFile())
                                 }
                             ) {
                                 Icon(

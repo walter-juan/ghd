@@ -48,8 +48,8 @@ import kotlinx.coroutines.Dispatchers
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
-        fun getRoomDatabase(): AppDatabase {
-            val dbFile = AppFolderFactory.folder.resolve("room-db").resolve("ghd.db")
+        fun getRoomDatabase(appFolderFactory: AppFolderFactory): AppDatabase {
+            val dbFile = appFolderFactory.folder.resolve("room-db").resolve("ghd.db")
             return Room.databaseBuilder<AppDatabase>(name = dbFile.toString())
                 .setDriver(BundledSQLiteDriver())
                 .setQueryCoroutineContext(Dispatchers.IO)
