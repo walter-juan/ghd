@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ArgumentListWrapping:HomeScreen.kt$HomeScreen$(25.dp)</ID>
+    <ID>ArgumentListWrapping:HomeScreen.kt$HomeScreen$(imageVector = item.icon, contentDescription = item.title, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:Main.kt$(i18n.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })</ID>
+    <ID>ClassNaming:i18n.kt$i18n</ID>
+    <ID>Filename:i18n.kt$com.woowla.ghd.presentation.app.i18n.kt</ID>
+    <ID>LongMethod:App.kt$@Composable fun App()</ID>
+    <ID>LongMethod:HomeScreen.kt$HomeScreen$@Composable fun Content()</ID>
+    <ID>LongMethod:Main.kt$fun main()</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_ignore_button = "Ignore"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_title = "Update available"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_update_button = "Update now"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val menu_bar_menu_actions = "Actions"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val menu_bar_menu_item_synchronize = "Synchronize"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_about = "About"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_notifications = "Notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_pull_requests = "Pulls"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_releases = "Releases"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_repos_to_check = "Repos"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_settings = "Settings"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_exit = "Exit"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_hide_app = "Hide in tray"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_show_app = "Show"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_synchronize = "Synchronize"</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(String)</ID>
+  </CurrentIssues>
+</SmellBaseline>

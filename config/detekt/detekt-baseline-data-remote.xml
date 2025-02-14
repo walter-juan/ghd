@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ArgumentListWrapping:ApiToDomainMappers.kt$(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN)</ID>
+    <ID>MaxLineLength:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$override suspend</ID>
+    <ID>MaximumLineLength:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$ </ID>
+    <ID>NoConsecutiveBlankLines:DiDataRemote.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:RemoteDataSource.kt$ </ID>
+    <ID>NoWildcardImports:DiDataRemote.kt$import io.ktor.client.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.call.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.engine.cio.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.request.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.statement.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.http.*</ID>
+    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.serialization.kotlinx.json.*</ID>
+    <ID>ParameterListWrapping:RemoteDataSource.kt$RemoteDataSource$(repoToCheck: RepoToCheck)</ID>
+    <ID>ParameterListWrapping:RemoteDataSource.kt$RemoteDataSource$(repoToCheck: RepoToCheck, state: PullRequestState)</ID>
+    <ID>WildcardImport:DiDataRemote.kt$import io.ktor.client.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.call.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.engine.cio.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.request.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.statement.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.http.*</ID>
+    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.serialization.kotlinx.json.*</ID>
+    <ID>Wrapping:DiDataRemote.kt$DiDataRemote$RemoteDataSourceImpl( ghOwner = ghOwner, ghRepo = ghRepo, apolloClient = get(), ktorClient = get(), )</ID>
+  </CurrentIssues>
+</SmellBaseline>
