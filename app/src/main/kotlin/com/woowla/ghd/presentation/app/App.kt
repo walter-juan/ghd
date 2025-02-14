@@ -28,13 +28,14 @@ import androidx.navigation.compose.rememberNavController
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.AppVersionService
-import com.woowla.ghd.eventbus.Event
+import com.woowla.ghd.domain.entities.Event
 import com.woowla.ghd.eventbus.EventBus
 import com.woowla.ghd.presentation.screens.HomeScreen
 import com.woowla.ghd.presentation.screens.SplashScreen
 import com.woowla.ghd.utils.openWebpage
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun App() {
@@ -75,6 +76,8 @@ fun App() {
         ) {
             composable(AppScreen.Splash.route) {
                 SplashScreen.Content(
+                    viewModel = koinViewModel(),
+                    launcherIconPainter = AppIconsPainter.Launcher,
                     onSplashFinished = {
                         navController.navigate(AppScreen.Home.route) {
                             popUpTo(AppScreen.Splash.route) { inclusive = true }

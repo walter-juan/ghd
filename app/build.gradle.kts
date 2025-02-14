@@ -8,16 +8,10 @@ import java.io.PrintStream
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    alias(libs.plugins.kotlin.plugin.serialization)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.compose.jetbrains)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.apollo3)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
-    alias(libs.plugins.androidx.room)
-    alias(libs.plugins.detekt)
 }
 
 group = "com.woowla"
@@ -31,20 +25,6 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
-apollo {
-    service("github") {
-        packageName.set("com.woowla.ghd.data.remote")
-        generateOptionalOperationVariables.set(false)
-    }
-}
-
-detekt {
-    toolVersion = libs.versions.detekt.get()
-    config.from(project.rootProject.file("config/detekt/detekt-config.yml"))
-    baseline = project.rootProject.file("config/detekt/detekt-baseline.xml")
-    buildUponDefaultConfig = true
-}
-
 buildConfig {
     packageName("com.woowla.ghd")
     buildConfigField("APP_VERSION", project.version.toString())
@@ -56,42 +36,25 @@ buildConfig {
 }
 
 dependencies {
+    implementation(project(":core"))
+    implementation(project(":domain-api"))
+    implementation(project(":domain-impl"))
+    implementation(project(":data"))
+    implementation(project(":ui"))
+
     implementation(compose.desktop.currentOs)
     @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
     implementation(compose.material3)
     implementation(libs.kotlinx.coroutines.swing)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.bundles.ktor.client)
-    implementation(libs.apollo3)
-    implementation(libs.kotlinx.datetime)
     implementation(libs.logback.classic)
-    implementation(libs.appdirs)
-    implementation(libs.bundles.coil)
-    implementation(libs.kaml)
     implementation(libs.semver)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.sqlite.bundled)
-    implementation(libs.settings)
     implementation(libs.icons.tabler)
     implementation(libs.composenativetray)
-    implementation(libs.bundles.flowredux)
-    implementation(libs.arrow.optics)
     implementation(libs.materialkolor)
-    ksp(libs.arrow.optics.ksp)
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.bundles.koin)
-
-    detektPlugins(libs.detekt.formatting)
-
-    testImplementation(libs.mockk)
-    testImplementation(libs.bundles.test.kotest)
-}
-
-room {
-    schemaDirectory("${projectDir}/src/main/room/schemas")
 }
 
 compose.desktop {
@@ -129,22 +92,6 @@ tasks.register("ghdCleanDebugAppFolder") {
 
 tasks.withType<KotlinCompile> {
     compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    filter {
-        isFailOnNoMatchingTests = false
-    }
-    testLogging {
-        showExceptions = true
-        showStandardStreams = true
-        events = setOf(
-            org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-            org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
-        )
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-    }
 }
 
 tasks.withType<DependencyUpdatesTask> {

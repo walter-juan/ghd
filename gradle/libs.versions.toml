@@ -12,6 +12,7 @@ flowredux = "1.2.2"
 arrow = "2.0.0"
 koin-bom = "4.0.2"
 detekt = "1.23.7"
+konvert = "4.0.1"
 
 [plugins]
 # Kotlin for JVM
@@ -69,6 +70,9 @@ flowredux-compose = { module = "com.freeletics.flowredux:compose", version.ref =
 # Λrrow is a library for Typed Functional Programming in Kotlin
 arrow-optics = { module = "io.arrow-kt:arrow-optics", version.ref = "arrow" }
 arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref = "arrow" }
+# This is a kotlin compiler plugin (using KSP) to generate mapping code from one class to another.
+konvert-api = { module = "io.mcarle:konvert-api", version.ref = "konvert" }
+konvert-ksp = { module = "io.mcarle:konvert", version.ref = "konvert" }
 # YAML support for kotlinx.serialization
 kaml = "com.charleskorn.kaml:kaml:0.67.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)

@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ArgumentListWrapping:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$("when activityEnabledOption is FILTERED but all notifications disabled then sendNotifications with all pull requests and reviews from filtered username should not send notifications")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$("when activityEnabledOption is FILTERED then sendNotifications with all pull requests and reviews from filtered username")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$("when activityEnabledOption is FILTERED then sendNotifications with all pull requests and reviews from other authors")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: finish took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = draftPullRequestFromFilteredUsername)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = mergedPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = newClosedPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = newDraftPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = newMergedPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = oldDraftPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = oldOpenPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = openPullRequest)</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
+    <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")</ID>
+    <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(endAt = Clock.System.now())</ID>
+    <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")</ID>
+    <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult = syncResultFinish, error = "Unknown error", message = "Synchronization settings are null")</ID>
+    <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult.copy(endAt = Clock.System.now()))</ID>
+    <ID>LongMethod:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$fun buildActivityChangedPullRequests( pullRequestsAuthorUsername: String = "author-login", reviewsAuthorUsername: String = "author-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
+    <ID>LongMethod:PullRequestServiceImpl.kt$PullRequestServiceImpl$override suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;, newPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;): Result&lt;Unit&gt;</ID>
+    <ID>LongMethod:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$fun buildActivityChangedPullRequests( filteredUsername: String = "filtered-username-login", otherUsername: String = "other-username-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
+    <ID>MagicNumber:SynchronizerImpl.kt$SynchronizerImpl$150</ID>
+    <ID>MaxLineLength:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$context</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$*</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$override suspend</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$private</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$sendNotifications(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$val mergeStateStatusChanged = oldPullRequestWithRepo.pullRequest.mergeStateStatus != newPullRequestWithRepo.pullRequest.mergeStateStatus</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val draftPullRequestWithReviewsFromFilteredUsername = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = draftPullRequestFromFilteredUsername)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val newClosedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newClosedPullRequest)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val newDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newDraftPullRequest)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val newMergedPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = newMergedPullRequest)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val oldDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldDraftPullRequest)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val oldPullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)</ID>
+    <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val pullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
+    <ID>MaxLineLength:ReleaseServiceImpl.kt$ReleaseServiceImpl$override suspend</ID>
+    <ID>MaxLineLength:SynchronizerImpl.kt$SynchronizerImpl$appLogger.d("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")</ID>
+    <ID>MaximumLineLength:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$ </ID>
+    <ID>MaximumLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$ </ID>
+    <ID>MaximumLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$ </ID>
+    <ID>MaximumLineLength:ReleaseServiceImpl.kt$ReleaseServiceImpl$ </ID>
+    <ID>MaximumLineLength:SynchronizerImpl.kt$SynchronizerImpl$ </ID>
+    <ID>MayBeConst:SynchronizerImpl.kt$SynchronizerImpl.Companion$val MAX_SYNC_RESULTS = 1_000</ID>
+    <ID>NoBlankLineBeforeRbrace:AppVersionServiceImpl.kt$AppVersionServiceImpl$ </ID>
+    <ID>NoConsecutiveBlankLines:DiDomainImpl.kt$ </ID>
+    <ID>NoMultipleSpaces:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$ </ID>
+    <ID>NoMultipleSpaces:PullRequestServiceImpl.kt$PullRequestServiceImpl$ </ID>
+    <ID>ParameterListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(notificationsSettings: NotificationsSettings)</ID>
+    <ID>ParameterListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;)</ID>
+    <ID>SpacingAroundKeyword:PullRequestServiceImpl.kt$PullRequestServiceImpl$when</ID>
+    <ID>TooManyFunctions:PullRequestServiceImpl.kt$PullRequestServiceImpl : PullRequestService</ID>
+    <ID>TooManyFunctions:SynchronizerImpl.kt$SynchronizerImpl : Synchronizer</ID>
+  </CurrentIssues>
+</SmellBaseline>
