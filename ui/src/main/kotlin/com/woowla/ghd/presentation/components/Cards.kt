@@ -75,7 +75,7 @@ fun SynResultCard(
     val durationText = if (duration == null) {
         i18n.screen_sync_results_in_progress
     } else {
-        i18n.screen_sync_results_took_seconds((duration.inWholeMilliseconds / 1000.0))
+        i18n.screen_sync_results_took_seconds((duration.inWholeSeconds))
     }
     CardListItem(
         modifier = modifier,
@@ -106,9 +106,7 @@ fun SynResultEntryCard(
         modifier = modifier,
         onClick = {},
         title = title,
-        subtitle = i18n.screen_sync_result_entries_took_seconds(
-            (syncResultEntryWithRepo.syncResultEntry.duration.inWholeMilliseconds / 1000.0)
-        ),
+        subtitle = i18n.screen_sync_result_entries_took_seconds(syncResultEntryWithRepo.syncResultEntry.duration.inWholeSeconds),
         leadingContent = {
             Avatar(
                 image = decorator.originIcon,

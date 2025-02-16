@@ -154,11 +154,11 @@ repositories:
     val screen_login_fresh_start_confirmation_dialog_no_button = "No"
 
     val screen_sync_results_in_progress = "Sync in progress"
-    val screen_sync_results_took_seconds: (seconds: Double) -> String = { "$it seconds" }
+    val screen_sync_results_took_seconds: (seconds: Long) -> String = { "$it seconds" }
     val screen_sync_results_start_at: (instant: Instant) -> String = { "Synchronization started at ${it.format()}" }
     val screen_sync_results_end_at: (emoji: String, percentage: Int, total: Int) -> String = { emoji, percentage, total ->  "$emoji ${percentage}% errors out of a total of $total" }
 
-    val screen_sync_result_entries_took_seconds: (seconds: Double) -> String = { "Took $it seconds" }
+    val screen_sync_result_entries_took_seconds: (seconds: Long) -> String = { "Took $it seconds" }
 
     val dialog_new_app_version_title = "Update available"
     val dialog_new_app_version_ignore_button = "Ignore"
