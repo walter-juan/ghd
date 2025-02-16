@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Add missing debug ICNS icon
 - Change icon when the app is running on debug mode
+- Allow multiple instances of the app when running on debug mode
 
 ## [2.0.1]
 ### Changed

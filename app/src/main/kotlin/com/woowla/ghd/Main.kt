@@ -59,7 +59,7 @@ fun main() {
             isWindowVisible = true
         })
 
-        if (!isSingleInstance) {
+        if (!isSingleInstance && !BuildConfig.DEBUG) {
             exitApplication()
             return@application
         }
