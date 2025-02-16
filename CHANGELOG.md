@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.3]
+### Fixed
+- 🐛 Fix crash with i18n classes
+
 ## [2.0.2]
 ### Added
 - Notification when review from you is dismissed
@@ -268,7 +272,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.2...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.3...dev
+[2.0.3]: nttps://github.com/walter-juan/ghd/releases/tag/v2.0.3
 [2.0.2]: https://github.com/walter-juan/ghd/releases/tag/v2.0.2
 [2.0.1]: https://github.com/walter-juan/ghd/releases/tag/v2.0.1
 [2.0.0]: https://github.com/walter-juan/ghd/releases/tag/v2.0.0
