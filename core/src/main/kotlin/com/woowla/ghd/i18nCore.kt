@@ -1,6 +1,6 @@
 package com.woowla.ghd
 
-internal object i18n {
+internal object i18nCore {
     val generic_now =  "now"
     val generic_in_seconds: (Long) -> String = { "in $it seconds" }
     val generic_in_minutes: (Long) -> String = { "in $it minutes" }
