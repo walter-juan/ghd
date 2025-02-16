@@ -189,7 +189,6 @@ repositories:
 
     val release_tag = "Tag"
     val release_on = "on"
-    val release_published: (Instant) -> String = { "Published ${it.toRelativeString()}" }
 
     val app_settings_checkout_time_in_minutes: (Long) -> String = { "$it minutes" }
     val app_settings_checkout_time_unknown = "?"

@@ -309,9 +309,13 @@ fun PullRequestCard(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Tag(
-                    text = "${pullRequestDecorator.state.text} (${pullRequestDecorator.createdAt})",
+                    text = pullRequestDecorator.state.text,
                     icon = pullRequestDecorator.state.icon,
-                    color = pullRequestDecorator.state.iconTint()
+                    color = pullRequestDecorator.state.iconTint(),
+                )
+                Tag(
+                    text = pullRequestDecorator.createdAt,
+                    icon = Tabler.Outline.Clock,
                 )
                 if (showExtras) {
                     if (pullRequestWithReviews.pullRequest.hasConflicts) {

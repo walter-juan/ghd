@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.2]
 ### Added
 - Notification when review from you is dismissed
+### Changed
+- Removed "Published at" prefix from the release card
+- Split date from the status in the pull request card
 ### Fixed
 - Add missing debug ICNS icon
 - Change icon when the app is running on debug mode
