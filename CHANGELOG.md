@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Notification when review from you is dismissed
 ### Changed
+- Split code in Gradle modules
 - Removed "Published at" prefix from the release card
 - Split date from the status in the pull request card
 ### Fixed
