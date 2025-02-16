@@ -55,8 +55,7 @@ import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
 import com.woowla.ghd.domain.entities.anyNonApproved
 import com.woowla.ghd.extensions.toColor
-import com.woowla.ghd.extensions.toRelativeString
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
 import com.woowla.ghd.presentation.decorators.ReleaseDecorator
@@ -74,14 +73,14 @@ fun SynResultCard(
     val decorator = SyncResultDecorator(syncResultWithEntries)
     val duration = syncResultWithEntries.syncResult.duration
     val durationText = if (duration == null) {
-        i18n.screen_sync_results_in_progress
+        i18nUi.screen_sync_results_in_progress
     } else {
-        i18n.screen_sync_results_took_seconds((duration.inWholeSeconds))
+        i18nUi.screen_sync_results_took_seconds((duration.inWholeSeconds))
     }
     CardListItem(
         modifier = modifier,
         onClick = onClick,
-        title = i18n.screen_sync_results_start_at(syncResultWithEntries.syncResult.startAt),
+        title = i18nUi.screen_sync_results_start_at(syncResultWithEntries.syncResult.startAt),
         subtitle = durationText,
         leadingContent = {
             Avatar(
@@ -107,7 +106,7 @@ fun SynResultEntryCard(
         modifier = modifier,
         onClick = {},
         title = title,
-        subtitle = i18n.screen_sync_result_entries_took_seconds(syncResultEntryWithRepo.syncResultEntry.duration.inWholeSeconds),
+        subtitle = i18nUi.screen_sync_result_entries_took_seconds(syncResultEntryWithRepo.syncResultEntry.duration.inWholeSeconds),
         leadingContent = {
             Avatar(
                 image = decorator.originIcon,
@@ -143,7 +142,7 @@ fun RepoToCheckCard(
         modifier = modifier,
         onClick = { onOpenClick.invoke(repoToCheck) },
         title = repoToCheckDecorator.fullRepo,
-        subtitle = if (repoToCheck.groupName.isNullOrBlank()) { i18n.screen_edit_repo_to_no_group } else { repoToCheck.groupName },
+        subtitle = if (repoToCheck.groupName.isNullOrBlank()) { i18nUi.screen_edit_repo_to_no_group } else { repoToCheck.groupName },
         leadingContent = {
             Avatar(
                 image = Tabler.Outline.BrandGithub,
@@ -227,7 +226,7 @@ fun RepoToCheckCard(
                         )
                     },
                     label = {
-                        Text(text = i18n.generic_delete)
+                        Text(text = i18nUi.generic_delete)
                     }
                 )
             }
@@ -339,7 +338,7 @@ fun PullRequestCard(
                     }
                     if (pullRequestWithReviews.pullRequest.canBeMerged) {
                         Tag(
-                            text = i18n.screen_pull_requests_can_be_merged,
+                            text = i18nUi.screen_pull_requests_can_be_merged,
                             icon = Tabler.Outline.Rocket,
                             color = MaterialTheme.colorScheme.gitPrMerged
                         )

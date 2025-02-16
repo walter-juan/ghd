@@ -14,10 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 
 @Composable
-fun ErrorComponent(text: String = i18n.generic_error) {
+fun ErrorComponent(text: String = i18nUi.generic_error) {
     Text(text)
 }
 

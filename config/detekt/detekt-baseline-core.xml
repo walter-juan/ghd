@@ -2,13 +2,13 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>ClassNaming:i18n.kt$i18n</ID>
-    <ID>Filename:i18n.kt$com.woowla.ghd.i18n.kt</ID>
+    <ID>ClassNaming:i18nCore.kt$i18nCore</ID>
+    <ID>Filename:i18nCore.kt$com.woowla.ghd.i18nCore.kt</ID>
     <ID>MagicNumber:String.kt$0.65F</ID>
     <ID>MaxLineLength:Enum.kt$* Returns an enum entry with specified name, or the result of [defaultValue] function if the specified name does not match any of the enum constants defined in the class.</ID>
-    <ID>MayBeConst:i18n.kt$i18n$val generic_now = "now"</ID>
-    <ID>NoMultipleSpaces:i18n.kt$i18n$ </ID>
-    <ID>ParameterListWrapping:i18n.kt$i18n$(String, String, String, String)</ID>
+    <ID>MayBeConst:i18nCore.kt$i18nCore$val generic_now = "now"</ID>
+    <ID>NoMultipleSpaces:i18nCore.kt$i18nCore$ </ID>
+    <ID>ParameterListWrapping:i18nCore.kt$i18nCore$(String, String, String, String)</ID>
     <ID>SpacingAroundColon:EventBus.kt$EventBus$:</ID>
     <ID>TooGenericExceptionCaught:Result.kt$th: Throwable</ID>
   </CurrentIssues>

@@ -22,7 +22,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Skull
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.RateLimit
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppColors.success
 import com.woowla.ghd.presentation.app.AppColors.warning
 
@@ -53,7 +53,7 @@ class SyncResultDecorator(private val syncResultWithEntities: SyncResultWithEntr
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = i18n.top_bar_subtitle_synchronization_result_entries(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize),
+                text = i18nUi.top_bar_subtitle_synchronization_result_entries(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize),
             )
         }
     }
@@ -72,7 +72,7 @@ class SyncResultDecorator(private val syncResultWithEntities: SyncResultWithEntr
             )
             Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = i18n.sync_result_title(syncResultWithEntities.syncResult.startAt, rateLimit?.percentageUsed, rateLimit?.reset),
+                text = i18nUi.sync_result_title(syncResultWithEntities.syncResult.startAt, rateLimit?.percentageUsed, rateLimit?.reset),
             )
         }
     }

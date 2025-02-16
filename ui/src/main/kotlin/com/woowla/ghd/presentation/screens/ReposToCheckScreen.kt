@@ -38,7 +38,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Plus
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Search
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ColoredFilterChip
 import com.woowla.ghd.presentation.components.ConfirmationDialog
@@ -66,7 +66,7 @@ object ReposToCheckScreen {
         val textFieldFocusRequester = remember { FocusRequester() }
 
         val topBarSubtitle = if (state is ReposToCheckStateMachine.St.Success) {
-            i18n.screen_app_settings_repositories_item_description(state.reposToCheck.size)
+            i18nUi.screen_app_settings_repositories_item_description(state.reposToCheck.size)
         } else {
             null
         }
@@ -74,7 +74,7 @@ object ReposToCheckScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_repos_to_check,
+                    title = i18nUi.top_bar_title_repos_to_check,
                     subtitle = topBarSubtitle,
                     actions = {
                         OutlinedIconButton(
@@ -83,7 +83,7 @@ object ReposToCheckScreen {
                         ) {
                             Icon(
                                 Tabler.Outline.TableImport,
-                                contentDescription = i18n.screen_repos_to_check_bulk_item,
+                                contentDescription = i18nUi.screen_repos_to_check_bulk_item,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )
@@ -94,7 +94,7 @@ object ReposToCheckScreen {
                         ) {
                             Icon(
                                 Tabler.Outline.Plus,
-                                contentDescription = i18n.screen_edit_repo_to_check_save,
+                                contentDescription = i18nUi.screen_edit_repo_to_check_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )

@@ -1,6 +1,6 @@
 package com.woowla.ghd.extensions
 
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nCore
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.time.Duration
@@ -47,27 +47,27 @@ fun Instant.toRelativeString(
 
     return when {
         durationAbs <= 0.seconds -> {
-            i18n.generic_now
+            i18nCore.generic_now
         }
 
         durationAbs < maximumSeconds -> {
             val seconds = durationAbs.inWholeSeconds
-            if (isFuture) { i18n.generic_in_seconds(seconds) } else { i18n.generic_seconds_ago(seconds) }
+            if (isFuture) { i18nCore.generic_in_seconds(seconds) } else { i18nCore.generic_seconds_ago(seconds) }
         }
 
         durationAbs < maximumMinutes -> {
             val minutes = durationAbs.inWholeMinutes
-            if (isFuture) { i18n.generic_in_minutes(minutes) } else { i18n.generic_minutes_ago(minutes) }
+            if (isFuture) { i18nCore.generic_in_minutes(minutes) } else { i18nCore.generic_minutes_ago(minutes) }
         }
 
         durationAbs < maximumHours -> {
             val hours = durationAbs.inWholeHours
-            if (isFuture) { i18n.generic_in_hours(hours) } else { i18n.generic_hours_ago(hours) }
+            if (isFuture) { i18nCore.generic_in_hours(hours) } else { i18nCore.generic_hours_ago(hours) }
         }
 
         durationAbs < maximumDays -> {
             val days = durationAbs.inWholeDays
-            if (isFuture) { i18n.generic_in_days(days) } else { i18n.generic_days_ago(days) }
+            if (isFuture) { i18nCore.generic_in_days(days) } else { i18nCore.generic_days_ago(days) }
         }
 
         else -> {
@@ -75,7 +75,7 @@ fun Instant.toRelativeString(
             val day = format(timeZone, DateTimeFormatter.ofPattern("dd"))
             val year = format(timeZone, DateTimeFormatter.ofPattern("yyyy"))
             val hour = format(timeZone, DateTimeFormatter.ofPattern("HH:mm"))
-            i18n.generic_date_format(month, day, year, hour)
+            i18nCore.generic_date_format(month, day, year, hour)
         }
     }
 }

@@ -12,7 +12,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequestC
 import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequestDraft
 import com.woowla.compose.icon.collections.tabler.tabler.outline.QuestionMark
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppColors.gitPrClosed
 import com.woowla.ghd.presentation.app.AppColors.gitPrDraft
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
@@ -20,11 +20,11 @@ import com.woowla.ghd.presentation.app.AppColors.gitPrOpen
 
 class PullRequestStateDecorator(private val pullRequestStateExtended: PullRequestStateExtended) {
     val text: String = when (pullRequestStateExtended) {
-        PullRequestStateExtended.OPEN -> i18n.pull_request_state_open
-        PullRequestStateExtended.CLOSED -> i18n.pull_request_state_closed
-        PullRequestStateExtended.MERGED -> i18n.pull_request_state_merged
-        PullRequestStateExtended.DRAFT -> i18n.pull_request_state_draft
-        PullRequestStateExtended.UNKNOWN -> i18n.pull_request_state_unknown
+        PullRequestStateExtended.OPEN -> i18nUi.pull_request_state_open
+        PullRequestStateExtended.CLOSED -> i18nUi.pull_request_state_closed
+        PullRequestStateExtended.MERGED -> i18nUi.pull_request_state_merged
+        PullRequestStateExtended.DRAFT -> i18nUi.pull_request_state_draft
+        PullRequestStateExtended.UNKNOWN -> i18nUi.pull_request_state_unknown
     }
 
     val icon: ImageVector = when (pullRequestStateExtended) {

@@ -2,7 +2,7 @@ package com.woowla.ghd.presentation.app
 
 import com.woowla.ghd.BuildConfig
 
-object i18n {
+internal object i18nApp {
     val app_name = if (BuildConfig.DEBUG) {
         "DEBUG // GHD - GitHub Dashboard"
     } else {

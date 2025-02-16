@@ -2,7 +2,7 @@ package com.woowla.ghd.presentation.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.AwtWindow
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import java.awt.FileDialog
 import java.awt.Frame
 import java.io.File
@@ -13,7 +13,7 @@ fun FileLoadDialog(
     onCloseRequest: (file: File?) -> Unit
 ) = AwtWindow(
     create = {
-        object : FileDialog(parent, i18n.file_dialog_choose_file, LOAD) {
+        object : FileDialog(parent, i18nUi.file_dialog_choose_file, LOAD) {
             override fun setVisible(value: Boolean) {
                 super.setVisible(value)
                 if (value) {
@@ -32,7 +32,7 @@ fun FileSaveDialog(
     onCloseRequest: (file: File?) -> Unit
 ) = AwtWindow(
     create = {
-        object : FileDialog(parent, i18n.file_dialog_save_file, SAVE) {
+        object : FileDialog(parent, i18nUi.file_dialog_save_file, SAVE) {
             override fun setVisible(value: Boolean) {
                 super.setVisible(value)
                 if (value) {

@@ -113,7 +113,7 @@ private fun newAppVersionDialog(
 ) {
     AlertDialog(
         onDismissRequest = onCloseRequest,
-        title = { Text(i18n.dialog_new_app_version_title) },
+        title = { Text(i18nApp.dialog_new_app_version_title) },
         text = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -121,17 +121,17 @@ private fun newAppVersionDialog(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 Text(
-                    text = i18n.dialog_new_app_version_text(newVersion),
+                    text = i18nApp.dialog_new_app_version_text(newVersion),
                     textAlign = TextAlign.Center,
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = i18n.dialog_new_app_version_current_version,
+                    text = i18nApp.dialog_new_app_version_current_version,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodySmall,
                 )
                 Text(
-                    text = i18n.dialog_new_app_version_latest_version(newVersion),
+                    text = i18nApp.dialog_new_app_version_latest_version(newVersion),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodySmall,
                 )
@@ -141,14 +141,14 @@ private fun newAppVersionDialog(
             Button(
                 onClick = onDownloadClick
             ) {
-                Text(i18n.dialog_new_app_version_update_button)
+                Text(i18nApp.dialog_new_app_version_update_button)
             }
         },
         dismissButton = {
             Button(
                 onClick = onDiscardClick
             ) {
-                Text(i18n.dialog_new_app_version_ignore_button)
+                Text(i18nApp.dialog_new_app_version_ignore_button)
             }
         }
     )

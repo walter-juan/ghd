@@ -22,7 +22,7 @@ import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.app.AppIconsPainter
 import com.woowla.ghd.presentation.app.Launcher
 import com.woowla.ghd.presentation.app.TrayIcon
-import com.woowla.ghd.presentation.app.i18n
+import com.woowla.ghd.presentation.app.i18nApp
 import kotlinx.coroutines.launch
 import net.swiftzer.semver.SemVer
 import org.koin.core.context.GlobalContext
@@ -65,15 +65,15 @@ fun main() {
         }
 
         Window(
-            title = i18n.app_name,
+            title = i18nApp.app_name,
             icon = AppIconsPainter.Launcher,
             visible = isWindowVisible,
             state = rememberWindowState(width = AppDimens.windowWidth, height = AppDimens.windowHeight),
             onCloseRequest = { isWindowVisible = false },
         ) {
             MenuBar {
-                Menu(i18n.menu_bar_menu_actions) {
-                    Item(i18n.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                Menu(i18nApp.menu_bar_menu_actions) {
+                    Item(i18nApp.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 }
             }
             App()
@@ -82,16 +82,16 @@ fun main() {
         Tray(
             icon = AppIconsPainter.TrayIcon,
             state = trayState,
-            tooltip = i18n.tray_tooltip,
+            tooltip = i18nApp.tray_tooltip,
             onAction = { isWindowVisible = true },
             menu = {
-                Item(i18n.tray_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
+                Item(i18nApp.tray_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
                 if (isWindowVisible) {
-                    Item(i18n.tray_item_hide_app, onClick = { isWindowVisible = false })
+                    Item(i18nApp.tray_item_hide_app, onClick = { isWindowVisible = false })
                 } else {
-                    Item(i18n.tray_item_show_app, onClick = { isWindowVisible = true })
+                    Item(i18nApp.tray_item_show_app, onClick = { isWindowVisible = true })
                 }
-                Item(i18n.tray_item_exit, onClick = ::exitApplication)
+                Item(i18nApp.tray_item_exit, onClick = ::exitApplication)
             },
         )
     }
