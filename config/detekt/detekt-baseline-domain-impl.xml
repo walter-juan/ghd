@@ -23,6 +23,7 @@
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")</ID>
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult = syncResultFinish, error = "Unknown error", message = "Synchronization settings are null")</ID>
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult.copy(endAt = Clock.System.now()))</ID>
+    <ID>CyclomaticComplexMethod:PullRequestServiceImpl.kt$PullRequestServiceImpl$override suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;, newPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;): Result&lt;Unit&gt;</ID>
     <ID>LongMethod:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$fun buildActivityChangedPullRequests( pullRequestsAuthorUsername: String = "author-login", reviewsAuthorUsername: String = "author-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
     <ID>LongMethod:PullRequestServiceImpl.kt$PullRequestServiceImpl$override suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;, newPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;): Result&lt;Unit&gt;</ID>
     <ID>LongMethod:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$fun buildActivityChangedPullRequests( filteredUsername: String = "filtered-username-login", otherUsername: String = "other-username-login", ): Pair&lt;List&lt;PullRequestWithRepoAndReviews&gt;, List&lt;PullRequestWithRepoAndReviews&gt;&gt;</ID>
@@ -50,7 +51,6 @@
     <ID>MayBeConst:SynchronizerImpl.kt$SynchronizerImpl.Companion$val MAX_SYNC_RESULTS = 1_000</ID>
     <ID>NoBlankLineBeforeRbrace:AppVersionServiceImpl.kt$AppVersionServiceImpl$ </ID>
     <ID>NoConsecutiveBlankLines:DiDomainImpl.kt$ </ID>
-    <ID>NoMultipleSpaces:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$ </ID>
     <ID>NoMultipleSpaces:PullRequestServiceImpl.kt$PullRequestServiceImpl$ </ID>
     <ID>ParameterListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(notificationsSettings: NotificationsSettings)</ID>
     <ID>ParameterListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(oldPullRequestsWithReviews: List&lt;PullRequestWithRepoAndReviews&gt;)</ID>

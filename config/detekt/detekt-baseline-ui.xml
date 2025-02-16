@@ -2,8 +2,10 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
+    <ID>ArgumentListWrapping:Cards.kt$(syncResultEntryWithRepo.syncResultEntry.duration.inWholeSeconds)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityChecksFromYourPullRequestsEnabled)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityReviewsFromYouDismissedEnabled)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled)</ID>
@@ -11,6 +13,7 @@
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled)</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityChecksFromYourPullRequestsEnabled(!notificationsSettings.activityChecksFromYourPullRequestsEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityMergeableFromYourPullRequestsEnabled(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityReviewsFromYouDismissedEnabled(!notificationsSettings.activityReviewsFromYouDismissedEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityReviewsFromYourPullRequestsEnabled(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateClosedFromOthersPullRequestsEnabled(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled))</ID>
     <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateDraftFromOthersPullRequestsEnabled(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled))</ID>
@@ -56,17 +59,16 @@
     <ID>LongMethod:ReposToCheckScreen.kt$ReposToCheckScreen$@Composable fun Content( viewModel: ReposToCheckViewModel, onEditRepoClick: (RepoToCheck) -&gt; Unit, onAddNewRepoClick: () -&gt; Unit, onBulkClick: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun Screen( state: St?, dispatchAction: (Act) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun SynchronizationSection( githubPatToken: String, onGithubPatTokenUpdated: (String) -&gt; Unit, selectedCheckTimeoutMinutes: Long, availableCheckTimeoutMinutes: List&lt;Pair&lt;Long, String&gt;&gt;, onCheckTimeoutMinutes: (Long) -&gt; Unit, selectedCleanUpTimeoutHours: Long, availableCleanUpTimeoutHours: List&lt;Pair&lt;Long, String&gt;&gt;, onCleanUpTimeoutHours: (Long) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
-    <ID>MagicNumber:Cards.kt$1000.0</ID>
     <ID>MagicNumber:NotificationsScreen.kt$NotificationsScreen$.30f</ID>
     <ID>MagicNumber:NotificationsScreen.kt$NotificationsScreen$.35f</ID>
     <ID>MagicNumber:Sections.kt$0.5F</ID>
     <ID>MagicNumber:SplashScreen.kt$SplashScreen$100</ID>
     <ID>MaxLineLength:AboutScreen.kt$AboutScreen$description = "GHD (GitHub dashboard) is designed to display your GitHub pull requests and release updates in a streamlined interface."</ID>
-    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$// dispatchAction.invoke(Act.UpdateActivityReviewsReRequestEnabled(!notificationsSettings.activityReviewsReRequestEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$description = "Add your login username in order to have a better notifications. Adding your username will enable the specific notifications."</ID>
-    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$description = "You will be notified when a new review has been proposed to your pull requests and/or a some requested a new review from you."</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$description = "You will be notified when a new review has been proposed to your pull requests and/or when a review from you is dismissed."</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityChecksFromYourPullRequestsEnabled(!notificationsSettings.activityChecksFromYourPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityMergeableFromYourPullRequestsEnabled(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityReviewsFromYouDismissedEnabled(!notificationsSettings.activityReviewsFromYouDismissedEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityReviewsFromYourPullRequestsEnabled(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateClosedFromOthersPullRequestsEnabled(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateDraftFromOthersPullRequestsEnabled(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled))</ID>
@@ -74,6 +76,7 @@
     <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateOpenFromOthersPullRequestsEnabled(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled))</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
     <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
@@ -220,6 +223,7 @@
     <ID>NoConsecutiveBlankLines:i18n.kt$i18n$ </ID>
     <ID>NoMultipleSpaces:SettingsScreen.kt$SettingsScreen$ </ID>
     <ID>NoMultipleSpaces:i18n.kt$i18n$ </ID>
+    <ID>NoUnusedImports:Cards.kt$com.woowla.ghd.presentation.components.Cards.kt</ID>
     <ID>ParameterListWrapping:i18n.kt$i18n$(String)</ID>
     <ID>ParameterListWrapping:i18n.kt$i18n$(String, String, String, String)</ID>
     <ID>ParameterListWrapping:i18n.kt$i18n$(emoji: String, percentage: Int, total: Int)</ID>
@@ -227,6 +231,7 @@
     <ID>ParameterListWrapping:i18n.kt$i18n$(syncAt: Instant, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?)</ID>
     <ID>PropertyWrapping:i18n.kt$i18n$val sync_result_title_old: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -&gt; String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt -&gt; "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})" }</ID>
     <ID>ReturnCount:PullRequestDecorator.kt$PullRequestDecorator$fun reviewsIcon(): ImageVector</ID>
+    <ID>SpacingAroundKeyword:Cards.kt$when</ID>
     <ID>SpacingAroundKeyword:i18n.kt$i18n$when</ID>
     <ID>StringTemplate:i18n.kt$i18n$${percentage}</ID>
     <ID>TooGenericExceptionCaught:PullRequestsViewModel.kt$PullRequestsStateMachine$ex: Exception</ID>

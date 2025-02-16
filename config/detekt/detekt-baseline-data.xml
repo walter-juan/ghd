@@ -5,8 +5,8 @@
     <ID>ArgumentListWrapping:ApiToDomainMappers.kt$(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityChecksFromYourPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityMergeableFromYourPullRequestsEnabled", false)</ID>
+    <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityReviewsFromYouDismissedEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityReviewsFromYourPullRequestsEnabled", false)</ID>
-    <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsActivityReviewsReRequestEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateClosedFromOthersPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateDraftFromOthersPullRequestsEnabled", false)</ID>
     <ID>ArgumentListWrapping:AppProperties.kt$AppProperties$("notificationsStateMergedFromOthersPullRequestsEnabled", false)</ID>
@@ -18,7 +18,6 @@
     <ID>ArgumentListWrapping:DbRepoToCheck.kt$DbRepoToCheck$(name = "are_pull_requests_notifications_enabled", defaultValue = "0")</ID>
     <ID>ArgumentListWrapping:DbRepoToCheck.kt$DbRepoToCheck$(name = "are_releases_notifications_enabled", defaultValue = "0")</ID>
     <ID>ArgumentListWrapping:LocalDataSourceImpl.kt$LocalDataSourceImpl$(syncResultId = syncResult.id)</ID>
-    <ID>CommentSpacing:LocalDataSourceImpl.kt$LocalDataSourceImpl$//appProperties.notificationsActivityReviewsReRequestEnabled,</ID>
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsActivityChecksFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityChecksFromYourPullRequestsEnabled", false)</ID>
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsActivityMergeableFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityMergeableFromYourPullRequestsEnabled", false)</ID>
     <ID>MaxLineLength:AppProperties.kt$AppProperties$var notificationsActivityReviewsFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityReviewsFromYourPullRequestsEnabled", false)</ID>
@@ -28,45 +27,25 @@
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$activityEnabledOption = enumValueOfOrNull&lt;NotificationsSettings.EnabledOption&gt;(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsActivityChecksFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled</ID>
+    <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsActivityReviewsFromYouDismissedEnabled = appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsStateClosedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsStateDraftFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsStateMergedFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateMergedFromOthersPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$appProperties.notificationsStateOpenFromOthersPullRequestsEnabled = appSettings.notificationsSettings.stateOpenFromOthersPullRequestsEnabled</ID>
     <ID>MaxLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$stateEnabledOption = enumValueOfOrNull&lt;NotificationsSettings.EnabledOption&gt;(appProperties.notificationsStateEnabledOption) ?: defaultEnabledOption</ID>
-    <ID>MaxLineLength:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$override suspend</ID>
     <ID>MaximumLineLength:AppProperties.kt$AppProperties$ </ID>
     <ID>MaximumLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$ </ID>
-    <ID>MaximumLineLength:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$ </ID>
     <ID>NoConsecutiveBlankLines:DbReleaseWithRepo.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DiData.kt$ </ID>
-    <ID>NoConsecutiveBlankLines:RemoteDataSource.kt$ </ID>
     <ID>NoWildcardImports:DiData.kt$import io.ktor.client.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.call.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.engine.cio.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.request.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.client.statement.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.http.*</ID>
-    <ID>NoWildcardImports:RemoteDataSourceImpl.kt$import io.ktor.serialization.kotlinx.json.*</ID>
     <ID>ParameterListWrapping:Converters.kt$Converters$(value: String?)</ID>
-    <ID>ParameterListWrapping:RemoteDataSource.kt$RemoteDataSource$(repoToCheck: RepoToCheck)</ID>
-    <ID>ParameterListWrapping:RemoteDataSource.kt$RemoteDataSource$(repoToCheck: RepoToCheck, state: PullRequestState)</ID>
     <ID>ParameterWrapping:DbRepoToCheck.kt$DbRepoToCheck$@ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean</ID>
     <ID>ParameterWrapping:DbRepoToCheck.kt$DbRepoToCheck$@ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean</ID>
     <ID>TooManyFunctions:Converters.kt$Converters</ID>
     <ID>TooManyFunctions:LocalDataSource.kt$LocalDataSource</ID>
     <ID>TooManyFunctions:LocalDataSourceImpl.kt$LocalDataSourceImpl : LocalDataSource</ID>
     <ID>WildcardImport:DiData.kt$import io.ktor.client.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.call.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.engine.cio.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.plugins.contentnegotiation.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.request.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.client.statement.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.http.*</ID>
-    <ID>WildcardImport:RemoteDataSourceImpl.kt$import io.ktor.serialization.kotlinx.json.*</ID>
     <ID>Wrapping:DiData.kt$DiData$RemoteDataSourceImpl( ghOwner = ghOwner, ghRepo = ghRepo, apolloClient = get(), ktorClient = get(), )</ID>
   </CurrentIssues>
 </SmellBaseline>
