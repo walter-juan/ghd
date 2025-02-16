@@ -20,27 +20,27 @@ sealed class AppScreen(open val route: String) {
 
     data object PullRequestList : AppScreen(route = "pull-request"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.GitPullRequest
-        override val title: String = i18n.tab_title_pull_requests
+        override val title: String = i18nApp.tab_title_pull_requests
     }
     data object ReleaseList : AppScreen(route = "release"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Package
-        override val title: String = i18n.tab_title_releases
+        override val title: String = i18nApp.tab_title_releases
     }
     data object RepoToCheckList : AppScreen(route = "repo-to-check"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.BrandGithub
-        override val title: String = i18n.tab_title_repos_to_check
+        override val title: String = i18nApp.tab_title_repos_to_check
     }
     data object Notifications : AppScreen(route = "notifications"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Bell
-        override val title: String = i18n.tab_title_notifications
+        override val title: String = i18nApp.tab_title_notifications
     }
     data object Settings : AppScreen(route = "settings"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Settings
-        override val title: String = i18n.tab_title_settings
+        override val title: String = i18nApp.tab_title_settings
     }
     data object About : AppScreen(route = "about"), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.InfoCircle
-        override val title: String = i18n.tab_title_about
+        override val title: String = i18nApp.tab_title_about
     }
 
     data object RepoToCheckNew : AppScreen(route = "repo-to-check/new")
