@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Split code in Gradle modules
 - Removed "Published at" prefix from the release card
 - Split date from the status in the pull request card
+- Show the dates in the pull request card by the state they have
 ### Fixed
 - Add missing debug ICNS icon
 - Change icon when the app is running on debug mode

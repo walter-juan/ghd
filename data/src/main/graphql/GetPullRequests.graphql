@@ -31,6 +31,7 @@ fragment pullRequestFragment on PullRequestConnection {
             createdAt
             updatedAt
             mergedAt
+            closedAt
             isDraft
             baseRefName
             headRefName

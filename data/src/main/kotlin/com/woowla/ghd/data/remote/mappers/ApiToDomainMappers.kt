@@ -40,6 +40,7 @@ fun PullRequestFragment.Node.toPullRequest(
         createdAt = Instant.parse(createdAt.toString()),
         updatedAt = Instant.parse(updatedAt.toString()),
         mergedAt = mergedAt?.toString()?.let { Instant.parse(it) },
+        closedAt = closedAt?.toString()?.let { Instant.parse(it) },
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,

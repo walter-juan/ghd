@@ -55,6 +55,7 @@ import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
 import com.woowla.ghd.domain.entities.anyNonApproved
 import com.woowla.ghd.extensions.toColor
+import com.woowla.ghd.extensions.toRelativeString
 import com.woowla.ghd.i18n
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
 import com.woowla.ghd.presentation.decorators.PullRequestDecorator
@@ -311,8 +312,21 @@ fun PullRequestCard(
                     icon = pullRequestDecorator.state.icon,
                     color = pullRequestDecorator.state.iconTint(),
                 )
+                val date = when(pullRequestWithReviews.pullRequest.stateExtended) {
+                    PullRequestStateExtended.OPEN,
+                    PullRequestStateExtended.DRAFT,
+                    PullRequestStateExtended.UNKNOWN -> {
+                        pullRequestDecorator.createdAt
+                    }
+                    PullRequestStateExtended.CLOSED -> {
+                        pullRequestDecorator.closedAt
+                    }
+                    PullRequestStateExtended.MERGED -> {
+                        pullRequestDecorator.mergedAt
+                    }
+                }
                 Tag(
-                    text = pullRequestDecorator.createdAt,
+                    text = date,
                     icon = Tabler.Outline.Clock,
                 )
                 if (showExtras) {

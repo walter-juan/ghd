@@ -21,6 +21,8 @@ import kotlin.time.Duration.Companion.days
 class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
     val fullRepo = "${pullRequestWithReviews.repoToCheck.owner}/${pullRequestWithReviews.repoToCheck.name}"
     val createdAt = pullRequestWithReviews.pullRequest.createdAt.toRelativeString(maximumDays = 999.days)
+    val mergedAt = pullRequestWithReviews.pullRequest.mergedAt?.toRelativeString(maximumDays = 999.days) ?: ""
+    val closedAt = pullRequestWithReviews.pullRequest.closedAt?.toRelativeString(maximumDays = 999.days) ?: ""
     val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
     val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
     val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)

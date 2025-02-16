@@ -36,6 +36,7 @@ data class DbPullRequest(
     @ColumnInfo(name = "created_at") val createdAt: Instant,
     @ColumnInfo(name = "updated_at") val updatedAt: Instant,
     @ColumnInfo(name = "merged_at") val mergedAt: Instant?,
+    @ColumnInfo(name = "closed_at") val closedAt: Instant?,
     @ColumnInfo(name = "is_draft") val isDraft: Boolean,
     @ColumnInfo(name = "base_ref") val baseRef: String?,
     @ColumnInfo(name = "head_ref") val headRef: String?,

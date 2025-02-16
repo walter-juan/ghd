@@ -14,6 +14,7 @@ data class PullRequest(
     val createdAt: Instant,
     val updatedAt: Instant,
     val mergedAt: Instant?,
+    val closedAt: Instant?,
     val isDraft: Boolean,
     val baseRef: String?,
     val headRef: String?,

@@ -52,6 +52,7 @@ object RandomEntities {
         createdAt = RandomValues.randomInstant(),
         updatedAt = RandomValues.randomInstant(),
         mergedAt = RandomValues.randomInstant(),
+        closedAt = RandomValues.randomInstant(),
         isDraft = RandomValues.randomBoolean(),
         baseRef = RandomValues.randomString(),
         headRef = RandomValues.randomString(),

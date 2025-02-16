@@ -29,7 +29,7 @@ import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import kotlinx.coroutines.Dispatchers
 
 @Database(
-    version = 4,
+    version = 5,
     entities = [
         DbPullRequest::class,
         DbRelease::class,
@@ -43,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3, spec = AppDatabase.AutoMigrationFrom2To3::class),
         AutoMigration(from = 3, to = 4, spec = AppDatabase.AutoMigrationFrom3To4::class),
+        AutoMigration(from = 4, to = 5, spec = AppDatabase.AutoMigrationFrom4To5::class),
     ],
 )
 @TypeConverters(Converters::class)
@@ -73,4 +74,6 @@ abstract class AppDatabase : RoomDatabase() {
     @DeleteTable(tableName = "pull_request_seen")
     @DeleteTable(tableName = "review_seen")
     class AutoMigrationFrom3To4 : AutoMigrationSpec
+
+    class AutoMigrationFrom4To5 : AutoMigrationSpec
 }
