@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ghd [clean][run]" type="GradleRunConfiguration" factoryName="Gradle" folderName="debug">
+  <configuration default="false" name="🧪test" type="GradleRunConfiguration" factoryName="Gradle" folderName="others">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,8 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="clean" />
-          <option value="app:run" />
+          <option value="test" />
         </list>
       </option>
       <option name="vmOptions" />
@@ -19,7 +18,7 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
-    <RunAsTest>false</RunAsTest>
+    <RunAsTest>true</RunAsTest>
     <method v="2" />
   </configuration>
 </component>

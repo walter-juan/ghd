@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ghd [run]" type="GradleRunConfiguration" factoryName="Gradle" folderName="debug">
+  <configuration default="false" name="⚡runDistributable" type="GradleRunConfiguration" factoryName="Gradle" folderName="debug">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="app:run" />
+          <option value="app:runDistributable" />
         </list>
       </option>
       <option name="vmOptions" />
