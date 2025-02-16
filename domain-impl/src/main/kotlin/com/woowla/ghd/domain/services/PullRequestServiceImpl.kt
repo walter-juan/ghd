@@ -10,6 +10,7 @@ import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.filterNotSyncValid
@@ -163,27 +164,14 @@ class PullRequestServiceImpl(
                             notificationsSender.newPullRequestReview(pullRequest, review)
                         }
                     }
-                // re-reviews
-                // TODO [review re-request] disabled
-//                newPullRequestsWithReviews
-//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-//                    .map { (pullRequest, reviews) ->
-//                        pullRequest to reviews.filter { it.reRequestedReview() }
-//                    }
-//                    .filter { (_, reviews) ->
-//                        reviews.isNotEmpty()
-//                    }
-//                    .forEach { (pullRequest, _) ->
-//                        notificationsSender.newPullRequestReReview(pullRequest)
-//                    }
+
                 // checks
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
-                        notificationsSender.changePullRequestChecks(pullRequestWithRepo.pullRequest)
+                        notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
                     }
                 // mergeable
                 newPullRequestsWithReviews
@@ -215,26 +203,41 @@ class PullRequestServiceImpl(
                             notificationsSender.newPullRequestReview(pullRequest, review)
                         }
                     }
-                // re-reviews, from your reviews
-                // TODO [review re-request]
-//                newPullRequestsWithReviews
-//                    .filterByPullRequestNotificationsEnabled()
-//                    .filter { appSettings.notificationsSettings.activityReviewsReRequestEnabled }
-//                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-//                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-//                    .map { (pullRequest, reviews) ->
-//                        pullRequest to reviews.filter { it.reRequestedReview() }
-//                    }
-//                    .map { (pullRequest, reviews) ->
-//                        val yourReviews = reviews.filter { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
-//                        pullRequest to yourReviews
-//                    }
-//                    .filter { (_, reviews) ->
-//                        reviews.isNotEmpty()
-//                    }
-//                    .forEach { (pullRequest, _) ->
-//                        notificationsSender.newPullRequestReReview(pullRequest)
-//                    }
+
+                // your review changed
+                newPullRequestsWithReviews
+                    .filterByPullRequestNotificationsEnabled()
+                    .filter { appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled }
+                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
+                    .filter { pullRequestWithRepo ->
+                        val oldReview = oldPullRequestsWithReviews
+                            .firstOrNull { it.pullRequest.id == pullRequestWithRepo.pullRequest.id }
+                            ?.reviews
+                            ?.firstOrNull { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
+                        val newReview = pullRequestWithRepo
+                            .reviews
+                            .firstOrNull { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
+
+                        if (oldReview != null) {
+                            when {
+                                newReview == null -> {
+                                    // review deleted
+                                    notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
+                                    true
+                                }
+                                oldReview.state != newReview.state && newReview.state == ReviewState.DISMISSED -> {
+                                    // review state changed
+                                    notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
+                                    true
+                                }
+                                else -> {
+                                    false
+                                }
+                            }
+                        } else {
+                            false
+                        }
+                    }
                 // checks, from your pull requests
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
@@ -245,7 +248,7 @@ class PullRequestServiceImpl(
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
                     }
                     .forEach { pullRequestWithRepo ->
-                        notificationsSender.changePullRequestChecks(pullRequestWithRepo.pullRequest)
+                        notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
                     }
                 // mergeable, from your pull requests
                 newPullRequestsWithReviews

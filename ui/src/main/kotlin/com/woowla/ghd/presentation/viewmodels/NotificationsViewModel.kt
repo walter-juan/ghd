@@ -9,6 +9,7 @@ import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.activityChecksFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.activityEnabledOption
 import com.woowla.ghd.domain.entities.activityMergeableFromYourPullRequestsEnabled
+import com.woowla.ghd.domain.entities.activityReviewsFromYouDismissedEnabled
 import com.woowla.ghd.domain.entities.activityReviewsFromYourPullRequestsEnabled
 import com.woowla.ghd.domain.entities.filterUsername
 import com.woowla.ghd.domain.entities.newReleaseEnabled
@@ -69,9 +70,9 @@ class NotificationsStateMachine(
                 on<Act.UpdateActivityReviewsFromYourPullRequestsEnabled> { action, state ->
                     state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled } }
                 }
-//                on<Act.UpdateActivityReviewsReRequestEnabled> { action, state ->
-//                    state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsReRequestEnabled.modify(this) { action.enabled } }
-//                }
+                on<Act.UpdateActivityReviewsFromYouDismissedEnabled> { action, state ->
+                    state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled.modify(this) { action.enabled } }
+                }
                 on<Act.UpdateActivityChecksFromYourPullRequestsEnabled> { action, state ->
                     state.mutate { St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled } }
                 }
@@ -140,8 +141,7 @@ class NotificationsStateMachine(
         data class UpdateActivityEnabledOption(val enabledOption: NotificationsSettings.EnabledOption) : Act
         data class UpdateActivityReviewsFromYourPullRequestsEnabled(val enabled: Boolean) : Act
 
-        // TODO [review re-request] disabled
-//        data class UpdateActivityReviewsReRequestEnabled(val enabled: Boolean): Act
+        data class UpdateActivityReviewsFromYouDismissedEnabled(val enabled: Boolean) : Act
         data class UpdateActivityChecksFromYourPullRequestsEnabled(val enabled: Boolean) : Act
         data class UpdateActivityMergeableFromYourPullRequestsEnabled(val enabled: Boolean) : Act
 

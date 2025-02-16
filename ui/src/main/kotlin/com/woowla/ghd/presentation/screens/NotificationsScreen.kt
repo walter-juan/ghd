@@ -32,6 +32,7 @@ import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Activity
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.StatusChange
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.User
@@ -237,7 +238,7 @@ object NotificationsScreen {
                         )
                         TableRow(
                             title = "Reviews",
-                            description = "You will be notified when a new review has been proposed to your pull requests and/or a some requested a new review from you.",
+                            description = "You will be notified when a new review has been proposed to your pull requests and/or when a review from you is dismissed.",
                             enabled = notificationsSettings.validActivityEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
                             column2 = {
                                 FilterChip(
@@ -251,16 +252,15 @@ object NotificationsScreen {
                                 )
                             },
                             column3 = {
-                                // TODO [review re-request] disabled
-//                                FilterChip(
-//                                    label = { Text("Your reviews re-requests") },
-//                                    enabled = notificationsSettings.validActivityEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
-//                                    leadingIcon = { Icon(Tabler.Outline.Refresh, contentDescription = null) },
-//                                    selected = notificationsSettings.activityReviewsReRequestEnabled,
-//                                    onClick = {
-//                                        dispatchAction.invoke(Act.UpdateActivityReviewsReRequestEnabled(!notificationsSettings.activityReviewsReRequestEnabled))
-//                                    }
-//                                )
+                                FilterChip(
+                                    label = { Text("Your reviews changes") },
+                                    enabled = notificationsSettings.validActivityEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
+                                    leadingIcon = { Icon(Tabler.Outline.Refresh, contentDescription = null) },
+                                    selected = notificationsSettings.activityReviewsFromYouDismissedEnabled,
+                                    onClick = {
+                                        dispatchAction.invoke(Act.UpdateActivityReviewsFromYouDismissedEnabled(!notificationsSettings.activityReviewsFromYouDismissedEnabled))
+                                    }
+                                )
                             },
                         )
 

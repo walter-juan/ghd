@@ -23,6 +23,8 @@ import kotlin.io.path.createFile
  * - updatedPullRequestsNotificationsEnabled
  * - newReleaseNotificationsEnabled
  * - updatedReleaseNotificationsEnabled
+ * - updatedReleaseNotificationsEnabled
+ * - notificationsActivityReviewsReRequestEnabled
  */
 class AppProperties(appFolderFactory: AppFolderFactory) {
     companion object {
@@ -55,7 +57,7 @@ class AppProperties(appFolderFactory: AppFolderFactory) {
     var notificationsStateDraftFromOthersPullRequestsEnabled: Boolean by settings.boolean("notificationsStateDraftFromOthersPullRequestsEnabled", false)
     var notificationsActivityEnabledOption: String? by settings.nullableString("notificationsActivityEnabledOption")
     var notificationsActivityReviewsFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityReviewsFromYourPullRequestsEnabled", false)
-    var notificationsActivityReviewsReRequestEnabled: Boolean by settings.boolean("notificationsActivityReviewsReRequestEnabled", false)
+    var notificationsActivityReviewsFromYouDismissedEnabled: Boolean by settings.boolean("notificationsActivityReviewsFromYouDismissedEnabled", false)
     var notificationsActivityChecksFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityChecksFromYourPullRequestsEnabled", false)
     var notificationsActivityMergeableFromYourPullRequestsEnabled: Boolean by settings.boolean("notificationsActivityMergeableFromYourPullRequestsEnabled", false)
     var notificationsNewReleaseEnabled: Boolean by settings.boolean("notificationsNewReleaseEnabled", true)

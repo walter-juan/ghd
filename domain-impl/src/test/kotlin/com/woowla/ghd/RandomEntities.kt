@@ -33,7 +33,7 @@ object RandomEntities {
         stateDraftFromOthersPullRequestsEnabled = RandomValues.randomBoolean(),
         activityEnabledOption = NotificationsSettings.EnabledOption.entries.random(),
         activityReviewsFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
-        activityReviewsReRequestEnabled = RandomValues.randomBoolean(),
+        activityReviewsFromYouDismissedEnabled = RandomValues.randomBoolean(),
         activityChecksFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
         activityMergeableFromYourPullRequestsEnabled = RandomValues.randomBoolean(),
         newReleaseEnabled = RandomValues.randomBoolean()

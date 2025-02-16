@@ -16,7 +16,7 @@ import arrow.optics.optics
     // pull requests activity
     val activityEnabledOption: EnabledOption,
     var activityReviewsFromYourPullRequestsEnabled: Boolean,
-    var activityReviewsReRequestEnabled: Boolean,
+    var activityReviewsFromYouDismissedEnabled: Boolean,
     var activityChecksFromYourPullRequestsEnabled: Boolean,
     var activityMergeableFromYourPullRequestsEnabled: Boolean,
 

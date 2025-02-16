@@ -8,7 +8,7 @@ import com.woowla.ghd.notifications.NotificationsSender
 class TestNotificationsSender : NotificationsSender {
     var newPullRequestCount = 0
     var newPullRequestReviewCount = 0
-    var newPullRequestReReviewCount = 0
+    var yourPullRequestReviewDismissed = 0
     var changePullRequestChecksCount = 0
     var mergeablePullRequestCount = 0
     var newReleaseCount = 0
@@ -21,11 +21,11 @@ class TestNotificationsSender : NotificationsSender {
         newPullRequestReviewCount++
     }
 
-    override fun newPullRequestReReview(pull: PullRequest) {
-        newPullRequestReReviewCount++
+    override fun yourPullRequestReviewDismissed(pull: PullRequest) {
+        yourPullRequestReviewDismissed++
     }
 
-    override fun changePullRequestChecks(pull: PullRequest) {
+    override fun pullRequestChecksChanged(pull: PullRequest) {
         changePullRequestChecksCount++
     }
 

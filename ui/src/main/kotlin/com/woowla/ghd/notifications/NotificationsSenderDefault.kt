@@ -25,15 +25,15 @@ class NotificationsSenderDefault(private val client: NotificationClient) : Notif
         )
     }
 
-    override fun newPullRequestReReview(pull: PullRequest) {
+    override fun yourPullRequestReviewDismissed(pull: PullRequest) {
         client.sendNotification(
-            title = "Re-review requested requested",
+            title = "Your review dismissed",
             message = "${pull.title}",
             type = NotificationType.NONE
         )
     }
 
-    override fun changePullRequestChecks(pull: PullRequest) {
+    override fun pullRequestChecksChanged(pull: PullRequest) {
         client.sendNotification(
             title = "Checks ${pull.lastCommitCheckRollupStatus}",
             message = "${pull.title}",

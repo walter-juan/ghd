@@ -7,8 +7,8 @@ import com.woowla.ghd.domain.entities.Review
 interface NotificationsSender {
     fun newPullRequest(pull: PullRequest)
     fun newPullRequestReview(pull: PullRequest, review: Review)
-    fun newPullRequestReReview(pull: PullRequest)
-    fun changePullRequestChecks(pull: PullRequest)
+    fun yourPullRequestReviewDismissed(pull: PullRequest)
+    fun pullRequestChecksChanged(pull: PullRequest)
     fun mergeablePullRequest(pull: PullRequest)
     fun newRelease(releaseWithRepo: ReleaseWithRepo)
 }

@@ -21,8 +21,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
      * - 1 Pull Request with checks activity changes
      * - 1 Pull Request with mergeable activity changes
      * - 1 Pull Request with review added
-     * - 1 Pull Request with review changed
-     * - 1 Pull Request with re-review required
+     * - 1 Pull Request with review changed from commented to approved
+     * - 1 Pull Request with review changed from commented to dismissed (re-review required)
      */
     fun buildActivityChangedPullRequests(
         pullRequestsAuthorUsername: String = "author-login",
@@ -232,9 +232,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
         should("should not send notifications for new reviews and changed reviews") {
             testNotificationSender.newPullRequestReviewCount shouldBe 0
         }
-        // TODO [review re-request]
-        should("should not send notifications for re-request reviews").config(enabled = false) {
-            testNotificationSender.newPullRequestReReviewCount shouldBe 0
+        should("should not send notifications for re-request reviews") {
+            testNotificationSender.yourPullRequestReviewDismissed shouldBe 0
         }
         should("should not send notifications for checks changes") {
             testNotificationSender.changePullRequestChecksCount shouldBe 0
@@ -258,7 +257,7 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
             notificationsSettings = RandomEntities.notificationsSettings().copy(
                 activityEnabledOption = EnabledOption.ALL,
                 activityReviewsFromYourPullRequestsEnabled = true,
-                activityReviewsReRequestEnabled = true,
+                activityReviewsFromYouDismissedEnabled = true,
                 activityChecksFromYourPullRequestsEnabled = true,
                 activityMergeableFromYourPullRequestsEnabled = true,
             )
@@ -276,9 +275,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
         should("should send notifications for new reviews and changed reviews") {
             testNotificationSender.newPullRequestReviewCount shouldBe 2
         }
-        // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false) {
-            testNotificationSender.newPullRequestReReviewCount shouldBe 1
+        should("should send notifications for re-request reviews") {
+            testNotificationSender.yourPullRequestReviewDismissed shouldBe 0
         }
         should("should send notifications for checks changes") {
             testNotificationSender.changePullRequestChecksCount shouldBe 1
@@ -305,7 +303,7 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
                 filterUsername = filterUsername,
                 activityEnabledOption = EnabledOption.FILTERED,
                 activityReviewsFromYourPullRequestsEnabled = true,
-                activityReviewsReRequestEnabled = true,
+                activityReviewsFromYouDismissedEnabled = true,
                 activityChecksFromYourPullRequestsEnabled = true,
                 activityMergeableFromYourPullRequestsEnabled = true,
             )
@@ -326,9 +324,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
         should("should not send notifications for new reviews and changed reviews") {
             testNotificationSender.newPullRequestReviewCount shouldBe 0
         }
-        // TODO [review re-request]
-        should("should not send notifications for re-request reviews").config(enabled = false)  {
-            testNotificationSender.newPullRequestReReviewCount shouldBe 0
+        should("should not send notifications for re-request reviews") {
+            testNotificationSender.yourPullRequestReviewDismissed shouldBe 0
         }
         should("should not send notifications for checks changes") {
             testNotificationSender.changePullRequestChecksCount shouldBe 0
@@ -354,7 +351,7 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
                 filterUsername = filterUsername,
                 activityEnabledOption = EnabledOption.FILTERED,
                 activityReviewsFromYourPullRequestsEnabled = true,
-                activityReviewsReRequestEnabled = true,
+                activityReviewsFromYouDismissedEnabled = true,
                 activityChecksFromYourPullRequestsEnabled = true,
                 activityMergeableFromYourPullRequestsEnabled = true,
             )
@@ -375,9 +372,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
         should("should send notifications for new reviews and changed reviews") {
             testNotificationSender.newPullRequestReviewCount shouldBe 2
         }
-        // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false) {
-            testNotificationSender.newPullRequestReReviewCount shouldBe 1
+        should("should send notifications for re-request reviews") {
+            testNotificationSender.yourPullRequestReviewDismissed shouldBe 1
         }
         should("should send notifications for checks changes") {
             testNotificationSender.changePullRequestChecksCount shouldBe 1
@@ -403,7 +399,7 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
                 filterUsername = filterUsername,
                 activityEnabledOption = EnabledOption.FILTERED,
                 activityReviewsFromYourPullRequestsEnabled = false,
-                activityReviewsReRequestEnabled = false,
+                activityReviewsFromYouDismissedEnabled = false,
                 activityChecksFromYourPullRequestsEnabled = false,
                 activityMergeableFromYourPullRequestsEnabled = false,
             )
@@ -424,9 +420,8 @@ class PullRequestServiceActivityNotificationsUnitTest : ShouldSpec({
         should("should send notifications for new reviews and changed reviews") {
             testNotificationSender.newPullRequestReviewCount shouldBe 0
         }
-        // TODO [review re-request]
-        should("should send notifications for re-request reviews").config(enabled = false) {
-            testNotificationSender.newPullRequestReReviewCount shouldBe 0
+        should("should send notifications for re-request reviews") {
+            testNotificationSender.yourPullRequestReviewDismissed shouldBe 0
         }
         should("should send notifications for checks changes") {
             testNotificationSender.changePullRequestChecksCount shouldBe 0

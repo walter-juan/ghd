@@ -81,8 +81,7 @@ class LocalDataSourceImpl(
 
                     activityEnabledOption = enumValueOfOrNull<NotificationsSettings.EnabledOption>(appProperties.notificationsActivityEnabledOption) ?: defaultEnabledOption,
                     activityReviewsFromYourPullRequestsEnabled = appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled,
-                    // TODO [review re-request] always false because it did not have the behavior that was expected at the beginning
-                    activityReviewsReRequestEnabled = false, //appProperties.notificationsActivityReviewsReRequestEnabled,
+                    activityReviewsFromYouDismissedEnabled = appProperties.notificationsActivityReviewsFromYouDismissedEnabled,
                     activityChecksFromYourPullRequestsEnabled = appProperties.notificationsActivityChecksFromYourPullRequestsEnabled,
                     activityMergeableFromYourPullRequestsEnabled = appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled,
 
@@ -110,7 +109,7 @@ class LocalDataSourceImpl(
 
             appProperties.notificationsActivityEnabledOption = appSettings.notificationsSettings.activityEnabledOption.name
             appProperties.notificationsActivityReviewsFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled
-            appProperties.notificationsActivityReviewsReRequestEnabled = appSettings.notificationsSettings.activityReviewsReRequestEnabled
+            appProperties.notificationsActivityReviewsFromYouDismissedEnabled = appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled
             appProperties.notificationsActivityChecksFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled
             appProperties.notificationsActivityMergeableFromYourPullRequestsEnabled = appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled
 
