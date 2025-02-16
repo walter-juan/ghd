@@ -65,15 +65,16 @@ compose.desktop {
             packageName = "ghd"
             packageVersion = "${project.version}"
             includeAllModules = true
+            val iconName = if (debug) { "ic_launcher_debug" } else { "ic_launcher" }
             macOS {
-                iconFile.set(project.file("src/main/resources/icons/ic_launcher.icns"))
+                iconFile.set(project.file("src/main/resources/icons/$iconName.icns"))
             }
             windows {
                 menuGroup = ""
-                iconFile.set(project.file("src/main/resources/icons/ic_launcher.ico"))
+                iconFile.set(project.file("src/main/resources/icons/$iconName.ico"))
             }
             linux {
-                iconFile.set(project.file("src/main/resources/icons/ic_launcher.png"))
+                iconFile.set(project.file("src/main/resources/icons/$iconName.png"))
             }
         }
     }
