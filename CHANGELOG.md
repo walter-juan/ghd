@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.2]
+### Added
+- Notification when review from you is dismissed
+### Changed
+- Split code in Gradle modules
+- Removed "Published at" prefix from the release card
+- Split date from the status in the pull request card
+- Show the dates in the pull request card by the state they have
+### Fixed
+- Add missing debug ICNS icon
+- Change icon when the app is running on debug mode
+- Allow multiple instances of the app when running on debug mode
+
 ## [2.0.1]
 ### Changed
 - Order the releases by group then by published date
@@ -255,7 +268,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.1...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.2...dev
+[2.0.2]: https://github.com/walter-juan/ghd/releases/tag/v2.0.2
 [2.0.1]: https://github.com/walter-juan/ghd/releases/tag/v2.0.1
 [2.0.0]: https://github.com/walter-juan/ghd/releases/tag/v2.0.0
 [1.6.0]: https://github.com/walter-juan/ghd/releases/tag/v1.5.4

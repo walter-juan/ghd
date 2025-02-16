@@ -10,3 +10,8 @@ pluginManagement {
 
 rootProject.name = "ghd"
 include("app")
+include("core")
+include("domain-api")
+include("domain-impl")
+include("data")
+include("ui")

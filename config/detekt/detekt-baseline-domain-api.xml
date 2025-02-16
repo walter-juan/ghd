@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>MagicNumber:SyncResultWithEntriesAndRepos.kt$SyncResultWithEntriesAndRepos$100</ID>
+    <ID>MagicNumber:SyncResultWithEntriesAndRepos.kt$SyncResultWithEntriesAndRepos$25</ID>
+    <ID>MagicNumber:SyncResultWithEntriesAndRepos.kt$SyncResultWithEntriesAndRepos$5</ID>
+    <ID>MaxLineLength:PullRequest.kt$PullRequest$val checkHaveErrors = lastCommitCheckRollupStatus == CommitCheckRollupStatus.ERROR || lastCommitCheckRollupStatus == CommitCheckRollupStatus.FAILURE || lastCommitCheckRollupStatus == CommitCheckRollupStatus.UNKNOWN</ID>
+    <ID>MaximumLineLength:PullRequest.kt$PullRequest$ </ID>
+    <ID>NoConsecutiveBlankLines:NotificationsSender.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:RemoteDataSource.kt$ </ID>
+    <ID>ParameterListWrapping:AppVersionService.kt$AppVersionService.CheckForNewVersionResponse$(val newVersion: Boolean, val currentVersion: SemVer, val latestVersion: SemVer)</ID>
+    <ID>ParameterListWrapping:PullRequestWithRepoAndReviews.kt$(syncSettings: SyncSettings)</ID>
+    <ID>ParameterListWrapping:RemoteDataSource.kt$RemoteDataSource$(repoToCheck: RepoToCheck)</ID>
+    <ID>ParameterListWrapping:SynchronizableService.kt$SynchronizableService$(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List&lt;RepoToCheck&gt;)</ID>
+    <ID>SpacingAroundKeyword:PullRequestWithRepoAndReviews.kt$PullRequestWithRepoAndReviews.Companion$when</ID>
+    <ID>TooManyFunctions:LocalDataSource.kt$LocalDataSource</ID>
+  </CurrentIssues>
+</SmellBaseline>

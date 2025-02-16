@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ArgumentListWrapping:Cards.kt$(syncResultEntryWithRepo.syncResultEntry.duration.inWholeSeconds)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityChecksFromYourPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityReviewsFromYouDismissedEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateMergedFromOthersPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled)</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityChecksFromYourPullRequestsEnabled(!notificationsSettings.activityChecksFromYourPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityMergeableFromYourPullRequestsEnabled(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityReviewsFromYouDismissedEnabled(!notificationsSettings.activityReviewsFromYouDismissedEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateActivityReviewsFromYourPullRequestsEnabled(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateClosedFromOthersPullRequestsEnabled(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateDraftFromOthersPullRequestsEnabled(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateMergedFromOthersPullRequestsEnabled(!notificationsSettings.stateMergedFromOthersPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(Act.UpdateStateOpenFromOthersPullRequestsEnabled(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled))</ID>
+    <ID>ArgumentListWrapping:NotificationsScreen.kt$NotificationsScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
+    <ID>ArgumentListWrapping:NotificationsViewModel.kt$NotificationsStateMachine$(this)</ID>
+    <ID>ArgumentListWrapping:Others.kt$(space = 8.dp, alignment = Alignment.CenterHorizontally)</ID>
+    <ID>ArgumentListWrapping:OutlinedSelectField.kt$(25.dp)</ID>
+    <ID>ArgumentListWrapping:OutlinedSelectField.kt$(textFieldTrailingIcon, contentDescription = null, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:PullRequestsViewModel.kt$PullRequestsStateMachine$(it)</ID>
+    <ID>ArgumentListWrapping:ReleasesViewModel.kt$ReleasesStateMachine$(it)</ID>
+    <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
+    <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(state.repoToCheck.arePullRequestsNotificationsEnabled)</ID>
+    <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(state.repoToCheck.areReleasesNotificationsEnabled)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(25.dp)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheckToDelete!!))</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(repoToCheckToDelete!!)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckViewModel.kt$ReposToCheckStateMachine$(it)</ID>
+    <ID>ArgumentListWrapping:ReposToCheckViewModel.kt$ReposToCheckStateMachine$(searchQuery, ignoreCase = true)</ID>
+    <ID>ArgumentListWrapping:Screen.kt$(enabled = onSubtitleClick != null, onClick = { onSubtitleClick?.invoke() })</ID>
+    <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(25.dp)</ID>
+    <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
+    <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(imageVector = image, contentDescription = description, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Indefinite)</ID>
+    <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)</ID>
+    <ID>ArgumentListWrapping:SettingsViewModel.kt$SettingsStateMachine$(this)</ID>
+    <ID>ArgumentListWrapping:SyncResultDecorator.kt$SyncResultDecorator$(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize)</ID>
+    <ID>ArgumentListWrapping:SyncResultDecorator.kt$SyncResultDecorator$(syncResultWithEntities.syncResult.startAt, rateLimit?.percentageUsed, rateLimit?.reset)</ID>
+    <ID>ArgumentListWrapping:SyncResultsScreen.kt$SyncResultsScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
+    <ID>ClassNaming:i18n.kt$i18n</ID>
+    <ID>Filename:i18n.kt$com.woowla.ghd.i18n.kt</ID>
+    <ID>LongMethod:AboutScreen.kt$AboutScreen$@Composable fun Content( viewModel: AboutViewModel, appVersion: String, onBackClick: (() -&gt; Unit)? = null, )</ID>
+    <ID>LongMethod:Cards.kt$@OptIn(ExperimentalLayoutApi::class) @Composable fun PullRequestCard( pullRequestWithReviews: PullRequestWithRepoAndReviews, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:Cards.kt$@OptIn(ExperimentalLayoutApi::class) @Composable fun RepoToCheckCard( repoToCheck: RepoToCheck, onOpenClick: (RepoToCheck) -&gt; Unit, onEditClick: (RepoToCheck) -&gt; Unit, onDeleteClick: (RepoToCheck) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:NotificationsScreen.kt$NotificationsScreen$@Composable private fun NotificationsContent( state: St.Success, dispatchAction: (Act) -&gt; Unit, )</ID>
+    <ID>LongMethod:OutlinedSelectField.kt$@Composable fun &lt;T : Any?&gt; OutlinedSelectField( values: List&lt;Pair&lt;T, String&gt;&gt;, selected: T? = null, emptyText: String = "", modifier: Modifier = Modifier, onSelected: (T, String) -&gt; Unit, )</ID>
+    <ID>LongMethod:RepoToCheckBulkScreen.kt$RepoToCheckBulkScreen$@Composable fun Content( viewModel: ReposToCheckBulkViewModel, onBackClick: (() -&gt; Unit), )</ID>
+    <ID>LongMethod:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$@Composable private fun Success( state: St.Success, dispatchAction: (Act) -&gt; Unit, onBackClick: () -&gt; Unit )</ID>
+    <ID>LongMethod:ReposToCheckScreen.kt$ReposToCheckScreen$@Composable fun Content( viewModel: ReposToCheckViewModel, onEditRepoClick: (RepoToCheck) -&gt; Unit, onAddNewRepoClick: () -&gt; Unit, onBulkClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun Screen( state: St?, dispatchAction: (Act) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
+    <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun SynchronizationSection( githubPatToken: String, onGithubPatTokenUpdated: (String) -&gt; Unit, selectedCheckTimeoutMinutes: Long, availableCheckTimeoutMinutes: List&lt;Pair&lt;Long, String&gt;&gt;, onCheckTimeoutMinutes: (Long) -&gt; Unit, selectedCleanUpTimeoutHours: Long, availableCleanUpTimeoutHours: List&lt;Pair&lt;Long, String&gt;&gt;, onCleanUpTimeoutHours: (Long) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
+    <ID>MagicNumber:NotificationsScreen.kt$NotificationsScreen$.30f</ID>
+    <ID>MagicNumber:NotificationsScreen.kt$NotificationsScreen$.35f</ID>
+    <ID>MagicNumber:Sections.kt$0.5F</ID>
+    <ID>MagicNumber:SplashScreen.kt$SplashScreen$100</ID>
+    <ID>MaxLineLength:AboutScreen.kt$AboutScreen$description = "GHD (GitHub dashboard) is designed to display your GitHub pull requests and release updates in a streamlined interface."</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$description = "Add your login username in order to have a better notifications. Adding your username will enable the specific notifications."</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$description = "You will be notified when a new review has been proposed to your pull requests and/or when a review from you is dismissed."</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityChecksFromYourPullRequestsEnabled(!notificationsSettings.activityChecksFromYourPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityMergeableFromYourPullRequestsEnabled(!notificationsSettings.activityMergeableFromYourPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityReviewsFromYouDismissedEnabled(!notificationsSettings.activityReviewsFromYouDismissedEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateActivityReviewsFromYourPullRequestsEnabled(!notificationsSettings.activityReviewsFromYourPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateClosedFromOthersPullRequestsEnabled(!notificationsSettings.stateClosedFromOthersPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateDraftFromOthersPullRequestsEnabled(!notificationsSettings.stateDraftFromOthersPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateMergedFromOthersPullRequestsEnabled(!notificationsSettings.stateMergedFromOthersPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsScreen.kt$NotificationsScreen$dispatchAction.invoke(Act.UpdateStateOpenFromOthersPullRequestsEnabled(!notificationsSettings.stateOpenFromOthersPullRequestsEnabled))</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateClosedFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateDraftFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateMergedFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:NotificationsViewModel.kt$NotificationsStateMachine$state.mutate { St.Success.appSettings.notificationsSettings.stateOpenFromOthersPullRequestsEnabled.modify(this) { action.enabled } }</ID>
+    <ID>MaxLineLength:PullRequestsViewModel.kt$PullRequestsStateMachine$stateExtendedFiltersSelectedRecalculated.isEmpty() || stateExtendedFiltersSelectedRecalculated.contains(it.pullRequest.stateExtended)</ID>
+    <ID>MaxLineLength:SettingsScreen.kt$SettingsScreen$availableThemes = listOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light)</ID>
+    <ID>MaxLineLength:SettingsScreen.kt$SettingsScreen$val result = snackbarHostState.showSnackbar(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Indefinite)</ID>
+    <ID>MaxLineLength:SyncResultDecorator.kt$SyncResultDecorator$text = i18n.top_bar_subtitle_synchronization_result_entries(syncResultWithEntities.errorPercentage, syncResultWithEntities.entriesSize)</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val screen_app_settings_github_token_item_description = "Configure your GitHub Personal Access Token for authentication. The minimum permissions for the PAT token are 'repo' (full)."</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for activity updates to pull requests. You will receive notifications for new or changed reviews, re-review requested, checks and when a pull request is ready to be merged (mergeable)."</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val screen_app_settings_notifications_pr_state_description = "Enable to receive notifications when the sate of a pull request changes (e.g., Draft → Open), new pull requests are considered as changes."</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val screen_sync_results_end_at: (emoji: String, percentage: Int, total: Int) -&gt; String = { emoji, percentage, total -&gt; "$emoji ${percentage}% errors out of a total of $total" }</ID>
+    <ID>MaxLineLength:i18n.kt$i18n$val top_bar_subtitle_synchronization_result_entries: (errorPercentage: Int, total: Int) -&gt; String = { errorPercentage, total -&gt; "$errorPercentage% errors out of a total of $total" }</ID>
+    <ID>MaximumLineLength:AboutScreen.kt$AboutScreen$ </ID>
+    <ID>MaximumLineLength:NotificationsScreen.kt$NotificationsScreen$ </ID>
+    <ID>MaximumLineLength:NotificationsViewModel.kt$NotificationsStateMachine$ </ID>
+    <ID>MaximumLineLength:PullRequestsViewModel.kt$PullRequestsStateMachine$ </ID>
+    <ID>MaximumLineLength:SettingsScreen.kt$SettingsScreen$ </ID>
+    <ID>MaximumLineLength:SyncResultDecorator.kt$SyncResultDecorator$ </ID>
+    <ID>MaximumLineLength:i18n.kt$i18n$ </ID>
+    <ID>MayBeConst:i18n.kt$i18n$val app_settings_checkout_time_unknown = "?"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val app_settings_pr_cleanup_unknown = "?"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val app_theme_dark = "Dark"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val app_theme_light = "Light"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val app_theme_system_default = "System default"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_ignore_button = "Ignore"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_title = "Update available"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val dialog_new_app_version_update_button = "Update now"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val file_dialog_choose_file = "Choose a file"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val file_dialog_save_file = "Save a file"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_delete = "Delete"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_disabled = "Disabled"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_enabled = "Enabled"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_error = "Error"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_loading = "Loading"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_now = "now"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_saved = "Saved"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val generic_unknown = "unknown"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val githubRepoLink = "https://github.com/walter-juan/ghd"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val menu_bar_menu_actions = "Actions"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val menu_bar_menu_item_synchronize = "Synchronize"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_on = "on"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_opened_by = "opened by"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_state_closed = "Closed"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_state_draft = "Draft"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_state_merged = "Merged"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_state_open = "Open"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val pull_request_state_unknown = "Unknown"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val release_on = "on"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val release_tag = "Tag"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_appliation_section = "Application"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_checkout_timeout_item = "Sync Interval"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_checkout_timeout_item_description = "How often to check for updates"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_github_field_hide = "Hide token"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_github_field_show = "Show token"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_github_token_field_label = "Token"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_github_token_item = "Personal Access Token"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_github_token_item_description = "Configure your GitHub Personal Access Token for authentication. The minimum permissions for the PAT token are 'repo' (full)."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_last_synchronization_results_button = "See the latest synchronization results"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_last_synchronization_results_item = "Latest synchronization results"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_new_release_description = "Enable to receive notifications when a new release is created."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_new_release_title = "Created notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_activity_checkbox_label = "Activity"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_activity_description = "Enable to receive notifications for activity updates to pull requests. You will receive notifications for new or changed reviews, re-review requested, checks and when a pull request is ready to be merged (mergeable)."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_activity_title = "Activity notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_filter_out_description = "Enable notifications only for specific states."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_filter_out_title = "Filter notifications by state"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_state_checkbox_label = "State changes"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_state_description = "Enable to receive notifications when the sate of a pull request changes (e.g., Draft → Open), new pull requests are considered as changes."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_pr_state_title = "State changes notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_update_release_description = "Enable to receive notifications when an existing release is updated."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_notifications_update_release_title = "Release updated notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_pull_requests_clean_up_item = "Pull requests clean up"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_pull_requests_clean_up_item_description = "Remove closed and merged pull requests after certain amount of time"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_pull_requests_notifications_section = "Pull requests notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_releases_notifications_section = "Releases notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_repositories_item = "Repositories"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_save = "Save"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_saved = "Saved"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_synchronization_section = "Synchronization"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_theme_item = "Theme"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_app_settings_theme_item_description = "Select the theme you want to use"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_filter_by_branch_item = "Filter by branch"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_group_item = "Group"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_group_item_description = "Join several repositories in the same group"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_group_name_label = "Group name"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_name_label = "Name"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_owner_label = "Owner"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_releaes_section = "Sync releases"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_repository_section = "Repository"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_check_save = "Save"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_edit_repo_to_no_group = "(no group)"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_about_app_button = "About"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_fresh_start = "Fresh start"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_fresh_start_confirmation_dialog_no_button = "No"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_fresh_start_confirmation_dialog_text = "A fresh start will erase your data, are you sure?"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_fresh_start_confirmation_dialog_title = "Fresh start"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_fresh_start_confirmation_dialog_yes_button = "Yes"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_login_unlock_button = "Open the app"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_pull_requests_can_be_merged = "Ready to merge"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_pull_requests_code_changed = "Code changed since list time"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_add_new_repository_item = "Add new repository"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_add_new_repository_item_description = "Add manually a new repository"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_bulk_example = "Example"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_bulk_export = "Export"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_bulk_import = "Import"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_bulk_item = "Bulk import/export"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_bulk_item_description = "Import or export a list of repositories in YML format"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_new_repositories_section = "New repositories"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_repos_to_check_repositories_section = "Repositories"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val screen_sync_results_in_progress = "Sync in progress"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val status_bar_error = "Error"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val status_bar_loading = "Loading..."</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val status_bar_synchronized_at_unknown = "Synchronized at unknown"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_about = "About"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_notifications = "Notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_pull_requests = "Pulls"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_releases = "Releases"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_repos_to_check = "Repos"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tab_title_settings = "Settings"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tablerIconsRepoLink = "https://github.com/tabler/tabler-icons"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_about = "About"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_notifications = "Notifications"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_pull_requests = "Pull Requests"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_releases = "Releases"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_repos_to_check = "Repos"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_repos_to_check_bulk = "Bulk import/export"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_repos_to_check_bulk_sample = "Bulk file sample"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_repos_to_check_edit = "Repos"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_settings = "Settings"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_synchronization_result_entries = "Synchronization result entries"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val top_bar_title_synchronization_results = "Synchronization results"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_exit = "Exit"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_hide_app = "Hide in tray"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_show_app = "Show"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_item_synchronize = "Synchronize"</ID>
+    <ID>MayBeConst:i18n.kt$i18n$val tray_linux_primary_action_label = "Open Application"</ID>
+    <ID>NoConsecutiveBlankLines:i18n.kt$i18n$ </ID>
+    <ID>NoMultipleSpaces:SettingsScreen.kt$SettingsScreen$ </ID>
+    <ID>NoMultipleSpaces:i18n.kt$i18n$ </ID>
+    <ID>NoUnusedImports:Cards.kt$com.woowla.ghd.presentation.components.Cards.kt</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(String)</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(String, String, String, String)</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(emoji: String, percentage: Int, total: Int)</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(errorPercentage: Int, total: Int)</ID>
+    <ID>ParameterListWrapping:i18n.kt$i18n$(syncAt: Instant, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?)</ID>
+    <ID>PropertyWrapping:i18n.kt$i18n$val sync_result_title_old: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -&gt; String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt -&gt; "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})" }</ID>
+    <ID>ReturnCount:PullRequestDecorator.kt$PullRequestDecorator$fun reviewsIcon(): ImageVector</ID>
+    <ID>SpacingAroundKeyword:Cards.kt$when</ID>
+    <ID>SpacingAroundKeyword:i18n.kt$i18n$when</ID>
+    <ID>StringTemplate:i18n.kt$i18n$${percentage}</ID>
+    <ID>TooGenericExceptionCaught:PullRequestsViewModel.kt$PullRequestsStateMachine$ex: Exception</ID>
+    <ID>TooGenericExceptionCaught:ReleasesViewModel.kt$ReleasesStateMachine$e: Throwable</ID>
+    <ID>TooGenericExceptionCaught:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ReposToCheckViewModel.kt$ReposToCheckStateMachine$throwable: Throwable</ID>
+    <ID>TooGenericExceptionCaught:SettingsViewModel.kt$SettingsStateMachine$th: Throwable</ID>
+  </CurrentIssues>
+</SmellBaseline>
