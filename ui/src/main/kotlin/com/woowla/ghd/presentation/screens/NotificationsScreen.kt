@@ -38,7 +38,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.User
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.NotificationsSettings
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.LabelledRadioButton
 import com.woowla.ghd.presentation.components.ScreenScrollable
@@ -77,7 +77,7 @@ object NotificationsScreen {
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_notifications,
+                    title = i18nUi.top_bar_title_notifications,
                     navOnClick = onBackClick,
                     actions = {
                         if (state is St.Success) {
@@ -87,7 +87,7 @@ object NotificationsScreen {
                             ) {
                                 Icon(
                                     Tabler.Outline.DeviceFloppy,
-                                    contentDescription = i18n.screen_app_settings_save,
+                                    contentDescription = i18nUi.screen_app_settings_save,
                                     tint = MaterialTheme.colorScheme.onPrimary,
                                     modifier = Modifier.padding(10.dp).fillMaxWidth()
                                 )
@@ -99,7 +99,7 @@ object NotificationsScreen {
         ) {
             when (state) {
                 null, St.Loading -> {
-                    Text(i18n.generic_loading)
+                    Text(i18nUi.generic_loading)
                 }
                 is St.Success -> {
                     NotificationsContent(
@@ -107,8 +107,8 @@ object NotificationsScreen {
                         dispatchAction = dispatchAction,
                     )
                     val snackbarMessage = when {
-                        state.savedSuccessfully == true -> i18n.generic_saved
-                        state.savedSuccessfully == false -> i18n.generic_error
+                        state.savedSuccessfully == true -> i18nUi.generic_saved
+                        state.savedSuccessfully == false -> i18nUi.generic_error
                         else -> null
                     }
                     if (snackbarMessage != null) {
@@ -125,7 +125,7 @@ object NotificationsScreen {
                     }
                 }
                 is St.Error -> {
-                    Text(i18n.generic_error)
+                    Text(i18nUi.generic_error)
                 }
             }
         }
@@ -161,7 +161,7 @@ object NotificationsScreen {
                 )
             }
 
-            Section(i18n.screen_app_settings_pull_requests_notifications_section) {
+            Section(i18nUi.screen_app_settings_pull_requests_notifications_section) {
                 SectionItem(
                     title = "State notifications",
                     description = "Notify me when a pull request has been created in an specific state or changed for example from Draft to Open",
@@ -182,7 +182,7 @@ object NotificationsScreen {
                         )
 
                         StateNotificationsTableRow(
-                            title = i18n.pull_request_state_draft,
+                            title = i18nUi.pull_request_state_draft,
                             enabled = notificationsSettings.validStateEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
                             othersPullRequestsSelected = notificationsSettings.stateDraftFromOthersPullRequestsEnabled,
                             onOthersPullRequestsSelectedClick = {
@@ -191,7 +191,7 @@ object NotificationsScreen {
                         )
 
                         StateNotificationsTableRow(
-                            title = i18n.pull_request_state_open,
+                            title = i18nUi.pull_request_state_open,
                             enabled = notificationsSettings.validStateEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
                             othersPullRequestsSelected = notificationsSettings.stateOpenFromOthersPullRequestsEnabled,
                             onOthersPullRequestsSelectedClick = {
@@ -200,7 +200,7 @@ object NotificationsScreen {
                         )
 
                         StateNotificationsTableRow(
-                            title = i18n.pull_request_state_closed,
+                            title = i18nUi.pull_request_state_closed,
                             enabled = notificationsSettings.validStateEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
                             othersPullRequestsSelected = notificationsSettings.stateClosedFromOthersPullRequestsEnabled,
                             onOthersPullRequestsSelectedClick = {
@@ -209,7 +209,7 @@ object NotificationsScreen {
                         )
 
                         StateNotificationsTableRow(
-                            title = i18n.pull_request_state_merged,
+                            title = i18nUi.pull_request_state_merged,
                             enabled = notificationsSettings.validStateEnabledOption == NotificationsSettings.EnabledOption.FILTERED,
                             othersPullRequestsSelected = notificationsSettings.stateMergedFromOthersPullRequestsEnabled,
                             onOthersPullRequestsSelectedClick = {
@@ -219,8 +219,8 @@ object NotificationsScreen {
                     }
                 )
                 SectionItem(
-                    title = i18n.screen_app_settings_notifications_pr_activity_title,
-                    description = i18n.screen_app_settings_notifications_pr_activity_description,
+                    title = i18nUi.screen_app_settings_notifications_pr_activity_title,
+                    description = i18nUi.screen_app_settings_notifications_pr_activity_description,
                     leadingIcon = {
                         Icon(
                             imageVector = Tabler.Outline.Activity,
@@ -303,10 +303,10 @@ object NotificationsScreen {
                 )
             }
 
-            Section(i18n.screen_app_settings_releases_notifications_section) {
+            Section(i18nUi.screen_app_settings_releases_notifications_section) {
                 SectionItemWithSwitch(
-                    title = i18n.screen_app_settings_notifications_new_release_title,
-                    description = i18n.screen_app_settings_notifications_new_release_description,
+                    title = i18nUi.screen_app_settings_notifications_new_release_title,
+                    description = i18nUi.screen_app_settings_notifications_new_release_description,
                     leadingIcon = {
                         Icon(
                             imageVector = Tabler.Outline.Tag,

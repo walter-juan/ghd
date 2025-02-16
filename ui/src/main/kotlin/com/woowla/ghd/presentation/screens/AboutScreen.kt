@@ -17,7 +17,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Folder
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.PhotoCircle
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
@@ -37,7 +37,7 @@ object AboutScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_about,
+                    title = i18nUi.top_bar_title_about,
                     navOnClick = onBackClick
                 )
             }
@@ -86,7 +86,7 @@ object AboutScreen {
                         trailingContent = {
                             IconButton(
                                 onClick = {
-                                    openWebpage(i18n.githubRepoLink)
+                                    openWebpage(i18nUi.githubRepoLink)
                                 }
                             ) {
                                 Icon(
@@ -135,7 +135,7 @@ object AboutScreen {
                         trailingContent = {
                             IconButton(
                                 onClick = {
-                                    openWebpage(i18n.tablerIconsRepoLink)
+                                    openWebpage(i18nUi.tablerIconsRepoLink)
                                 }
                             ) {
                                 Icon(

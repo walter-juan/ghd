@@ -32,7 +32,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.RefreshOff
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ScreenScrollable
 import com.woowla.ghd.presentation.components.Section
@@ -68,7 +68,7 @@ object RepoToCheckEditScreen {
                 Loading(onBackClick = onBackClick)
             }
             is St.Error -> {
-                Text(i18n.generic_error)
+                Text(i18nUi.generic_error)
             }
             is St.Success -> {
                 Success(
@@ -85,8 +85,8 @@ object RepoToCheckEditScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_repos_to_check_edit,
-                    subtitle = i18n.status_bar_loading,
+                    title = i18nUi.top_bar_title_repos_to_check_edit,
+                    subtitle = i18nUi.status_bar_loading,
                     navOnClick = onBackClick,
                 )
             }
@@ -117,7 +117,7 @@ object RepoToCheckEditScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_repos_to_check_edit,
+                    title = i18nUi.top_bar_title_repos_to_check_edit,
                     navOnClick = onBackClick,
                     actions = {
                         OutlinedIconButton(
@@ -139,7 +139,7 @@ object RepoToCheckEditScreen {
                         ) {
                             Icon(
                                 Tabler.Outline.DeviceFloppy,
-                                contentDescription = i18n.screen_edit_repo_to_check_save,
+                                contentDescription = i18nUi.screen_edit_repo_to_check_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )
@@ -198,7 +198,7 @@ object RepoToCheckEditScreen {
         onNameChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
     ) {
-        Section(title = i18n.screen_edit_repo_to_check_repository_section) {
+        Section(title = i18nUi.screen_edit_repo_to_check_repository_section) {
             SectionItem(
                 title = "GitHub repository owner/name",
                 leadingIcon = {
@@ -215,7 +215,7 @@ object RepoToCheckEditScreen {
                     OutlinedTextField(
                         value = owner,
                         onValueChange = onOwnerChange,
-                        label = { Text(text = i18n.screen_edit_repo_to_check_owner_label) },
+                        label = { Text(text = i18nUi.screen_edit_repo_to_check_owner_label) },
                         singleLine = true,
                         modifier = Modifier
                             .focusRequester(focusRequester)
@@ -224,20 +224,20 @@ object RepoToCheckEditScreen {
                     OutlinedTextField(
                         value = name,
                         onValueChange = onNameChange,
-                        label = { Text(text = i18n.screen_edit_repo_to_check_name_label) },
+                        label = { Text(text = i18nUi.screen_edit_repo_to_check_name_label) },
                         singleLine = true,
                         modifier = Modifier.weight(1f),
                     )
                 }
             }
             SectionItem(
-                title = i18n.screen_edit_repo_to_check_group_item,
-                description = i18n.screen_edit_repo_to_check_group_item_description,
+                title = i18nUi.screen_edit_repo_to_check_group_item,
+                description = i18nUi.screen_edit_repo_to_check_group_item_description,
             ) {
                 OutlinedTextField(
                     value = groupName,
                     onValueChange = onReleaseGroupChange,
-                    label = { Text(text = i18n.screen_edit_repo_to_check_group_name_label) },
+                    label = { Text(text = i18nUi.screen_edit_repo_to_check_group_name_label) },
                     singleLine = true,
                 )
             }
@@ -255,7 +255,7 @@ object RepoToCheckEditScreen {
     ) {
         Section(title = "Pull requests") {
             SectionItemWithSwitch(
-                title = i18n.screen_edit_repo_to_check_pull_request_section,
+                title = i18nUi.screen_edit_repo_to_check_pull_request_section,
                 checked = arePullRequestsEnabled,
                 leadingIcon = {
                     SynchAndNotificationsIcon(
@@ -275,8 +275,8 @@ object RepoToCheckEditScreen {
                 enabled = arePullRequestsEnabled,
             )
             SectionItem(
-                title = i18n.screen_edit_repo_to_check_filter_by_branch_item,
-                description = i18n.screen_edit_repo_to_check_filter_by_branch_item_description,
+                title = i18nUi.screen_edit_repo_to_check_filter_by_branch_item,
+                description = i18nUi.screen_edit_repo_to_check_filter_by_branch_item_description,
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.Filter,
@@ -289,7 +289,7 @@ object RepoToCheckEditScreen {
                 OutlinedTextField(
                     value = branchRegex,
                     onValueChange = onBranchRegexChange,
-                    label = { Text(text = i18n.screen_edit_repo_to_check_href_branch_regex_label) },
+                    label = { Text(text = i18nUi.screen_edit_repo_to_check_href_branch_regex_label) },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = arePullRequestsEnabled,
                     singleLine = true
@@ -307,7 +307,7 @@ object RepoToCheckEditScreen {
     ) {
         Section(title = "Releases") {
             SectionItemWithSwitch(
-                title = i18n.screen_edit_repo_to_check_releaes_section,
+                title = i18nUi.screen_edit_repo_to_check_releaes_section,
                 checked = areReleasesEnabled,
                 leadingIcon = {
                     SynchAndNotificationsIcon(

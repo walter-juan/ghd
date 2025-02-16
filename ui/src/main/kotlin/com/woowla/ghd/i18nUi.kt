@@ -4,7 +4,7 @@ import com.woowla.ghd.extensions.format
 import com.woowla.ghd.extensions.toRelativeString
 import kotlinx.datetime.Instant
 
-internal object i18n {
+internal object i18nUi {
     val githubRepoLink = "https://github.com/walter-juan/ghd"
     val tablerIconsRepoLink = "https://github.com/tabler/tabler-icons"
     val generic_loading = "Loading"

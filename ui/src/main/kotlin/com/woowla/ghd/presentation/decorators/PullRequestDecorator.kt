@@ -15,7 +15,7 @@ import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.extensions.toRelativeString
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import kotlin.time.Duration.Companion.days
 
 class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
@@ -23,9 +23,9 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
     val createdAt = pullRequestWithReviews.pullRequest.createdAt.toRelativeString(maximumDays = 999.days)
     val mergedAt = pullRequestWithReviews.pullRequest.mergedAt?.toRelativeString(maximumDays = 999.days) ?: ""
     val closedAt = pullRequestWithReviews.pullRequest.closedAt?.toRelativeString(maximumDays = 999.days) ?: ""
-    val title = pullRequestWithReviews.pullRequest.title ?: i18n.generic_unknown
+    val title = pullRequestWithReviews.pullRequest.title ?: i18nUi.generic_unknown
     val state = PullRequestStateDecorator(pullRequestWithReviews.pullRequest.stateExtended)
-    val comments = i18n.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
+    val comments = i18nUi.pull_request_comments(pullRequestWithReviews.pullRequest.totalCommentsCount ?: 0L)
     val commitChecks = when (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus) {
         CommitCheckRollupStatus.ERROR -> "Checks failed"
         CommitCheckRollupStatus.EXPECTED -> "Checks passed"

@@ -21,7 +21,7 @@ import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableExport
 import com.woowla.compose.icon.collections.tabler.tabler.outline.TableImport
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ErrorComponent
 import com.woowla.ghd.presentation.components.FileLoadDialog
@@ -69,7 +69,7 @@ object RepoToCheckBulkScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_repos_to_check_bulk,
+                    title = i18nUi.top_bar_title_repos_to_check_bulk,
                     navOnClick = onBackClick,
                 )
             }
@@ -128,7 +128,7 @@ object RepoToCheckBulkScreen {
                                 title = "Example of a YML file in case you want to create by yourself",
                             ) {
                                 Text(
-                                    text = i18n.screen_repos_to_check_bulk_sample_sample_file,
+                                    text = i18nUi.screen_repos_to_check_bulk_sample_sample_file,
                                     fontSize = 18.sp,
                                 )
                             }

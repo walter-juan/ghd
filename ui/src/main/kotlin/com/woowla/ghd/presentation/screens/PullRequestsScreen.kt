@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.SyncResult
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ColoredFilterChip
 import com.woowla.ghd.presentation.components.EmptyComponent
@@ -40,7 +40,7 @@ object PullRequestsScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_pull_requests,
+                    title = i18nUi.top_bar_title_pull_requests,
                     subtitle = {
                         TopBarSubtitle(state = state, onSyncResultEntriesClick = onSyncResultEntriesClick)
                     },

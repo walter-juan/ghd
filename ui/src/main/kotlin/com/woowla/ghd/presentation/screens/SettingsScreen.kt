@@ -45,7 +45,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Palette
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
 import com.woowla.ghd.domain.entities.SyncSettings
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.OutlinedSelectField
 import com.woowla.ghd.presentation.components.ScreenScrollable
@@ -80,8 +80,8 @@ object SettingsScreen {
 
         if (state is St.Success) {
             val snackbarMessage = when {
-                state.savedSuccessfully == true -> i18n.generic_saved
-                state.savedSuccessfully == false -> i18n.generic_error
+                state.savedSuccessfully == true -> i18nUi.generic_saved
+                state.savedSuccessfully == false -> i18nUi.generic_error
                 else -> null
             }
             if (snackbarMessage != null) {
@@ -98,7 +98,7 @@ object SettingsScreen {
             snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_settings,
+                    title = i18nUi.top_bar_title_settings,
                     actions = {
                         OutlinedIconButton(
                             colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -106,7 +106,7 @@ object SettingsScreen {
                         ) {
                             Icon(
                                 Tabler.Outline.DeviceFloppy,
-                                contentDescription = i18n.screen_app_settings_save,
+                                contentDescription = i18nUi.screen_app_settings_save,
                                 tint = MaterialTheme.colorScheme.onPrimary,
                                 modifier = Modifier.padding(10.dp).fillMaxWidth()
                             )
@@ -124,7 +124,7 @@ object SettingsScreen {
                 when (state) {
                     null, St.Initializing -> { }
                     is St.Error -> {
-                        Text(i18n.generic_error)
+                        Text(i18nUi.generic_error)
                     }
                     is St.Success -> {
                         SynchronizationSection(
@@ -132,12 +132,12 @@ object SettingsScreen {
                             onGithubPatTokenUpdated = { dispatchAction(Act.UpdatePatToken(it)) },
                             selectedCheckTimeoutMinutes = state.syncSettings.validCheckTimeout,
                             availableCheckTimeoutMinutes = SyncSettings.availableCheckTimeouts.associateWith { checkTimeout ->
-                                i18n.app_settings_checkout_time_in_minutes(checkTimeout)
+                                i18nUi.app_settings_checkout_time_in_minutes(checkTimeout)
                             }.toList(),
                             onCheckTimeoutMinutes = { dispatchAction(Act.UpdateCheckTimeout(it)) },
                             selectedCleanUpTimeoutHours = state.syncSettings.validPullRequestCleanUpTimeout,
                             availableCleanUpTimeoutHours = SyncSettings.availablePullRequestCleanUpTimeout.associateWith { cleanUpTimeout ->
-                                i18n.app_settings_pr_cleanup_in_hours(cleanUpTimeout)
+                                i18nUi.app_settings_pr_cleanup_in_hours(cleanUpTimeout)
                             }.toList(),
                             onCleanUpTimeoutHours = { dispatchAction(Act.UpdatePullRequestCleanUpTimeout(it)) },
                             onSyncResultsClicked = onSyncResultsClicked,
@@ -145,7 +145,7 @@ object SettingsScreen {
 
                         ApplicationSection(
                             selectedTheme = state.appSettings.darkTheme,
-                            availableThemes  = listOf(null to i18n.app_theme_system_default, true to i18n.app_theme_dark, false to i18n.app_theme_light),
+                            availableThemes  = listOf(null to i18nUi.app_theme_system_default, true to i18nUi.app_theme_dark, false to i18nUi.app_theme_light),
                             onSelectedTheme = { dispatchAction(Act.UpdateAppTheme(it)) }
                         )
                     }
@@ -170,8 +170,8 @@ object SettingsScreen {
 
         Section(title = "GitHub settings") {
             SectionItem(
-                title = i18n.screen_app_settings_github_token_item,
-                description = i18n.screen_app_settings_github_token_item_description,
+                title = i18nUi.screen_app_settings_github_token_item,
+                description = i18nUi.screen_app_settings_github_token_item_description,
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.Key,
@@ -189,7 +189,7 @@ object SettingsScreen {
                     OutlinedTextField(
                         value = githubPatToken,
                         onValueChange = onGithubPatTokenUpdated,
-                        label = { Text(i18n.screen_app_settings_github_token_field_label) },
+                        label = { Text(i18nUi.screen_app_settings_github_token_field_label) },
                         visualTransformation = if (passwordVisible) {
                             VisualTransformation.None
                         } else {
@@ -204,9 +204,9 @@ object SettingsScreen {
                                 Tabler.Outline.Eye
                             }
                             val description = if (passwordVisible) {
-                                i18n.screen_app_settings_github_field_hide
+                                i18nUi.screen_app_settings_github_field_hide
                             } else {
-                                i18n.screen_app_settings_github_field_show
+                                i18nUi.screen_app_settings_github_field_show
                             }
                             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                                 Icon(imageVector = image, contentDescription = description, modifier = Modifier.size(25.dp))
@@ -218,10 +218,10 @@ object SettingsScreen {
             }
         }
 
-        Section(i18n.screen_app_settings_synchronization_section) {
+        Section(i18nUi.screen_app_settings_synchronization_section) {
             SectionItem(
-                title = i18n.screen_app_settings_checkout_timeout_item,
-                description = i18n.screen_app_settings_checkout_timeout_item_description,
+                title = i18nUi.screen_app_settings_checkout_timeout_item,
+                description = i18nUi.screen_app_settings_checkout_timeout_item_description,
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.Refresh,
@@ -233,7 +233,7 @@ object SettingsScreen {
                 OutlinedSelectField(
                     selected = selectedCheckTimeoutMinutes,
                     values = availableCheckTimeoutMinutes,
-                    emptyText = i18n.app_settings_checkout_time_unknown,
+                    emptyText = i18nUi.app_settings_checkout_time_unknown,
                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                 ) { value, _ ->
                     onCheckTimeoutMinutes.invoke(value)
@@ -241,8 +241,8 @@ object SettingsScreen {
             }
 
             SectionItem(
-                title = i18n.screen_app_settings_pull_requests_clean_up_item,
-                description = i18n.screen_app_settings_pull_requests_clean_up_item_description,
+                title = i18nUi.screen_app_settings_pull_requests_clean_up_item,
+                description = i18nUi.screen_app_settings_pull_requests_clean_up_item_description,
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.Trash,
@@ -254,7 +254,7 @@ object SettingsScreen {
                 OutlinedSelectField(
                     selected = selectedCleanUpTimeoutHours,
                     values = availableCleanUpTimeoutHours,
-                    emptyText = i18n.app_settings_pr_cleanup_unknown,
+                    emptyText = i18nUi.app_settings_pr_cleanup_unknown,
                     modifier = Modifier.padding(PaddingValues(bottom = 10.dp))
                 ) { value, _ ->
                     onCleanUpTimeoutHours.invoke(value)
@@ -262,10 +262,10 @@ object SettingsScreen {
             }
 
             SectionItem(
-                title = i18n.screen_app_settings_last_synchronization_results_item,
+                title = i18nUi.screen_app_settings_last_synchronization_results_item,
             ) {
                 Button(onClick = onSyncResultsClicked) {
-                    Text(i18n.screen_app_settings_last_synchronization_results_button)
+                    Text(i18nUi.screen_app_settings_last_synchronization_results_button)
                 }
             }
         }
@@ -277,10 +277,10 @@ object SettingsScreen {
         availableThemes: List<Pair<Boolean?, String>>,
         onSelectedTheme: (Boolean?) -> Unit,
     ) {
-        Section(i18n.screen_app_settings_appliation_section) {
+        Section(i18nUi.screen_app_settings_appliation_section) {
             SectionItem(
-                title = i18n.screen_app_settings_theme_item,
-                description = i18n.screen_app_settings_theme_item_description,
+                title = i18nUi.screen_app_settings_theme_item,
+                description = i18nUi.screen_app_settings_theme_item_description,
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.Palette,

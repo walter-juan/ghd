@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
-import com.woowla.ghd.i18n
+import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.EmptyComponent
 import com.woowla.ghd.presentation.components.ErrorComponent
@@ -36,7 +36,7 @@ object SyncResultEntriesScreen {
         ScreenScrollable(
             topBar = {
                 TopBar(
-                    title = i18n.top_bar_title_synchronization_result_entries,
+                    title = i18nUi.top_bar_title_synchronization_result_entries,
                     subtitle = {
                         TopBarSubtitle(state)
                     },
