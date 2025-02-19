@@ -11,6 +11,13 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Gradle Wrapper Validation
+        uses: gradle/actions/wrapper-validation@v3
       - name: Generate release data
         id: generate-release-data
         uses: ./.github/actions/generate-release-data
@@ -26,4 +33,16 @@ jobs:
           else
             echo "INFO -> the tag doesn't exist 👌"
           fi
-
+      - name: Update 3rd party libraries JSON
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: |
+            clean
+            app:exportLibraryDefinitions 
+            -PaboutLibraries.exportPath=src/main/resources/
+      - name: Validate 3rd party libraries JSON
+        run: |
+          if ! git diff --exit-code --quiet; then
+            echo "ERROR -> 3rd party libraries JSON should be updated"
+            exit 1
+          fi

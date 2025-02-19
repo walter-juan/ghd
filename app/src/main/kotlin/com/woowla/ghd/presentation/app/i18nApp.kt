@@ -24,6 +24,7 @@ internal object i18nApp {
     val tab_title_notifications = "Notifications"
     val tab_title_settings = "Settings"
     val tab_title_about = "About"
+    val tab_title_about_libraries = "About libraries"
 
     val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"
 

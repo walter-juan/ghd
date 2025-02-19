@@ -45,6 +45,7 @@ internal object i18nUi {
     val top_bar_title_synchronization_result_entries = "Synchronization result entries"
     val top_bar_subtitle_synchronization_result_entries: (errorPercentage: Int, total: Int) -> String = { errorPercentage, total -> "$errorPercentage% errors out of a total of $total" }
     val top_bar_title_about = "About"
+    val top_bar_title_about_libraries = "About libraries"
     val top_bar_title_notifications = "Notifications"
 
     val status_bar_loading = "Loading..."

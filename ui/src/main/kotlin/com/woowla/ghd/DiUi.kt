@@ -25,10 +25,17 @@ import com.woowla.ghd.presentation.viewmodels.SyncResultsViewModel
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 object DiUi {
-    fun module(): Module = module {
+    enum class Name {
+        ABOUT_LIBRARIES_JSON_FILE_NAME
+    }
+
+    fun module(
+        aboutLibrariesJsonFileName: String = "aboutlibraries.json"
+    ): Module = module {
         // view models
         viewModel<SplashViewModel> { SplashViewModel(get()) }
         viewModel<AboutViewModel> { AboutViewModel(get()) }
@@ -63,5 +70,8 @@ object DiUi {
 
         // notifications
         single<NotificationsSender> { NotificationsSenderDefault(get()) }
+
+        // others
+        single<String>(named(Name.ABOUT_LIBRARIES_JSON_FILE_NAME)) { aboutLibrariesJsonFileName }
     }
 }

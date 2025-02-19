@@ -12,10 +12,11 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
+    alias(libs.plugins.aboutLibraries)
 }
 
 group = "com.woowla"
-version = "2.0.3"
+version = "2.0.4"
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -33,6 +34,12 @@ buildConfig {
     buildConfigField("GH_GHD_OWNER", "walter-juan")
     buildConfigField("GH_GHD_REPO", "ghd")
     buildConfigField("GH_GHD_LATEST_RELEASE_URL", "https://github.com/walter-juan/ghd/releases/latest")
+}
+
+aboutLibraries {
+    registerAndroidTasks = false
+    prettyPrint = true
+    excludeFields = arrayOf("description", "funding")
 }
 
 dependencies {
