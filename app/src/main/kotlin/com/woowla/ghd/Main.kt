@@ -9,8 +9,17 @@ import androidx.compose.ui.window.TrayState
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import ch.qos.logback.classic.Logger
+import ch.qos.logback.classic.LoggerContext
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder
+import ch.qos.logback.classic.spi.ILoggingEvent
+import ch.qos.logback.core.ConsoleAppender
+import ch.qos.logback.core.rolling.RollingFileAppender
+import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
+import ch.qos.logback.core.util.FileSize
+import ch.qos.logback.core.util.StatusPrinter
 import com.kdroid.composetray.utils.SingleInstanceManager
-import com.woowla.ghd.AppLogger
+import com.woowla.ghd.AppFolderFactory
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.DiCore
 import com.woowla.ghd.DiData
@@ -30,23 +39,11 @@ import org.koin.core.context.startKoin
 import org.slf4j.LoggerFactory
 
 fun main() {
-    startKoin {
-        modules(
-            DiCore.module(
-                isDebug = BuildConfig.DEBUG,
-                appFolder = BuildConfig.DEBUG_APP_FOLDER,
-                logger = LoggerFactory.getLogger(AppLogger::class.java),
-            ),
-            DiData.module(
-                ghOwner = BuildConfig.GH_GHD_OWNER,
-                ghRepo = BuildConfig.GH_GHD_REPO,
-            ),
-            DiDomainImpl.module(
-                appVersion = SemVer.parse(BuildConfig.APP_VERSION),
-            ),
-            DiUi.module(),
-        )
-    }
+    val logger = setupLogger()
+    setupKodein(logger)
+
+    addConsoleAppender(logger)
+    addFileAppender(logger = logger, appFolderFactory = GlobalContext.get().get())
 
     application {
         val synchronizer: Synchronizer = GlobalContext.get().get()
@@ -96,3 +93,87 @@ fun main() {
         )
     }
 }
+
+private fun setupKodein(logger: Logger) {
+    startKoin {
+        modules(
+            DiCore.module(
+                isDebug = BuildConfig.DEBUG,
+                appFolder = BuildConfig.DEBUG_APP_FOLDER,
+                logger = logger,
+            ),
+            DiData.module(
+                ghOwner = BuildConfig.GH_GHD_OWNER,
+                ghRepo = BuildConfig.GH_GHD_REPO,
+            ),
+            DiDomainImpl.module(
+                appVersion = SemVer.parse(BuildConfig.APP_VERSION),
+            ),
+            DiUi.module(),
+        )
+    }
+}
+
+private fun setupLogger(): Logger {
+    val context = LoggerFactory.getILoggerFactory() as LoggerContext
+    context.reset()
+
+    val rootLogger = context.getLogger(Logger.ROOT_LOGGER_NAME)
+    rootLogger.level = ch.qos.logback.classic.Level.DEBUG
+
+    StatusPrinter.printInCaseOfErrorsOrWarnings(context)
+
+    return rootLogger
+}
+
+private fun addConsoleAppender(logger: Logger): Logger {
+    val context = LoggerFactory.getILoggerFactory() as LoggerContext
+
+    val consoleAppender = ConsoleAppender<ILoggingEvent>()
+    consoleAppender.context = context
+    consoleAppender.name = "CONSOLE"
+    val consolePatterEncoder = PatternLayoutEncoder()
+    consolePatterEncoder.context = context
+    consolePatterEncoder.pattern = "%highlight(%date{ISO8601} %-5level %logger{36} - %msg%n%ex)"
+    consolePatterEncoder.setParent(consoleAppender)
+    consolePatterEncoder.start()
+    consoleAppender.encoder = consolePatterEncoder
+    consoleAppender.start()
+
+    logger.addAppender(consoleAppender)
+
+    return logger
+}
+
+private fun addFileAppender(logger: Logger, appFolderFactory: AppFolderFactory): Logger {
+    val context = LoggerFactory.getILoggerFactory() as LoggerContext
+
+    // rolling file
+    val logDir = appFolderFactory.folder.resolve("logs").toString()
+    val rollingFileAppender = RollingFileAppender<ILoggingEvent>()
+    rollingFileAppender.context = context
+    rollingFileAppender.name = "FILE"
+    rollingFileAppender.file = "$logDir/app.log"
+    val rollingFilePatterEncoder = PatternLayoutEncoder()
+    rollingFilePatterEncoder.context = context
+    rollingFilePatterEncoder.pattern = "%date{ISO8601} %-5level %logger{36} - %msg%n%ex"
+    rollingFilePatterEncoder.setParent(rollingFileAppender)
+    rollingFilePatterEncoder.start()
+    rollingFileAppender.encoder = rollingFilePatterEncoder
+
+    val rollingPolicy = TimeBasedRollingPolicy<ILoggingEvent>()
+    rollingPolicy.context = context
+    rollingPolicy.fileNamePattern = "$logDir/app.%d{yyyy-MM-dd}.log"
+    rollingPolicy.maxHistory = 7
+    rollingPolicy.setTotalSizeCap(FileSize.valueOf("1GB"))
+    rollingPolicy.setParent(rollingFileAppender)
+    rollingPolicy.start()
+    rollingFileAppender.rollingPolicy = rollingPolicy
+    rollingFileAppender.start()
+
+    logger.addAppender(rollingFileAppender)
+
+    return logger
+}
+
+
