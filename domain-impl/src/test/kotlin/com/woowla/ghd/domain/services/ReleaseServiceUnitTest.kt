@@ -14,7 +14,8 @@ class ReleaseServiceUnitTest : StringSpec({
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
-            appSettingsService = mockk()
+            appSettingsService = mockk(),
+            appLogger = mockk(),
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
@@ -45,7 +46,8 @@ class ReleaseServiceUnitTest : StringSpec({
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
-            appSettingsService = mockk()
+            appSettingsService = mockk(),
+            appLogger = mockk(),
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
@@ -76,7 +78,8 @@ class ReleaseServiceUnitTest : StringSpec({
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
-            appSettingsService = mockk()
+            appSettingsService = mockk(),
+            appLogger = mockk(),
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
@@ -102,7 +105,8 @@ class ReleaseServiceUnitTest : StringSpec({
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
-            appSettingsService = mockk()
+            appSettingsService = mockk(),
+            appLogger = mockk(),
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(

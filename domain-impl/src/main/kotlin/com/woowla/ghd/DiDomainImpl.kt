@@ -42,7 +42,7 @@ object DiDomainImpl {
         single<RepoToCheckService> { RepoToCheckServiceImpl(get(), get(), get()) }
         single<AppVersionService> { AppVersionServiceImpl(currentVersion = appVersion, remoteDataSource = get()) }
         single<PullRequestService> { PullRequestServiceImpl(get(), get(), get(), get(), get()) }
-        single<ReleaseService> { ReleaseServiceImpl(get(), get(), get(), get()) }
+        single<ReleaseService> { ReleaseServiceImpl(get(), get(), get(), get(), get()) }
 
         // parsers
         single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }
