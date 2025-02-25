@@ -1,5 +1,6 @@
 package com.woowla.ghd.domain.services
 
+import com.woowla.ghd.AppLogger
 import com.woowla.ghd.data.local.LocalDataSource
 import com.woowla.ghd.data.remote.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
@@ -20,6 +21,7 @@ class ReleaseServiceImpl(
     private val remoteDataSource: RemoteDataSource,
     private val notificationsSender: NotificationsSender,
     private val appSettingsService: AppSettingsService,
+    private val appLogger: AppLogger,
 ) : ReleaseService {
     override suspend fun getAll(): Result<List<ReleaseWithRepo>> {
         return localDataSource.getAllReleases()
@@ -29,6 +31,8 @@ class ReleaseServiceImpl(
     }
 
     override suspend fun synchronize(syncResultId: Long, syncSettings: SyncSettings, repoToCheckList: List<RepoToCheck>): List<SyncResultEntry> {
+        appLogger.d("Synchronizer :: sync :: releases :: start")
+        val releasesSyncStartAt = Clock.System.now()
         val releasesBefore = getAll().getOrDefault(listOf())
         val enabledRepoToCheckList = repoToCheckList.filter { it.areReleasesEnabled }
 
@@ -43,12 +47,14 @@ class ReleaseServiceImpl(
 
             results
         }
+        appLogger.d("Synchronizer :: sync :: releases :: fetch remote took ${(Clock.System.now() - releasesSyncStartAt).inWholeMilliseconds} ms")
 
         val releasesAfter = getAll().getOrDefault(listOf())
         appSettingsService.get().onSuccess { appSettings ->
             sendNotifications(appSettings = appSettings, oldReleases = releasesBefore, newReleases = releasesAfter)
         }
 
+        appLogger.d("Synchronizer :: sync :: releases :: finish took ${(Clock.System.now() - releasesSyncStartAt).inWholeMilliseconds} ms")
         return syncApiResults
     }
 
@@ -78,6 +84,7 @@ class ReleaseServiceImpl(
                 oldReleases.any { it.release.id == newRelease.release.id }
             }
             .forEach { newRelease ->
+                appLogger.d("Synchronizer :: sync :: releases :: send notification :: send new release notification, release tag ${newRelease.release.tagName}")
                 notificationsSender.newRelease(newRelease)
             }
 

@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.materialkolor)
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.bundles.koin)
+    implementation(libs.aboutlibraries)
 }
 
 tasks.withType<KotlinCompile> {

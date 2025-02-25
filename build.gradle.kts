@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.compose.jetbrains).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.aboutLibraries).apply(false)
 }
 
 val detektReportMergeXml by tasks.registering(ReportMergeTask::class) {

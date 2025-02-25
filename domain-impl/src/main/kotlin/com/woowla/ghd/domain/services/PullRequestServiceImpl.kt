@@ -111,6 +111,7 @@ class PullRequestServiceImpl(
     }
 
     override suspend fun sendStateNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
+        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: ${appSettings.notificationsSettings.stateEnabledOption} option selected")
         when (appSettings.notificationsSettings.stateEnabledOption) {
             NotificationsSettings.EnabledOption.NONE -> {
                 // nothing to do
@@ -121,6 +122,7 @@ class PullRequestServiceImpl(
                     .filterByPullRequestNotificationsEnabled()
                     .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
                     }
             }
@@ -134,6 +136,7 @@ class PullRequestServiceImpl(
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
                     }
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
                     }
             }
@@ -143,6 +146,7 @@ class PullRequestServiceImpl(
     }
 
     override suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
+        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: ${appSettings.notificationsSettings.activityEnabledOption} option selected")
         when (appSettings.notificationsSettings.activityEnabledOption) {
             NotificationsSettings.EnabledOption.NONE -> {
                 // nothing to do
@@ -161,6 +165,7 @@ class PullRequestServiceImpl(
                     }
                     .forEach { (pullRequest, reviews) ->
                         reviews.forEach { review ->
+                            appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")
                             notificationsSender.newPullRequestReview(pullRequest, review)
                         }
                     }
@@ -171,6 +176,7 @@ class PullRequestServiceImpl(
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
                     }
                 // mergeable
@@ -179,6 +185,7 @@ class PullRequestServiceImpl(
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
                     }
             }
@@ -200,6 +207,7 @@ class PullRequestServiceImpl(
                     }
                     .forEach { (pullRequest, reviews) ->
                         reviews.forEach { review ->
+                            appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")
                             notificationsSender.newPullRequestReview(pullRequest, review)
                         }
                     }
@@ -222,11 +230,13 @@ class PullRequestServiceImpl(
                             when {
                                 newReview == null -> {
                                     // review deleted
+                                    appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review deleted notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                                     notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
                                     true
                                 }
                                 oldReview.state != newReview.state && newReview.state == ReviewState.DISMISSED -> {
                                     // review state changed
+                                    appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review state changed notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                                     notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
                                     true
                                 }
@@ -248,6 +258,7 @@ class PullRequestServiceImpl(
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
                     }
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
                     }
                 // mergeable, from your pull requests
@@ -260,6 +271,7 @@ class PullRequestServiceImpl(
                         newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
                     }
                     .forEach { pullRequestWithRepo ->
+                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")
                         notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
                     }
             }

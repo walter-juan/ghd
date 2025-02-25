@@ -21,9 +21,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.woowla.ghd.BuildConfig
+import com.woowla.ghd.DiUi
 import com.woowla.ghd.presentation.app.AppScreen
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
+import org.koin.core.qualifier.named
 
 object HomeScreen {
     @Composable
@@ -169,6 +172,13 @@ object HomeScreen {
                     AboutScreen.Content(
                         viewModel = koinViewModel(),
                         appVersion = BuildConfig.APP_VERSION,
+                        onAboutLicensesClick = { navController.navigate(AppScreen.AboutLibraries.route) },
+                    )
+                }
+                composable(AppScreen.AboutLibraries.route) {
+                    AboutLibraries.Content(
+                        jsonFileName = koinInject(qualifier = named(DiUi.Name.ABOUT_LIBRARIES_JSON_FILE_NAME)),
+                        onBackClick = { navController.popBackStack() }
                     )
                 }
             }

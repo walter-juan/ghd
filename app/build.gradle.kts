@@ -12,10 +12,13 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.buildconfig)
     alias(libs.plugins.benmanesversions)
+    alias(libs.plugins.aboutLibraries)
 }
 
 group = "com.woowla"
-version = "2.0.3"
+version = "2.0.4-beta01"
+// Required for JPackage, as it doesn't accept additional suffixes after the version.
+val versionSimplified = version.toString().substringBefore("-")
 val debug = (extra["debugConfig"] as String).toBoolean()
 val debugAppFolder = "ghd-debug"
 
@@ -28,11 +31,19 @@ repositories {
 buildConfig {
     packageName("com.woowla.ghd")
     buildConfigField("APP_VERSION", project.version.toString())
+    buildConfigField("APP_VERSION_SIMPLIFIED", versionSimplified)
+    buildConfigField("APP_VERSION_PRE_RELEASE", version.toString().substringAfter(delimiter = "-", missingDelimiterValue = ""))
     buildConfigField("DEBUG", debug)
     buildConfigField("DEBUG_APP_FOLDER", debugAppFolder)
     buildConfigField("GH_GHD_OWNER", "walter-juan")
     buildConfigField("GH_GHD_REPO", "ghd")
     buildConfigField("GH_GHD_LATEST_RELEASE_URL", "https://github.com/walter-juan/ghd/releases/latest")
+}
+
+aboutLibraries {
+    registerAndroidTasks = false
+    prettyPrint = true
+    excludeFields = arrayOf("description", "funding")
 }
 
 dependencies {
@@ -63,7 +74,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Exe)
             packageName = "ghd"
-            packageVersion = "${project.version}"
+            packageVersion = versionSimplified
             includeAllModules = true
             val iconName = if (debug) { "ic_launcher_debug" } else { "ic_launcher" }
             macOS {

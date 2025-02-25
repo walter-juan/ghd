@@ -42,6 +42,10 @@ sealed class AppScreen(open val route: String) {
         override val icon: ImageVector = Tabler.Outline.InfoCircle
         override val title: String = i18nApp.tab_title_about
     }
+    data object AboutLibraries : AppScreen(route = "about-libraries"), NavigationScreen {
+        override val icon: ImageVector = Tabler.Outline.InfoCircle
+        override val title: String = i18nApp.tab_title_about_libraries
+    }
 
     data object RepoToCheckNew : AppScreen(route = "repo-to-check/new")
     data object RepoToCheckEdit : AppScreen(route = "repo-to-check/{id}/edit")

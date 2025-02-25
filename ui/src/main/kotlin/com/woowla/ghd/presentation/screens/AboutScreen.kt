@@ -13,9 +13,11 @@ import androidx.compose.ui.unit.dp
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ChevronRight
 import com.woowla.compose.icon.collections.tabler.tabler.outline.ExternalLink
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Folder
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
+import com.woowla.compose.icon.collections.tabler.tabler.outline.License
 import com.woowla.compose.icon.collections.tabler.tabler.outline.PhotoCircle
 import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
@@ -32,6 +34,7 @@ object AboutScreen {
     fun Content(
         viewModel: AboutViewModel,
         appVersion: String,
+        onAboutLicensesClick: (() -> Unit),
         onBackClick: (() -> Unit)? = null,
     ) {
         ScreenScrollable(
@@ -140,6 +143,25 @@ object AboutScreen {
                             ) {
                                 Icon(
                                     imageVector = Tabler.Outline.ExternalLink,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
+                    )
+                    SectionItem(
+                        title = "Third-Party Software and Licenses",
+                        description = "View third-party software and licenses",
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Tabler.Outline.License,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
+                        trailingContent = {
+                            IconButton(onClick = onAboutLicensesClick) {
+                                Icon(
+                                    imageVector = Tabler.Outline.ChevronRight,
                                     contentDescription = null,
                                 )
                             }

@@ -7,6 +7,14 @@
     <ID>ArgumentListWrapping:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$("when activityEnabledOption is FILTERED then sendNotifications with all pull requests and reviews from other authors")</ID>
     <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: fetch remote took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")</ID>
     <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: finish took ${(Clock.System.now() - prSyncStartAt).inWholeMilliseconds} ms")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: ${appSettings.notificationsSettings.activityEnabledOption} option selected")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: send your review deleted notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send activity notification :: send your review state changed notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send state notification :: ${appSettings.notificationsSettings.stateEnabledOption} option selected")</ID>
+    <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
     <ID>ArgumentListWrapping:PullRequestServiceImpl.kt$PullRequestServiceImpl$(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = draftPullRequestFromFilteredUsername)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = mergedPullRequest)</ID>
@@ -18,6 +26,9 @@
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = openPullRequest)</ID>
     <ID>ArgumentListWrapping:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
+    <ID>ArgumentListWrapping:ReleaseServiceImpl.kt$ReleaseServiceImpl$("Synchronizer :: sync :: releases :: fetch remote took ${(Clock.System.now() - releasesSyncStartAt).inWholeMilliseconds} ms")</ID>
+    <ID>ArgumentListWrapping:ReleaseServiceImpl.kt$ReleaseServiceImpl$("Synchronizer :: sync :: releases :: finish took ${(Clock.System.now() - releasesSyncStartAt).inWholeMilliseconds} ms")</ID>
+    <ID>ArgumentListWrapping:ReleaseServiceImpl.kt$ReleaseServiceImpl$("Synchronizer :: sync :: releases :: send notification :: send new release notification, release tag ${newRelease.release.tagName}")</ID>
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")</ID>
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(endAt = Clock.System.now())</ID>
     <ID>ArgumentListWrapping:SynchronizerImpl.kt$SynchronizerImpl$(syncResult = syncResultFinish, error = "Invalid data", message = "GitHub token is not set")</ID>
@@ -30,6 +41,14 @@
     <ID>MagicNumber:SynchronizerImpl.kt$SynchronizerImpl$150</ID>
     <ID>MaxLineLength:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$context</ID>
     <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$*</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: ${appSettings.notificationsSettings.activityEnabledOption} option selected")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review deleted notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review state changed notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: ${appSettings.notificationsSettings.stateEnabledOption} option selected")</ID>
+    <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")</ID>
     <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$override suspend</ID>
     <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$private</ID>
     <ID>MaxLineLength:PullRequestServiceImpl.kt$PullRequestServiceImpl$sendNotifications(appSettings = appSettings, oldPullRequestsWithReviews = pullRequestsBefore, newPullRequestsWithReviews = pullRequestsAfter)</ID>
@@ -41,6 +60,7 @@
     <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val oldDraftPullRequestWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldDraftPullRequest)</ID>
     <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val oldPullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = oldPullRequestWithoutChanges)</ID>
     <ID>MaxLineLength:PullRequestServiceStateNotificationsUnitTest.kt$PullRequestServiceStateNotificationsUnitTest$val pullRequestWithoutChangesWithReviews = RandomEntities.pullRequestWithRepoAndReviews(repoToCheck = repoToCheck, pullRequest = pullRequestWithoutChanges)</ID>
+    <ID>MaxLineLength:ReleaseServiceImpl.kt$ReleaseServiceImpl$appLogger.d("Synchronizer :: sync :: releases :: send notification :: send new release notification, release tag ${newRelease.release.tagName}")</ID>
     <ID>MaxLineLength:ReleaseServiceImpl.kt$ReleaseServiceImpl$override suspend</ID>
     <ID>MaxLineLength:SynchronizerImpl.kt$SynchronizerImpl$appLogger.d("Synchronizer :: sync :: finished, from ${syncResult.syncResult.startAt} to ${syncResult.syncResult.endAt} for ${allReposToCheck.count()} repos to check it took ${syncResult.syncResult.duration?.inWholeMilliseconds} millis to download the pull requests and repositories with ${syncResult.errorPercentage}% of errors meaning a ${syncResult.status} status")</ID>
     <ID>MaximumLineLength:PullRequestServiceActivityNotificationsUnitTest.kt$PullRequestServiceActivityNotificationsUnitTest$ </ID>

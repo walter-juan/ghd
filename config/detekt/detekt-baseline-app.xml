@@ -9,7 +9,7 @@
     <ID>Filename:i18nApp.kt$com.woowla.ghd.presentation.app.i18nApp.kt</ID>
     <ID>LongMethod:App.kt$@Composable fun App()</ID>
     <ID>LongMethod:HomeScreen.kt$HomeScreen$@Composable fun Content()</ID>
-    <ID>LongMethod:Main.kt$fun main()</ID>
+    <ID>MagicNumber:Main.kt$7</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val dialog_new_app_version_ignore_button = "Ignore"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val dialog_new_app_version_title = "Update available"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val dialog_new_app_version_update_button = "Update now"</ID>
@@ -17,6 +17,7 @@
     <ID>MayBeConst:i18nApp.kt$i18nApp$val menu_bar_menu_item_synchronize = "Synchronize"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tab_title_about = "About"</ID>
+    <ID>MayBeConst:i18nApp.kt$i18nApp$val tab_title_about_libraries = "About libraries"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tab_title_notifications = "Notifications"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tab_title_pull_requests = "Pulls"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tab_title_releases = "Releases"</ID>
@@ -26,6 +27,7 @@
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tray_item_hide_app = "Hide in tray"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tray_item_show_app = "Show"</ID>
     <ID>MayBeConst:i18nApp.kt$i18nApp$val tray_item_synchronize = "Synchronize"</ID>
+    <ID>NoConsecutiveBlankLines:Main.kt$ </ID>
     <ID>ParameterListWrapping:i18nApp.kt$i18nApp$(String)</ID>
   </CurrentIssues>
 </SmellBaseline>

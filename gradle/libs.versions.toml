@@ -13,6 +13,7 @@ arrow = "2.0.0"
 koin-bom = "4.0.2"
 detekt = "1.23.7"
 konvert = "4.0.1"
+aboutLibraries = "11.6.3"
 
 [plugins]
 # Kotlin for JVM
@@ -36,6 +37,8 @@ benmanesversions = "com.github.ben-manes.versions:0.52.0"
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 # Static code analysis for Kotlin
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+# Collects and shows all dependencies and licenses of any gradle project
+aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
 
 [libraries]
 # Android multiplatform, navigation
@@ -90,6 +93,8 @@ koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
+# Collects and shows all dependencies and licenses of any gradle project
+aboutlibraries = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 # Detekt plugin for formatting
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 # mockk, mocking library for Kotlin
