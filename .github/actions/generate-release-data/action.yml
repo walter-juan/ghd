@@ -21,10 +21,15 @@ runs:
       run: |
         changelog_file="CHANGELOG.md"
         
-        version=$(grep "version = " app/build.gradle.kts | sed 's/[^0-9.]*//g')
+        version=$(grep "version = " app/build.gradle.kts | sed 's/version = //;s/[^0-9a-zA-Z.-]*//g')
         tag="v$version"
         name="Version $version"
         release_notes=$(awk -v ver="$version" ' /^#+ \[/ { if (p) { exit }; if ($2 == "["ver"]") { p=1; next} } p && NF ' "$changelog_file")
+        if echo "$version" | grep -q '-'; then
+          is_non_final_version=true
+        else
+          is_non_final_version=false
+        fi
         
         echo "name=$name" >> $GITHUB_OUTPUT
         echo "version=$version" >> $GITHUB_OUTPUT
@@ -32,3 +37,4 @@ runs:
         echo "release_notes<<EOF-DELIMITER" >> $GITHUB_OUTPUT
         echo "$release_notes" >> $GITHUB_OUTPUT
         echo "EOF-DELIMITER" >> $GITHUB_OUTPUT
+        echo "is_non_final_version=$is_non_final_version" >> $GITHUB_OUTPUT
