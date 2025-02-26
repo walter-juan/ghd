@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Third-Party software and licenses screen
 - Add local logs to the app
+- Support for creating pre-release versions
 
 ## [2.0.3]
 ### Fixed
