@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -225,44 +226,48 @@ object ReposToCheckScreen {
         onSearchQueryChanged: (String) -> Unit,
         onGroupNameChanged: (isSelected: Boolean, groupName: String) -> Unit,
     ) {
-        Header {
-            groupNameFilters.forEach { groupName ->
-                val count = groupNameFilterSizes[groupName] ?: 0
-                val isSelected = groupNameFiltersSelected.contains(groupName)
-                ColoredFilterChip(
-                    text = "$groupName ($count)",
-                    selected = isSelected,
-                    icon = null,
-                    onClick = {
-                        onGroupNameChanged.invoke(isSelected, groupName)
-                    },
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            OutlinedTextField(
-                value = searchQuery,
-                onValueChange = onSearchQueryChanged,
-                leadingIcon = {
-                    AnimatedContent(
-                        targetState = searchQuery.isBlank(),
-                        transitionSpec = { fadeIn().togetherWith(fadeOut()) }
-                    ) {
-                        if (searchQuery.isBlank()) {
-                            Icon(
-                                Tabler.Outline.Search,
-                                contentDescription = null,
-                            )
-                        } else {
-                            IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
-                                Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+        Header(
+            flowContent = {
+                groupNameFilters.forEach { groupName ->
+                    val count = groupNameFilterSizes[groupName] ?: 0
+                    val isSelected = groupNameFiltersSelected.contains(groupName)
+                    ColoredFilterChip(
+                        text = "$groupName ($count)",
+                        selected = isSelected,
+                        icon = null,
+                        onClick = {
+                            onGroupNameChanged.invoke(isSelected, groupName)
+                        },
+                    )
+                }
+            },
+            bottomRowContent = {
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = searchQuery,
+                    onValueChange = onSearchQueryChanged,
+                    leadingIcon = {
+                        AnimatedContent(
+                            targetState = searchQuery.isBlank(),
+                            transitionSpec = { fadeIn().togetherWith(fadeOut()) }
+                        ) {
+                            if (searchQuery.isBlank()) {
+                                Icon(
+                                    Tabler.Outline.Search,
+                                    contentDescription = null,
+                                )
+                            } else {
+                                IconButton(onClick = { onSearchQueryChanged.invoke("") }) {
+                                    Icon(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))
+                                }
                             }
                         }
-                    }
-                },
-                supportingText = { Text("Search by name or group") },
-                singleLine = true,
-                modifier = Modifier.focusRequester(focusRequester).fillMaxWidth()
-            )
-        }
+                    },
+                    supportingText = { Text("Search by name or group") },
+                    singleLine = true,
+                    modifier = Modifier.focusRequester(focusRequester).fillMaxWidth()
+                )
+            },
+        )
     }
 }

@@ -104,22 +104,24 @@ object PullRequestsScreen {
         stateExtendedFiltersSelected: Set<PullRequestStateExtended>,
         onStateChanged: (isSelected: Boolean, pullRequestState: PullRequestStateExtended) -> Unit,
     ) {
-        Header {
-            stateExtendedFilters.forEach { stateExtended ->
-                val decorator = PullRequestStateDecorator(stateExtended)
-                val count = stateExtendedFilterSizes[stateExtended] ?: 0
-                val isSelected = stateExtendedFiltersSelected.contains(stateExtended)
-                ColoredFilterChip(
-                    text = "${decorator.text} ($count)",
-                    color = decorator.iconTint(),
-                    selected = isSelected,
-                    icon = decorator.icon,
-                    onClick = {
-                        onStateChanged.invoke(isSelected, stateExtended)
-                    },
-                )
+        Header(
+            flowContent = {
+                stateExtendedFilters.forEach { stateExtended ->
+                    val decorator = PullRequestStateDecorator(stateExtended)
+                    val count = stateExtendedFilterSizes[stateExtended] ?: 0
+                    val isSelected = stateExtendedFiltersSelected.contains(stateExtended)
+                    ColoredFilterChip(
+                        text = "${decorator.text} ($count)",
+                        color = decorator.iconTint(),
+                        selected = isSelected,
+                        icon = decorator.icon,
+                        onClick = {
+                            onStateChanged.invoke(isSelected, stateExtended)
+                        },
+                    )
+                }
             }
-        }
+        )
     }
 
     @OptIn(ExperimentalLayoutApi::class)

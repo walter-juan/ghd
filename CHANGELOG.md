@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.4-beta02]
 ### Added
+- Repository search when adding a new one
+### Fixed
 - Fix pre-release option from the create release action
 
 ## [2.0.4-beta01]

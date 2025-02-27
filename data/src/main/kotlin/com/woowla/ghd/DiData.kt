@@ -29,6 +29,7 @@ object DiData {
             ghRepo = ghRepo,
             apolloClient = get(),
             ktorClient = get(),
+            appLogger = get(),
         ) }
         single<ApolloClient> { RemoteDataSourceImpl.apolloClientInstance(get()) }
         single<HttpClient> { RemoteDataSourceImpl.ktorClientInstance() }

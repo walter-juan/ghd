@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -32,6 +33,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.RefreshOff
+import com.woowla.compose.icon.collections.tabler.tabler.outline.WorldSearch
 import com.woowla.ghd.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ScreenScrollable
@@ -39,6 +41,7 @@ import com.woowla.ghd.presentation.components.Section
 import com.woowla.ghd.presentation.components.SectionItem
 import com.woowla.ghd.presentation.components.SectionItemWithSwitch
 import com.woowla.ghd.presentation.components.TopBar
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
@@ -47,12 +50,14 @@ object RepoToCheckEditScreen {
     @Composable
     fun Content(
         viewModel: RepoToCheckEditViewModel,
+        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,
             dispatchAction = viewModel::dispatch,
+            onSearchRepository = onSearchRepository,
             onBackClick = onBackClick,
         )
     }
@@ -61,6 +66,7 @@ object RepoToCheckEditScreen {
     fun Screen(
         state: St?,
         dispatchAction: (Act) -> Unit,
+        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         when (state) {
@@ -74,6 +80,7 @@ object RepoToCheckEditScreen {
                 Success(
                     state = state,
                     dispatchAction = dispatchAction,
+                    onSearchRepository = onSearchRepository,
                     onBackClick = onBackClick
                 )
             }
@@ -97,6 +104,7 @@ object RepoToCheckEditScreen {
     private fun Success(
         state: St.Success,
         dispatchAction: (Act) -> Unit,
+        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         var owner by remember { mutableStateOf(state.repoToCheck.owner) }
@@ -158,10 +166,12 @@ object RepoToCheckEditScreen {
                     owner = owner,
                     name = name,
                     groupName = groupName,
+                    mode = state.mode,
                     focusRequester = textFieldFocusRequester,
                     onOwnerChange = { owner = it },
                     onNameChange = { name = it },
                     onReleaseGroupChange = { groupName = it },
+                    onSearchRepository = onSearchRepository,
                 )
 
                 PullRequestSection(
@@ -193,10 +203,12 @@ object RepoToCheckEditScreen {
         owner: String,
         name: String,
         groupName: String,
+        mode: RepoToCheckEditStateMachine.Mode,
         focusRequester: FocusRequester,
         onOwnerChange: (String) -> Unit,
         onNameChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
+        onSearchRepository: (owner: String, name: String) -> Unit,
     ) {
         Section(title = i18nUi.screen_edit_repo_to_check_repository_section) {
             SectionItem(
@@ -210,8 +222,24 @@ object RepoToCheckEditScreen {
                 }
             ) {
                 Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
+                    if (mode == RepoToCheckEditStateMachine.Mode.CREATE) {
+                        OutlinedIconButton(
+                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
+                            onClick = {
+                                onSearchRepository(owner, name)
+                            }
+                        ) {
+                            Icon(
+                                Tabler.Outline.WorldSearch,
+                                contentDescription = "Search repository",
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.padding(10.dp).fillMaxWidth()
+                            )
+                        }
+                    }
                     OutlinedTextField(
                         value = owner,
                         onValueChange = onOwnerChange,
