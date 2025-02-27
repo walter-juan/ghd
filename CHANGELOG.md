@@ -13,10 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.4-beta02]
+### Added
+- Repository search when adding a new one
+### Fixed
+- Fix pre-release option from the create release action
+
 ## [2.0.4-beta01]
 ### Added
 - Third-Party software and licenses screen
 - Add local logs to the app
+- Support for creating pre-release versions
 
 ## [2.0.3]
 ### Fixed
@@ -277,7 +284,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.4-beta01...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.4-beta02...dev
+[2.0.4-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4-beta02
 [2.0.4-beta01]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4-beta01
 [2.0.3]: https://github.com/walter-juan/ghd/releases/tag/v2.0.3
 [2.0.2]: https://github.com/walter-juan/ghd/releases/tag/v2.0.2

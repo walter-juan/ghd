@@ -2,6 +2,7 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
+    <ID>ArgumentListWrapping:HomeScreen.kt$HomeScreen$("repository", repository.fullName)</ID>
     <ID>ArgumentListWrapping:HomeScreen.kt$HomeScreen$(25.dp)</ID>
     <ID>ArgumentListWrapping:HomeScreen.kt$HomeScreen$(imageVector = item.icon, contentDescription = item.title, modifier = Modifier.size(25.dp))</ID>
     <ID>ArgumentListWrapping:Main.kt$(i18nApp.menu_bar_menu_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })</ID>

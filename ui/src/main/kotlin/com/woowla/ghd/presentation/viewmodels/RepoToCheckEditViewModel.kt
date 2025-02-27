@@ -1,5 +1,6 @@
 package com.woowla.ghd.presentation.viewmodels
 
+import arrow.optics.optics
 import com.freeletics.flowredux.dsl.ChangedState
 import com.freeletics.flowredux.dsl.FlowReduxStateMachine
 import com.freeletics.flowredux.dsl.State
@@ -29,19 +30,22 @@ class RepoToCheckEditStateMachine(
                 on<Act.Save> { action, state ->
                     save(state, action)
                 }
+                on<Act.UpdateRepository> { action, state ->
+                    state.mutate { St.Success.repoToCheck.modify(this) { it.copy(owner = action.owner, name = action.name) } }
+                }
             }
         }
     }
 
     private suspend fun load(state: State<St.Loading>): ChangedState<St> {
         return if (repoToCheckId == null) {
-            state.override { St.Success(RepoToCheck.newInstance()) }
+            state.override { St.Success(Mode.CREATE, RepoToCheck.newInstance()) }
         } else {
             repoToCheckService
                 .get(repoToCheckId)
                 .fold(
                     onSuccess = { repoToCheck ->
-                        state.override { St.Success(repoToCheck) }
+                        state.override { St.Success(Mode.UPDATE, repoToCheck) }
                     },
                     onFailure = {
                         state.override { St.Error(it) }
@@ -73,12 +77,22 @@ class RepoToCheckEditStateMachine(
             )
     }
 
+    enum class Mode {
+        CREATE, UPDATE
+    }
+
     sealed interface St {
         data object Loading : St
-        data class Success(val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null) : St
+        @optics data class Success(val mode: Mode, val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null) : St {
+            companion object
+        }
         data class Error(val throwable: Throwable) : St
     }
     sealed interface Act {
+        data class UpdateRepository(val repository: String) : Act {
+            val owner = repository.substringBefore("/", missingDelimiterValue = "")
+            val name = repository.substringAfter("/", missingDelimiterValue = "")
+        }
         data class Save(
             val owner: String,
             val name: String,

@@ -9,6 +9,7 @@ import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,6 +24,9 @@ import androidx.navigation.navArgument
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.DiUi
 import com.woowla.ghd.presentation.app.AppScreen
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine
+import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
+import kotlin.text.set
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -146,9 +150,17 @@ object HomeScreen {
                         onBackClick = { navController.popBackStack() }
                     )
                 }
-                composable(AppScreen.RepoToCheckNew.route) {
+                composable(AppScreen.RepoToCheckNew.route) { entry ->
+                    val viewModel: RepoToCheckEditViewModel = koinViewModel { parametersOf(null) }
+                    val repo = entry.savedStateHandle.getStateFlow("repository", "").collectAsState()
+
+                    if (repo.value.isNotEmpty()) {
+                        viewModel.dispatch(RepoToCheckEditStateMachine.Act.UpdateRepository(repo.value))
+                    }
+
                     RepoToCheckEditScreen.Content(
-                        viewModel = koinViewModel { parametersOf(null) },
+                        viewModel = viewModel,
+                        onSearchRepository = { _, _ -> navController.navigate(AppScreen.SearchRepository.route) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -159,6 +171,7 @@ object HomeScreen {
                     val repoToCheckId = backStackEntry.arguments?.getLong("id")!!
                     RepoToCheckEditScreen.Content(
                         viewModel = koinViewModel { parametersOf(repoToCheckId) },
+                        onSearchRepository = { _, _ -> navController.navigate(AppScreen.SearchRepository.route) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -179,6 +192,16 @@ object HomeScreen {
                     AboutLibraries.Content(
                         jsonFileName = koinInject(qualifier = named(DiUi.Name.ABOUT_LIBRARIES_JSON_FILE_NAME)),
                         onBackClick = { navController.popBackStack() }
+                    )
+                }
+                composable(AppScreen.SearchRepository.route) {
+                    SearchRepositoryScreen.Content(
+                        viewModel = koinViewModel(),
+                        onRepositorySelected = { repository ->
+                            navController.previousBackStackEntry?.savedStateHandle?.set("repository", repository.fullName)
+                            navController.popBackStack()
+                        },
+                        onBackClick = { navController.popBackStack() },
                     )
                 }
             }

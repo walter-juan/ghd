@@ -105,20 +105,22 @@ object ReleasesScreen {
         groupNameFiltersSelected: Set<String>,
         onGroupNameChanged: (isSelected: Boolean, groupName: String) -> Unit,
     ) {
-        Header {
-            groupNameFilters.forEach { groupName ->
-                val count = groupNameFilterSizes[groupName] ?: 0
-                val isSelected = groupNameFiltersSelected.contains(groupName)
-                ColoredFilterChip(
-                    text = "$groupName ($count)",
-                    selected = isSelected,
-                    icon = null,
-                    onClick = {
-                        onGroupNameChanged.invoke(isSelected, groupName)
-                    },
-                )
+        Header(
+            flowContent = {
+                groupNameFilters.forEach { groupName ->
+                    val count = groupNameFilterSizes[groupName] ?: 0
+                    val isSelected = groupNameFiltersSelected.contains(groupName)
+                    ColoredFilterChip(
+                        text = "$groupName ($count)",
+                        selected = isSelected,
+                        icon = null,
+                        onClick = {
+                            onGroupNameChanged.invoke(isSelected, groupName)
+                        },
+                    )
+                }
             }
-        }
+        )
     }
 
     @OptIn(ExperimentalLayoutApi::class)

@@ -1,6 +1,7 @@
 package com.woowla.ghd.data.remote.mappers
 
 import com.woowla.ghd.data.remote.GetLastReleaseQuery
+import com.woowla.ghd.data.remote.SearchRepositoryQuery.OnRepository
 import com.woowla.ghd.data.remote.entities.ApiGhdRelease
 import com.woowla.ghd.data.remote.fragment.PullRequestFragment
 import com.woowla.ghd.domain.entities.Author
@@ -16,12 +17,29 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
+import com.woowla.ghd.domain.entities.Repository
 import com.woowla.ghd.utils.enumValueOfOrDefault
 import kotlinx.datetime.Instant
 
 fun ApiGhdRelease.toGhdRelease(): GhdRelease {
     return GhdRelease(
         tag = this.tag,
+    )
+}
+
+fun OnRepository.toRepository(): Repository {
+    return Repository(
+        id = id,
+        name = name,
+        owner = owner.login,
+        url = url.toString(),
+        imageUrl = owner.avatarUrl.toString(),
+        description = description,
+        stargazerCount = stargazerCount,
+        licenseInfo = licenseInfo?.name,
+        primaryLanguageName = primaryLanguage?.name,
+        primaryLanguageColor = primaryLanguage?.color,
+
     )
 }
 

@@ -17,7 +17,9 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun Header(
-    content: (@Composable () -> Unit),
+    topRowContent: (@Composable () -> Unit) = {},
+    flowContent: (@Composable () -> Unit) = {},
+    bottomRowContent: (@Composable () -> Unit) = {},
 ) {
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -30,15 +32,16 @@ fun Header(
         ) {
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
+                topRowContent.invoke()
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterHorizontally),
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    content.invoke()
+                    flowContent.invoke()
                 }
+                bottomRowContent.invoke()
             }
         }
     }

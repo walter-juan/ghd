@@ -15,6 +15,8 @@ import com.woowla.ghd.presentation.viewmodels.ReposToCheckBulkStateMachine
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckBulkViewModel
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckStateMachine
 import com.woowla.ghd.presentation.viewmodels.ReposToCheckViewModel
+import com.woowla.ghd.presentation.viewmodels.SearchRepositoryStateMachine
+import com.woowla.ghd.presentation.viewmodels.SearchRepositoryViewModel
 import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine
 import com.woowla.ghd.presentation.viewmodels.SettingsViewModel
 import com.woowla.ghd.presentation.viewmodels.SplashViewModel
@@ -52,6 +54,7 @@ object DiUi {
             SyncResultEntriesViewModel(get { parametersOf(syncResultId) })
         }
         viewModel<SyncResultsViewModel> { SyncResultsViewModel(get(), get()) }
+        viewModel<SearchRepositoryViewModel> { SearchRepositoryViewModel(get()) }
 
         // state machines
         factory<PullRequestsStateMachine> { PullRequestsStateMachine(get(), get(), get()) }
@@ -67,6 +70,7 @@ object DiUi {
             SyncResultEntriesStateMachine(syncResultId = syncResultId, get())
         }
         factory<SyncResultsStateMachine> { SyncResultsStateMachine(get()) }
+        factory<SearchRepositoryStateMachine> { SearchRepositoryStateMachine(get(), get()) }
 
         // notifications
         single<NotificationsSender> { NotificationsSenderDefault(get()) }

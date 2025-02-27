@@ -38,14 +38,15 @@
     <ID>MaximumLineLength:LocalDataSourceImpl.kt$LocalDataSourceImpl$ </ID>
     <ID>NoConsecutiveBlankLines:DbReleaseWithRepo.kt$ </ID>
     <ID>NoConsecutiveBlankLines:DiData.kt$ </ID>
+    <ID>NoConsecutiveBlankLines:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$ </ID>
     <ID>NoWildcardImports:DiData.kt$import io.ktor.client.*</ID>
     <ID>ParameterListWrapping:Converters.kt$Converters$(value: String?)</ID>
     <ID>ParameterWrapping:DbRepoToCheck.kt$DbRepoToCheck$@ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean</ID>
     <ID>ParameterWrapping:DbRepoToCheck.kt$DbRepoToCheck$@ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean</ID>
     <ID>TooManyFunctions:Converters.kt$Converters</ID>
-    <ID>TooManyFunctions:LocalDataSource.kt$LocalDataSource</ID>
     <ID>TooManyFunctions:LocalDataSourceImpl.kt$LocalDataSourceImpl : LocalDataSource</ID>
+    <ID>UnusedPrivateProperty:RemoteDataSourceImpl.kt$RemoteDataSourceImpl$private val appLogger: AppLogger</ID>
     <ID>WildcardImport:DiData.kt$import io.ktor.client.*</ID>
-    <ID>Wrapping:DiData.kt$DiData$RemoteDataSourceImpl( ghOwner = ghOwner, ghRepo = ghRepo, apolloClient = get(), ktorClient = get(), )</ID>
+    <ID>Wrapping:DiData.kt$DiData$RemoteDataSourceImpl( ghOwner = ghOwner, ghRepo = ghRepo, apolloClient = get(), ktorClient = get(), appLogger = get(), )</ID>
   </CurrentIssues>
 </SmellBaseline>
