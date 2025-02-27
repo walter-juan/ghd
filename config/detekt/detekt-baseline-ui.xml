@@ -29,6 +29,8 @@
     <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
     <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(state.repoToCheck.arePullRequestsNotificationsEnabled)</ID>
     <ID>ArgumentListWrapping:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$(state.repoToCheck.areReleasesNotificationsEnabled)</ID>
+    <ID>ArgumentListWrapping:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine$(owner = action.owner, name = action.name)</ID>
+    <ID>ArgumentListWrapping:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine$(this)</ID>
     <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(25.dp)</ID>
     <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(ReposToCheckStateMachine.Act.DeleteRepoToCheck(repoToCheckToDelete!!))</ID>
     <ID>ArgumentListWrapping:ReposToCheckScreen.kt$ReposToCheckScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
@@ -38,6 +40,11 @@
     <ID>ArgumentListWrapping:ReposToCheckViewModel.kt$ReposToCheckStateMachine$(it)</ID>
     <ID>ArgumentListWrapping:ReposToCheckViewModel.kt$ReposToCheckStateMachine$(searchQuery, ignoreCase = true)</ID>
     <ID>ArgumentListWrapping:Screen.kt$(enabled = onSubtitleClick != null, onClick = { onSubtitleClick?.invoke() })</ID>
+    <ID>ArgumentListWrapping:SearchRepositoryScreen.kt$SearchRepositoryScreen$(25.dp)</ID>
+    <ID>ArgumentListWrapping:SearchRepositoryScreen.kt$SearchRepositoryScreen$(icon = Tabler.Outline.TextRecognition, text = searchQuery, onTextChanged = onSearchQueryChanged)</ID>
+    <ID>ArgumentListWrapping:SearchRepositoryScreen.kt$SearchRepositoryScreen$(imageVector = Tabler.Outline.CircleX, contentDescription = null, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:SearchRepositoryScreen.kt$SearchRepositoryScreen$(imageVector = Tabler.Outline.Search, contentDescription = null, modifier = Modifier.size(25.dp))</ID>
+    <ID>ArgumentListWrapping:SearchRepositoryScreen.kt$SearchRepositoryScreen$(space = AppDimens.cardHorizontalSpaceBetween, alignment = Alignment.CenterHorizontally)</ID>
     <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(25.dp)</ID>
     <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(containerColor = MaterialTheme.colorScheme.primary)</ID>
     <ID>ArgumentListWrapping:SettingsScreen.kt$SettingsScreen$(imageVector = image, contentDescription = description, modifier = Modifier.size(25.dp))</ID>
@@ -55,7 +62,8 @@
     <ID>LongMethod:NotificationsScreen.kt$NotificationsScreen$@Composable private fun NotificationsContent( state: St.Success, dispatchAction: (Act) -&gt; Unit, )</ID>
     <ID>LongMethod:OutlinedSelectField.kt$@Composable fun &lt;T : Any?&gt; OutlinedSelectField( values: List&lt;Pair&lt;T, String&gt;&gt;, selected: T? = null, emptyText: String = "", modifier: Modifier = Modifier, onSelected: (T, String) -&gt; Unit, )</ID>
     <ID>LongMethod:RepoToCheckBulkScreen.kt$RepoToCheckBulkScreen$@Composable fun Content( viewModel: ReposToCheckBulkViewModel, onBackClick: (() -&gt; Unit), )</ID>
-    <ID>LongMethod:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$@Composable private fun Success( state: St.Success, dispatchAction: (Act) -&gt; Unit, onBackClick: () -&gt; Unit )</ID>
+    <ID>LongMethod:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$@Composable private fun RepositorySection( owner: String, name: String, groupName: String, mode: RepoToCheckEditStateMachine.Mode, focusRequester: FocusRequester, onOwnerChange: (String) -&gt; Unit, onNameChange: (String) -&gt; Unit, onReleaseGroupChange: (String) -&gt; Unit, onSearchRepository: (owner: String, name: String) -&gt; Unit, )</ID>
+    <ID>LongMethod:RepoToCheckEditScreen.kt$RepoToCheckEditScreen$@Composable private fun Success( state: St.Success, dispatchAction: (Act) -&gt; Unit, onSearchRepository: (owner: String, name: String) -&gt; Unit, onBackClick: () -&gt; Unit )</ID>
     <ID>LongMethod:ReposToCheckScreen.kt$ReposToCheckScreen$@Composable fun Content( viewModel: ReposToCheckViewModel, onEditRepoClick: (RepoToCheck) -&gt; Unit, onAddNewRepoClick: () -&gt; Unit, onBulkClick: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun Screen( state: St?, dispatchAction: (Act) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
     <ID>LongMethod:SettingsScreen.kt$SettingsScreen$@Composable private fun SynchronizationSection( githubPatToken: String, onGithubPatTokenUpdated: (String) -&gt; Unit, selectedCheckTimeoutMinutes: Long, availableCheckTimeoutMinutes: List&lt;Pair&lt;Long, String&gt;&gt;, onCheckTimeoutMinutes: (Long) -&gt; Unit, selectedCleanUpTimeoutHours: Long, availableCleanUpTimeoutHours: List&lt;Pair&lt;Long, String&gt;&gt;, onCleanUpTimeoutHours: (Long) -&gt; Unit, onSyncResultsClicked: () -&gt; Unit, )</ID>
@@ -224,6 +232,9 @@
     <ID>NoConsecutiveBlankLines:i18nUi.kt$i18nUi$ </ID>
     <ID>NoMultipleSpaces:SettingsScreen.kt$SettingsScreen$ </ID>
     <ID>NoMultipleSpaces:i18nUi.kt$i18nUi$ </ID>
+    <ID>NoUnusedImports:Cards.kt$com.woowla.ghd.presentation.components.Cards.kt</ID>
+    <ID>NoUnusedImports:ReposToCheckScreen.kt$com.woowla.ghd.presentation.screens.ReposToCheckScreen.kt</ID>
+    <ID>ParameterListWrapping:RepoToCheckEditViewModel.kt$RepoToCheckEditStateMachine.St.Success$(val mode: Mode, val repoToCheck: RepoToCheck, val savedSuccessfully: Boolean? = null)</ID>
     <ID>ParameterListWrapping:i18nUi.kt$i18nUi$(String)</ID>
     <ID>ParameterListWrapping:i18nUi.kt$i18nUi$(String, String, String, String)</ID>
     <ID>ParameterListWrapping:i18nUi.kt$i18nUi$(emoji: String, percentage: Int, total: Int)</ID>
@@ -232,12 +243,18 @@
     <ID>PropertyWrapping:i18nUi.kt$i18nUi$val sync_result_title_old: (syncAt: Instant, emoji: String, rateLimitPercentageUsed: Int?, rateLimitResetAt: Instant?) -&gt; String = { instant, emoji, rateLimitPercentageUsed, rateLimitResetAt -&gt; "$emoji Synchronized at ${instant.format()} ($rateLimitPercentageUsed% API limit used, resets ${rateLimitResetAt?.toRelativeString()})" }</ID>
     <ID>ReturnCount:PullRequestDecorator.kt$PullRequestDecorator$fun reviewsIcon(): ImageVector</ID>
     <ID>SpacingAroundKeyword:Cards.kt$when</ID>
+    <ID>SpacingAroundKeyword:SearchRepositoryScreen.kt$SearchRepositoryScreen$when</ID>
     <ID>SpacingAroundKeyword:i18nUi.kt$i18nUi$when</ID>
     <ID>StringTemplate:i18nUi.kt$i18nUi$${percentage}</ID>
     <ID>TooGenericExceptionCaught:PullRequestsViewModel.kt$PullRequestsStateMachine$ex: Exception</ID>
     <ID>TooGenericExceptionCaught:ReleasesViewModel.kt$ReleasesStateMachine$e: Throwable</ID>
     <ID>TooGenericExceptionCaught:ReposToCheckBulkViewModel.kt$ReposToCheckBulkStateMachine$e: Exception</ID>
     <ID>TooGenericExceptionCaught:ReposToCheckViewModel.kt$ReposToCheckStateMachine$throwable: Throwable</ID>
+    <ID>TooGenericExceptionCaught:SearchRepositoryViewModel.kt$SearchRepositoryStateMachine$e: Throwable</ID>
     <ID>TooGenericExceptionCaught:SettingsViewModel.kt$SettingsStateMachine$th: Throwable</ID>
+    <ID>UnusedPrivateProperty:SearchRepositoryViewModel.kt$SearchRepositoryStateMachine$private val appLogger: AppLogger</ID>
+    <ID>Wrapping:SearchRepositoryViewModel.kt$SearchRepositoryStateMachine$St.Error( text = state.snapshot.text, owner = state.snapshot.owner, throwable = e, )</ID>
+    <ID>Wrapping:SearchRepositoryViewModel.kt$SearchRepositoryStateMachine$St.Error( text = state.snapshot.text, owner = state.snapshot.owner, throwable = throwable, )</ID>
+    <ID>Wrapping:SearchRepositoryViewModel.kt$SearchRepositoryStateMachine$St.Success( text = state.snapshot.text, owner = state.snapshot.owner, repositories = repositories, )</ID>
   </CurrentIssues>
 </SmellBaseline>
