@@ -215,7 +215,7 @@ class PullRequestServiceImpl(
                 // your review changed
                 newPullRequestsWithReviews
                     .filterByPullRequestNotificationsEnabled()
-                    .filter { appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled }
+                    .filter { appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled }
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filter { pullRequestWithRepo ->
                         val oldReview = oldPullRequestsWithReviews

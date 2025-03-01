@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.4-beta03]
+### Fixed
+- Fix dismissed reviews notification
+
 ## [2.0.4-beta02]
 ### Added
 - Repository search when adding a new one
