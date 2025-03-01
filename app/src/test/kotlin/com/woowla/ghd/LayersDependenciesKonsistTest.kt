@@ -19,7 +19,7 @@ class LayersDependenciesKonsistTest : FreeSpec({
                 core.dependsOnNothing()
 
                 domain.dependsOn(core)
-                domain.doesNotDependOn(app)
+                domain.doesNotDependOn(app, data, presentation)
 
                 presentation.dependsOn(core, domain)
                 presentation.doesNotDependOn(app, data)
