@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.4-beta03]
 ### Fixed
 - Fix dismissed reviews notification
+- Fix pre-release option from the create release action
 
 ## [2.0.4-beta02]
 ### Added
