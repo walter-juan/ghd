@@ -7,17 +7,3 @@ plugins {
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.aboutLibraries).apply(false)
 }
-
-//val detektProjectBaseline by tasks.registering(DetektCreateBaselineTask::class) {
-//    description = "Overrides current baseline."
-//    buildUponDefaultConfig.set(true)
-//    ignoreFailures.set(true)
-//    parallel.set(true)
-//    setSource(files(rootDir))
-//    config.setFrom(files("$rootDir/config/detekt/detekt-config.yml"))
-//    baseline.set(file("$rootDir/config/detekt/detekt-baseline.xml"))
-//    include("**/*.kt")
-//    include("**/*.kts")
-//    exclude("**/resources/**")
-//    exclude("**/build/**")
-//}
