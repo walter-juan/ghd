@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [2.0.4-beta03]
+### Changed
+- Undo split code in Gradle modules
 ### Fixed
 - Fix dismissed reviews notification
 - Fix pre-release option from the create release action

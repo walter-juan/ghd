@@ -126,22 +126,6 @@ $ ./gradlew build -PdebugConfig=false
     ```
 # Project
 
-## Structure
-```mermaid
-flowchart TB
-    app --> ui
-    app --> domain-api
-    app --> domain-impl
-    app --> data
-    app --> core
-    ui --> domain-api
-    ui --> core
-    data --> domain-api
-    data --> core
-    domain-impl --> domain-api
-    domain-impl --> core
-```
-
 ## Detekt
 Config file is in the root of the project, [config/detekt/detekt-config.ym](config/detekt/detekt-config.yml)
 
