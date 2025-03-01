@@ -1,6 +1,6 @@
 package com.woowla.ghd.domain.services
 
-import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.domain.data.RemoteDataSource
 import net.swiftzer.semver.SemVer
 
 class AppVersionServiceImpl(

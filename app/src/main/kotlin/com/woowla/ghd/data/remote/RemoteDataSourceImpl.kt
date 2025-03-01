@@ -11,6 +11,7 @@ import com.woowla.ghd.domain.entities.ApiResponse
 import com.woowla.ghd.data.remote.mappers.toPullRequest
 import com.woowla.ghd.data.remote.mappers.toRelease
 import com.woowla.ghd.data.remote.mappers.toRepository
+import com.woowla.ghd.domain.data.RemoteDataSource
 import com.woowla.ghd.domain.entities.GhdRelease
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.RateLimit

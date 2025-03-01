@@ -1,6 +1,6 @@
 package com.woowla.ghd.domain.services
 
-import com.woowla.ghd.data.local.LocalDataSource
+import com.woowla.ghd.domain.data.LocalDataSource
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.parsers.RepoToCheckFileParser
 import com.woowla.ghd.domain.entities.Event

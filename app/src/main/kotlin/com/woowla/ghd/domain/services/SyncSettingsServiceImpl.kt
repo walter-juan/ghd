@@ -1,6 +1,6 @@
 package com.woowla.ghd.domain.services
 
-import com.woowla.ghd.data.local.LocalDataSource
+import com.woowla.ghd.domain.data.LocalDataSource
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.domain.entities.Event
 import com.woowla.ghd.core.eventbus.EventBus

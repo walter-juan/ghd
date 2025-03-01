@@ -1,4 +1,4 @@
-package com.woowla.ghd.data.local
+package com.woowla.ghd.domain.data
 
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.PullRequest

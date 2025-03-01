@@ -37,6 +37,7 @@ import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
 import com.woowla.ghd.core.utils.enumValueOfOrNull
+import com.woowla.ghd.domain.data.LocalDataSource
 
 class LocalDataSourceImpl(
     private val appProperties: AppProperties,

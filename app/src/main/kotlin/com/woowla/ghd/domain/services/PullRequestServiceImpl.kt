@@ -1,8 +1,8 @@
 package com.woowla.ghd.domain.services
 
 import com.woowla.ghd.core.AppLogger
-import com.woowla.ghd.data.local.LocalDataSource
-import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.domain.data.LocalDataSource
+import com.woowla.ghd.domain.data.RemoteDataSource
 import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest

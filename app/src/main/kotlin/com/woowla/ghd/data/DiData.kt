@@ -1,13 +1,13 @@
 package com.woowla.ghd.data
 
 import com.apollographql.apollo3.ApolloClient
-import com.woowla.ghd.data.local.LocalDataSource
+import com.woowla.ghd.domain.data.LocalDataSource
 import com.woowla.ghd.data.local.LocalDataSourceImpl
 import com.woowla.ghd.data.local.prop.AppProperties
 import com.woowla.ghd.data.local.room.AppDatabase
 import com.woowla.ghd.data.remote.AuthorizationInterceptor
 import com.woowla.ghd.data.remote.GitHubPATTokenProvider
-import com.woowla.ghd.data.remote.RemoteDataSource
+import com.woowla.ghd.domain.data.RemoteDataSource
 import com.woowla.ghd.data.remote.RemoteDataSourceImpl
 import io.ktor.client.HttpClient
 import org.koin.core.module.Module

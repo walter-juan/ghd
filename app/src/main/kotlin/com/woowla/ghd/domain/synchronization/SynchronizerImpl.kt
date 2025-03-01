@@ -1,7 +1,7 @@
 package com.woowla.ghd.domain.synchronization
 
 import com.woowla.ghd.core.AppLogger
-import com.woowla.ghd.data.local.LocalDataSource
+import com.woowla.ghd.domain.data.LocalDataSource
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo

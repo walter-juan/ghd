@@ -1,4 +1,4 @@
-package com.woowla.ghd.data.remote
+package com.woowla.ghd.domain.data
 
 import com.woowla.ghd.domain.entities.ApiResponse
 import com.woowla.ghd.domain.entities.GhdRelease
