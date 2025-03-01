@@ -105,8 +105,9 @@ dependencies {
     implementation(libs.konvert.api)
     ksp(libs.konvert.ksp)
 
-    testImplementation(libs.mockk)
+    testImplementation(libs.test.mockk)
     testImplementation(libs.bundles.test.kotest)
+    testImplementation(libs.test.konsist)
 
     detektPlugins(libs.detekt.formatting)
 }
