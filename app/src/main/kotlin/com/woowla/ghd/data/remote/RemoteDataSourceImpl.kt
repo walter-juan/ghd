@@ -56,10 +56,10 @@ class RemoteDataSourceImpl(
 
     override suspend fun getAllStatesPullRequests(repoToCheck: RepoToCheck): Result<ApiResponse<List<PullRequestWithRepoAndReviews>>> {
         return runCatching {
-            requireNotNull(repoToCheck.gitHubRepository) { "GitHub repository is required" }
+            requireNotNull(repoToCheck.repository) { "GitHub repository is required" }
 
-            val owner = repoToCheck.gitHubRepository.owner
-            val repo = repoToCheck.gitHubRepository.name
+            val owner = repoToCheck.repository.owner
+            val repo = repoToCheck.repository.name
             val pullRequestsQuery = GetAllStatesPullRequestsQuery(owner = owner, name = repo, last = 25)
             val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
 
@@ -80,10 +80,10 @@ class RemoteDataSourceImpl(
 
     override suspend fun getLastRelease(repoToCheck: RepoToCheck): Result<ApiResponse<ReleaseWithRepo>> {
         return runCatching {
-            requireNotNull(repoToCheck.gitHubRepository) { "GitHub repository is required" }
+            requireNotNull(repoToCheck.repository) { "GitHub repository is required" }
 
-            val owner = repoToCheck.gitHubRepository.owner
-            val repo = repoToCheck.gitHubRepository.name
+            val owner = repoToCheck.repository.owner
+            val repo = repoToCheck.repository.name
             val getLastReleaseQuery = GetLastReleaseQuery(owner = owner, name = repo)
             val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).execute()
 

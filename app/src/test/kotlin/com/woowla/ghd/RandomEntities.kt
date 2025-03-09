@@ -4,7 +4,7 @@ import com.woowla.ghd.domain.entities.AppSettings
 import com.woowla.ghd.domain.entities.Author
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.GitHubMergeableState
-import com.woowla.ghd.domain.entities.GitHubRepository
+import com.woowla.ghd.domain.entities.Repository
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
@@ -94,7 +94,7 @@ object RandomEntities {
 
     fun repoToCheck(): RepoToCheck = RepoToCheck(
         id = RandomValues.randomLong(),
-        gitHubRepository = randomGitHubRepository(),
+        repository = randomGitHubRepository(),
         groupName = RandomValues.randomString(),
         pullBranchRegex = RandomValues.randomString(),
         arePullRequestsEnabled = RandomValues.randomBoolean(),
@@ -103,7 +103,7 @@ object RandomEntities {
         areReleasesNotificationsEnabled = RandomValues.randomBoolean(),
     )
 
-    fun randomGitHubRepository() = GitHubRepository(
+    fun randomGitHubRepository() = Repository(
         owner = RandomValues.randomString(),
         name = RandomValues.randomString(),
     )

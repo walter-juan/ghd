@@ -1,7 +1,7 @@
 package com.woowla.ghd.domain.parsers
 
 import com.charleskorn.kaml.EmptyYamlDocumentException
-import com.woowla.ghd.domain.entities.GitHubRepository
+import com.woowla.ghd.domain.entities.Repository
 import com.woowla.ghd.domain.entities.RepoToCheck
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowAny
@@ -54,7 +54,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 1
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
+            repository = Repository(owner = "the-owner", name = "the-repo-name"),
             groupName = "the group",
             pullBranchRegex = "the regex",
             arePullRequestsEnabled = true,
@@ -77,7 +77,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 1
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
+            repository = Repository(owner = "the-owner", name = "the-repo-name"),
             groupName = null,
             pullBranchRegex = null,
             arePullRequestsEnabled = true,
@@ -118,7 +118,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 2
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
+            repository = Repository(owner = "the-owner", name = "the-repo-name"),
             groupName = "the group",
             pullBranchRegex = "the regex",
             arePullRequestsEnabled = true,
@@ -128,7 +128,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         )
         repos[1] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            gitHubRepository = GitHubRepository(owner = "the-second-owner", name = "the-repo-name-of-the-second"),
+            repository = Repository(owner = "the-second-owner", name = "the-repo-name-of-the-second"),
             groupName = "the group 2",
             pullBranchRegex = "another regex",
             arePullRequestsEnabled = false,
@@ -150,7 +150,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         val twoRepos = listOf(
             RepoToCheck(
                 id = 23L,
-                gitHubRepository = GitHubRepository(owner = "walter", name = "ghd"),
+                repository = Repository(owner = "walter", name = "ghd"),
                 groupName = null,
                 pullBranchRegex = null,
                 arePullRequestsEnabled = false,
@@ -160,7 +160,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             ),
             RepoToCheck(
                 id = 23L,
-                gitHubRepository = GitHubRepository(owner = "alvaro", name = "ghd"),
+                repository = Repository(owner = "alvaro", name = "ghd"),
                 groupName = "name of the group",
                 pullBranchRegex = "the regex",
                 arePullRequestsEnabled = true,

@@ -13,7 +13,7 @@ import io.mcarle.konvert.api.KonvertTo
 @KonvertTo(RepoToCheck::class)
 data class DbRepoToCheck(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @Embedded val gitHubRepository: DbGitHubRepository?,
+    @Embedded val repository: DbRepository?,
     @ColumnInfo(name = "group_name") val groupName: String?,
     @ColumnInfo(name = "pull_branch_regex") val pullBranchRegex: String?,
     @ColumnInfo(name = "are_pull_requests_enabled") val arePullRequestsEnabled: Boolean,

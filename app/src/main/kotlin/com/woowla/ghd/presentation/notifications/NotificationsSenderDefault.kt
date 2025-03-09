@@ -54,8 +54,8 @@ class NotificationsSenderDefault(private val client: NotificationClient) : Notif
 
     override fun newRelease(releaseWithRepo: ReleaseWithRepo) {
         client.sendNotification(
-            title = "New release ${releaseWithRepo.repoToCheck.gitHubRepository?.name}",
-            message = "${releaseWithRepo.release.tagName} ${releaseWithRepo.repoToCheck.gitHubRepository?.owner}/${releaseWithRepo.repoToCheck.gitHubRepository?.name}",
+            title = "New release ${releaseWithRepo.repoToCheck.repository?.name}",
+            message = "${releaseWithRepo.release.tagName} ${releaseWithRepo.repoToCheck.repository?.owner}/${releaseWithRepo.repoToCheck.repository?.name}",
             type = NotificationType.NONE
         )
     }

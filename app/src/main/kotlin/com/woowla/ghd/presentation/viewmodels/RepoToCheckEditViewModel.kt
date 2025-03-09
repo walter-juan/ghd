@@ -7,7 +7,7 @@ import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.core.utils.FlowReduxViewModel
-import com.woowla.ghd.domain.entities.GitHubRepository
+import com.woowla.ghd.domain.entities.Repository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -32,7 +32,7 @@ class RepoToCheckEditStateMachine(
                     save(state, action)
                 }
                 on<Act.UpdateRepository> { action, state ->
-                    state.mutate { St.Success.repoToCheck.modify(this) { it.copy(gitHubRepository = GitHubRepository(owner = action.owner, name = action.name)) } }
+                    state.mutate { St.Success.repoToCheck.modify(this) { it.copy(repository = Repository(owner = action.owner, name = action.name)) } }
                 }
                 on<Act.CleanUpSaveSuccessfully> { _, state ->
                     state.mutate { copy(savedSuccessfully = null) }
@@ -60,9 +60,9 @@ class RepoToCheckEditStateMachine(
 
     private suspend fun save(state: State<St.Success>, action: Act.Save): ChangedState<St> {
         val updateRequestResult = runCatching {
-            val gitHubRepository = GitHubRepository.fromUrl(action.gitHubRepositoryUrl)
+            val repository = Repository.fromUrl(action.repositoryUrl)
             state.snapshot.repoToCheck.copy(
-                gitHubRepository = gitHubRepository,
+                repository = repository,
                 groupName = action.groupName,
                 pullBranchRegex = action.branchRegex,
                 arePullRequestsEnabled = action.arePullRequestsEnabled,
@@ -103,7 +103,7 @@ class RepoToCheckEditStateMachine(
             val name = repository.substringAfter("/", missingDelimiterValue = "")
         }
         data class Save(
-            val gitHubRepositoryUrl: String,
+            val repositoryUrl: String,
             val groupName: String,
             val branchRegex: String,
             val arePullRequestsEnabled: Boolean,

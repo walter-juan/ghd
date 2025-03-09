@@ -1,17 +1,17 @@
 package com.woowla.ghd.domain.entities
 
-data class GitHubRepository(val owner: String, val name: String) {
+data class Repository(val owner: String, val name: String) {
     companion object {
         private val regex = """(http|https)://(www\.)?github.com/([^/.]+)/([^/.]+)(.git)?(/)?""".toRegex()
 
-        fun fromUrl(url: String): GitHubRepository {
+        fun fromUrl(url: String): Repository {
             val match = regex.find(url)
             requireNotNull(match) { "Invalid GitHub URL: $url" }
             val (protocol, _, owner, project) = match.destructured
-            return GitHubRepository(owner = owner, name = project)
+            return Repository(owner = owner, name = project)
         }
 
-        fun fromUrlOrNull(url: String): GitHubRepository? {
+        fun fromUrlOrNull(url: String): Repository? {
             return try {
                 fromUrl(url)
             } catch (e: IllegalArgumentException) {

@@ -43,8 +43,8 @@ class RepoToCheckServiceImpl(
         fileParser.decode(content)
             .filter { repoToCheck ->
                 allReposToCheck.none {
-                    val owner = it.gitHubRepository?.owner == repoToCheck.gitHubRepository?.owner
-                    val name = it.gitHubRepository?.name == repoToCheck.gitHubRepository?.name
+                    val owner = it.repository?.owner == repoToCheck.repository?.owner
+                    val name = it.repository?.name == repoToCheck.repository?.name
                     owner && name
                 }
             }

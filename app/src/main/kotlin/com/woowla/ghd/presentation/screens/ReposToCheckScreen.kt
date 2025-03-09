@@ -149,7 +149,7 @@ object ReposToCheckScreen {
                             ListRepoToCheck(
                                 repoToCheckList = state.reposToCheckFiltered,
                                 onOpenClick = { repoToCheck ->
-                                    repoToCheck.gitHubRepository?.url?.let(::openWebpage)
+                                    repoToCheck.repository?.url?.let(::openWebpage)
                                 },
                                 onEditRepoClick = onEditRepoClick,
                                 onDeleteRepoClick = { repoToCheck ->

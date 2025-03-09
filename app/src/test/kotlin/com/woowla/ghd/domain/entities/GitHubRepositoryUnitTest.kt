@@ -2,7 +2,6 @@ package com.woowla.ghd.domain.entities
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.collections.shouldBeIn
 import io.kotest.matchers.shouldBe
 
 class GitHubRepositoryUnitTest : StringSpec({
@@ -59,7 +58,7 @@ class GitHubRepositoryUnitTest : StringSpec({
 
     validUrlList.forEach { url ->
         "fromUrl should return a GitHubRepository object with valid URL: $url" {
-            val repo = GitHubRepository.fromUrl(url)
+            val repo = Repository.fromUrl(url)
             repo.owner shouldBe "user"
             repo.name shouldBe "project"
         }
@@ -68,7 +67,7 @@ class GitHubRepositoryUnitTest : StringSpec({
     invalidUrlList.forEach { url ->
         "fromUrl should throw an exception with invalid URL: $url" {
             shouldThrow<IllegalArgumentException> {
-                GitHubRepository.fromUrl(url)
+                Repository.fromUrl(url)
             }
         }
     }

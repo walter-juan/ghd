@@ -19,7 +19,7 @@ import com.woowla.ghd.presentation.i18nUi
 import kotlin.time.Duration.Companion.days
 
 class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
-    val fullRepo = "${pullRequestWithReviews.repoToCheck.gitHubRepository?.owner}/${pullRequestWithReviews.repoToCheck.gitHubRepository?.name}"
+    val fullRepo = "${pullRequestWithReviews.repoToCheck.repository?.owner}/${pullRequestWithReviews.repoToCheck.repository?.name}"
     val createdAt = pullRequestWithReviews.pullRequest.createdAt.toRelativeString(maximumDays = 999.days)
     val mergedAt = pullRequestWithReviews.pullRequest.mergedAt?.toRelativeString(maximumDays = 999.days) ?: ""
     val closedAt = pullRequestWithReviews.pullRequest.closedAt?.toRelativeString(maximumDays = 999.days) ?: ""

@@ -37,7 +37,6 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.RefreshOff
-import com.woowla.compose.icon.collections.tabler.tabler.outline.WorldSearch
 import com.woowla.ghd.presentation.i18nUi
 import com.woowla.ghd.presentation.app.AppDimens
 import com.woowla.ghd.presentation.components.ScreenScrollable
@@ -49,7 +48,6 @@ import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
-import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine
 
 object RepoToCheckEditScreen {
     @Composable
@@ -107,7 +105,7 @@ object RepoToCheckEditScreen {
         dispatchAction: (Act) -> Unit,
         onBackClick: () -> Unit
     ) {
-        var gitHubRepositoryUrl by remember { mutableStateOf(state.repoToCheck.gitHubRepository?.url ?: "") }
+        var repositoryUrl by remember { mutableStateOf(state.repoToCheck.repository?.url ?: "") }
         var groupName by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(state.repoToCheck.pullBranchRegex ?: "") }
         var arePullRequestsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsEnabled) }
@@ -141,7 +139,7 @@ object RepoToCheckEditScreen {
                             onClick = {
                                 dispatchAction.invoke(
                                     Act.Save(
-                                        gitHubRepositoryUrl = gitHubRepositoryUrl,
+                                        repositoryUrl = repositoryUrl,
                                         groupName = groupName,
                                         branchRegex = branchRegex,
                                         arePullRequestsEnabled = arePullRequestsEnabled,
@@ -170,11 +168,11 @@ object RepoToCheckEditScreen {
                     .fillMaxWidth()
             ) {
                 RepositorySection(
-                    gitHubRepositoryUrl = gitHubRepositoryUrl,
+                    repositoryUrl = repositoryUrl,
                     groupName = groupName,
                     mode = state.mode,
                     focusRequester = textFieldFocusRequester,
-                    onGitHubRepositoryUrlChange = { gitHubRepositoryUrl = it },
+                    onRepositoryUrlChange = { repositoryUrl = it },
                     onReleaseGroupChange = { groupName = it },
                 )
 
@@ -204,11 +202,11 @@ object RepoToCheckEditScreen {
 
     @Composable
     private fun RepositorySection(
-        gitHubRepositoryUrl: String,
+        repositoryUrl: String,
         groupName: String,
         mode: RepoToCheckEditStateMachine.Mode,
         focusRequester: FocusRequester,
-        onGitHubRepositoryUrlChange: (String) -> Unit,
+        onRepositoryUrlChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
     ) {
         Section(title = i18nUi.screen_edit_repo_to_check_repository_section) {
@@ -228,8 +226,8 @@ object RepoToCheckEditScreen {
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     OutlinedTextField(
-                        value = gitHubRepositoryUrl,
-                        onValueChange = onGitHubRepositoryUrlChange,
+                        value = repositoryUrl,
+                        onValueChange = onRepositoryUrlChange,
                         label = { Text(text = "GitHub URL") },
                         singleLine = true,
                         modifier = Modifier

@@ -2,7 +2,7 @@ package com.woowla.ghd.domain.entities
 
 data class RepoToCheck(
     val id: Long = 0,
-    val gitHubRepository: GitHubRepository?,
+    val repository: Repository?,
     val groupName: String?,
     val pullBranchRegex: String?,
     val arePullRequestsEnabled: Boolean,
@@ -12,7 +12,7 @@ data class RepoToCheck(
 ) : Comparable<RepoToCheck> {
     companion object {
         fun newInstance() = RepoToCheck(
-            gitHubRepository = null,
+            repository = null,
             groupName = null,
             pullBranchRegex = null,
             arePullRequestsEnabled = false,
@@ -20,7 +20,7 @@ data class RepoToCheck(
             arePullRequestsNotificationsEnabled = false,
             areReleasesNotificationsEnabled = false,
         )
-        val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.gitHubRepository?.name }
+        val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.repository?.name }
     }
 
     override fun compareTo(other: RepoToCheck): Int {

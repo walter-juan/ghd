@@ -7,5 +7,5 @@ import com.woowla.ghd.presentation.i18nUi
 class ReleaseDecorator(releaseWithRepo: ReleaseWithRepo) {
     val publishedAt: String = releaseWithRepo.release.publishedAt?.toRelativeString() ?: i18nUi.generic_unknown
     val name: String = releaseWithRepo.release.name ?: i18nUi.generic_unknown
-    val fullRepo = "${releaseWithRepo.repoToCheck.gitHubRepository?.owner}/${releaseWithRepo.repoToCheck.gitHubRepository?.name}"
+    val fullRepo = "${releaseWithRepo.repoToCheck.repository?.owner}/${releaseWithRepo.repoToCheck.repository?.name}"
 }
