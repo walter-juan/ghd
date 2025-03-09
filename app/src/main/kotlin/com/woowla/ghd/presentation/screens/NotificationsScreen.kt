@@ -116,7 +116,7 @@ object NotificationsScreen {
                             val result = snackbarHostState.showSnackbar(
                                 message = snackbarMessage,
                                 withDismissAction = true,
-                                duration = SnackbarDuration.Indefinite,
+                                duration = SnackbarDuration.Short,
                             )
                             if (result == SnackbarResult.Dismissed) {
                                 dispatchAction.invoke(Act.CleanUpSaveSuccessfully)
