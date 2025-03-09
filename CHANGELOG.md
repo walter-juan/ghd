@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.4-beta03]
+### Changed
+- Add repository using the full GitHub URL instead of owner and name
+- Undo split code in Gradle modules
+### Removed
+- Repository search when adding a new one
+### Fixed
+- Fix dismissed reviews notification
+- Fix pre-release option from the create release action
+
 ## [2.0.4-beta02]
 ### Added
 - Repository search when adding a new one

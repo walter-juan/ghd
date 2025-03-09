@@ -46,13 +46,13 @@
                     "name": "The Android Open Source Project"
                 }
             ],
-            "artifactVersion": "1.4.0",
+            "artifactVersion": "1.4.2",
             "scm": {
                 "connection": "scm:git:https://android.googlesource.com/platform/frameworks/support",
                 "url": "https://cs.android.com/androidx/platform/frameworks/support"
             },
             "name": "collections",
-            "website": "https://developer.android.com/jetpack/androidx/releases/collection#1.4.0",
+            "website": "https://developer.android.com/jetpack/androidx/releases/collection#1.4.2",
             "licenses": [
                 "Apache-2.0"
             ],
@@ -2024,7 +2024,7 @@
                     "name": "Kotlin Team"
                 }
             ],
-            "artifactVersion": "2.1.0",
+            "artifactVersion": "2.1.10",
             "scm": {
                 "connection": "scm:git:https://github.com/JetBrains/kotlin.git",
                 "url": "https://github.com/JetBrains/kotlin",

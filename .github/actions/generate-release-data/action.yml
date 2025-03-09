@@ -13,6 +13,9 @@ outputs:
   release_notes:
     description: Release notes extracted from the changelog using the version output
     value: ${{ steps.generate-data.outputs.release_notes }}
+  is_non_final_version:
+    description: Whether the version is a non-final version (e.g. 1.0.0-alpha1)
+    value: ${{ steps.generate-data.outputs.is_non_final_version }}
 runs:
   using: "composite"
   steps:
@@ -30,6 +33,14 @@ runs:
         else
           is_non_final_version=false
         fi
+        
+        echo "name [$name]"
+        echo "version [$version]"
+        echo "tag [$tag]"
+        echo "is_non_final_version [$is_non_final_version]"
+        echo "release_notes ==== START ===="
+        echo $release_notes
+        echo "release_notes ==== END ===="
         
         echo "name=$name" >> $GITHUB_OUTPUT
         echo "version=$version" >> $GITHUB_OUTPUT
