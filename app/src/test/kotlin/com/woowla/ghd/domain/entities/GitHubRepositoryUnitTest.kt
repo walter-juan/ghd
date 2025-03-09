@@ -15,6 +15,14 @@ class GitHubRepositoryUnitTest : StringSpec({
             http://github.com/user/project
             https://github.com/user/project/
             http://github.com/user/project/
+            https://www.github.com/user/project.git
+            http://www.github.com/user/project.git
+            https://www.github.com/user/project.git/
+            http://www.github.com/user/project.git/
+            https://www.github.com/user/project
+            http://www.github.com/user/project
+            https://www.github.com/user/project/
+            http://www.github.com/user/project/
         """.trimIndent().split("\n")
     val invalidUrlList = """
             git@github.com:user/project.git
@@ -52,9 +60,8 @@ class GitHubRepositoryUnitTest : StringSpec({
     validUrlList.forEach { url ->
         "fromUrl should return a GitHubRepository object with valid URL: $url" {
             val repo = GitHubRepository.fromUrl(url)
-            repo.protocol shouldBeIn listOf("https", "http")
             repo.owner shouldBe "user"
-            repo.project shouldBe "project"
+            repo.name shouldBe "project"
         }
     }
 

@@ -1,6 +1,7 @@
 package com.woowla.ghd.data.local.room.entities
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.woowla.ghd.domain.entities.RepoToCheck
@@ -12,8 +13,7 @@ import io.mcarle.konvert.api.KonvertTo
 @KonvertTo(RepoToCheck::class)
 data class DbRepoToCheck(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "owner") val owner: String,
-    @ColumnInfo(name = "name") val name: String,
+    @Embedded val gitHubRepository: DbGitHubRepository?,
     @ColumnInfo(name = "group_name") val groupName: String?,
     @ColumnInfo(name = "pull_branch_regex") val pullBranchRegex: String?,
     @ColumnInfo(name = "are_pull_requests_enabled") val arePullRequestsEnabled: Boolean,

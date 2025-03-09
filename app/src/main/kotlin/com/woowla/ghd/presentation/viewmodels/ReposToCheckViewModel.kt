@@ -140,7 +140,7 @@ class ReposToCheckStateMachine(
 
     private fun List<RepoToCheck>.filter(searchQuery: String, groupNames: Set<String>): List<RepoToCheck> {
         val searchQueryIsBlank = searchQuery.isBlank()
-        val searchQuernContainsName = { repoToCheck: RepoToCheck -> repoToCheck.name.contains(searchQuery, ignoreCase = true) }
+        val searchQuernContainsName = { repoToCheck: RepoToCheck -> repoToCheck.gitHubRepository?.name?.contains(searchQuery, ignoreCase = true) ?: false  }
         val searchQueryContainsGroup = { repoToCheck: RepoToCheck -> repoToCheck.groupName?.contains(searchQuery, ignoreCase = true) ?: false }
         val searchQueryFilter = { repoToCheck: RepoToCheck ->
             searchQueryIsBlank || searchQuernContainsName(repoToCheck) || searchQueryContainsGroup(repoToCheck)

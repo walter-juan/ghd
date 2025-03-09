@@ -7,6 +7,7 @@ import com.freeletics.flowredux.dsl.State
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.core.utils.FlowReduxViewModel
+import com.woowla.ghd.domain.entities.GitHubRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,7 +32,10 @@ class RepoToCheckEditStateMachine(
                     save(state, action)
                 }
                 on<Act.UpdateRepository> { action, state ->
-                    state.mutate { St.Success.repoToCheck.modify(this) { it.copy(owner = action.owner, name = action.name) } }
+                    state.mutate { St.Success.repoToCheck.modify(this) { it.copy(gitHubRepository = GitHubRepository(owner = action.owner, name = action.name)) } }
+                }
+                on<Act.CleanUpSaveSuccessfully> { _, state ->
+                    state.mutate { copy(savedSuccessfully = null) }
                 }
             }
         }
@@ -55,18 +59,22 @@ class RepoToCheckEditStateMachine(
     }
 
     private suspend fun save(state: State<St.Success>, action: Act.Save): ChangedState<St> {
-        val updateRequest = state.snapshot.repoToCheck.copy(
-            owner = action.owner,
-            name = action.name,
-            groupName = action.groupName,
-            pullBranchRegex = action.branchRegex,
-            arePullRequestsEnabled = action.arePullRequestsEnabled,
-            arePullRequestsNotificationsEnabled = action.arePullRequestsNotificationsEnabled,
-            areReleasesEnabled = action.areReleasesEnabled,
-            areReleasesNotificationsEnabled = action.areReleasesNotificationsEnabled,
-        )
-        return repoToCheckService
-            .save(updateRequest)
+        val updateRequestResult = runCatching {
+            val gitHubRepository = GitHubRepository.fromUrl(action.gitHubRepositoryUrl)
+            state.snapshot.repoToCheck.copy(
+                gitHubRepository = gitHubRepository,
+                groupName = action.groupName,
+                pullBranchRegex = action.branchRegex,
+                arePullRequestsEnabled = action.arePullRequestsEnabled,
+                arePullRequestsNotificationsEnabled = action.arePullRequestsNotificationsEnabled,
+                areReleasesEnabled = action.areReleasesEnabled,
+                areReleasesNotificationsEnabled = action.areReleasesNotificationsEnabled,
+            )
+        }
+        return updateRequestResult
+            .map { updateRequest ->
+                repoToCheckService.save(updateRequest)
+            }
             .fold(
                 onSuccess = {
                     state.mutate { copy(savedSuccessfully = true) }
@@ -89,13 +97,13 @@ class RepoToCheckEditStateMachine(
         data class Error(val throwable: Throwable) : St
     }
     sealed interface Act {
+        data object CleanUpSaveSuccessfully : Act
         data class UpdateRepository(val repository: String) : Act {
             val owner = repository.substringBefore("/", missingDelimiterValue = "")
             val name = repository.substringAfter("/", missingDelimiterValue = "")
         }
         data class Save(
-            val owner: String,
-            val name: String,
+            val gitHubRepositoryUrl: String,
             val groupName: String,
             val branchRegex: String,
             val arePullRequestsEnabled: Boolean,

@@ -1,6 +1,7 @@
 package com.woowla.ghd.domain.parsers
 
 import com.charleskorn.kaml.Yaml
+import com.woowla.ghd.domain.entities.GitHubRepository
 import com.woowla.ghd.domain.entities.RepoToCheck
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,8 +13,7 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         return result.repos.map { yamlRepo ->
             RepoToCheck(
                 id = RepoToCheckFileParser.ID,
-                owner = yamlRepo.owner.trim(),
-                name = yamlRepo.name.trim(),
+                gitHubRepository = GitHubRepository(owner = yamlRepo.owner.trim(), name = yamlRepo.name.trim()),
                 groupName = yamlRepo.group?.trim(),
                 pullBranchRegex = yamlRepo.pulls.branchRegexFilter?.trim(),
                 arePullRequestsEnabled = yamlRepo.pulls.enabled ?: true,
@@ -26,9 +26,11 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
 
     override fun encode(repoToCheckList: List<RepoToCheck>): String {
         val yamlRepos = repoToCheckList.map { repoToCheck ->
+            requireNotNull(repoToCheck.gitHubRepository) { "GitHub repository is required" }
+
             YamlRepo(
-                owner = repoToCheck.owner,
-                name = repoToCheck.name,
+                owner = repoToCheck.gitHubRepository.owner,
+                name = repoToCheck.gitHubRepository.name,
                 group = repoToCheck.groupName,
                 pulls = YamlPullConfig(
                     enabled = repoToCheck.arePullRequestsEnabled,

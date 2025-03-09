@@ -1,6 +1,7 @@
 package com.woowla.ghd.domain.parsers
 
 import com.charleskorn.kaml.EmptyYamlDocumentException
+import com.woowla.ghd.domain.entities.GitHubRepository
 import com.woowla.ghd.domain.entities.RepoToCheck
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.assertions.throwables.shouldThrowAny
@@ -33,8 +34,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         val oneRepo = """
             
             repositories:
-              - owner: the owner
-                name: the repo name
+              - owner: the-owner
+                name: the-repo-name
                 group: the group
                 pulls:
                   enabled: true
@@ -53,8 +54,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 1
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            owner = "the owner",
-            name = "the repo name",
+            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
             groupName = "the group",
             pullBranchRegex = "the regex",
             arePullRequestsEnabled = true,
@@ -67,8 +67,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
     "one repo with minimum data is decoded with default values" {
         val oneRepo = """
             repositories:
-              - owner: the owner
-                name: the repo name
+              - owner: the-owner
+                name: the-repo-name
         """.trimIndent()
 
         val parser = YamlRepoToCheckFileParser()
@@ -77,8 +77,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 1
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            owner = "the owner",
-            name = "the repo name",
+            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
             groupName = null,
             pullBranchRegex = null,
             arePullRequestsEnabled = true,
@@ -91,8 +90,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
     "two repos are decoded" {
         val twoRepos = """
             repositories:
-              - owner: the owner
-                name: the repo name
+              - owner: the-owner
+                name: the-repo-name
                 group: the group
                 pulls:
                   enabled: true
@@ -101,8 +100,8 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 releases:
                   enabled: true
                   notifications-enabled: true
-              - owner: the second owner
-                name: the repo name of the second
+              - owner: the-second-owner
+                name: the-repo-name-of-the-second
                 group: the group 2
                 pulls:
                   enabled: false
@@ -119,8 +118,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         repos.size shouldBe 2
         repos[0] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            owner = "the owner",
-            name = "the repo name",
+            gitHubRepository = GitHubRepository(owner = "the-owner", name = "the-repo-name"),
             groupName = "the group",
             pullBranchRegex = "the regex",
             arePullRequestsEnabled = true,
@@ -130,8 +128,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         )
         repos[1] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
-            owner = "the second owner",
-            name = "the repo name of the second",
+            gitHubRepository = GitHubRepository(owner = "the-second-owner", name = "the-repo-name-of-the-second"),
             groupName = "the group 2",
             pullBranchRegex = "another regex",
             arePullRequestsEnabled = false,
@@ -153,8 +150,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
         val twoRepos = listOf(
             RepoToCheck(
                 id = 23L,
-                owner = "walter",
-                name = "ghd",
+                gitHubRepository = GitHubRepository(owner = "walter", name = "ghd"),
                 groupName = null,
                 pullBranchRegex = null,
                 arePullRequestsEnabled = false,
@@ -164,8 +160,7 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             ),
             RepoToCheck(
                 id = 23L,
-                owner = "alvaro",
-                name = "ghd",
+                gitHubRepository = GitHubRepository(owner = "alvaro", name = "ghd"),
                 groupName = "name of the group",
                 pullBranchRegex = "the regex",
                 arePullRequestsEnabled = true,

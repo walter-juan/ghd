@@ -9,7 +9,8 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.X
 import com.woowla.ghd.domain.entities.RepoToCheck
 
 class RepoToCheckDecorator(val repoToCheck: RepoToCheck) {
-    val fullRepo = "${repoToCheck.owner}/${repoToCheck.name}"
+    val fullRepo = "${repoToCheck.gitHubRepository?.owner}/${repoToCheck.gitHubRepository?.name}"
+
 
     val pullRequestsSyncIcon = when {
         repoToCheck.arePullRequestsEnabled && repoToCheck.arePullRequestsNotificationsEnabled -> Tabler.Filled.Bell

@@ -11,6 +11,10 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedIconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +49,7 @@ import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.Act
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditStateMachine.St
 import com.woowla.ghd.presentation.viewmodels.RepoToCheckEditViewModel
+import com.woowla.ghd.presentation.viewmodels.SettingsStateMachine
 
 object RepoToCheckEditScreen {
     @Composable
@@ -107,8 +112,7 @@ object RepoToCheckEditScreen {
         onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
-        var owner by remember { mutableStateOf(state.repoToCheck.owner) }
-        var name by remember { mutableStateOf(state.repoToCheck.name) }
+        var gitHubRepositoryUrl by remember { mutableStateOf(state.repoToCheck.gitHubRepository?.url ?: "") }
         var groupName by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(state.repoToCheck.pullBranchRegex ?: "") }
         var arePullRequestsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsEnabled) }
@@ -117,12 +121,21 @@ object RepoToCheckEditScreen {
         var areReleasesNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesNotificationsEnabled) }
 
         val textFieldFocusRequester = remember { FocusRequester() }
+        val snackbarHostState = remember { SnackbarHostState() }
 
         if (state.savedSuccessfully == true) {
             onBackClick.invoke()
+        } else if (state.savedSuccessfully == false) {
+            LaunchedEffect(snackbarHostState) {
+                val result = snackbarHostState.showSnackbar(message = "Error", withDismissAction = true, duration = SnackbarDuration.Short)
+                if (result == SnackbarResult.Dismissed) {
+                    dispatchAction.invoke(Act.CleanUpSaveSuccessfully)
+                }
+            }
         }
 
         ScreenScrollable(
+            snackbarHost = { SnackbarHost(snackbarHostState) },
             topBar = {
                 TopBar(
                     title = i18nUi.top_bar_title_repos_to_check_edit,
@@ -133,8 +146,7 @@ object RepoToCheckEditScreen {
                             onClick = {
                                 dispatchAction.invoke(
                                     Act.Save(
-                                        owner = owner,
-                                        name = name,
+                                        gitHubRepositoryUrl = gitHubRepositoryUrl,
                                         groupName = groupName,
                                         branchRegex = branchRegex,
                                         arePullRequestsEnabled = arePullRequestsEnabled,
@@ -163,13 +175,11 @@ object RepoToCheckEditScreen {
                     .fillMaxWidth()
             ) {
                 RepositorySection(
-                    owner = owner,
-                    name = name,
+                    gitHubRepositoryUrl = gitHubRepositoryUrl,
                     groupName = groupName,
                     mode = state.mode,
                     focusRequester = textFieldFocusRequester,
-                    onOwnerChange = { owner = it },
-                    onNameChange = { name = it },
+                    onGitHubRepositoryUrlChange = { gitHubRepositoryUrl = it },
                     onReleaseGroupChange = { groupName = it },
                     onSearchRepository = onSearchRepository,
                 )
@@ -200,19 +210,18 @@ object RepoToCheckEditScreen {
 
     @Composable
     private fun RepositorySection(
-        owner: String,
-        name: String,
+        gitHubRepositoryUrl: String,
         groupName: String,
         mode: RepoToCheckEditStateMachine.Mode,
         focusRequester: FocusRequester,
-        onOwnerChange: (String) -> Unit,
-        onNameChange: (String) -> Unit,
+        onGitHubRepositoryUrlChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
         onSearchRepository: (owner: String, name: String) -> Unit,
     ) {
         Section(title = i18nUi.screen_edit_repo_to_check_repository_section) {
             SectionItem(
-                title = "GitHub repository owner/name",
+                title = "GitHub repository",
+                description = "Full GitHub repository URL (example ${i18nUi.githubRepoLink})",
                 leadingIcon = {
                     Icon(
                         imageVector = Tabler.Outline.BrandGithub,
@@ -225,11 +234,20 @@ object RepoToCheckEditScreen {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
+                    OutlinedTextField(
+                        value = gitHubRepositoryUrl,
+                        onValueChange = onGitHubRepositoryUrlChange,
+                        label = { Text(text = "GitHub URL") },
+                        singleLine = true,
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .weight(1f),
+                    )
                     if (mode == RepoToCheckEditStateMachine.Mode.CREATE) {
                         OutlinedIconButton(
                             colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                             onClick = {
-                                onSearchRepository(owner, name)
+                                onSearchRepository("", "")
                             }
                         ) {
                             Icon(
@@ -240,22 +258,6 @@ object RepoToCheckEditScreen {
                             )
                         }
                     }
-                    OutlinedTextField(
-                        value = owner,
-                        onValueChange = onOwnerChange,
-                        label = { Text(text = i18nUi.screen_edit_repo_to_check_owner_label) },
-                        singleLine = true,
-                        modifier = Modifier
-                            .focusRequester(focusRequester)
-                            .weight(1f),
-                    )
-                    OutlinedTextField(
-                        value = name,
-                        onValueChange = onNameChange,
-                        label = { Text(text = i18nUi.screen_edit_repo_to_check_name_label) },
-                        singleLine = true,
-                        modifier = Modifier.weight(1f),
-                    )
                 }
             }
             SectionItem(
@@ -266,6 +268,7 @@ object RepoToCheckEditScreen {
                     value = groupName,
                     onValueChange = onReleaseGroupChange,
                     label = { Text(text = i18nUi.screen_edit_repo_to_check_group_name_label) },
+                    modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
                 )
             }
