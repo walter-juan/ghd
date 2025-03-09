@@ -86,7 +86,7 @@ object SettingsScreen {
             }
             if (snackbarMessage != null) {
                 LaunchedEffect(snackbarHostState) {
-                    val result = snackbarHostState.showSnackbar(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Indefinite)
+                    val result = snackbarHostState.showSnackbar(message = snackbarMessage, withDismissAction = true, duration = SnackbarDuration.Short)
                     if (result == SnackbarResult.Dismissed) {
                         dispatchAction.invoke(Act.CleanUpSaveSuccessfully)
                     }
