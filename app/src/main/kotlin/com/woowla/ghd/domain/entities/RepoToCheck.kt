@@ -25,7 +25,7 @@ data class RepoToCheck(
         val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.name }
     }
 
-    val url = "https://github.com/$owner/$name"
+    val gitHubRepository: GitHubRepository = GitHubRepository(project = name, owner = owner)
 
     override fun compareTo(other: RepoToCheck): Int {
         return defaultComparator.compare(this, other)
