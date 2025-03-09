@@ -53,5 +53,4 @@ sealed class AppScreen(open val route: String) {
     data object RepoToCheckBulk : AppScreen(route = "repo-to-check-bulk")
     data object SyncResultList : AppScreen(route = "sync-results")
     data object SyncResult : AppScreen(route = "sync-results/{id}")
-    data object SearchRepository : AppScreen(route = "search-repository")
 }

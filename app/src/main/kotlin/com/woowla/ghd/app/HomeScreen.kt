@@ -31,7 +31,6 @@ import com.woowla.ghd.presentation.screens.ReleasesScreen
 import com.woowla.ghd.presentation.screens.RepoToCheckBulkScreen
 import com.woowla.ghd.presentation.screens.RepoToCheckEditScreen
 import com.woowla.ghd.presentation.screens.ReposToCheckScreen
-import com.woowla.ghd.presentation.screens.SearchRepositoryScreen
 import com.woowla.ghd.presentation.screens.SettingsScreen
 import com.woowla.ghd.presentation.screens.SyncResultEntriesScreen
 import com.woowla.ghd.presentation.screens.SyncResultsScreen
@@ -176,7 +175,6 @@ object HomeScreen {
 
                     RepoToCheckEditScreen.Content(
                         viewModel = viewModel,
-                        onSearchRepository = { _, _ -> navController.navigate(AppScreen.SearchRepository.route) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -187,7 +185,6 @@ object HomeScreen {
                     val repoToCheckId = backStackEntry.arguments?.getLong("id")!!
                     RepoToCheckEditScreen.Content(
                         viewModel = koinViewModel { parametersOf(repoToCheckId) },
-                        onSearchRepository = { _, _ -> navController.navigate(AppScreen.SearchRepository.route) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
@@ -208,19 +205,6 @@ object HomeScreen {
                     AboutLibraries.Content(
                         jsonFileName = koinInject(qualifier = named(DiUi.Name.ABOUT_LIBRARIES_JSON_FILE_NAME)),
                         onBackClick = { navController.popBackStack() }
-                    )
-                }
-                composable(AppScreen.SearchRepository.route) {
-                    SearchRepositoryScreen.Content(
-                        viewModel = koinViewModel(),
-                        onRepositorySelected = { repository ->
-                            navController.previousBackStackEntry?.savedStateHandle?.set(
-                                "repository",
-                                repository.fullName
-                            )
-                            navController.popBackStack()
-                        },
-                        onBackClick = { navController.popBackStack() },
                     )
                 }
             }

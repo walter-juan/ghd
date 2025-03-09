@@ -12,8 +12,6 @@ import com.woowla.ghd.domain.services.ReleaseService
 import com.woowla.ghd.domain.services.ReleaseServiceImpl
 import com.woowla.ghd.domain.services.RepoToCheckService
 import com.woowla.ghd.domain.services.RepoToCheckServiceImpl
-import com.woowla.ghd.domain.services.RepositoryService
-import com.woowla.ghd.domain.services.RepositoryServiceImpl
 import com.woowla.ghd.domain.services.SyncSettingsService
 import com.woowla.ghd.domain.services.SyncSettingsServiceImpl
 import com.woowla.ghd.domain.synchronization.Synchronizer
@@ -44,7 +42,6 @@ object DiDomainImpl {
         single<AppVersionService> { AppVersionServiceImpl(currentVersion = appVersion, remoteDataSource = get()) }
         single<PullRequestService> { PullRequestServiceImpl(get(), get(), get(), get(), get()) }
         single<ReleaseService> { ReleaseServiceImpl(get(), get(), get(), get(), get()) }
-        single<RepositoryService> { RepositoryServiceImpl(get()) }
 
         // parsers
         single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }

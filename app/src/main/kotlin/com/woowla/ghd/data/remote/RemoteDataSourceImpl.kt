@@ -10,14 +10,12 @@ import com.woowla.ghd.data.remote.mappers.toGhdRelease
 import com.woowla.ghd.domain.entities.ApiResponse
 import com.woowla.ghd.data.remote.mappers.toPullRequest
 import com.woowla.ghd.data.remote.mappers.toRelease
-import com.woowla.ghd.data.remote.mappers.toRepository
 import com.woowla.ghd.domain.data.RemoteDataSource
 import com.woowla.ghd.domain.entities.GhdRelease
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.RateLimit
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.Repository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.cio.CIO
@@ -75,36 +73,6 @@ class RemoteDataSourceImpl(
 
             ApiResponse(
                 data = data.map { it.toPullRequest(repoToCheck) },
-                rateLimit = rateLimit
-            )
-        }
-    }
-
-    override suspend fun search(
-        text: String?,
-        owner: String?,
-    ): Result<ApiResponse<List<Repository>>> {
-        return runCatching {
-            val searchQueryItems = buildList {
-                if (!owner.isNullOrBlank()) {
-                    add("owner:$owner")
-                }
-            }
-
-            val searchQuery = SearchRepositoryQuery(
-                query = "$text " + searchQueryItems.joinToString(separator = "+"),
-                first = 25
-            )
-            val searchResponse = apolloClient.query(searchQuery).execute()
-            val data = searchResponse
-                .dataAssertNoErrors
-                .search
-                .edges
-                ?.mapNotNull { it?.node?.onRepository } ?: listOf()
-            val rateLimit = searchResponse.getHeadersAsMap().getRateLimit()
-
-            ApiResponse(
-                data = data.map { it.toRepository() },
                 rateLimit = rateLimit
             )
         }

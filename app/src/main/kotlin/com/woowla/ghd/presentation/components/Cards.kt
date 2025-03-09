@@ -51,7 +51,6 @@ import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
-import com.woowla.ghd.domain.entities.Repository
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
@@ -65,54 +64,6 @@ import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun RepositoryCard(
-    repository: Repository,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    CardListItem(
-        modifier = modifier,
-        onClick = onClick,
-        title = repository.fullName,
-        subtitle = repository.description,
-        leadingContent = {
-            Avatar(
-                imageUrl = repository.imageUrl,
-            )
-        },
-        supportingContent = {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Tag(
-                    text = repository.stargazerCount.toString(),
-                    icon = Tabler.Outline.Star,
-                    color = "stars".toColor(),
-                )
-                val primaryLanguageName = repository.primaryLanguageName
-                if (!primaryLanguageName.isNullOrBlank()) {
-                    Tag(
-                        text = primaryLanguageName,
-                        icon = null,
-                        color = "primaryLanguageName".toColor(),
-                    )
-                }
-                val licenseInfo = repository.licenseInfo
-                if (!licenseInfo.isNullOrBlank()) {
-                    Tag(
-                        text = licenseInfo,
-                        icon = null,
-                        color = "licenseInfo".toColor(),
-                    )
-                }
-            }
-        }
-    )
-}
 
 @Composable
 fun SynResultCard(

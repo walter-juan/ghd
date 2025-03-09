@@ -55,14 +55,12 @@ object RepoToCheckEditScreen {
     @Composable
     fun Content(
         viewModel: RepoToCheckEditViewModel,
-        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         val state by viewModel.state.collectAsState()
         Screen(
             state = state,
             dispatchAction = viewModel::dispatch,
-            onSearchRepository = onSearchRepository,
             onBackClick = onBackClick,
         )
     }
@@ -71,7 +69,6 @@ object RepoToCheckEditScreen {
     fun Screen(
         state: St?,
         dispatchAction: (Act) -> Unit,
-        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         when (state) {
@@ -85,7 +82,6 @@ object RepoToCheckEditScreen {
                 Success(
                     state = state,
                     dispatchAction = dispatchAction,
-                    onSearchRepository = onSearchRepository,
                     onBackClick = onBackClick
                 )
             }
@@ -109,7 +105,6 @@ object RepoToCheckEditScreen {
     private fun Success(
         state: St.Success,
         dispatchAction: (Act) -> Unit,
-        onSearchRepository: (owner: String, name: String) -> Unit,
         onBackClick: () -> Unit
     ) {
         var gitHubRepositoryUrl by remember { mutableStateOf(state.repoToCheck.gitHubRepository?.url ?: "") }
@@ -181,7 +176,6 @@ object RepoToCheckEditScreen {
                     focusRequester = textFieldFocusRequester,
                     onGitHubRepositoryUrlChange = { gitHubRepositoryUrl = it },
                     onReleaseGroupChange = { groupName = it },
-                    onSearchRepository = onSearchRepository,
                 )
 
                 PullRequestSection(
@@ -216,7 +210,6 @@ object RepoToCheckEditScreen {
         focusRequester: FocusRequester,
         onGitHubRepositoryUrlChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
-        onSearchRepository: (owner: String, name: String) -> Unit,
     ) {
         Section(title = i18nUi.screen_edit_repo_to_check_repository_section) {
             SectionItem(
@@ -241,23 +234,8 @@ object RepoToCheckEditScreen {
                         singleLine = true,
                         modifier = Modifier
                             .focusRequester(focusRequester)
-                            .weight(1f),
+                            .fillMaxWidth(),
                     )
-                    if (mode == RepoToCheckEditStateMachine.Mode.CREATE) {
-                        OutlinedIconButton(
-                            colors = IconButtonDefaults.outlinedIconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
-                            onClick = {
-                                onSearchRepository("", "")
-                            }
-                        ) {
-                            Icon(
-                                Tabler.Outline.WorldSearch,
-                                contentDescription = "Search repository",
-                                tint = MaterialTheme.colorScheme.onPrimary,
-                                modifier = Modifier.padding(10.dp).fillMaxWidth()
-                            )
-                        }
-                    }
                 }
             }
             SectionItem(
