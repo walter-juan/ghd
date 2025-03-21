@@ -22,7 +22,7 @@ plugins {
 }
 
 group = "com.woowla"
-version = "2.0.4-beta03"
+version = "2.0.4"
 // Required for JPackage, as it doesn't accept additional suffixes after the version.
 val versionSimplified = version.toString().substringBefore("-")
 val debug = (extra["debugConfig"] as String).toBoolean()
