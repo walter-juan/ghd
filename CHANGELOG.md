@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.4]
+### Added
+- Third-Party software and licenses screen
+- Add local logs to the app
+- Support for creating pre-release versions
+### Changed
+- Add repository using the full GitHub URL instead of owner and name
+- Undo split code in Gradle modules
+### Fixed
+- Fix dismissed reviews notification
+
 ## [2.0.4-beta03]
 ### Changed
 - Add repository using the full GitHub URL instead of owner and name
@@ -294,7 +305,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.4-beta02...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.4...dev
+[2.0.4]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4
+[2.0.4-beta03]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4-beta03
 [2.0.4-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4-beta02
 [2.0.4-beta01]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4-beta01
 [2.0.3]: https://github.com/walter-juan/ghd/releases/tag/v2.0.3
