@@ -68,9 +68,9 @@ apollo {
 }
 
 aboutLibraries {
-    registerAndroidTasks = false
-    prettyPrint = true
-    excludeFields = arrayOf("description", "funding")
+    android.registerAndroidTasks = false
+    export.prettyPrint = true
+    export.excludeFields.addAll("description", "funding")
 }
 
 dependencies {

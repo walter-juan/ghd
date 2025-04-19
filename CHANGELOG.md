@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.5]
 ### Changed
 - Update GitHub Action dependencies
+- Update dependencies
 
 ## [2.0.4]
 ### Added

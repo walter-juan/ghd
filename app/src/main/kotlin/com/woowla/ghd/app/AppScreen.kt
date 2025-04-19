@@ -9,48 +9,63 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequest
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Package
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Settings
-import com.woowla.ghd.app.i18nApp
+import kotlinx.serialization.Serializable
 
 interface NavigationScreen {
     val icon: ImageVector
     val title: String
 }
-sealed class AppScreen(open val route: String) {
-    data object Splash : AppScreen(route = "splash")
-    data object Home : AppScreen(route = "home")
+@Serializable
+sealed class AppScreen(open val route: String = "") {
+    @Serializable
+    data object Splash : AppScreen()
+    @Serializable
+    data object Home : AppScreen()
 
-    data object PullRequestList : AppScreen(route = "pull-request"), NavigationScreen {
+    @Serializable
+    data object PullRequestList : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.GitPullRequest
         override val title: String = i18nApp.tab_title_pull_requests
     }
-    data object ReleaseList : AppScreen(route = "release"), NavigationScreen {
+    @Serializable
+    data object ReleaseList : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Package
         override val title: String = i18nApp.tab_title_releases
     }
-    data object RepoToCheckList : AppScreen(route = "repo-to-check"), NavigationScreen {
+    @Serializable
+    data object RepoToCheckList : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.BrandGithub
         override val title: String = i18nApp.tab_title_repos_to_check
     }
-    data object Notifications : AppScreen(route = "notifications"), NavigationScreen {
+    @Serializable
+    data object Notifications : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Bell
         override val title: String = i18nApp.tab_title_notifications
     }
-    data object Settings : AppScreen(route = "settings"), NavigationScreen {
+    @Serializable
+    data object Settings : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Settings
         override val title: String = i18nApp.tab_title_settings
     }
-    data object About : AppScreen(route = "about"), NavigationScreen {
+    @Serializable
+    data object About : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.InfoCircle
         override val title: String = i18nApp.tab_title_about
     }
-    data object AboutLibraries : AppScreen(route = "about-libraries"), NavigationScreen {
+    @Serializable
+    data object AboutLibraries : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.InfoCircle
         override val title: String = i18nApp.tab_title_about_libraries
     }
 
-    data object RepoToCheckNew : AppScreen(route = "repo-to-check/new")
-    data object RepoToCheckEdit : AppScreen(route = "repo-to-check/{id}/edit")
-    data object RepoToCheckBulk : AppScreen(route = "repo-to-check-bulk")
-    data object SyncResultList : AppScreen(route = "sync-results")
-    data object SyncResult : AppScreen(route = "sync-results/{id}")
+    @Serializable
+    data object RepoToCheckNew : AppScreen()
+    @Serializable
+    data class RepoToCheckEdit(val id: Long) : AppScreen()
+    @Serializable
+    data object RepoToCheckBulk : AppScreen()
+    @Serializable
+    data object SyncResultList : AppScreen()
+    @Serializable
+    data class SyncResult(val id: Long) : AppScreen()
 }

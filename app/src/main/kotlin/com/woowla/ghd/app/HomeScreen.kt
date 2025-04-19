@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.DiUi
 import com.woowla.ghd.presentation.screens.AboutLibraries
@@ -69,7 +70,7 @@ object HomeScreen {
                         selected = selectedItem == index,
                         onClick = {
                             selectedItem = index
-                            navController.navigate(items[selectedItem].route) {
+                            navController.navigate(items[selectedItem]) {
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
                                 // on the back stack as users select items
@@ -91,58 +92,58 @@ object HomeScreen {
             }
             NavHost(
                 navController = navController,
-                startDestination = items[selectedItem].route,
+                startDestination = items[selectedItem],
                 enterTransition = { EnterTransition.Companion.None },
                 exitTransition = { ExitTransition.Companion.None },
             ) {
-                composable(AppScreen.PullRequestList.route) {
+                composable<AppScreen.PullRequestList> {
                     PullRequestsScreen.Content(
                         viewModel = koinViewModel(),
                         onSyncResultEntriesClick = { syncResult ->
                             navController.navigate(
-                                route = AppScreen.SyncResult.route.replace("{id}", syncResult.id.toString()),
+                                route = AppScreen.SyncResult(id = syncResult.id),
                             )
                         }
                     )
                 }
-                composable(AppScreen.ReleaseList.route) {
+                composable<AppScreen.ReleaseList> {
                     ReleasesScreen.Content(
                         viewModel = koinViewModel(),
                         onSyncResultEntriesClick = { syncResult ->
                             navController.navigate(
-                                route = AppScreen.SyncResult.route.replace("{id}", syncResult.id.toString()),
+                                route = AppScreen.SyncResult(id = syncResult.id),
                             )
                         }
                     )
                 }
-                composable(AppScreen.RepoToCheckList.route) {
+                composable<AppScreen.RepoToCheckList> {
                     ReposToCheckScreen.Content(
                         viewModel = koinViewModel(),
                         onEditRepoClick = { repoToCheck ->
                             navController.navigate(
-                                route = AppScreen.RepoToCheckEdit.route.replace("{id}", repoToCheck.id.toString()),
+                                route = AppScreen.RepoToCheckEdit(id = repoToCheck.id),
                             )
                         },
                         onAddNewRepoClick = {
                             navController.navigate(
-                                route = AppScreen.RepoToCheckNew.route
+                                route = AppScreen.RepoToCheckNew
                             )
                         },
                         onBulkClick = {
-                            navController.navigate(AppScreen.RepoToCheckBulk.route)
+                            navController.navigate(AppScreen.RepoToCheckBulk)
                         },
                     )
                 }
-                composable(AppScreen.Settings.route) {
+                composable<AppScreen.Settings> {
                     SettingsScreen.Content(
                         viewModel = koinViewModel(),
-                        onSyncResultsClicked = { navController.navigate(AppScreen.SyncResultList.route) }
+                        onSyncResultsClicked = { navController.navigate(AppScreen.SyncResultList) }
                     )
                 }
-                composable(AppScreen.Notifications.route) {
+                composable<AppScreen.Notifications> {
                     NotificationsScreen.Content(viewModel = koinViewModel())
                 }
-                composable(AppScreen.SyncResultList.route) {
+                composable<AppScreen.SyncResultList> {
                     SyncResultsScreen.Content(
                         viewModel = koinViewModel(),
                         onBackClick = {
@@ -150,24 +151,21 @@ object HomeScreen {
                         },
                         onSyncResultEntriesClick = { syncResult ->
                             navController.navigate(
-                                route = AppScreen.SyncResult.route.replace("{id}", syncResult.id.toString()),
+                                route = AppScreen.SyncResult(id = syncResult.id),
                             )
                         }
                     )
                 }
-                composable(
-                    AppScreen.SyncResult.route,
-                    arguments = listOf(navArgument("id") { type = NavType.Companion.LongType })
-                ) { backStackEntry ->
-                    val syncResultId = backStackEntry.arguments?.getLong("id")!!
+                composable<AppScreen.SyncResult> { backStackEntry ->
+                    val syncResultId = backStackEntry.toRoute<AppScreen.SyncResult>().id
                     SyncResultEntriesScreen.Content(
                         viewModel = koinViewModel { parametersOf(syncResultId) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
-                composable(AppScreen.RepoToCheckNew.route) { entry ->
+                composable<AppScreen.RepoToCheckNew> { backStackEntry ->
                     val viewModel: RepoToCheckEditViewModel = koinViewModel { parametersOf(null) }
-                    val repo = entry.savedStateHandle.getStateFlow("repository", "").collectAsState()
+                    val repo = backStackEntry.savedStateHandle.getStateFlow("repository", "").collectAsState()
 
                     if (repo.value.isNotEmpty()) {
                         viewModel.dispatch(RepoToCheckEditStateMachine.Act.UpdateRepository(repo.value))
@@ -178,30 +176,27 @@ object HomeScreen {
                         onBackClick = { navController.popBackStack() }
                     )
                 }
-                composable(
-                    AppScreen.RepoToCheckEdit.route,
-                    arguments = listOf(navArgument("id") { type = NavType.Companion.LongType })
-                ) { backStackEntry ->
-                    val repoToCheckId = backStackEntry.arguments?.getLong("id")!!
+                composable<AppScreen.RepoToCheckEdit> { backStackEntry ->
+                    val repoToCheckId  = backStackEntry.toRoute<AppScreen.RepoToCheckEdit>().id
                     RepoToCheckEditScreen.Content(
                         viewModel = koinViewModel { parametersOf(repoToCheckId) },
                         onBackClick = { navController.popBackStack() }
                     )
                 }
-                composable(AppScreen.RepoToCheckBulk.route) {
+                composable<AppScreen.RepoToCheckBulk> {
                     RepoToCheckBulkScreen.Content(
                         viewModel = koinViewModel(),
                         onBackClick = { navController.popBackStack() },
                     )
                 }
-                composable(AppScreen.About.route) {
+                composable<AppScreen.About> {
                     AboutScreen.Content(
                         viewModel = koinViewModel(),
                         appVersion = BuildConfig.APP_VERSION,
-                        onAboutLicensesClick = { navController.navigate(AppScreen.AboutLibraries.route) },
+                        onAboutLicensesClick = { navController.navigate(AppScreen.AboutLibraries) },
                     )
                 }
-                composable(AppScreen.AboutLibraries.route) {
+                composable<AppScreen.AboutLibraries> {
                     AboutLibraries.Content(
                         jsonFileName = koinInject(qualifier = named(DiUi.Name.ABOUT_LIBRARIES_JSON_FILE_NAME)),
                         onBackClick = { navController.popBackStack() }

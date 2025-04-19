@@ -69,22 +69,22 @@ fun App() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = AppScreen.Splash.route,
+            startDestination = AppScreen.Splash,
             enterTransition = { EnterTransition.None },
             exitTransition = { ExitTransition.None },
         ) {
-            composable(AppScreen.Splash.route) {
+            composable<AppScreen.Splash> {
                 SplashScreen.Content(
                     viewModel = koinViewModel(),
                     launcherIconPainter = AppIconsPainter.Launcher,
                     onSplashFinished = {
-                        navController.navigate(AppScreen.Home.route) {
-                            popUpTo(AppScreen.Splash.route) { inclusive = true }
+                        navController.navigate(AppScreen.Home) {
+                            popUpTo(AppScreen.Splash) { inclusive = true }
                         }
                     }
                 )
             }
-            composable(AppScreen.Home.route) {
+            composable<AppScreen.Home> {
                 HomeScreen.Content()
             }
         }
