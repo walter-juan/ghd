@@ -12,7 +12,6 @@ coil = "3.2.0"
 flowredux = "1.2.2"
 arrow = "2.1.2"
 koin-bom = "4.0.4"
-detekt = "1.23.8"
 konvert = "4.1.0"
 aboutLibraries = "12.1.2"
 
@@ -36,8 +35,6 @@ buildconfig = "com.github.gmazzo.buildconfig:5.6.5"
 benmanesversions = "com.github.ben-manes.versions:0.52.0"
 # Android multiplatform, room
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
-# Static code analysis for Kotlin
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 # Collects and shows all dependencies and licenses of any gradle project
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
 
@@ -97,8 +94,6 @@ koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 # Collects and shows all dependencies and licenses of any gradle project
 aboutlibraries = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
-# Detekt plugin for formatting
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 # mockk, mocking library for Kotlin
 test-mockk = "io.mockk:mockk:1.14.2"
 # kotest runner

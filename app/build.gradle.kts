@@ -16,7 +16,6 @@ plugins {
     alias(libs.plugins.aboutLibraries)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.androidx.room)
-//    alias(libs.plugins.detekt)
 }
 
 group = "com.woowla"
@@ -31,12 +30,6 @@ repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
-
-//detekt {
-//    config.from(files("$rootDir/config/detekt/detekt-config.yml"))
-//    baseline = file("$rootDir/config/detekt/detekt-baseline.xml")
-//    buildUponDefaultConfig = true
-//}
 
 buildConfig {
     packageName("com.woowla.ghd")
@@ -119,8 +112,6 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.konvert.api)
-
-//            detektPlugins(libs.detekt.formatting)
         }
     }
 }
@@ -164,13 +155,6 @@ tasks.register("ghdCleanDebugAppFolder") {
         }
     }
 }
-
-// disabling detekt from the check task
-//tasks.named("check").configure {
-//    this.setDependsOn(this.dependsOn.filterNot {
-//        it is TaskProvider<*> && it.name == "detekt"
-//    })
-//}
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()

@@ -81,7 +81,6 @@ So if you want to use this app you should remove the `com.apple.quarantine`.
 # IntelliJ IDEA plugins
 
 - [Kotest](https://plugins.jetbrains.com/plugin/14080-kotest)
-- [Detekt](https://plugins.jetbrains.com/plugin/10761-detekt)
 
 # Gradle commands
 
@@ -115,19 +114,12 @@ $ ./gradlew build -PdebugConfig=false
     ./gradlew dependencyUpdates
     ./gradlew dependencyUpdates -PopenBrowser=true
     ```
-- Run static code analysis:
-    ```shell
-    ./gradlew detekt
-    ```
 - Update Gradle version
     ```shell
     ./gradlew wrapper --gradle-version latest
     ./gradlew wrapper --gradle-version 7.5.1
     ```
 # Project
-
-## Detekt
-Config file is in the root of the project, [config/detekt/detekt-config.ym](config/detekt/detekt-config.yml)
 
 # Links
 - GitHub
