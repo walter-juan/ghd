@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.aboutLibraries)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.compose.hotreload)
 }
 
 group = "com.woowla"

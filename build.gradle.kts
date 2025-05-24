@@ -6,4 +6,5 @@ plugins {
     alias(libs.plugins.compose.jetbrains).apply(false)
     alias(libs.plugins.compose.compiler).apply(false)
     alias(libs.plugins.aboutLibraries).apply(false)
+    alias(libs.plugins.compose.hotreload) apply false
 }

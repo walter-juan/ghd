@@ -2,6 +2,7 @@
 kotlin = "2.1.21"
 ksp = "2.1.21-2.0.1"
 compose-jetbrains = "1.8.1"
+compose-hotreload = "1.0.0-alpha10"
 apollo3 = "3.8.5"
 kotest = "5.9.1"
 ktor = "3.1.3"
@@ -27,6 +28,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Compose multiplatform
 compose-jetbrains = { id = "org.jetbrains.compose", version.ref = "compose-jetbrains" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotreload" }
 # GraphQL client
 apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
 # Generate BuildConstant
