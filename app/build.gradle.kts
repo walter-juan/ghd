@@ -1,13 +1,11 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.reporter.HtmlReporter
 import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.PrintStream
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
@@ -18,7 +16,7 @@ plugins {
     alias(libs.plugins.aboutLibraries)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.androidx.room)
-    alias(libs.plugins.detekt)
+//    alias(libs.plugins.detekt)
 }
 
 group = "com.woowla"
@@ -34,11 +32,11 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
-detekt {
-    config.from(files("$rootDir/config/detekt/detekt-config.yml"))
-    baseline = file("$rootDir/config/detekt/detekt-baseline.xml")
-    buildUponDefaultConfig = true
-}
+//detekt {
+//    config.from(files("$rootDir/config/detekt/detekt-config.yml"))
+//    baseline = file("$rootDir/config/detekt/detekt-baseline.xml")
+//    buildUponDefaultConfig = true
+//}
 
 buildConfig {
     packageName("com.woowla.ghd")
@@ -57,7 +55,7 @@ ksp {
 }
 
 room {
-    schemaDirectory("${projectDir}/src/main/room/schemas")
+    schemaDirectory("${projectDir}/src/commonMain/room/schemas")
 }
 
 apollo {
@@ -73,43 +71,64 @@ aboutLibraries {
     export.excludeFields.addAll("description", "funding")
 }
 
+
+kotlin {
+    jvm("desktop")
+
+    sourceSets {
+        val desktopMain by getting
+
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+        }
+        commonTest.dependencies {
+            implementation(libs.test.mockk)
+            implementation(libs.bundles.test.kotest)
+            implementation(libs.test.konsist)
+        }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(compose.material3)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.logback.classic)
+            implementation(libs.semver)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.bundles.coil)
+            implementation(libs.icons.tabler)
+            implementation(libs.bundles.flowredux)
+            implementation(libs.composenativetray)
+            implementation(libs.materialkolor)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.bundles.koin)
+            implementation(libs.arrow.optics)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.aboutlibraries)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.bundles.ktor.client)
+            implementation(libs.appdirs)
+            implementation(libs.kaml)
+            implementation(libs.settings)
+            implementation(libs.apollo3)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.konvert.api)
+
+//            detektPlugins(libs.detekt.formatting)
+        }
+    }
+}
+
 dependencies {
-    implementation(compose.desktop.currentOs)
-    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-    implementation(compose.material3)
-    implementation(libs.kotlinx.coroutines.swing)
-    implementation(libs.logback.classic)
-    implementation(libs.semver)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.bundles.coil)
-    implementation(libs.icons.tabler)
-    implementation(libs.bundles.flowredux)
-    implementation(libs.composenativetray)
-    implementation(libs.materialkolor)
-    implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.bundles.koin)
-    implementation(libs.arrow.optics)
     ksp(libs.arrow.optics.ksp)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.aboutlibraries)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.bundles.ktor.client)
-    implementation(libs.appdirs)
-    implementation(libs.kaml)
-    implementation(libs.settings)
-    implementation(libs.apollo3)
     ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.sqlite.bundled)
-    implementation(libs.konvert.api)
     ksp(libs.konvert.ksp)
-
-    testImplementation(libs.test.mockk)
-    testImplementation(libs.bundles.test.kotest)
-    testImplementation(libs.test.konsist)
-
-    detektPlugins(libs.detekt.formatting)
 }
 
 compose.desktop {
@@ -147,11 +166,11 @@ tasks.register("ghdCleanDebugAppFolder") {
 }
 
 // disabling detekt from the check task
-tasks.named("check").configure {
-    this.setDependsOn(this.dependsOn.filterNot {
-        it is TaskProvider<*> && it.name == "detekt"
-    })
-}
+//tasks.named("check").configure {
+//    this.setDependsOn(this.dependsOn.filterNot {
+//        it is TaskProvider<*> && it.name == "detekt"
+//    })
+//}
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
@@ -167,10 +186,6 @@ tasks.withType<Test>().configureEach {
         )
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 }
 
 tasks.withType<DependencyUpdatesTask> {

@@ -290,12 +290,12 @@
             "defaultValue": "0"
           },
           {
-            "fieldPath": "repository.owner",
+            "fieldPath": "gitHubRepository.owner",
             "columnName": "owner",
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "repository.name",
+            "fieldPath": "gitHubRepository.name",
             "columnName": "name",
             "affinity": "TEXT"
           }
