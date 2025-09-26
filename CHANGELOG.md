@@ -14,9 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [2.0.5]
+### Added
+- Hot reload
 ### Changed
 - Update GitHub Action dependencies
 - Update dependencies
+### Removed
+- Detekt
 
 ## [2.0.4]
 ### Added
