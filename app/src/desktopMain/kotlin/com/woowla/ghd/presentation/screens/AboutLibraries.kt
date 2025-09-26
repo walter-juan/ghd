@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.useResource
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
-import com.mikepenz.aboutlibraries.ui.compose.m3.rememberLibraries
+import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
 import com.woowla.ghd.presentation.i18nUi
 import com.woowla.ghd.presentation.components.TopBar
 import com.woowla.ghd.core.utils.openWebpage
@@ -27,7 +27,7 @@ object AboutLibraries {
                 )
             }
         ) { paddingValues ->
-            val libraries by rememberLibraries {
+            val libraries by produceLibraries {
                 useResource(jsonFileName) { res -> res.bufferedReader().readText() }
             }
             LibrariesContainer(

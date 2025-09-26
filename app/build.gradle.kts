@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.reporter.HtmlReporter
 import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
+import org.gradle.kotlin.dsl.support.serviceOf
 import java.io.PrintStream
 
 plugins {
@@ -219,7 +220,8 @@ fun openBrowser(file: File) {
     val os = org.gradle.internal.os.OperatingSystem.current()
     if (os.isMacOsX || os.isLinux) {
         logger.info("Open $file")
-        exec { commandLine("open", file) }
+        val execOperations = project.serviceOf<ExecOperations>()
+        execOperations.exec { commandLine("open", file) }
     } else {
         logger.error("Non-supported operating system to open a file ${os.name}")
     }

@@ -1,6 +1,6 @@
 package com.woowla.ghd.data
 
-import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo.ApolloClient
 import com.woowla.ghd.domain.data.LocalDataSource
 import com.woowla.ghd.data.local.LocalDataSourceImpl
 import com.woowla.ghd.data.local.prop.AppProperties

@@ -1,9 +1,9 @@
 package com.woowla.ghd.data.remote
 
-import com.apollographql.apollo3.ApolloClient
-import com.apollographql.apollo3.api.ApolloResponse
-import com.apollographql.apollo3.api.Operation
-import com.apollographql.apollo3.network.http.HttpInfo
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.Operation
+import com.apollographql.apollo.network.http.HttpInfo
 import com.woowla.ghd.core.AppLogger
 import com.woowla.ghd.data.remote.entities.ApiGhdRelease
 import com.woowla.ghd.data.remote.mappers.toGhdRelease
@@ -61,7 +61,7 @@ class RemoteDataSourceImpl(
             val owner = repoToCheck.repository.owner
             val repo = repoToCheck.repository.name
             val pullRequestsQuery = GetAllStatesPullRequestsQuery(owner = owner, name = repo, last = 25)
-            val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
+            val pullRequestsResponse = apolloClient.query(pullRequestsQuery).executeV3()
 
             val repository = pullRequestsResponse.dataAssertNoErrors.repository
             val openPullRequests = repository?.openPullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
@@ -85,7 +85,7 @@ class RemoteDataSourceImpl(
             val owner = repoToCheck.repository.owner
             val repo = repoToCheck.repository.name
             val getLastReleaseQuery = GetLastReleaseQuery(owner = owner, name = repo)
-            val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).execute()
+            val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).executeV3()
 
             val data = getLastReleaseResponse
                 .dataAssertNoErrors
