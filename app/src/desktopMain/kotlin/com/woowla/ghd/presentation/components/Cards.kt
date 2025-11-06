@@ -61,12 +61,12 @@ import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
+import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.domain.entities.anyApproved
-import com.woowla.ghd.domain.entities.removeCopilotReviews
 import com.woowla.ghd.presentation.app.AppColors.info
 import com.woowla.ghd.presentation.app.AppColors.success
 import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.presentation.decorators.PullRequestReviewDecisionDecorator
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
 import com.woowla.ghd.presentation.decorators.ReviewRequestDecorator
 
@@ -364,15 +364,17 @@ fun PullRequestCard(
                             )
                         }
 
-                        val color = when {
-                            pullRequestWithReviews.reviews.removeCopilotReviews().isEmpty() -> MaterialTheme.colorScheme.info
-                            pullRequestWithReviews.reviews.removeCopilotReviews().anyApproved() -> MaterialTheme.colorScheme.success
-                            else -> MaterialTheme.colorScheme.error
+                        val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
+                            PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.success
+                            PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
+                            PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.info
+                            PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
                         }
+                        val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
                         Tag(
-                            text = pullRequestDecorator.reviewsText(),
-                            icon = pullRequestDecorator.reviewsIcon(),
-                            color = color,
+                            text = reviewDecisionDecorator.text,
+                            icon = reviewDecisionDecorator.icon,
+                            color = reviewDecisionColor,
                         )
                         pullRequestWithReviews.reviews.forEach { review ->
                             val reviewDecorator = ReviewDecorator(review)

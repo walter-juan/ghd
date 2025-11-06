@@ -47,6 +47,7 @@ data class DbPullRequest(
     @ColumnInfo(name = "merge_state_status", defaultValue = "") val mergeStateStatus: String,
     @ColumnInfo(name = "last_commit_check_rollup_status") val lastCommitCheckRollupStatus: String,
     @ColumnInfo(name = "last_commit_sha1") val lastCommitSha1: String?,
+    @ColumnInfo(name = "review_decision", defaultValue = "") val reviewDecision: String,
     @Embedded val author: DbAuthor?,
 ) {
     companion object

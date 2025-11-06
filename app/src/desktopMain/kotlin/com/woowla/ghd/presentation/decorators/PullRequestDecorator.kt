@@ -1,20 +1,14 @@
 package com.woowla.ghd.presentation.decorators
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
-import com.woowla.compose.icon.collections.tabler.tabler.outline.AlertCircle
-import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleCheck
-import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleDashed
 import com.woowla.compose.icon.collections.tabler.tabler.outline.List
 import com.woowla.compose.icon.collections.tabler.tabler.outline.ListCheck
 import com.woowla.compose.icon.collections.tabler.tabler.outline.PlaylistX
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.core.extensions.toRelativeString
-import com.woowla.ghd.domain.entities.anyApproved
-import com.woowla.ghd.domain.entities.removeCopilotReviews
 import com.woowla.ghd.presentation.i18nUi
 import kotlin.time.Duration.Companion.days
 
@@ -41,19 +35,5 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         CommitCheckRollupStatus.EXPECTED -> Tabler.Outline.List
         CommitCheckRollupStatus.PENDING -> Tabler.Outline.List
         CommitCheckRollupStatus.UNKNOWN -> Tabler.Outline.List
-    }
-    fun reviewsText(): String {
-        return when {
-            pullRequestWithReviews.reviews.removeCopilotReviews().isEmpty() -> "Review pending"
-            pullRequestWithReviews.reviews.removeCopilotReviews().anyApproved() -> "Review approved"
-            else -> "Review not approved"
-        }
-    }
-    fun reviewsIcon(): ImageVector {
-        return when {
-            pullRequestWithReviews.reviews.removeCopilotReviews().isEmpty() -> Tabler.Outline.CircleDashed
-            pullRequestWithReviews.reviews.removeCopilotReviews().anyApproved() -> Tabler.Outline.CircleCheck
-            else -> Tabler.Outline.AlertCircle
-        }
     }
 }

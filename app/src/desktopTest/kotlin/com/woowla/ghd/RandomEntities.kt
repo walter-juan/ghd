@@ -8,6 +8,7 @@ import com.woowla.ghd.domain.entities.Repository
 import com.woowla.ghd.domain.entities.MergeGitHubStateStatus
 import com.woowla.ghd.domain.entities.NotificationsSettings
 import com.woowla.ghd.domain.entities.PullRequest
+import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
@@ -64,6 +65,7 @@ object RandomEntities {
         lastCommitSha1 = RandomValues.randomString(),
         author = author,
         mergeableState = GitHubMergeableState.entries.random(),
+        reviewDecision = PullRequestReviewDecision.entries.random(),
     )
 
     fun pullRequestWithRepoAndReviews(

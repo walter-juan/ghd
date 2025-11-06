@@ -17,6 +17,7 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
+import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewRequest
 import kotlinx.datetime.Instant
 
@@ -51,6 +52,7 @@ fun PullRequestFragment.Node.toPullRequest(
         mergeStateStatus = enumValueOfOrDefault(mergeStateStatus.toString(), MergeGitHubStateStatus.UNKNOWN),
         lastCommitCheckRollupStatus = enumValueOfOrDefault(lastCommitCheckRollupStatusString, CommitCheckRollupStatus.UNKNOWN),
         lastCommitSha1 = lastCommitSha1,
+        reviewDecision = enumValueOfOrDefault(reviewDecision.toString(), PullRequestReviewDecision.UNKNOWN),
         repoToCheckId = repoToCheck.id,
     )
 

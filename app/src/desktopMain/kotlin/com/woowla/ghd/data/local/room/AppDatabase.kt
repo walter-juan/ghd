@@ -31,7 +31,7 @@ import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import kotlinx.coroutines.Dispatchers
 
 @Database(
-    version = 7,
+    version = 8,
     entities = [
         DbPullRequest::class,
         DbRelease::class,
@@ -49,6 +49,7 @@ import kotlinx.coroutines.Dispatchers
         AutoMigration(from = 4, to = 5, spec = AppDatabase.AutoMigrationFrom4To5::class),
         AutoMigration(from = 5, to = 6),
         AutoMigration(from = 6, to = 7),
+        AutoMigration(from = 7, to = 8),
     ],
 )
 @TypeConverters(Converters::class)

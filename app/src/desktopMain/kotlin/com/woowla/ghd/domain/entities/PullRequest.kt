@@ -23,6 +23,7 @@ data class PullRequest(
     val mergeStateStatus: MergeGitHubStateStatus,
     val lastCommitCheckRollupStatus: CommitCheckRollupStatus,
     val lastCommitSha1: String?,
+    val reviewDecision: PullRequestReviewDecision,
     val author: Author?,
 ) {
     val canBeMerged = mergeStateStatus == MergeGitHubStateStatus.CLEAN
