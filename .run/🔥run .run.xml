@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="app:hotRaunDesktop" />
+          <option value="hotRunDesktop" />
           <option value="--mainClass" />
           <option value="&quot;MainKt&quot;" />
         </list>
