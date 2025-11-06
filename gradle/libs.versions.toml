@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.2.20"
-ksp = "2.2.20-2.0.3"
+kotlin = "2.1.21"
+ksp = "2.1.21-2.0.1"
 compose-jetbrains = "1.9.0"
 compose-hotreload = "1.0.0-beta08"
 apollo3 = "4.3.3"
@@ -53,7 +53,7 @@ androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.r
 # kotlin coroutines, needed because we are using the main dispatcher
 kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.2"
 # date time kotlin lib
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.2"
 # ktor http client (needed for coil and some API requests)
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
