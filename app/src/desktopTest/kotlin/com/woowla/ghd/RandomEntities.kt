@@ -14,6 +14,7 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewRequest
 import com.woowla.ghd.domain.entities.ReviewState
 
 object RandomEntities {
@@ -69,10 +70,12 @@ object RandomEntities {
         repoToCheck: RepoToCheck = repoToCheck(),
         pullRequest: PullRequest = pullRequest(),
         reviews: List<Review> = listOf(review()),
+        reviewRequests: List<ReviewRequest> = listOf(reviewRequest()),
     ) = PullRequestWithRepoAndReviews(
         pullRequest = pullRequest,
         repoToCheck = repoToCheck,
         reviews = reviews,
+        reviewRequests = reviewRequests,
     )
 
     fun release(
@@ -116,6 +119,14 @@ object RandomEntities {
         submittedAt = RandomValues.randomInstant(),
         url = RandomValues.randomUrl(),
         state = ReviewState.entries.random(),
+        author = author()
+    )
+
+    fun reviewRequest(
+        pullRequestId: String = RandomValues.randomString(),
+    ): ReviewRequest = ReviewRequest(
+        id = RandomValues.randomId(),
+        pullRequestId = pullRequestId,
         author = author()
     )
 

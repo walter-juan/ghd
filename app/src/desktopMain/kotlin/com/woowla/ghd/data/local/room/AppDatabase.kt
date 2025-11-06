@@ -16,6 +16,7 @@ import com.woowla.ghd.data.local.room.daos.PullRequestDao
 import com.woowla.ghd.data.local.room.daos.ReleaseDao
 import com.woowla.ghd.data.local.room.daos.RepoToCheckDao
 import com.woowla.ghd.data.local.room.daos.ReviewDao
+import com.woowla.ghd.data.local.room.daos.ReviewRequestDao
 import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
@@ -23,18 +24,20 @@ import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
 import com.woowla.ghd.data.local.room.entities.DbReview
+import com.woowla.ghd.data.local.room.entities.DbReviewRequest
 import com.woowla.ghd.data.local.room.entities.DbSyncResult
 import com.woowla.ghd.data.local.room.entities.DbSyncResultEntry
 import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import kotlinx.coroutines.Dispatchers
 
 @Database(
-    version = 6,
+    version = 7,
     entities = [
         DbPullRequest::class,
         DbRelease::class,
         DbRepoToCheck::class,
         DbReview::class,
+        DbReviewRequest::class,
         DbSyncResult::class,
         DbSyncResultEntry::class,
         DbSyncSettings::class,
@@ -45,6 +48,7 @@ import kotlinx.coroutines.Dispatchers
         AutoMigration(from = 3, to = 4, spec = AppDatabase.AutoMigrationFrom3To4::class),
         AutoMigration(from = 4, to = 5, spec = AppDatabase.AutoMigrationFrom4To5::class),
         AutoMigration(from = 5, to = 6),
+        AutoMigration(from = 6, to = 7),
     ],
 )
 @TypeConverters(Converters::class)
@@ -64,6 +68,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun releaseDao(): ReleaseDao
     abstract fun repoToCheckDao(): RepoToCheckDao
     abstract fun reviewDao(): ReviewDao
+    abstract fun reviewRequestDao(): ReviewRequestDao
     abstract fun syncResultDao(): SyncResultDao
     abstract fun syncResultEntryDao(): SyncResultEntryDao
     abstract fun syncSettingsDao(): SyncSettingsDao

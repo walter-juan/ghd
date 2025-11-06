@@ -12,6 +12,7 @@ data class DbPullRequestWithRepoAndReviews(
 
     val pullRequest: DbPullRequest,
     val reviews: List<DbReview>,
+    val reviewRequests: List<DbReviewRequest>,
 ) {
     companion object
 }

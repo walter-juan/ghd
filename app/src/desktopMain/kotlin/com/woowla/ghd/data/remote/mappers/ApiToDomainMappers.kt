@@ -17,6 +17,7 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
+import com.woowla.ghd.domain.entities.ReviewRequest
 import kotlinx.datetime.Instant
 
 fun ApiGhdRelease.toGhdRelease(): GhdRelease {
@@ -57,6 +58,7 @@ fun PullRequestFragment.Node.toPullRequest(
         pullRequest = pullRequest,
         reviews = latestReviews?.toReviews(pullRequestId = id) ?: listOf(),
         repoToCheck = repoToCheck,
+        reviewRequests = reviewRequests?.toReviewRequests(pullRequestId = id) ?: listOf(),
     )
 }
 
@@ -91,7 +93,30 @@ fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Rev
     } ?: listOf()
 }
 
+fun PullRequestFragment.ReviewRequests.toReviewRequests(pullRequestId: String): List<ReviewRequest> {
+    return edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            node.requestedReviewer?.onUser?.let { user ->
+                // Only user reviewers are supported for now (team, bot, and others not)
+                ReviewRequest(
+                    id = node.id,
+                    author = user.toAuthor(),
+                    pullRequestId = pullRequestId,
+                )
+            }
+        }
+    } ?: listOf()
+}
+
 fun PullRequestFragment.Author.toAuthor(): Author {
+    return Author(
+        login = login,
+        url = url.toString(),
+        avatarUrl = avatarUrl.toString(),
+    )
+}
+
+fun PullRequestFragment.OnUser.toAuthor(): Author {
     return Author(
         login = login,
         url = url.toString(),

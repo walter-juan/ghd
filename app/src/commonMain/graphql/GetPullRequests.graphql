@@ -70,6 +70,20 @@ fragment pullRequestFragment on PullRequestConnection {
                     }
                 }
             }
+            reviewRequests(last: $last) {
+                edges {
+                    node {
+                        id
+                        requestedReviewer {
+                            ... on User {
+                                url
+                                login
+                                avatarUrl
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

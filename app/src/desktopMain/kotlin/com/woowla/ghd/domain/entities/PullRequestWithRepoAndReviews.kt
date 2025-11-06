@@ -4,6 +4,7 @@ data class PullRequestWithRepoAndReviews(
     val repoToCheck: RepoToCheck,
     val pullRequest: PullRequest,
     val reviews: List<Review>,
+    val reviewRequests: List<ReviewRequest>,
 ) : Comparable<PullRequestWithRepoAndReviews> {
     companion object {
         val defaultComparator = compareBy<PullRequestWithRepoAndReviews> {

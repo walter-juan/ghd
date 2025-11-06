@@ -37,7 +37,9 @@ import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
 import com.woowla.ghd.core.utils.enumValueOfOrNull
+import com.woowla.ghd.data.local.room.toDbReviewRequest
 import com.woowla.ghd.domain.data.LocalDataSource
+import com.woowla.ghd.domain.entities.ReviewRequest
 
 class LocalDataSourceImpl(
     private val appProperties: AppProperties,
@@ -245,11 +247,13 @@ class LocalDataSourceImpl(
         return runCatching {
             val repoToCheckList = appDatabase.repoToCheckDao().getAll()
             val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = id)
+            val reviewRequestList = appDatabase.reviewRequestDao().getByPullRequest(pullRequestId = id)
             val pullRequest = appDatabase.pullRequestDao().get(id)
             DbPullRequestWithRepoAndReviews(
                 repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                 pullRequest = pullRequest,
                 reviews = reviewList,
+                reviewRequests = reviewRequestList,
             ).toPullRequestWithRepoAndReviews()
         }
     }
@@ -260,10 +264,12 @@ class LocalDataSourceImpl(
                 .getAll()
                 .map { pullRequest ->
                     val reviewList = appDatabase.reviewDao().getByPullRequest(pullRequestId = pullRequest.id)
+                    val reviewRequestList = appDatabase.reviewRequestDao().getByPullRequest(pullRequestId = pullRequest.id)
                     DbPullRequestWithRepoAndReviews(
                         repoToCheck = repoToCheckList.first { it.id == pullRequest.repoToCheckId },
                         pullRequest = pullRequest,
                         reviews = reviewList,
+                        reviewRequests = reviewRequestList,
                     ).toPullRequestWithRepoAndReviews()
                 }
         }
@@ -316,6 +322,20 @@ class LocalDataSourceImpl(
 
         return runCatching {
             appDatabase.reviewDao().insert(reviews.toDbReview())
+        }
+    }
+
+    override suspend fun removeReviewRequestsByPullRequest(pullRequestIds: List<String>): Result<Unit> {
+        return runCatching {
+            appDatabase.reviewRequestDao().deleteByPullRequest(pullRequestIds)
+        }
+    }
+
+    override suspend fun upsertReviewRequests(reviewRequests: List<ReviewRequest>): Result<Unit> {
+        if (reviewRequests.isEmpty()) return Result.success(Unit)
+
+        return runCatching {
+            appDatabase.reviewRequestDao().insert(reviewRequests.toDbReviewRequest())
         }
     }
 

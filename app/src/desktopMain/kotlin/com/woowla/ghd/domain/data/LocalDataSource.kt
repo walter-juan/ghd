@@ -7,6 +7,7 @@ import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.Review
+import com.woowla.ghd.domain.entities.ReviewRequest
 import com.woowla.ghd.domain.entities.SyncResult
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
@@ -66,6 +67,10 @@ interface LocalDataSource {
     suspend fun removeReviewsByPullRequest(pullRequestIds: List<String>): Result<Unit>
 
     suspend fun upsertReviews(reviews: List<Review>): Result<Unit>
+
+    suspend fun removeReviewRequestsByPullRequest(pullRequestIds: List<String>): Result<Unit>
+
+    suspend fun upsertReviewRequests(reviewRequests: List<ReviewRequest>): Result<Unit>
 
     suspend fun getOrCreateSyncSettings(): SyncSettings
 }

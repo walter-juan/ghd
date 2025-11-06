@@ -75,6 +75,9 @@ class PullRequestServiceImpl(
         localDataSource.removeReviewsByPullRequest(pullRequestsWithRepos.map { it.pullRequest.id })
         val reviews = pullRequestsWithRepos.map { it.reviews }.flatten()
         localDataSource.upsertReviews(reviews)
+        localDataSource.removeReviewRequestsByPullRequest(pullRequestsWithRepos.map { it.pullRequest.id })
+        val reviewRequests = pullRequestsWithRepos.map { it.reviewRequests }.flatten()
+        localDataSource.upsertReviewRequests(reviewRequests)
 
         // remove pull requests non returned from remote
         val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - pullRequestsWithRepos.map { it.pullRequest.id }.toSet()
