@@ -18,7 +18,7 @@ data class Review(
         return defaultComparator.compare(this, other)
     }
 
-    fun reRequestedReview(): Boolean {
+    fun isReRequestedReview(): Boolean {
         return state == ReviewState.DISMISSED
     }
 }

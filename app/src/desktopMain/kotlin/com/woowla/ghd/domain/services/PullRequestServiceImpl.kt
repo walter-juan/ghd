@@ -161,7 +161,7 @@ class PullRequestServiceImpl(
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { !it.reRequestedReview() }
+                        pullRequest to reviews.filter { !it.isReRequestedReview() }
                     }
                     .filter { (_, reviews) ->
                         reviews.isNotEmpty()
@@ -200,7 +200,7 @@ class PullRequestServiceImpl(
                     .filterNotNewPullRequests(oldPullRequestsWithReviews)
                     .filterByReviewStateChanged(oldPullRequestsWithReviews)
                     .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { !it.reRequestedReview() }
+                        pullRequest to reviews.filter { !it.isReRequestedReview() }
                     }
                     .filter { (_, reviews) ->
                         reviews.isNotEmpty()
