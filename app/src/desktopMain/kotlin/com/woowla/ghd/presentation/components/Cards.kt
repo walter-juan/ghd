@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
@@ -34,34 +33,18 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.room.util.TableInfo
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
-import com.woowla.compose.icon.collections.tabler.tabler.outline.AlertCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
-import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleCheck
-import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleDashed
-import com.woowla.compose.icon.collections.tabler.tabler.outline.Clipboard
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Edit
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
-import com.woowla.compose.icon.collections.tabler.tabler.outline.QuestionMark
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
-import com.woowla.compose.icon.collections.tabler.tabler.outline.Star
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserCheck
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserEdit
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserExclamation
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserOff
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserPause
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserQuestion
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserSearch
-import com.woowla.compose.icon.collections.tabler.tabler.outline.UserX
-import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
@@ -69,8 +52,6 @@ import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
 import com.woowla.ghd.domain.entities.SyncResultEntryWithRepo
 import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
-import com.woowla.ghd.domain.entities.anyCommentedOrChangesRequested
-import com.woowla.ghd.domain.entities.anyNonApproved
 import com.woowla.ghd.core.extensions.toColor
 import com.woowla.ghd.presentation.i18nUi
 import com.woowla.ghd.presentation.app.AppColors.gitPrMerged
@@ -87,6 +68,7 @@ import com.woowla.ghd.presentation.app.AppColors.info
 import com.woowla.ghd.presentation.app.AppColors.success
 import com.woowla.ghd.presentation.app.AppColors.warning
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
+import com.woowla.ghd.presentation.decorators.ReviewRequestDecorator
 
 @Composable
 fun SynResultCard(
@@ -407,6 +389,15 @@ fun PullRequestCard(
                                 text = text,
                                 icon = reviewDecorator.icon,
                                 color = color,
+                            )
+                        }
+
+                        pullRequestWithReviews.reviewRequests.forEach { reviewRequest ->
+                            val decorator = ReviewRequestDecorator(reviewRequest)
+                            Tag(
+                                text = decorator.authorLogin,
+                                icon = decorator.icon,
+                                color = MaterialTheme.colorScheme.warning,
                             )
                         }
                     }
