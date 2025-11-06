@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
@@ -33,19 +34,34 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.room.util.TableInfo
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.AlertCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Book2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Boom
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleCheck
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleDashed
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Clipboard
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Clock
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Edit
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
+import com.woowla.compose.icon.collections.tabler.tabler.outline.QuestionMark
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Star
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserCheck
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserEdit
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserExclamation
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserOff
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserPause
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserQuestion
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserSearch
+import com.woowla.compose.icon.collections.tabler.tabler.outline.UserX
+import com.woowla.compose.icon.collections.tabler.tabler.outline.Users
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
@@ -64,6 +80,13 @@ import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
+import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.anyApproved
+import com.woowla.ghd.domain.entities.removeCopilotReviews
+import com.woowla.ghd.presentation.app.AppColors.info
+import com.woowla.ghd.presentation.app.AppColors.success
+import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.presentation.decorators.ReviewDecorator
 
 @Composable
 fun SynResultCard(
@@ -303,68 +326,89 @@ fun PullRequestCard(
             )
         },
         supportingContent = {
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Tag(
-                    text = pullRequestDecorator.state.text,
-                    icon = pullRequestDecorator.state.icon,
-                    color = pullRequestDecorator.state.iconTint(),
-                )
-                val date = when(pullRequestWithReviews.pullRequest.stateExtended) {
-                    PullRequestStateExtended.OPEN,
-                    PullRequestStateExtended.DRAFT,
-                    PullRequestStateExtended.UNKNOWN -> {
-                        pullRequestDecorator.createdAt
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Tag(
+                        text = pullRequestDecorator.state.text,
+                        icon = pullRequestDecorator.state.icon,
+                        color = pullRequestDecorator.state.iconTint(),
+                    )
+                    val date = when(pullRequestWithReviews.pullRequest.stateExtended) {
+                        PullRequestStateExtended.OPEN,
+                        PullRequestStateExtended.DRAFT,
+                        PullRequestStateExtended.UNKNOWN -> {
+                            pullRequestDecorator.createdAt
+                        }
+                        PullRequestStateExtended.CLOSED -> {
+                            pullRequestDecorator.closedAt
+                        }
+                        PullRequestStateExtended.MERGED -> {
+                            pullRequestDecorator.mergedAt
+                        }
                     }
-                    PullRequestStateExtended.CLOSED -> {
-                        pullRequestDecorator.closedAt
-                    }
-                    PullRequestStateExtended.MERGED -> {
-                        pullRequestDecorator.mergedAt
-                    }
-                }
-                Tag(
-                    text = date,
-                    icon = Tabler.Outline.Clock,
-                )
-                if (showExtras) {
-                    if (pullRequestWithReviews.pullRequest.hasConflicts) {
+                    Tag(
+                        text = date,
+                        icon = Tabler.Outline.Clock,
+                    )
+                    if (showExtras) {
+                        if (pullRequestWithReviews.pullRequest.hasConflicts) {
+                            Tag(
+                                text = "Conflicts",
+                                icon = Tabler.Outline.Boom,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                        if (pullRequestWithReviews.pullRequest.canBeMerged) {
+                            Tag(
+                                text = i18nUi.screen_pull_requests_can_be_merged,
+                                icon = Tabler.Outline.Rocket,
+                                color = MaterialTheme.colorScheme.gitPrMerged
+                            )
+                        }
+                        if (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS) {
+                            Tag(
+                                text = pullRequestDecorator.commitChecks,
+                                icon = pullRequestDecorator.commitChecksIcon,
+                                color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) {
+                                    MaterialTheme.colorScheme.error
+                                } else {
+                                    MaterialTheme.colorScheme.secondary
+                                },
+                            )
+                        }
+
+                        val color = when {
+                            pullRequestWithReviews.reviews.removeCopilotReviews().isEmpty() -> MaterialTheme.colorScheme.info
+                            pullRequestWithReviews.reviews.removeCopilotReviews().anyApproved() -> MaterialTheme.colorScheme.success
+                            else -> MaterialTheme.colorScheme.error
+                        }
                         Tag(
-                            text = "Conflicts",
-                            icon = Tabler.Outline.Boom,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                    if (pullRequestWithReviews.pullRequest.canBeMerged) {
-                        Tag(
-                            text = i18nUi.screen_pull_requests_can_be_merged,
-                            icon = Tabler.Outline.Rocket,
-                            color = MaterialTheme.colorScheme.gitPrMerged
-                        )
-                    }
-                    if (pullRequestWithReviews.reviews.isEmpty() || pullRequestWithReviews.reviews.anyNonApproved()) {
-                        Tag(
-                            text = pullRequestDecorator.reviewsNonApproved(),
+                            text = pullRequestDecorator.reviewsText(),
                             icon = pullRequestDecorator.reviewsIcon(),
-                            color = if (pullRequestWithReviews.reviews.anyCommentedOrChangesRequested()) {
-                                MaterialTheme.colorScheme.error
-                            } else {
-                                MaterialTheme.colorScheme.secondary
-                            },
+                            color = color,
                         )
-                    }
-                    if (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS) {
-                        Tag(
-                            text = pullRequestDecorator.commitChecks,
-                            icon = pullRequestDecorator.commitChecksIcon,
-                            color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) {
-                                MaterialTheme.colorScheme.error
-                            } else {
-                                MaterialTheme.colorScheme.secondary
-                            },
-                        )
+                        pullRequestWithReviews.reviews.forEach { review ->
+                            val reviewDecorator = ReviewDecorator(review)
+                            val text = reviewDecorator.authorLogin
+                            val color = when (review.state) {
+                                ReviewState.APPROVED -> MaterialTheme.colorScheme.success
+                                ReviewState.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
+                                ReviewState.COMMENTED -> MaterialTheme.colorScheme.secondary
+                                ReviewState.DISMISSED -> MaterialTheme.colorScheme.secondary
+                                ReviewState.PENDING -> MaterialTheme.colorScheme.secondary
+                                ReviewState.UNKNOWN -> MaterialTheme.colorScheme.secondary
+                            }
+                            Tag(
+                                text = text,
+                                icon = reviewDecorator.icon,
+                                color = color,
+                            )
+                        }
                     }
                 }
             }

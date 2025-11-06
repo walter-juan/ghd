@@ -23,6 +23,24 @@ fun Tag(
     icon: ImageVector?,
     color: Color = MaterialTheme.colorScheme.secondary
 ) {
+    Tag(
+        icon = icon,
+        color = color
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelSmall,
+            color = color
+        )
+    }
+}
+
+@Composable
+fun Tag(
+    icon: ImageVector?,
+    color: Color = MaterialTheme.colorScheme.secondary,
+    content: @Composable () -> Unit,
+) {
     Surface(
         color = color.copy(alpha = 0.1f),
         shape = RoundedCornerShape(16.dp),
@@ -41,11 +59,7 @@ fun Tag(
                     modifier = Modifier.size(14.dp)
                 )
             }
-            Text(
-                text = text,
-                style = MaterialTheme.typography.labelSmall,
-                color = color
-            )
+            content.invoke()
         }
     }
 }
