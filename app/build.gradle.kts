@@ -138,14 +138,14 @@ compose.desktop {
             includeAllModules = true
             val iconName = if (debug) { "ic_launcher_debug" } else { "ic_launcher" }
             macOS {
-                iconFile.set(project.file("src/main/resources/icons/$iconName.icns"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.icns"))
             }
             windows {
                 menuGroup = ""
-                iconFile.set(project.file("src/main/resources/icons/$iconName.ico"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.ico"))
             }
             linux {
-                iconFile.set(project.file("src/main/resources/icons/$iconName.png"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.png"))
             }
         }
     }
