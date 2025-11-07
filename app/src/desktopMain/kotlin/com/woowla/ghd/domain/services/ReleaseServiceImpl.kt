@@ -14,7 +14,7 @@ import com.woowla.ghd.domain.notifications.NotificationsSender
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
 
 class ReleaseServiceImpl(
     private val localDataSource: LocalDataSource,

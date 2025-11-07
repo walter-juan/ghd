@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import com.woowla.ghd.domain.entities.RateLimit
 import io.mcarle.konvert.api.KonvertFrom
 import io.mcarle.konvert.api.KonvertTo
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 @KonvertFrom(RateLimit::class)
 @KonvertTo(RateLimit::class)

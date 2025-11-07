@@ -7,7 +7,7 @@ import com.woowla.ghd.domain.entities.PullRequestState
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.SyncResultEntry
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 class Converters {
     @TypeConverter

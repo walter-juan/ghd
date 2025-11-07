@@ -1,7 +1,7 @@
 package com.woowla.ghd.domain.entities
 
 import kotlin.time.Duration
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 data class SyncResult(
     val id: Long = 0,

@@ -19,7 +19,7 @@ import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewRequest
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 fun ApiGhdRelease.toGhdRelease(): GhdRelease {
     return GhdRelease(

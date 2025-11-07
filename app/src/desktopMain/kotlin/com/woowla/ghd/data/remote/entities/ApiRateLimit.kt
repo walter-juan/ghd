@@ -1,6 +1,6 @@
 package com.woowla.ghd.data.remote.entities
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 data class ApiRateLimit(
     val limit: Long?,

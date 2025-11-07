@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.woowla.ghd.domain.entities.SyncResult
 import io.mcarle.konvert.api.KonvertFrom
 import io.mcarle.konvert.api.KonvertTo
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 @Entity(tableName = "sync_result")
 @KonvertFrom(SyncResult::class)

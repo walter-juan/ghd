@@ -1,6 +1,6 @@
 package com.woowla.ghd.domain.entities
 
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 data class Release(
     val id: String,

@@ -2,7 +2,7 @@ package com.woowla.ghd.presentation
 
 import com.woowla.ghd.core.extensions.format
 import com.woowla.ghd.core.extensions.toRelativeString
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 
 internal object i18nUi {
     val githubRepoLink = "https://github.com/walter-juan/ghd"

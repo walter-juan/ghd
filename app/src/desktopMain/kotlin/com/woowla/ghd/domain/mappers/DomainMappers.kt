@@ -2,8 +2,8 @@ package com.woowla.ghd.domain.mappers
 
 import com.woowla.ghd.domain.entities.ApiResponse
 import com.woowla.ghd.domain.entities.SyncResultEntry
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 fun <T : Any> Result<ApiResponse<T>>.toSyncResultEntry(
     syncResultId: Long,

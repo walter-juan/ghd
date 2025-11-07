@@ -70,6 +70,10 @@ aboutLibraries {
 kotlin {
     jvm("desktop")
 
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime") // For kotlinx-datetime was moved to kotlin.time
+    }
+
     sourceSets {
         val desktopMain by getting
 

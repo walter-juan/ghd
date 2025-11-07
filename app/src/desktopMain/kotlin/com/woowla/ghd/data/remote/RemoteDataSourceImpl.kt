@@ -25,7 +25,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.http.URLProtocol
 import io.ktor.http.appendPathSegments
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.serialization.json.Json
 
 class RemoteDataSourceImpl(
