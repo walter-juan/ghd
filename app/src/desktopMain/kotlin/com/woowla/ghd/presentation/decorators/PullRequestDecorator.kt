@@ -1,5 +1,8 @@
 package com.woowla.ghd.presentation.decorators
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
@@ -12,7 +15,7 @@ import com.woowla.ghd.core.extensions.toRelativeString
 import com.woowla.ghd.presentation.i18nUi
 import kotlin.time.Duration.Companion.days
 
-class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
+class PullRequestDecorator(private val pullRequestWithReviews: PullRequestWithRepoAndReviews) {
     val fullRepo = "${pullRequestWithReviews.repoToCheck.repository?.owner}/${pullRequestWithReviews.repoToCheck.repository?.name}"
     val createdAt = pullRequestWithReviews.pullRequest.createdAt.toRelativeString(maximumDays = 999.days)
     val mergedAt = pullRequestWithReviews.pullRequest.mergedAt?.toRelativeString(maximumDays = 999.days) ?: ""
@@ -35,5 +38,11 @@ class PullRequestDecorator(val pullRequestWithReviews: PullRequestWithRepoAndRev
         CommitCheckRollupStatus.EXPECTED -> Tabler.Outline.List
         CommitCheckRollupStatus.PENDING -> Tabler.Outline.List
         CommitCheckRollupStatus.UNKNOWN -> Tabler.Outline.List
+    }
+    @Composable
+    fun commitChecksColor(): Color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) {
+        MaterialTheme.colorScheme.error
+    } else {
+        MaterialTheme.colorScheme.secondary
     }
 }
