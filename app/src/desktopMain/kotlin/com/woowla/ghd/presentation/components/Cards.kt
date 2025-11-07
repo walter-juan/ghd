@@ -63,7 +63,6 @@ import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.presentation.app.AppColors.success
 import com.woowla.ghd.presentation.app.AppColors.warning
 import com.woowla.ghd.presentation.decorators.PullRequestReviewDecisionDecorator
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
@@ -284,7 +283,7 @@ fun ReleaseCard(
     )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun PullRequestCard(
     pullRequestWithReviews: PullRequestWithRepoAndReviews,
@@ -366,24 +365,41 @@ fun PullRequestCard(
                             )
                         }
                         // review decision
-                        if (pullRequestWithReviews.pullRequest.reviewDecision != PullRequestReviewDecision.APPROVED) {
-                            val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
-                                PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.success
-                                PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
-                                PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.secondary
-                                PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
-                            }
-                            val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
-                            Tag(
-                                text = reviewDecisionDecorator.text,
-                                icon = reviewDecisionDecorator.icon,
-                                color = reviewDecisionColor,
-                            )
+                        var reviewDecisionHover by remember { mutableStateOf(false) }
+                        val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
+                        val reviewerDecisionFullText = reviewDecisionDecorator.text
+                        var reviewerDecisionText by remember { mutableStateOf("") }
+                        val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
+                            PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.secondary
+                            PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
+                            PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.secondary
+                            PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
                         }
+                        Tag(
+                            text = reviewerDecisionText,
+                            icon = reviewDecisionDecorator.icon,
+                            color = reviewDecisionColor,
+                            modifier = Modifier
+                                .onPointerEvent(PointerEventType.Enter) {
+                                    reviewDecisionHover = true
+                                    reviewerDecisionText = reviewerDecisionFullText
+                                }
+                                .onPointerEvent(PointerEventType.Exit) {
+                                    reviewDecisionHover = false
+                                    reviewerDecisionText = ""
+                                }
+                        )
                         // reviews
                         pullRequestWithReviews.reviews.forEach { review ->
                             val reviewDecorator = ReviewDecorator(review)
-                            val text = reviewDecorator.authorLogin
+                            val reviewerLogin = reviewDecorator.authorLogin
+                            var reviewerText by remember { mutableStateOf("") }
+                            var reviewerHover by remember { mutableStateOf(false) }
+                            if (reviewDecisionHover || reviewerHover) {
+                                reviewerText = reviewerLogin
+                            } else {
+                                reviewerText = ""
+                            }
                             val color = when (review.state) {
                                 ReviewState.APPROVED -> MaterialTheme.colorScheme.secondary
                                 ReviewState.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
@@ -393,18 +409,40 @@ fun PullRequestCard(
                                 ReviewState.UNKNOWN -> MaterialTheme.colorScheme.secondary
                             }
                             Tag(
-                                text = text,
+                                text = reviewerText,
                                 icon = reviewDecorator.icon,
                                 color = color,
+                                modifier = Modifier
+                                    .onPointerEvent(PointerEventType.Enter) {
+                                        reviewerHover = true
+                                    }
+                                    .onPointerEvent(PointerEventType.Exit) {
+                                        reviewerHover = false
+                                    }
                             )
                         }
                         // review requests
                         pullRequestWithReviews.reviewRequests.forEach { reviewRequest ->
-                            val decorator = ReviewRequestDecorator(reviewRequest)
+                            val reviewRequestDecorator = ReviewRequestDecorator(reviewRequest)
+                            val reviewRequestLogin = reviewRequestDecorator.authorLogin
+                            var reviewRequestText by remember { mutableStateOf("") }
+                            var reviewRequestHover by remember { mutableStateOf(false) }
+                            if (reviewDecisionHover || reviewRequestHover) {
+                                reviewRequestText = reviewRequestLogin
+                            } else {
+                                reviewRequestText = ""
+                            }
                             Tag(
-                                text = decorator.authorLogin,
-                                icon = decorator.icon,
+                                text = reviewRequestText,
+                                icon = reviewRequestDecorator.icon,
                                 color = MaterialTheme.colorScheme.warning,
+                                modifier = Modifier
+                                    .onPointerEvent(PointerEventType.Enter) {
+                                        reviewRequestHover = true
+                                    }
+                                    .onPointerEvent(PointerEventType.Exit) {
+                                        reviewRequestHover = false
+                                    }
                             )
                         }
                     }

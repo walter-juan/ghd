@@ -1,5 +1,6 @@
 package com.woowla.ghd.presentation.components
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -21,17 +22,24 @@ import androidx.compose.ui.unit.dp
 fun Tag(
     text: String,
     icon: ImageVector?,
-    color: Color = MaterialTheme.colorScheme.secondary
+    color: Color = MaterialTheme.colorScheme.secondary,
+    modifier: Modifier = Modifier,
 ) {
     Tag(
         icon = icon,
-        color = color
+        color = color,
+        modifier = modifier,
     ) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = color
-        )
+        AnimatedContent(
+            targetState = text,
+            label = "animated content"
+        ) { targetText ->
+            Text(
+                text = targetText,
+                style = MaterialTheme.typography.labelSmall,
+                color = color
+            )
+        }
     }
 }
 
@@ -39,12 +47,13 @@ fun Tag(
 fun Tag(
     icon: ImageVector?,
     color: Color = MaterialTheme.colorScheme.secondary,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     Surface(
         color = color.copy(alpha = 0.1f),
         shape = RoundedCornerShape(16.dp),
-        modifier = Modifier.height(24.dp)
+        modifier = modifier.height(24.dp)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 8.dp),

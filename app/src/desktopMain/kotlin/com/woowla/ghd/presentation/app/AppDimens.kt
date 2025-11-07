@@ -9,7 +9,7 @@ object AppDimens {
     val windowWidth = 900.dp
     val windowHeight = 650.dp
 
-    val cardMaxWidth = 500.dp
+    val cardMaxWidth = 600.dp
     val cardHorizontalSpaceBetween = 4.dp
     val cardVerticalSpaceBetween = 4.dp
 

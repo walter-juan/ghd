@@ -2,6 +2,7 @@ package com.woowla.ghd.presentation.decorators
 
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
+import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithubCopilot
 import com.woowla.compose.icon.collections.tabler.tabler.outline.UserCheck
 import com.woowla.compose.icon.collections.tabler.tabler.outline.UserEdit
 import com.woowla.compose.icon.collections.tabler.tabler.outline.UserOff
@@ -29,12 +30,16 @@ class ReviewDecorator(review: Review) {
         ReviewState.PENDING -> "pending"
         ReviewState.UNKNOWN -> "unknown"
     }
-    val icon = when (review.state) {
-        ReviewState.APPROVED -> Tabler.Outline.UserCheck
-        ReviewState.CHANGES_REQUESTED -> Tabler.Outline.UserX
-        ReviewState.COMMENTED -> Tabler.Outline.UserEdit
-        ReviewState.PENDING -> Tabler.Outline.UserSearch
-        ReviewState.DISMISSED -> Tabler.Outline.UserOff
-        ReviewState.UNKNOWN -> Tabler.Outline.UserQuestion
+    val icon = if (review.author?.isCopilotReviewer == true) {
+        Tabler.Outline.BrandGithubCopilot
+    } else {
+        when (review.state) {
+            ReviewState.APPROVED -> Tabler.Outline.UserCheck
+            ReviewState.CHANGES_REQUESTED -> Tabler.Outline.UserX
+            ReviewState.COMMENTED -> Tabler.Outline.UserEdit
+            ReviewState.PENDING -> Tabler.Outline.UserSearch
+            ReviewState.DISMISSED -> Tabler.Outline.UserOff
+            ReviewState.UNKNOWN -> Tabler.Outline.UserQuestion
+        }
     }
 }
