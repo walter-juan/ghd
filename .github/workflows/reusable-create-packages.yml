@@ -1,5 +1,8 @@
 name: (re-usable) Create packages
 
+permissions:
+  contents: read
+
 on:
   workflow_call:
 

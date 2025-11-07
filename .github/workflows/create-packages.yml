@@ -1,5 +1,8 @@
 name: Create packages
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
 

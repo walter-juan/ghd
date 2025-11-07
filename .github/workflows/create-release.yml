@@ -1,5 +1,8 @@
 name: Create release
 
+permissions:
+  contents: read
+
 on:
   push:
     branches:
@@ -11,6 +14,8 @@ jobs:
     uses: ./.github/workflows/reusable-create-packages.yml
   create-release:
     name: Crete release
+    permissions:
+      contents: write
     needs: [create-packages]
     runs-on: ubuntu-22.04
     steps:
