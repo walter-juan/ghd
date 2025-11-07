@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.5]
+### Added
+- Hot reload
+- Reviews and pending reviewers in pull request card. Only for users, not teams or others (additional PAT permissions were required).
+### Changed
+- Update GitHub Action dependencies
+- Update dependencies
+- Review decision changed to use the specific GitHub API field
+### Removed
+- Detekt
+
 ## [2.0.4]
 ### Added
 - Third-Party software and licenses screen

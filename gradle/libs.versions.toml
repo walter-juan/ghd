@@ -1,23 +1,24 @@
 [versions]
-kotlin = "2.1.0"
-ksp = "2.1.0-1.0.29"
-compose-jetbrains = "1.7.3"
-apollo3 = "3.8.5"
-kotest = "5.9.1"
-ktor = "3.0.3"
-androidx-room = "2.7.0-alpha12"
-androidx-sqlite = "2.5.0-alpha12"
-coil = "3.0.4"
+kotlin = "2.2.21"
+ksp = "2.3.2"
+compose-jetbrains = "1.9.3"
+compose-hotreload = "1.0.0-rc02"
+apollo3 = "4.3.3"
+kotest = "6.0.4"
+ktor = "3.3.2"
+androidx-room = "2.8.3"
+androidx-sqlite = "2.6.1"
+androidx-lifecycle = "2.9.6"
+coil = "3.3.0"
 flowredux = "1.2.2"
-arrow = "2.0.0"
-koin-bom = "4.0.2"
-detekt = "1.23.7"
-konvert = "4.0.1"
-aboutLibraries = "11.6.3"
+arrow = "2.2.0"
+koin-bom = "4.1.1"
+konvert = "4.4.0"
+aboutLibraries = "13.1.0"
 
 [plugins]
-# Kotlin for JVM
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+# Kotlin multiplaform
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 # Serialization/Deserialization
 kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 # kapt, kotlin annotation processor tool
@@ -27,43 +28,43 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Compose multiplatform
 compose-jetbrains = { id = "org.jetbrains.compose", version.ref = "compose-jetbrains" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotreload" }
 # GraphQL client
-apollo3 = { id = "com.apollographql.apollo3", version.ref = "apollo3" }
+apollo3 = { id = "com.apollographql.apollo", version.ref = "apollo3" }
 # Generate BuildConstant
-buildconfig = "com.github.gmazzo.buildconfig:5.5.1"
+buildconfig = "com.github.gmazzo.buildconfig:5.7.1"
 # Discover dependency updates
-benmanesversions = "com.github.ben-manes.versions:0.52.0"
+benmanesversions = "com.github.ben-manes.versions:0.53.0"
 # Android multiplatform, room
 androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
-# Static code analysis for Kotlin
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 # Collects and shows all dependencies and licenses of any gradle project
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
 
 [libraries]
 # Android multiplatform, navigation
-androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha12"
+androidx-navigation-compose = "org.jetbrains.androidx.navigation:navigation-compose:2.9.1"
 # Android multiplatform, viewmodel
-androidx-lifecycle-viewmodel-compose = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4"
+androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref="androidx-lifecycle"}
+androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref="androidx-lifecycle"}
 # Android multiplatform, room + sqlite
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 # kotlin coroutines, needed because we are using the main dispatcher
-kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.1"
+kotlinx-coroutines-swing = "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.10.2"
 # date time kotlin lib
-kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.6.1"
+kotlinx-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.7.1"
 # ktor http client (needed for coil and some API requests)
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 # GraphQL client
-apollo3 = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo3" }
+apollo3 = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo3" }
 # logger
-logback-classic = "ch.qos.logback:logback-classic:1.5.16"
+logback-classic = "ch.qos.logback:logback-classic:1.5.20"
 # cross-platform lib to resolve some application directories for desktop
-appdirs = "net.harawata:appdirs:1.3.0"
+appdirs = "net.harawata:appdirs:1.5.0"
 # coil, image loading and caching
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
@@ -77,17 +78,17 @@ arrow-optics-ksp = { module = "io.arrow-kt:arrow-optics-ksp-plugin", version.ref
 konvert-api = { module = "io.mcarle:konvert-api", version.ref = "konvert" }
 konvert-ksp = { module = "io.mcarle:konvert", version.ref = "konvert" }
 # YAML support for kotlinx.serialization
-kaml = "com.charleskorn.kaml:kaml:0.67.0"
+kaml = "com.charleskorn.kaml:kaml:0.102.0"
 # Kotlin's data class for Semantic Versioning 2.0.0 specification (SemVer)
-semver = "net.swiftzer.semver:semver:2.0.0"
+semver = "net.swiftzer.semver:semver:2.1.0"
 # multiplatform library for saving simple key-value data
 settings = "com.russhwolf:multiplatform-settings:1.3.0"
 # icons
-icons-tabler = "com.woowla.compose.icon.collections:tabler:3.28.1"
+icons-tabler = "com.woowla.compose.icon.collections:tabler:3.33.0"
 # simple way to work with tray applications with native support for Linux and Windows.
-composenativetray = "io.github.kdroidfilter:composenativetray:0.5.4"
+composenativetray = "io.github.kdroidfilter:composenativetray:1.0.4"
 # Compose multiplatform library for generating dynamic Material3 color schemes from a seed color
-materialkolor = "com.materialkolor:material-kolor:2.0.0"
+materialkolor = "com.materialkolor:material-kolor:4.0.3"
 # Dependency injection framework
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
 koin-core = { module = "io.insert-koin:koin-core" }
@@ -95,10 +96,8 @@ koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 # Collects and shows all dependencies and licenses of any gradle project
 aboutlibraries = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
-# Detekt plugin for formatting
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 # mockk, mocking library for Kotlin
-test-mockk = "io.mockk:mockk:1.13.16"
+test-mockk = "io.mockk:mockk:1.14.6"
 # kotest runner
 test-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 # kotest property-based testing (right now used only for the data generators)

@@ -1,0 +1,90 @@
+query GetPullRequests($owner: String!, $name: String!, $states: [PullRequestState!], $last: Int) {
+    repository(owner: $owner, name: $name) {
+        pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC} states: $states) {
+            ...pullRequestFragment
+        }
+    }
+}
+
+query GetAllStatesPullRequests($owner: String!, $name: String!, $last: Int) {
+    repository(owner: $owner, name: $name) {
+        openPullRequests: pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC} states: [OPEN]) {
+            ...pullRequestFragment
+        }
+        closedPullRequests: pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC} states: [CLOSED]) {
+            ...pullRequestFragment
+        }
+        mergedPullRequests: pullRequests(last: $last orderBy: {field: UPDATED_AT direction: ASC} states: [MERGED]) {
+            ...pullRequestFragment
+        }
+    }
+}
+
+fragment pullRequestFragment on PullRequestConnection {
+    edges {
+        node {
+            id
+            number
+            url
+            state
+            title
+            createdAt
+            updatedAt
+            mergedAt
+            closedAt
+            isDraft
+            baseRefName
+            headRefName
+            totalCommentsCount
+            author {
+                url
+                login
+                avatarUrl
+            }
+            mergeable
+            mergeStateStatus
+            commits(last: 1) {
+                edges {
+                    node {
+                        commit {
+                            oid
+                            statusCheckRollup {
+                                state
+                            }
+                        }
+                    }
+                }
+            }
+            latestReviews(last: $last) {
+                edges {
+                    node {
+                        id
+                        submittedAt
+                        url
+                        state
+                        author {
+                            url
+                            login
+                            avatarUrl
+                        }
+                    }
+                }
+            }
+            reviewRequests(last: $last) {
+                edges {
+                    node {
+                        id
+                        requestedReviewer {
+                            ... on User {
+                                url
+                                login
+                                avatarUrl
+                            }
+                        }
+                    }
+                }
+            }
+            reviewDecision
+        }
+    }
+}

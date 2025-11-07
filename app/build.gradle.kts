@@ -1,13 +1,12 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import com.github.benmanes.gradle.versions.reporter.HtmlReporter
 import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.gradle.kotlin.dsl.support.serviceOf
 import java.io.PrintStream
 
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.plugin.serialization)
     alias(libs.plugins.kapt)
     alias(libs.plugins.ksp)
@@ -18,11 +17,11 @@ plugins {
     alias(libs.plugins.aboutLibraries)
     alias(libs.plugins.apollo3)
     alias(libs.plugins.androidx.room)
-    alias(libs.plugins.detekt)
+    alias(libs.plugins.compose.hotreload)
 }
 
 group = "com.woowla"
-version = "2.0.4"
+version = "2.0.5"
 // Required for JPackage, as it doesn't accept additional suffixes after the version.
 val versionSimplified = version.toString().substringBefore("-")
 val debug = (extra["debugConfig"] as String).toBoolean()
@@ -32,12 +31,6 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}
-
-detekt {
-    config.from(files("$rootDir/config/detekt/detekt-config.yml"))
-    baseline = file("$rootDir/config/detekt/detekt-baseline.xml")
-    buildUponDefaultConfig = true
 }
 
 buildConfig {
@@ -57,7 +50,7 @@ ksp {
 }
 
 room {
-    schemaDirectory("${projectDir}/src/main/room/schemas")
+    schemaDirectory("${projectDir}/src/commonMain/room/schemas")
 }
 
 apollo {
@@ -68,48 +61,71 @@ apollo {
 }
 
 aboutLibraries {
-    registerAndroidTasks = false
-    prettyPrint = true
-    excludeFields = arrayOf("description", "funding")
+    android.registerAndroidTasks = false
+    export.prettyPrint = true
+    export.excludeFields.addAll("description", "funding")
+}
+
+
+kotlin {
+    jvm("desktop")
+
+    compilerOptions {
+        freeCompilerArgs.add("-opt-in=kotlin.time.ExperimentalTime") // For kotlinx-datetime was moved to kotlin.time
+    }
+
+    sourceSets {
+        val desktopMain by getting
+
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
+            implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.semver)
+            implementation(libs.bundles.coil)
+            implementation(libs.icons.tabler)
+            implementation(libs.bundles.flowredux)
+            implementation(libs.materialkolor)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.bundles.koin)
+            implementation(libs.arrow.optics)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.aboutlibraries)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.bundles.ktor.client)
+            implementation(libs.settings)
+            implementation(libs.apollo3)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
+        }
+        commonTest.dependencies {
+            implementation(libs.test.mockk)
+            implementation(libs.bundles.test.kotest)
+            implementation(libs.test.konsist)
+        }
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(compose.material3)
+            implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.logback.classic)
+            implementation(libs.composenativetray)
+            implementation(libs.appdirs)
+            implementation(libs.kaml)
+            implementation(libs.konvert.api)
+        }
+    }
 }
 
 dependencies {
-    implementation(compose.desktop.currentOs)
-    @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-    implementation(compose.material3)
-    implementation(libs.kotlinx.coroutines.swing)
-    implementation(libs.logback.classic)
-    implementation(libs.semver)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.bundles.coil)
-    implementation(libs.icons.tabler)
-    implementation(libs.bundles.flowredux)
-    implementation(libs.composenativetray)
-    implementation(libs.materialkolor)
-    implementation(project.dependencies.platform(libs.koin.bom))
-    implementation(libs.bundles.koin)
-    implementation(libs.arrow.optics)
     ksp(libs.arrow.optics.ksp)
-    implementation(libs.kotlinx.datetime)
-    implementation(libs.aboutlibraries)
-    implementation(libs.ktor.serialization.kotlinx.json)
-    implementation(libs.bundles.ktor.client)
-    implementation(libs.appdirs)
-    implementation(libs.kaml)
-    implementation(libs.settings)
-    implementation(libs.apollo3)
     ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.sqlite.bundled)
-    implementation(libs.konvert.api)
     ksp(libs.konvert.ksp)
-
-    testImplementation(libs.test.mockk)
-    testImplementation(libs.bundles.test.kotest)
-    testImplementation(libs.test.konsist)
-
-    detektPlugins(libs.detekt.formatting)
 }
 
 compose.desktop {
@@ -122,14 +138,14 @@ compose.desktop {
             includeAllModules = true
             val iconName = if (debug) { "ic_launcher_debug" } else { "ic_launcher" }
             macOS {
-                iconFile.set(project.file("src/main/resources/icons/$iconName.icns"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.icns"))
             }
             windows {
                 menuGroup = ""
-                iconFile.set(project.file("src/main/resources/icons/$iconName.ico"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.ico"))
             }
             linux {
-                iconFile.set(project.file("src/main/resources/icons/$iconName.png"))
+                iconFile.set(project.file("src/desktopMain/resources/icons/$iconName.png"))
             }
         }
     }
@@ -146,13 +162,6 @@ tasks.register("ghdCleanDebugAppFolder") {
     }
 }
 
-// disabling detekt from the check task
-tasks.named("check").configure {
-    this.setDependsOn(this.dependsOn.filterNot {
-        it is TaskProvider<*> && it.name == "detekt"
-    })
-}
-
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     filter {
@@ -167,10 +176,6 @@ tasks.withType<Test>().configureEach {
         )
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
-}
-
-tasks.withType<KotlinCompile> {
-    compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 }
 
 tasks.withType<DependencyUpdatesTask> {
@@ -219,7 +224,8 @@ fun openBrowser(file: File) {
     val os = org.gradle.internal.os.OperatingSystem.current()
     if (os.isMacOsX || os.isLinux) {
         logger.info("Open $file")
-        exec { commandLine("open", file) }
+        val execOperations = project.serviceOf<ExecOperations>()
+        execOperations.exec { commandLine("open", file) }
     } else {
         logger.error("Non-supported operating system to open a file ${os.name}")
     }
