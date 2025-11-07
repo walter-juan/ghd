@@ -10,7 +10,6 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleCheck
 import com.woowla.compose.icon.collections.tabler.tabler.outline.CircleDashed
 import com.woowla.compose.icon.collections.tabler.tabler.outline.HelpCircle
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
-import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.presentation.app.AppColors.warning
 
 class PullRequestReviewDecisionDecorator(private val reviewDecision: PullRequestReviewDecision) {
