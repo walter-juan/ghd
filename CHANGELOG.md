@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Add workflow permissions
 
+### Changed
+- Refactored color logic: moved from UI components to decorator classes for improved separation of concerns and maintainability.
 ## [2.0.5]
 ### Added
 - Hot reload
