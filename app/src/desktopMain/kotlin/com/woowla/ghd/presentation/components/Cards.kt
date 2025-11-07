@@ -63,7 +63,6 @@ import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewState
-import com.woowla.ghd.presentation.app.AppColors.info
 import com.woowla.ghd.presentation.app.AppColors.success
 import com.woowla.ghd.presentation.app.AppColors.warning
 import com.woowla.ghd.presentation.decorators.PullRequestReviewDecisionDecorator
@@ -338,6 +337,7 @@ fun PullRequestCard(
                         icon = Tabler.Outline.Clock,
                     )
                     if (showExtras) {
+                        // has conflicts
                         if (pullRequestWithReviews.pullRequest.hasConflicts) {
                             Tag(
                                 text = "Conflicts",
@@ -345,6 +345,7 @@ fun PullRequestCard(
                                 color = MaterialTheme.colorScheme.error,
                             )
                         }
+                        // can be merged
                         if (pullRequestWithReviews.pullRequest.canBeMerged) {
                             Tag(
                                 text = i18nUi.screen_pull_requests_can_be_merged,
@@ -352,6 +353,7 @@ fun PullRequestCard(
                                 color = MaterialTheme.colorScheme.gitPrMerged
                             )
                         }
+                        // commit checks
                         if (pullRequestWithReviews.pullRequest.lastCommitCheckRollupStatus != CommitCheckRollupStatus.SUCCESS) {
                             Tag(
                                 text = pullRequestDecorator.commitChecks,
@@ -363,24 +365,27 @@ fun PullRequestCard(
                                 },
                             )
                         }
-
-                        val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
-                            PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.success
-                            PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
-                            PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.info
-                            PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
+                        // review decision
+                        if (pullRequestWithReviews.pullRequest.reviewDecision != PullRequestReviewDecision.APPROVED) {
+                            val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
+                                PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.success
+                                PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
+                                PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.secondary
+                                PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
+                            }
+                            val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
+                            Tag(
+                                text = reviewDecisionDecorator.text,
+                                icon = reviewDecisionDecorator.icon,
+                                color = reviewDecisionColor,
+                            )
                         }
-                        val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
-                        Tag(
-                            text = reviewDecisionDecorator.text,
-                            icon = reviewDecisionDecorator.icon,
-                            color = reviewDecisionColor,
-                        )
+                        // reviews
                         pullRequestWithReviews.reviews.forEach { review ->
                             val reviewDecorator = ReviewDecorator(review)
                             val text = reviewDecorator.authorLogin
                             val color = when (review.state) {
-                                ReviewState.APPROVED -> MaterialTheme.colorScheme.success
+                                ReviewState.APPROVED -> MaterialTheme.colorScheme.secondary
                                 ReviewState.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
                                 ReviewState.COMMENTED -> MaterialTheme.colorScheme.secondary
                                 ReviewState.DISMISSED -> MaterialTheme.colorScheme.secondary
@@ -393,7 +398,7 @@ fun PullRequestCard(
                                 color = color,
                             )
                         }
-
+                        // review requests
                         pullRequestWithReviews.reviewRequests.forEach { reviewRequest ->
                             val decorator = ReviewRequestDecorator(reviewRequest)
                             Tag(
