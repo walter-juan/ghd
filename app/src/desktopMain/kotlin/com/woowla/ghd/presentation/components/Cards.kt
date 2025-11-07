@@ -357,11 +357,7 @@ fun PullRequestCard(
                             Tag(
                                 text = pullRequestDecorator.commitChecks,
                                 icon = pullRequestDecorator.commitChecksIcon,
-                                color = if (pullRequestWithReviews.pullRequest.checkHaveErrors) {
-                                    MaterialTheme.colorScheme.error
-                                } else {
-                                    MaterialTheme.colorScheme.secondary
-                                },
+                                color = pullRequestDecorator.commitChecksColor(),
                             )
                         }
                         // review decision
@@ -369,16 +365,10 @@ fun PullRequestCard(
                         val reviewDecisionDecorator = PullRequestReviewDecisionDecorator(pullRequestWithReviews.pullRequest.reviewDecision)
                         val reviewerDecisionFullText = reviewDecisionDecorator.text
                         var reviewerDecisionText by remember { mutableStateOf("") }
-                        val reviewDecisionColor = when (pullRequestWithReviews.pullRequest.reviewDecision) {
-                            PullRequestReviewDecision.APPROVED -> MaterialTheme.colorScheme.secondary
-                            PullRequestReviewDecision.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
-                            PullRequestReviewDecision.REVIEW_REQUIRED -> MaterialTheme.colorScheme.secondary
-                            PullRequestReviewDecision.UNKNOWN -> MaterialTheme.colorScheme.warning
-                        }
                         Tag(
                             text = reviewerDecisionText,
                             icon = reviewDecisionDecorator.icon,
-                            color = reviewDecisionColor,
+                            color = reviewDecisionDecorator.color(),
                             modifier = Modifier
                                 .onPointerEvent(PointerEventType.Enter) {
                                     reviewDecisionHover = true
@@ -400,18 +390,10 @@ fun PullRequestCard(
                             } else {
                                 reviewerText = ""
                             }
-                            val color = when (review.state) {
-                                ReviewState.APPROVED -> MaterialTheme.colorScheme.secondary
-                                ReviewState.CHANGES_REQUESTED -> MaterialTheme.colorScheme.error
-                                ReviewState.COMMENTED -> MaterialTheme.colorScheme.secondary
-                                ReviewState.DISMISSED -> MaterialTheme.colorScheme.secondary
-                                ReviewState.PENDING -> MaterialTheme.colorScheme.secondary
-                                ReviewState.UNKNOWN -> MaterialTheme.colorScheme.secondary
-                            }
                             Tag(
                                 text = reviewerText,
                                 icon = reviewDecorator.icon,
-                                color = color,
+                                color = reviewDecorator.stateColor(),
                                 modifier = Modifier
                                     .onPointerEvent(PointerEventType.Enter) {
                                         reviewerHover = true
