@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.6-beta02]
+### Changed
+- Use [ComposeNativeTray](https://github.com/kdroidFilter/ComposeNativeTray) for the system tray icon and menu
+
 ## [2.0.6-beta01]
 ### Security
 - Add workflow permissions
@@ -322,7 +326,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta01...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta02...dev
+[2.0.6-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta02
 [2.0.6-beta01]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta01
 [2.0.5]: https://github.com/walter-juan/ghd/releases/tag/v2.0.5
 [2.0.4]: https://github.com/walter-juan/ghd/releases/tag/v2.0.4
