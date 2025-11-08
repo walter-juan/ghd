@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 
 ## [2.0.6-beta02]
+### Added
+- Other filters on the repository list
 ### Changed
 - Use [ComposeNativeTray](https://github.com/kdroidFilter/ComposeNativeTray) for the system tray icon and menu
 

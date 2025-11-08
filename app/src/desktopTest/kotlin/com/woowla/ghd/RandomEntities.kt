@@ -14,6 +14,7 @@ import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheck
+import com.woowla.ghd.domain.entities.RepoToCheckFilters
 import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewRequest
 import com.woowla.ghd.domain.entities.ReviewState
@@ -24,7 +25,7 @@ object RandomEntities {
         notificationsSettings = notificationsSettings(),
         filtersPullRequestState = emptySet(),
         filtersReleaseGroupName = emptySet(),
-        filtersRepoToCheckGroupName = emptySet()
+        filtersRepoToCheck = RepoToCheckFilters.Default,
     )
 
     fun notificationsSettings() = NotificationsSettings(
