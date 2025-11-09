@@ -47,7 +47,13 @@ class AppProperties(appFolderFactory: AppFolderFactory) {
 
     var filtersPullRequestState: String? by settings.nullableString("filtersPullRequestState")
     var filtersReleaseGroupName: String? by settings.nullableString("filtersReleaseGroupName")
+
     var filtersRepoToCheckGroupName: String? by settings.nullableString("filtersRepoToCheckGroupName")
+    var filtersRepoToCheckPullRequestSyncEnabled: Boolean by settings.boolean("filtersRepoToCheckPullRequestSyncEnabled", false)
+    var filtersRepoToCheckPullRequestNotificationsEnabled: Boolean by settings.boolean("filtersRepoToCheckPullRequestNotificationsEnabled", false)
+    var filtersRepoToCheckPullRequestBranchFilterActive: Boolean by settings.boolean("filtersRepoToCheckPullRequestBranchFilterActive", false)
+    var filtersRepoToCheckReleasesSyncEnabled: Boolean by settings.boolean("filtersRepoToCheckReleasesSyncEnabled", false)
+    var filtersRepoToCheckReleasesNotificationsEnabled: Boolean by settings.boolean("filtersRepoToCheckReleasesNotificationsEnabled", false)
 
     var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
     var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")

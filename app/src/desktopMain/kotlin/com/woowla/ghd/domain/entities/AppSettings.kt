@@ -6,7 +6,7 @@ import arrow.optics.optics
     val darkTheme: Boolean?,
     val filtersPullRequestState: Set<PullRequestStateExtended>,
     val filtersReleaseGroupName: Set<String>,
-    val filtersRepoToCheckGroupName: Set<String>,
+    val filtersRepoToCheck: RepoToCheckFilters,
     val notificationsSettings: NotificationsSettings
 ) {
     companion object

@@ -4,8 +4,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.MenuBar
-import androidx.compose.ui.window.Tray
-import androidx.compose.ui.window.TrayState
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
@@ -18,6 +16,7 @@ import ch.qos.logback.core.rolling.RollingFileAppender
 import ch.qos.logback.core.rolling.TimeBasedRollingPolicy
 import ch.qos.logback.core.util.FileSize
 import ch.qos.logback.core.util.StatusPrinter
+import com.kdroid.composetray.tray.api.Tray
 import com.kdroid.composetray.utils.SingleInstanceManager
 import com.woowla.ghd.core.AppFolderFactory
 import com.woowla.ghd.BuildConfig
@@ -48,7 +47,6 @@ fun main() {
     application {
         val synchronizer: Synchronizer = GlobalContext.get().get()
         synchronizer.initialize()
-        val trayState: TrayState = GlobalContext.get().get()
 
         val coroutineScope = rememberCoroutineScope()
         var isWindowVisible by remember { mutableStateOf(true) }
@@ -78,11 +76,13 @@ fun main() {
 
         Tray(
             icon = AppIconsPainter.TrayIcon,
-            state = trayState,
             tooltip = i18nApp.tray_tooltip,
-            onAction = { isWindowVisible = true },
-            menu = {
-                Item(i18nApp.tray_item_synchronize, onClick = { coroutineScope.launch { synchronizer.sync() } })
+            primaryAction = { isWindowVisible = true },
+            menuContent = {
+                Item(
+                    label = i18nApp.tray_item_synchronize,
+                    onClick = { coroutineScope.launch { synchronizer.sync() } },
+                )
                 if (isWindowVisible) {
                     Item(i18nApp.tray_item_hide_app, onClick = { isWindowVisible = false })
                 } else {

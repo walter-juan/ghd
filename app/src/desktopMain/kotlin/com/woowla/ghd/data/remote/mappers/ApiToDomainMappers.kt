@@ -17,6 +17,7 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
+import com.woowla.ghd.data.remote.fragment.ActorFragment
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewRequest
 import kotlin.time.Instant
@@ -46,7 +47,7 @@ fun PullRequestFragment.Node.toPullRequest(
         isDraft = isDraft,
         baseRef = baseRefName,
         headRef = headRefName,
-        author = author?.toAuthor(),
+        author = author?.actorFragment?.toAuthor(),
         totalCommentsCount = totalCommentsCount?.toLong(),
         mergeableState = enumValueOfOrDefault(mergeable.toString(), GitHubMergeableState.UNKNOWN),
         mergeStateStatus = enumValueOfOrDefault(mergeStateStatus.toString(), MergeGitHubStateStatus.UNKNOWN),
@@ -71,7 +72,7 @@ fun GetLastReleaseQuery.LatestRelease.toRelease(repoToCheck: RepoToCheck): Relea
         tagName = tagName,
         url = url.toString(),
         publishedAt = publishedAt?.toString()?.let { Instant.parse(it) },
-        author = author?.toAuthor(),
+        author = author?.actorFragment?.toAuthor(),
         repoToCheckId = repoToCheck.id,
     )
     return ReleaseWithRepo(
@@ -88,7 +89,7 @@ fun PullRequestFragment.LatestReviews.toReviews(pullRequestId: String): List<Rev
                 state = enumValueOfOrDefault(node.state.toString(), ReviewState.UNKNOWN),
                 url = node.url.toString(),
                 submittedAt = node.submittedAt?.toString()?.let { Instant.parse(it) },
-                author = node.author?.toAuthor(),
+                author = node.author?.actorFragment?.toAuthor(),
                 pullRequestId = pullRequestId,
             )
         }
@@ -102,7 +103,7 @@ fun PullRequestFragment.ReviewRequests.toReviewRequests(pullRequestId: String): 
                 // Only user reviewers are supported for now (team, bot, and others not)
                 ReviewRequest(
                     id = node.id,
-                    author = user.toAuthor(),
+                    author = user.actorFragment.toAuthor(),
                     pullRequestId = pullRequestId,
                 )
             }
@@ -110,31 +111,7 @@ fun PullRequestFragment.ReviewRequests.toReviewRequests(pullRequestId: String): 
     } ?: listOf()
 }
 
-fun PullRequestFragment.Author.toAuthor(): Author {
-    return Author(
-        login = login,
-        url = url.toString(),
-        avatarUrl = avatarUrl.toString(),
-    )
-}
-
-fun PullRequestFragment.OnUser.toAuthor(): Author {
-    return Author(
-        login = login,
-        url = url.toString(),
-        avatarUrl = avatarUrl.toString(),
-    )
-}
-
-fun GetLastReleaseQuery.Author.toAuthor(): Author {
-    return Author(
-        login = login,
-        url = url.toString(),
-        avatarUrl = avatarUrl.toString(),
-    )
-}
-
-fun PullRequestFragment.Author1.toAuthor(): Author {
+fun ActorFragment.toAuthor(): Author {
     return Author(
         login = login,
         url = url.toString(),

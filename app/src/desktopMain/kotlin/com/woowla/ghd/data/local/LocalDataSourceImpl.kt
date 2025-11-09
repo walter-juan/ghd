@@ -39,6 +39,7 @@ import com.woowla.ghd.core.utils.enumValueOfOrDefault
 import com.woowla.ghd.core.utils.enumValueOfOrNull
 import com.woowla.ghd.data.local.room.toDbReviewRequest
 import com.woowla.ghd.domain.data.LocalDataSource
+import com.woowla.ghd.domain.entities.RepoToCheckFilters
 import com.woowla.ghd.domain.entities.ReviewRequest
 
 class LocalDataSourceImpl(
@@ -72,7 +73,14 @@ class LocalDataSourceImpl(
                 darkTheme = appProperties.darkTheme,
                 filtersPullRequestState = filtersPullRequestState,
                 filtersReleaseGroupName = filtersReleaseGroupName,
-                filtersRepoToCheckGroupName = filtersRepoToCheckGroupName,
+                filtersRepoToCheck = RepoToCheckFilters(
+                    groupNames = filtersRepoToCheckGroupName,
+                    pullRequestSyncEnabled = appProperties.filtersRepoToCheckPullRequestSyncEnabled,
+                    pullRequestNotificationsEnabled = appProperties.filtersRepoToCheckPullRequestNotificationsEnabled,
+                    pullRequestBranchFilterActive = appProperties.filtersRepoToCheckPullRequestBranchFilterActive,
+                    releasesSyncEnabled = appProperties.filtersRepoToCheckReleasesSyncEnabled,
+                    releasesNotificationsEnabled = appProperties.filtersRepoToCheckReleasesNotificationsEnabled,
+                ),
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
 
@@ -100,7 +108,13 @@ class LocalDataSourceImpl(
 
             appProperties.filtersPullRequestState = appSettings.filtersPullRequestState.joinToString(separator = ",")
             appProperties.filtersReleaseGroupName = appSettings.filtersReleaseGroupName.joinToString(separator = ",")
-            appProperties.filtersRepoToCheckGroupName = appSettings.filtersRepoToCheckGroupName.joinToString(separator = ",")
+
+            appProperties.filtersRepoToCheckGroupName = appSettings.filtersRepoToCheck.groupNames.joinToString(separator = ",")
+            appProperties.filtersRepoToCheckPullRequestSyncEnabled = appSettings.filtersRepoToCheck.pullRequestSyncEnabled
+            appProperties.filtersRepoToCheckPullRequestNotificationsEnabled = appSettings.filtersRepoToCheck.pullRequestNotificationsEnabled
+            appProperties.filtersRepoToCheckPullRequestBranchFilterActive = appSettings.filtersRepoToCheck.pullRequestBranchFilterActive
+            appProperties.filtersRepoToCheckReleasesSyncEnabled = appSettings.filtersRepoToCheck.releasesSyncEnabled
+            appProperties.filtersRepoToCheckReleasesNotificationsEnabled = appSettings.filtersRepoToCheck.releasesNotificationsEnabled
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 
