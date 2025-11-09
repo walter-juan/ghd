@@ -19,7 +19,7 @@ data class SyncResultEntry(
         val defaultComparator = compareBy<SyncResultEntry> { it.isSuccess }.thenByDescending { it.origin }.thenByDescending { it.repoToCheckId }
     }
 
-    enum class Origin { OTHER, PULL, RELEASE, UNKNOWN }
+    enum class Origin { OTHER, PULL, RELEASE, DEPLOYMENT, UNKNOWN }
 
     val duration: Duration by lazy { endAt.minus(startAt) }
 

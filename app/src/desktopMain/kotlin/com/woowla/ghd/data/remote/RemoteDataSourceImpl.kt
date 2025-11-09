@@ -6,11 +6,14 @@ import com.apollographql.apollo.api.Operation
 import com.apollographql.apollo.network.http.HttpInfo
 import com.woowla.ghd.core.AppLogger
 import com.woowla.ghd.data.remote.entities.ApiGhdRelease
+import com.woowla.ghd.data.remote.mappers.toDeployments
 import com.woowla.ghd.data.remote.mappers.toGhdRelease
 import com.woowla.ghd.domain.entities.ApiResponse
 import com.woowla.ghd.data.remote.mappers.toPullRequest
 import com.woowla.ghd.data.remote.mappers.toRelease
 import com.woowla.ghd.domain.data.RemoteDataSource
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.GhdRelease
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.RateLimit
@@ -121,6 +124,27 @@ class RemoteDataSourceImpl(
             val data: ApiGhdRelease = httpResponse.body()
 
             ApiResponse(data = data.toGhdRelease(), rateLimit = rateLimit)
+        }
+    }
+
+    override suspend fun getDeployments(repoToCheck: RepoToCheck, environments: List<String>): Result<ApiResponse<List<DeploymentWithRepo>>> {
+        return runCatching {
+            requireNotNull(repoToCheck.repository) { "GitHub repository is required" }
+
+            val owner = repoToCheck.repository.owner
+            val repo = repoToCheck.repository.name
+            val getDeploymentsQuery = GetDeploymentsQuery(owner = owner, name = repo, environments = environments, last = 10)
+            val getDeploymentsResponse = apolloClient.query(getDeploymentsQuery).executeV3()
+
+            val data = getDeploymentsResponse
+                .dataAssertNoErrors
+                .repository
+                ?.deployments
+                ?.toDeployments(repoToCheck)
+                ?: throw NotFoundException("Deployments not found for $owner/$repo")
+            val rateLimit = getDeploymentsResponse.getHeadersAsMap().getRateLimit()
+
+            ApiResponse(data = data, rateLimit = rateLimit)
         }
     }
 

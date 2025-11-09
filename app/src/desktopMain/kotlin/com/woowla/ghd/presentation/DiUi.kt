@@ -3,6 +3,8 @@ package com.woowla.ghd.presentation
 import com.woowla.ghd.domain.notifications.NotificationsSender
 import com.woowla.ghd.presentation.notifications.NotificationsSenderDefault
 import com.woowla.ghd.presentation.viewmodels.AboutViewModel
+import com.woowla.ghd.presentation.viewmodels.DeploymentsStateMachine
+import com.woowla.ghd.presentation.viewmodels.DeploymentsViewModel
 import com.woowla.ghd.presentation.viewmodels.NotificationsStateMachine
 import com.woowla.ghd.presentation.viewmodels.NotificationsViewModel
 import com.woowla.ghd.presentation.viewmodels.PullRequestsStateMachine
@@ -41,6 +43,7 @@ object DiUi {
         viewModel<PullRequestsViewModel> { PullRequestsViewModel(get(), get()) }
         viewModel<NotificationsViewModel> { NotificationsViewModel(get()) }
         viewModel<ReleasesViewModel> { ReleasesViewModel(get(), get()) }
+        viewModel<DeploymentsViewModel> { DeploymentsViewModel(get(), get()) }
         viewModel<ReposToCheckBulkViewModel> { ReposToCheckBulkViewModel(get(), get()) }
         viewModel<ReposToCheckViewModel> { ReposToCheckViewModel(get(), get()) }
         viewModel<RepoToCheckEditViewModel> { (repoToCheckId: Long?) ->
@@ -56,6 +59,7 @@ object DiUi {
         factory<PullRequestsStateMachine> { PullRequestsStateMachine(get(), get(), get()) }
         factory<NotificationsStateMachine> { NotificationsStateMachine(get()) }
         factory<ReleasesStateMachine> { ReleasesStateMachine(get(), get(), get()) }
+        factory<DeploymentsStateMachine> { DeploymentsStateMachine(get(), get(), get()) }
         factory<ReposToCheckBulkStateMachine> { ReposToCheckBulkStateMachine(get()) }
         factory<ReposToCheckStateMachine> { ReposToCheckStateMachine(get(), get()) }
         factory<RepoToCheckEditStateMachine> { (repoToCheckId: Long?) ->

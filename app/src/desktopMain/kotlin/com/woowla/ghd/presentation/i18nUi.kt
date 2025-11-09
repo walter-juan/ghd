@@ -36,6 +36,7 @@ internal object i18nUi {
 
     val top_bar_title_pull_requests = "Pull Requests"
     val top_bar_title_releases = "Releases"
+    val top_bar_title_deployments = "Deployments"
     val top_bar_title_repos_to_check = "Repos"
     val top_bar_title_repos_to_check_edit = "Repos"
     val top_bar_title_repos_to_check_bulk = "Bulk import/export"

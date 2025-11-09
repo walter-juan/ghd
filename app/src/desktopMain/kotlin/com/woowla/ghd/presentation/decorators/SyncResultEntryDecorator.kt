@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Check
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CloudUpload
 import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequest
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Package
 import com.woowla.compose.icon.collections.tabler.tabler.outline.QuestionMark
@@ -32,6 +33,7 @@ class SyncResultEntryDecorator(private val syncResultEntry: SyncResultEntry) {
         SyncResultEntry.Origin.PULL -> Tabler.Outline.GitPullRequest
         SyncResultEntry.Origin.RELEASE -> Tabler.Outline.Package
         SyncResultEntry.Origin.UNKNOWN -> Tabler.Outline.QuestionMark
+        SyncResultEntry.Origin.DEPLOYMENT -> Tabler.Outline.CloudUpload
         SyncResultEntry.Origin.OTHER -> Tabler.Outline.QuestionMark
     }
 }

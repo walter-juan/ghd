@@ -1,0 +1,38 @@
+query GetDeployments($owner: String!, $name: String!, $environments: [String!], $last: Int) {
+    repository(owner: $owner, name: $name) {
+        deployments (environments: $environments, last: $last orderBy: {field: CREATED_AT direction: ASC}) {
+            edges {
+                node {
+                    id
+                    description
+                    payload
+                    creator {
+                        ...actorFragment
+                    }
+
+                    environment
+                    latestEnvironment
+                    originalEnvironment
+
+                    state
+                    task
+
+                    statuses (last: 10) {
+                        edges {
+                            node {
+                                id
+                                state
+                                description
+                                createdAt
+                                updatedAt
+                            }
+                        }
+                    }
+
+                    createdAt
+                    updatedAt
+                }
+            }
+        }
+    }
+}

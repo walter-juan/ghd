@@ -61,9 +61,10 @@ import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
-import com.woowla.ghd.domain.entities.PullRequestReviewDecision
-import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
+import com.woowla.ghd.presentation.app.AppColors.info
 import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.presentation.decorators.DeploymentDecorator
 import com.woowla.ghd.presentation.decorators.PullRequestReviewDecisionDecorator
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
 import com.woowla.ghd.presentation.decorators.ReviewRequestDecorator
@@ -434,6 +435,62 @@ fun PullRequestCard(
     )
 }
 
+@Composable
+fun DeploymentCard(
+    deploymentWithRepo: DeploymentWithRepo,
+    modifier: Modifier = Modifier,
+) {
+    val deploymentDecorator = DeploymentDecorator(deploymentWithRepo)
+    val deployment = deploymentWithRepo.deployment
+    CardListItem(
+        modifier = modifier,
+        onClick = { },
+        title = "Deployment #${deployment.id}",
+        subtitle = deploymentDecorator.fullRepo,
+        leadingContent = {
+            Avatar(
+                imageUrl = deployment.creator.avatarUrl,
+                icon = Tabler.Outline.Tag,
+            )
+        },
+        supportingContent = {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                val groupName = deploymentWithRepo.repoToCheck.groupName
+                if (!groupName.isNullOrBlank()) {
+                    Tag(
+                        text = groupName,
+                        icon = null,
+                        color = groupName.toColor(),
+                    )
+                }
+                Tag(
+                    text = deploymentDecorator.createdAt,
+                    icon = Tabler.Outline.Clock,
+                )
+                Tag("id: ${deployment.id}", icon = null)
+                Tag("description: ${deployment.description}", icon = null)
+                Tag("payload: ${deployment.payload}", icon = null)
+                Tag("creator: ${deployment.creator.login}", icon = null)
+                Tag("environment: ${deployment.environment}", icon = null)
+                Tag("latestEnvironment: ${deployment.latestEnvironment}", icon = null)
+                Tag("originalEnvironment: ${deployment.originalEnvironment}", icon = null)
+                Tag("state: ${deployment.state}", icon = null)
+                Tag("task: ${deployment.task}", icon = null)
+                deployment.statuses.forEach { status ->
+                    Tag(
+                        text = "${status.state} -> ${status.description}",
+                        icon = null,
+                        color = MaterialTheme.colorScheme.info
+                    )
+                }
+            }
+        }
+    )
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CardListItem(
@@ -498,3 +555,4 @@ fun CardListItem(
         }
     }
 }
+

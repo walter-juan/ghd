@@ -6,6 +6,8 @@ import com.woowla.ghd.domain.services.AppSettingsService
 import com.woowla.ghd.domain.services.AppSettingsServiceImpl
 import com.woowla.ghd.domain.services.AppVersionService
 import com.woowla.ghd.domain.services.AppVersionServiceImpl
+import com.woowla.ghd.domain.services.DeploymentService
+import com.woowla.ghd.domain.services.DeploymentServiceImpl
 import com.woowla.ghd.domain.services.PullRequestService
 import com.woowla.ghd.domain.services.PullRequestServiceImpl
 import com.woowla.ghd.domain.services.ReleaseService
@@ -28,7 +30,7 @@ object DiDomainImpl {
             SynchronizerImpl(
                 repoToCheckService = get(),
                 syncSettingsService = get(),
-                synchronizableServiceList = listOf(get<PullRequestService>(), get<ReleaseService>()),
+                synchronizableServiceList = listOf(get<PullRequestService>(), get<ReleaseService>(), get<DeploymentService>()),
                 localDataSource = get(),
                 eventBus = get(),
                 appLogger = get(),
@@ -42,6 +44,7 @@ object DiDomainImpl {
         single<AppVersionService> { AppVersionServiceImpl(currentVersion = appVersion, remoteDataSource = get()) }
         single<PullRequestService> { PullRequestServiceImpl(get(), get(), get(), get(), get()) }
         single<ReleaseService> { ReleaseServiceImpl(get(), get(), get(), get(), get()) }
+        single<DeploymentService> { DeploymentServiceImpl(get(), get(), get()) }
 
         // parsers
         single<RepoToCheckFileParser> { YamlRepoToCheckFileParser() }

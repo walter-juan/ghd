@@ -17,7 +17,13 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
+import com.woowla.ghd.data.remote.GetDeploymentsQuery
 import com.woowla.ghd.data.remote.fragment.ActorFragment
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentState
+import com.woowla.ghd.domain.entities.DeploymentStatus
+import com.woowla.ghd.domain.entities.DeploymentStatusState
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewRequest
 import kotlin.time.Instant
@@ -118,3 +124,46 @@ fun ActorFragment.toAuthor(): Author {
         avatarUrl = avatarUrl.toString(),
     )
 }
+
+fun GetDeploymentsQuery.Deployments.toDeployments(repoToCheck: RepoToCheck): List<DeploymentWithRepo> {
+    return edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            DeploymentWithRepo(
+                deployment = node.toDeployment(),
+                repoToCheck = repoToCheck,
+            )
+        }
+    } ?: listOf()
+}
+
+fun GetDeploymentsQuery.Node.toDeployment(): Deployment {
+    return Deployment(
+        id = id,
+        description = description,
+        payload = payload,
+        creator = creator.actorFragment.toAuthor(),
+        environment = environment,
+        latestEnvironment = latestEnvironment,
+        originalEnvironment = originalEnvironment,
+        state = enumValueOfOrDefault(state.toString(), DeploymentState.UNKNOWN),
+        task = task,
+        statuses = statuses?.toDeploymentStatuses() ?: listOf(),
+        createdAt = Instant.parse(createdAt.toString()),
+        updatedAt = Instant.parse(updatedAt.toString()),
+    )
+}
+
+private fun GetDeploymentsQuery.Statuses.toDeploymentStatuses(): List<DeploymentStatus> {
+    return this.edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            DeploymentStatus(
+                id = node.id,
+                state = enumValueOfOrDefault(node.state.toString(), DeploymentStatusState.UNKNOWN),
+                description = node.description,
+                createdAt = Instant.parse(node.createdAt.toString()),
+                updatedAt = Instant.parse(node.updatedAt.toString()),
+            )
+        }
+    } ?: listOf()
+}
+

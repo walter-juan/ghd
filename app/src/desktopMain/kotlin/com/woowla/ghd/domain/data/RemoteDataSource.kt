@@ -1,6 +1,8 @@
 package com.woowla.ghd.domain.data
 
 import com.woowla.ghd.domain.entities.ApiResponse
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.GhdRelease
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
@@ -10,4 +12,5 @@ interface RemoteDataSource {
     suspend fun getAllStatesPullRequests(repoToCheck: RepoToCheck): Result<ApiResponse<List<PullRequestWithRepoAndReviews>>>
     suspend fun getLastRelease(repoToCheck: RepoToCheck): Result<ApiResponse<ReleaseWithRepo>>
     suspend fun getLastGhdRelease(): Result<ApiResponse<GhdRelease>>
+    suspend fun getDeployments(repoToCheck: RepoToCheck, environments: List<String>): Result<ApiResponse<List<DeploymentWithRepo>>>
 }

@@ -20,6 +20,7 @@ internal object i18nApp {
 
     val tab_title_pull_requests = "Pulls"
     val tab_title_releases = "Releases"
+    val tab_title_deployments = "Deployments"
     val tab_title_repos_to_check = "Repos"
     val tab_title_notifications = "Notifications"
     val tab_title_settings = "Settings"
