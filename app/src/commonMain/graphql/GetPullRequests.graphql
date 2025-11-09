@@ -37,9 +37,7 @@ fragment pullRequestFragment on PullRequestConnection {
             headRefName
             totalCommentsCount
             author {
-                url
-                login
-                avatarUrl
+                ...actorFragment
             }
             mergeable
             mergeStateStatus
@@ -63,9 +61,7 @@ fragment pullRequestFragment on PullRequestConnection {
                         url
                         state
                         author {
-                            url
-                            login
-                            avatarUrl
+                            ...actorFragment
                         }
                     }
                 }
@@ -76,9 +72,7 @@ fragment pullRequestFragment on PullRequestConnection {
                         id
                         requestedReviewer {
                             ... on User {
-                                url
-                                login
-                                avatarUrl
+                                ...actorFragment
                             }
                         }
                     }

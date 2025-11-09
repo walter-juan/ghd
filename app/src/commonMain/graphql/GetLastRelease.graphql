@@ -7,9 +7,7 @@ query GetLastRelease($owner: String!, $name: String!) {
             url
             publishedAt
             author {
-                url
-                login
-                avatarUrl
+                ...actorFragment
             }
         }
     }
