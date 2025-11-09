@@ -124,7 +124,7 @@ class ReposToCheckStateMachine(
             this.copy(
                 reposToCheckFiltered = reposToCheckFiltered,
                 searchQuery = searchQuery,
-                filtersRepoToCheck = filtersRepoToCheck,
+                filtersRepoToCheck = state.snapshot.filtersRepoToCheck,
             )
         }
     }
