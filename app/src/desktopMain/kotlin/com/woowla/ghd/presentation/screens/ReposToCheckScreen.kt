@@ -315,7 +315,7 @@ object ReposToCheckScreen {
                         )
                         DropdownMenuItem(
                             leadingIcon = { CheckIcon(otherFilters.pullRequestNotificationsEnabled) } ,
-                            text = { Text("Notifications enable") },
+                            text = { Text("Notifications enabled") },
                             onClick = {
                                 onOtherFiltersChanged.invoke(otherFilters.copy(pullRequestNotificationsEnabled = !otherFilters.pullRequestNotificationsEnabled))
                                 dropdownMenuExpanded = false
