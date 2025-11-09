@@ -9,6 +9,7 @@ import arrow.optics.optics
     val pullRequestBranchFilterActive: Boolean,
     val releasesSyncEnabled: Boolean,
     val releasesNotificationsEnabled: Boolean,
+    val deploymentsSyncEnabled: Boolean,
 ) {
     companion object {
         val Default = RepoToCheckFilters(
@@ -18,14 +19,16 @@ import arrow.optics.optics
             pullRequestBranchFilterActive = false,
             releasesSyncEnabled = false,
             releasesNotificationsEnabled = false,
+            deploymentsSyncEnabled = false,
         )
     }
 
     fun anyFilterActive(): Boolean {
         return pullRequestSyncEnabled ||
-            pullRequestNotificationsEnabled ||
-            pullRequestBranchFilterActive ||
-            releasesSyncEnabled ||
-            releasesNotificationsEnabled
+                pullRequestNotificationsEnabled ||
+                pullRequestBranchFilterActive ||
+                releasesSyncEnabled ||
+                releasesNotificationsEnabled ||
+                deploymentsSyncEnabled
     }
 }

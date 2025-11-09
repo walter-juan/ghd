@@ -9,6 +9,7 @@ data class RepoToCheck(
     val areReleasesEnabled: Boolean,
     val arePullRequestsNotificationsEnabled: Boolean,
     val areReleasesNotificationsEnabled: Boolean,
+    val areDeploymentsEnabled: Boolean,
 ) : Comparable<RepoToCheck> {
     companion object {
         fun newInstance() = RepoToCheck(
@@ -19,6 +20,7 @@ data class RepoToCheck(
             areReleasesEnabled = false,
             arePullRequestsNotificationsEnabled = false,
             areReleasesNotificationsEnabled = false,
+            areDeploymentsEnabled = false,
         )
         val defaultComparator = compareBy<RepoToCheck> { it.groupName }.thenBy { it.repository?.name }
     }

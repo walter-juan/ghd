@@ -20,6 +20,7 @@ data class DbRepoToCheck(
     @ColumnInfo(name = "are_releases_enabled") val areReleasesEnabled: Boolean,
     @ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean,
     @ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean,
+    @ColumnInfo(name = "are_deployments_enabled", defaultValue = "0") val areDeploymentsEnabled: Boolean,
 ) {
     companion object
 }

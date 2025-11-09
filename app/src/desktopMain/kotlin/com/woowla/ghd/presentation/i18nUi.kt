@@ -74,6 +74,7 @@ internal object i18nUi {
     val screen_edit_repo_to_check_group_name_label = "Group name"
     val screen_edit_repo_to_check_pull_request_section = "Sync pull requests"
     val screen_edit_repo_to_check_releaes_section = "Sync releases"
+    val screen_edit_repo_to_check_deployments_section = "Sync deployments"
     val screen_edit_repo_to_check_filter_by_branch_item = "Filter by branch"
     val screen_edit_repo_to_check_filter_by_branch_item_description = "Add a regex if you want to show only the pull requests which matches this regex with the href"
     val screen_edit_repo_to_check_href_branch_regex_label = "Href branch regex"
@@ -134,6 +135,8 @@ repositories:
   releases:
     enabled: true
     notifications-enabled: false
+  deployments:
+    enabled: false
 - owner: "owner-1"
   name: "project-2"
 - owner: "owner-2"

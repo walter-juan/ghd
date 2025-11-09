@@ -351,6 +351,20 @@ object ReposToCheckScreen {
                                 dropdownMenuExpanded = false
                             },
                         )
+                        HorizontalDivider()
+                        DropdownMenuItem(
+                            text = { Text("Deployments", fontWeight = FontWeight.Bold) },
+                            enabled = false,
+                            onClick = { },
+                        )
+                        DropdownMenuItem(
+                            leadingIcon = { CheckIcon(otherFilters.deploymentsSyncEnabled) } ,
+                            text = { Text("Sync enabled") },
+                            onClick = {
+                                onOtherFiltersChanged.invoke(otherFilters.copy(deploymentsSyncEnabled = !otherFilters.deploymentsSyncEnabled))
+                                dropdownMenuExpanded = false
+                            },
+                        )
                     }
                     Spacer(modifier = Modifier.width(10.dp))
                     OutlinedTextField(

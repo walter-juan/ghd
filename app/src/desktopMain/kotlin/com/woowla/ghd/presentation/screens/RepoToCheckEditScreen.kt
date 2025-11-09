@@ -112,6 +112,7 @@ object RepoToCheckEditScreen {
         var arePullRequestsNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsNotificationsEnabled) }
         var areReleasesEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesEnabled) }
         var areReleasesNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesNotificationsEnabled) }
+        var areDeploymentsEnabled by remember { mutableStateOf(state.repoToCheck.areDeploymentsEnabled) }
 
         val textFieldFocusRequester = remember { FocusRequester() }
         val snackbarHostState = remember { SnackbarHostState() }
@@ -146,6 +147,7 @@ object RepoToCheckEditScreen {
                                         arePullRequestsNotificationsEnabled = arePullRequestsNotificationsEnabled,
                                         areReleasesEnabled = areReleasesEnabled,
                                         areReleasesNotificationsEnabled = areReleasesNotificationsEnabled,
+                                        areDeploymentsEnabled = areDeploymentsEnabled,
                                     )
                                 )
                             }
@@ -190,6 +192,10 @@ object RepoToCheckEditScreen {
                     areReleasesNotificationsEnabled = areReleasesNotificationsEnabled,
                     onAreReleasesEnabledChange = { areReleasesEnabled = it },
                     onAreReleasesNotificationsEnabledChange = { areReleasesNotificationsEnabled = it },
+                )
+                DeploymentSection(
+                    areDeploymentsEnabled = areDeploymentsEnabled,
+                    onAreDeploymentsEnabledChange = { areDeploymentsEnabled = it },
                 )
             }
         }
@@ -332,6 +338,28 @@ object RepoToCheckEditScreen {
                 checked = areReleasesNotificationsEnabled,
                 onCheckedChange = onAreReleasesNotificationsEnabledChange,
                 enabled = areReleasesEnabled,
+            )
+        }
+    }
+
+    @Composable
+    private fun DeploymentSection(
+        areDeploymentsEnabled: Boolean,
+        onAreDeploymentsEnabledChange: (Boolean) -> Unit,
+    ) {
+        Section(title = "Deployments") {
+            SectionItemWithSwitch(
+                title = i18nUi.screen_edit_repo_to_check_deployments_section,
+                checked = areDeploymentsEnabled,
+                leadingIcon = {
+                    SynchAndNotificationsIcon(
+                        syncEnabled = areDeploymentsEnabled,
+                        notificationsEnabled = false,
+                    )
+                },
+                onCheckedChange = {
+                    onAreDeploymentsEnabledChange.invoke(it)
+                },
             )
         }
     }

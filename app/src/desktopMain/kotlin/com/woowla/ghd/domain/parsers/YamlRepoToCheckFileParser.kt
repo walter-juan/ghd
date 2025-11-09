@@ -20,6 +20,7 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 areReleasesEnabled = yamlRepo.releases.enabled ?: true,
                 arePullRequestsNotificationsEnabled = yamlRepo.pulls.notificationsEnabled ?: false,
                 areReleasesNotificationsEnabled = yamlRepo.releases.notificationsEnabled ?: false,
+                areDeploymentsEnabled = yamlRepo.deployments.enabled ?: false,
             )
         }
     }
@@ -40,7 +41,10 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 releases = YamlReleaseConfig(
                     enabled = repoToCheck.areReleasesEnabled,
                     notificationsEnabled = repoToCheck.areReleasesNotificationsEnabled,
-                )
+                ),
+                deployments = YamlDeploymentConfig(
+                    enabled = repoToCheck.areDeploymentsEnabled,
+                ),
             )
         }
 
@@ -66,6 +70,8 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val pulls: YamlPullConfig = YamlPullConfig(),
         @SerialName("releases")
         val releases: YamlReleaseConfig = YamlReleaseConfig(),
+        @SerialName("deployments")
+        val deployments: YamlDeploymentConfig = YamlDeploymentConfig(),
     )
 
     @Serializable
@@ -84,5 +90,11 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val enabled: Boolean? = null,
         @SerialName("notifications-enabled")
         val notificationsEnabled: Boolean? = null,
+    )
+
+    @Serializable
+    data class YamlDeploymentConfig(
+        @SerialName("enabled")
+        val enabled: Boolean? = null,
     )
 }

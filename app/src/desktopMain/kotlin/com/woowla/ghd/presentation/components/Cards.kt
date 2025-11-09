@@ -179,6 +179,12 @@ fun RepoToCheckCard(
                         icon = repoToCheckDecorator.releasesSyncIcon,
                     )
                 }
+                if (repoToCheck.areDeploymentsEnabled) {
+                    Tag(
+                        text = "Deployments",
+                        icon = repoToCheckDecorator.deploymentsSyncIcon,
+                    )
+                }
                 if (!repoToCheck.pullBranchRegex.isNullOrBlank()) {
                     Tag(
                         text = "Filtered",

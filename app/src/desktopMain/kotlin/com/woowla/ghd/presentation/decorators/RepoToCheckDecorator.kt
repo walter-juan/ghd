@@ -23,4 +23,9 @@ class RepoToCheckDecorator(val repoToCheck: RepoToCheck) {
         repoToCheck.areReleasesEnabled -> Tabler.Outline.Refresh
         else -> Tabler.Outline.X
     }
+
+    val deploymentsSyncIcon = when {
+        repoToCheck.areDeploymentsEnabled -> Tabler.Outline.Refresh
+        else -> Tabler.Outline.X
+    }
 }

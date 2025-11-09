@@ -54,6 +54,7 @@ class AppProperties(appFolderFactory: AppFolderFactory) {
     var filtersRepoToCheckPullRequestBranchFilterActive: Boolean by settings.boolean("filtersRepoToCheckPullRequestBranchFilterActive", false)
     var filtersRepoToCheckReleasesSyncEnabled: Boolean by settings.boolean("filtersRepoToCheckReleasesSyncEnabled", false)
     var filtersRepoToCheckReleasesNotificationsEnabled: Boolean by settings.boolean("filtersRepoToCheckReleasesNotificationsEnabled", false)
+    var filtersRepoToCheckDeploymentsSyncEnabled: Boolean by settings.boolean("filtersRepoToCheckDeploymentsSyncEnabled", false)
 
     var notificationsFilterUsername: String by settings.string("notificationsFilterUsername", "")
     var notificationsStateEnabledOption: String? by settings.nullableString("notificationsStateEnabledOption")

@@ -80,6 +80,7 @@ class LocalDataSourceImpl(
                     pullRequestBranchFilterActive = appProperties.filtersRepoToCheckPullRequestBranchFilterActive,
                     releasesSyncEnabled = appProperties.filtersRepoToCheckReleasesSyncEnabled,
                     releasesNotificationsEnabled = appProperties.filtersRepoToCheckReleasesNotificationsEnabled,
+                    deploymentsSyncEnabled = appProperties.filtersRepoToCheckDeploymentsSyncEnabled,
                 ),
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
@@ -115,6 +116,7 @@ class LocalDataSourceImpl(
             appProperties.filtersRepoToCheckPullRequestBranchFilterActive = appSettings.filtersRepoToCheck.pullRequestBranchFilterActive
             appProperties.filtersRepoToCheckReleasesSyncEnabled = appSettings.filtersRepoToCheck.releasesSyncEnabled
             appProperties.filtersRepoToCheckReleasesNotificationsEnabled = appSettings.filtersRepoToCheck.releasesNotificationsEnabled
+            appProperties.filtersRepoToCheckDeploymentsSyncEnabled = appSettings.filtersRepoToCheck.deploymentsSyncEnabled
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 

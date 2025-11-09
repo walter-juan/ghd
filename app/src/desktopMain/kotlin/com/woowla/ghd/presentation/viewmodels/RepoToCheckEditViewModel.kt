@@ -69,6 +69,7 @@ class RepoToCheckEditStateMachine(
                 arePullRequestsNotificationsEnabled = action.arePullRequestsNotificationsEnabled,
                 areReleasesEnabled = action.areReleasesEnabled,
                 areReleasesNotificationsEnabled = action.areReleasesNotificationsEnabled,
+                areDeploymentsEnabled = action.areDeploymentsEnabled,
             )
         }
         return updateRequestResult
@@ -110,6 +111,7 @@ class RepoToCheckEditStateMachine(
             val arePullRequestsNotificationsEnabled: Boolean,
             val areReleasesEnabled: Boolean,
             val areReleasesNotificationsEnabled: Boolean,
+            val areDeploymentsEnabled: Boolean,
         ) : Act
     }
 }

@@ -20,9 +20,11 @@ class DeploymentServiceImpl(
 ) : DeploymentService {
     override suspend fun getAll(): Result<List<DeploymentWithRepo>> {
         // TODO implement
-        val environments = listOf<String>("Production")
+        val environments = listOf<String>()
         return localDataSource.getAllReposToCheck().map { repoToChecks ->
-            repoToChecks.filter { it.groupName == "deployments_enabled" }.mapNotNull { remoteDataSource.getDeployments(it, environments).getOrNull()?.data }.flatten()
+            repoToChecks.filter { it.areDeploymentsEnabled }.mapNotNull {
+                remoteDataSource.getDeployments(it, environments).getOrNull()?.data
+            }.flatten()
         }
     }
 
@@ -40,8 +42,7 @@ class DeploymentServiceImpl(
         val deploymentsBefore = getAll().getOrDefault(listOf())
         // TODO do not force the environments
         val environments = listOf<String>("Production")
-        // TODO implement areDeploymentsEnabled -> repoToCheckList.filter { it.areDeploymentsEnabled }
-        val enabledRepoToCheckList = repoToCheckList.filter { it.groupName == "deployments_enabled" }
+        val enabledRepoToCheckList = repoToCheckList.filter { it.areDeploymentsEnabled }
 
         // fetch all remote deployments
         val apiDeploymentsResultsDeferred = coroutineScope {
