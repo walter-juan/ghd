@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,6 +46,7 @@ import com.woowla.compose.icon.collections.tabler.tabler.outline.Refresh
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Rocket
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Tag
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Trash
+import com.woowla.ghd.core.extensions.maxChars
 import com.woowla.ghd.domain.entities.CommitCheckRollupStatus
 import com.woowla.ghd.domain.entities.PullRequestStateExtended
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
@@ -61,9 +63,12 @@ import com.woowla.ghd.presentation.decorators.RepoToCheckDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultDecorator
 import com.woowla.ghd.presentation.decorators.SyncResultEntryDecorator
 import com.woowla.ghd.core.utils.openWebpage
-import com.woowla.ghd.domain.entities.PullRequestReviewDecision
-import com.woowla.ghd.domain.entities.ReviewState
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
+import com.woowla.ghd.presentation.app.AppColors.info
 import com.woowla.ghd.presentation.app.AppColors.warning
+import com.woowla.ghd.presentation.decorators.DeploymentDecorator
+import com.woowla.ghd.presentation.decorators.DeploymentStateDecorator
 import com.woowla.ghd.presentation.decorators.PullRequestReviewDecisionDecorator
 import com.woowla.ghd.presentation.decorators.ReviewDecorator
 import com.woowla.ghd.presentation.decorators.ReviewRequestDecorator
@@ -176,6 +181,12 @@ fun RepoToCheckCard(
                     Tag(
                         text = "Releases",
                         icon = repoToCheckDecorator.releasesSyncIcon,
+                    )
+                }
+                if (repoToCheck.areDeploymentsEnabled) {
+                    Tag(
+                        text = "Deployments",
+                        icon = repoToCheckDecorator.deploymentsSyncIcon,
                     )
                 }
                 if (!repoToCheck.pullBranchRegex.isNullOrBlank()) {
@@ -434,6 +445,68 @@ fun PullRequestCard(
     )
 }
 
+@Composable
+fun DeploymentCard(
+    groupKey: String,
+    repoToCheck: RepoToCheck,
+    onOpenClick: (RepoToCheck) -> Unit,
+    deployments: List<Deployment>,
+    modifier: Modifier = Modifier,
+) {
+    val repoToCheckDecorator = RepoToCheckDecorator(repoToCheck)
+    CardListItem(
+        modifier = modifier,
+        onClick = { onOpenClick.invoke(repoToCheck) },
+        title = groupKey,
+        subtitle = repoToCheckDecorator.fullRepo,
+        supportingContent = {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    val groupName = repoToCheckDecorator.groupName
+                    if (!groupName.isNullOrBlank()) {
+                        Tag(
+                            text = groupName,
+                            icon = null,
+                            color = groupName.toColor(),
+                        )
+                    }
+                    HorizontalDivider()
+                    deployments.forEachIndexed { _, deployment ->
+                        val deploymentDecorator = DeploymentDecorator(deployment)
+                        val deploymentStateDecorator = DeploymentStateDecorator(deployment.state)
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Tag(
+                                text = deploymentDecorator.createdAt,
+                                icon = Tabler.Outline.Clock,
+                            )
+                            Tag(
+                                text = deploymentStateDecorator.text,
+                                icon = deploymentStateDecorator.icon,
+                                color = deploymentStateDecorator.iconTint(),
+                            )
+                            Tag(
+                                text = "${deployment.environment}",
+                                icon = null,
+                                color = deployment.environment?.toColor() ?: MaterialTheme.colorScheme.secondary,
+                            )
+                            Tag("${deployment.refName?.maxChars(20)}", icon = null)
+                        }
+                        HorizontalDivider()
+                    }
+                }
+            }
+        }
+    )
+}
+
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun CardListItem(
@@ -498,3 +571,4 @@ fun CardListItem(
         }
     }
 }
+

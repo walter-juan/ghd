@@ -21,6 +21,7 @@ data class Repository(val owner: String, val name: String) {
     }
 
     val url: String = "https://github.com/$owner/$name"
+    val deploymentsUrl: String = "$url/deployments"
 
     init {
         require(url.matches(regex)) { "Invalid GitHub URL: $url" }

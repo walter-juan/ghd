@@ -65,10 +65,14 @@ class RepoToCheckEditStateMachine(
                 repository = repository,
                 groupName = action.groupName,
                 pullBranchRegex = action.branchRegex,
+                deploymentRefNameRegex = action.deploymentRefNameRegex,
+                deploymentEnvironments = action.deploymentEnvironments,
+                deploymentDownloadLimit = action.deploymentDownloadLimit,
                 arePullRequestsEnabled = action.arePullRequestsEnabled,
                 arePullRequestsNotificationsEnabled = action.arePullRequestsNotificationsEnabled,
                 areReleasesEnabled = action.areReleasesEnabled,
                 areReleasesNotificationsEnabled = action.areReleasesNotificationsEnabled,
+                areDeploymentsEnabled = action.areDeploymentsEnabled,
             )
         }
         return updateRequestResult
@@ -106,10 +110,14 @@ class RepoToCheckEditStateMachine(
             val repositoryUrl: String,
             val groupName: String,
             val branchRegex: String,
+            val deploymentRefNameRegex: String,
+            val deploymentEnvironments: String,
+            val deploymentDownloadLimit: Int,
             val arePullRequestsEnabled: Boolean,
             val arePullRequestsNotificationsEnabled: Boolean,
             val areReleasesEnabled: Boolean,
             val areReleasesNotificationsEnabled: Boolean,
+            val areDeploymentsEnabled: Boolean,
         ) : Act
     }
 }

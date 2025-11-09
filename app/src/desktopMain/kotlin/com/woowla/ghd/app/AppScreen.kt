@@ -5,6 +5,7 @@ import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Bell
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
+import com.woowla.compose.icon.collections.tabler.tabler.outline.CloudUpload
 import com.woowla.compose.icon.collections.tabler.tabler.outline.GitPullRequest
 import com.woowla.compose.icon.collections.tabler.tabler.outline.InfoCircle
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Package
@@ -31,6 +32,11 @@ sealed class AppScreen(open val route: String = "") {
     data object ReleaseList : AppScreen(), NavigationScreen {
         override val icon: ImageVector = Tabler.Outline.Package
         override val title: String = i18nApp.tab_title_releases
+    }
+    @Serializable
+    data object DeploymentList : AppScreen(), NavigationScreen {
+        override val icon: ImageVector = Tabler.Outline.CloudUpload
+        override val title: String = i18nApp.tab_title_deployments
     }
     @Serializable
     data object RepoToCheckList : AppScreen(), NavigationScreen {

@@ -103,10 +103,14 @@ object RandomEntities {
         repository = randomGitHubRepository(),
         groupName = RandomValues.randomString(),
         pullBranchRegex = RandomValues.randomString(),
+        deploymentEnvironments = null,
+        deploymentDownloadLimit = RandomValues.randomInt(),
+        deploymentRefNameRegex = null,
         arePullRequestsEnabled = RandomValues.randomBoolean(),
         arePullRequestsNotificationsEnabled = RandomValues.randomBoolean(),
         areReleasesEnabled = RandomValues.randomBoolean(),
         areReleasesNotificationsEnabled = RandomValues.randomBoolean(),
+        areDeploymentsEnabled = RandomValues.randomBoolean(),
     )
 
     fun randomGitHubRepository() = Repository(

@@ -16,10 +16,14 @@ data class DbRepoToCheck(
     @Embedded val repository: DbRepository?,
     @ColumnInfo(name = "group_name") val groupName: String?,
     @ColumnInfo(name = "pull_branch_regex") val pullBranchRegex: String?,
+    @ColumnInfo(name = "deployment_ref_name_regex") val deploymentRefNameRegex: String?,
+    @ColumnInfo(name = "deployment_environments") val deploymentEnvironments: String?,
+    @ColumnInfo(name = "deployment_download_limit", defaultValue = "${RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT}") val deploymentDownloadLimit: Int,
     @ColumnInfo(name = "are_pull_requests_enabled") val arePullRequestsEnabled: Boolean,
     @ColumnInfo(name = "are_releases_enabled") val areReleasesEnabled: Boolean,
     @ColumnInfo(name = "are_pull_requests_notifications_enabled", defaultValue = "0") val arePullRequestsNotificationsEnabled: Boolean,
     @ColumnInfo(name = "are_releases_notifications_enabled", defaultValue = "0") val areReleasesNotificationsEnabled: Boolean,
+    @ColumnInfo(name = "are_deployments_enabled", defaultValue = "0") val areDeploymentsEnabled: Boolean,
 ) {
     companion object
 }

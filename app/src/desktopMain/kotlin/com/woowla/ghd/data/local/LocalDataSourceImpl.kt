@@ -37,8 +37,13 @@ import com.woowla.ghd.domain.entities.SyncResultWithEntriesAndRepos
 import com.woowla.ghd.domain.entities.SyncSettings
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
 import com.woowla.ghd.core.utils.enumValueOfOrNull
+import com.woowla.ghd.data.local.room.entities.DbDeploymentWithRepo
+import com.woowla.ghd.data.local.room.entities.toDeploymentWithRepo
+import com.woowla.ghd.data.local.room.toDbDeployment
 import com.woowla.ghd.data.local.room.toDbReviewRequest
 import com.woowla.ghd.domain.data.LocalDataSource
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.RepoToCheckFilters
 import com.woowla.ghd.domain.entities.ReviewRequest
 
@@ -80,6 +85,7 @@ class LocalDataSourceImpl(
                     pullRequestBranchFilterActive = appProperties.filtersRepoToCheckPullRequestBranchFilterActive,
                     releasesSyncEnabled = appProperties.filtersRepoToCheckReleasesSyncEnabled,
                     releasesNotificationsEnabled = appProperties.filtersRepoToCheckReleasesNotificationsEnabled,
+                    deploymentsSyncEnabled = appProperties.filtersRepoToCheckDeploymentsSyncEnabled,
                 ),
                 notificationsSettings = NotificationsSettings(
                     filterUsername = appProperties.notificationsFilterUsername,
@@ -115,6 +121,7 @@ class LocalDataSourceImpl(
             appProperties.filtersRepoToCheckPullRequestBranchFilterActive = appSettings.filtersRepoToCheck.pullRequestBranchFilterActive
             appProperties.filtersRepoToCheckReleasesSyncEnabled = appSettings.filtersRepoToCheck.releasesSyncEnabled
             appProperties.filtersRepoToCheckReleasesNotificationsEnabled = appSettings.filtersRepoToCheck.releasesNotificationsEnabled
+            appProperties.filtersRepoToCheckDeploymentsSyncEnabled = appSettings.filtersRepoToCheck.deploymentsSyncEnabled
 
             appProperties.notificationsFilterUsername = appSettings.notificationsSettings.filterUsername
 
@@ -323,6 +330,36 @@ class LocalDataSourceImpl(
     override suspend fun removeReleaseByRepoToCheck(repoToCheckId: Long): Result<Unit> {
         return runCatching {
             appDatabase.releaseDao().deleteByRepoToCheck(repoToCheckId = repoToCheckId)
+        }
+    }
+
+    override suspend fun getAllDeployments(): Result<List<DeploymentWithRepo>> {
+        return runCatching {
+            val repoToCheckList = appDatabase.repoToCheckDao().getAll()
+            appDatabase.deploymentDao().getAll().map { deployment ->
+                DbDeploymentWithRepo(
+                    deployment = deployment,
+                    repoToCheck = repoToCheckList.first { it.id == deployment.repoToCheckId }
+                ).toDeploymentWithRepo()
+            }
+        }
+    }
+
+    override suspend fun upsertDeployments(deployments: List<Deployment>): Result<Unit> {
+        return runCatching {
+            appDatabase.deploymentDao().insert(deployments.toDbDeployment())
+        }
+    }
+
+    override suspend fun removeDeployments(ids: List<String>): Result<Unit> {
+        return runCatching {
+            appDatabase.deploymentDao().delete(ids)
+        }
+    }
+
+    override suspend fun removeDeploymentByRepoToCheck(repoToCheckId: Long): Result<Unit> {
+        return runCatching {
+            appDatabase.deploymentDao().deleteByRepoToCheck(repoToCheckId = repoToCheckId)
         }
     }
 

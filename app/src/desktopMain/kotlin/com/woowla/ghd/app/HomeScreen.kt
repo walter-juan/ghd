@@ -26,6 +26,7 @@ import com.woowla.ghd.BuildConfig
 import com.woowla.ghd.presentation.DiUi
 import com.woowla.ghd.presentation.screens.AboutLibraries
 import com.woowla.ghd.presentation.screens.AboutScreen
+import com.woowla.ghd.presentation.screens.DeploymentsScreen
 import com.woowla.ghd.presentation.screens.NotificationsScreen
 import com.woowla.ghd.presentation.screens.PullRequestsScreen
 import com.woowla.ghd.presentation.screens.ReleasesScreen
@@ -49,6 +50,7 @@ object HomeScreen {
         val items = listOf(
             AppScreen.PullRequestList,
             AppScreen.ReleaseList,
+            AppScreen.DeploymentList,
             AppScreen.RepoToCheckList,
             AppScreen.Notifications,
             AppScreen.Settings,
@@ -108,6 +110,16 @@ object HomeScreen {
                 }
                 composable<AppScreen.ReleaseList> {
                     ReleasesScreen.Content(
+                        viewModel = koinViewModel(),
+                        onSyncResultEntriesClick = { syncResult ->
+                            navController.navigate(
+                                route = AppScreen.SyncResult(id = syncResult.id),
+                            )
+                        }
+                    )
+                }
+                composable<AppScreen.DeploymentList> {
+                    DeploymentsScreen.Content(
                         viewModel = koinViewModel(),
                         onSyncResultEntriesClick = { syncResult ->
                             navController.navigate(
