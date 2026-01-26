@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.6-beta04]
+### Changed
+- Update GitHub macos runner
+
 ## [2.0.6-beta03]
 ### Added
 - Deployments
@@ -333,7 +337,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta03...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta04...dev
+[2.0.6-beta04]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta04
 [2.0.6-beta03]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta03
 [2.0.6-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta02
 [2.0.6-beta01]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta01
