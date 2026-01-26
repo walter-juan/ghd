@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.6-beta03]
+### Added
+- Deployments
+  - "Group by ref name" have been added for an extra configuration, but they may be removed in the future.
+
 ## [2.0.6-beta02]
 ### Added
 - Other filters on the repository list
@@ -328,7 +333,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta02...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta03...dev
+[2.0.6-beta03]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta03
 [2.0.6-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta02
 [2.0.6-beta01]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta01
 [2.0.5]: https://github.com/walter-juan/ghd/releases/tag/v2.0.5

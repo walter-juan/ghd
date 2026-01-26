@@ -16,10 +16,14 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 repository = Repository(owner = yamlRepo.owner.trim(), name = yamlRepo.name.trim()),
                 groupName = yamlRepo.group?.trim(),
                 pullBranchRegex = yamlRepo.pulls.branchRegexFilter?.trim(),
+                deploymentRefNameRegex = yamlRepo.deployments.deploymentRefNameRegex?.trim(),
+                deploymentEnvironments = yamlRepo.deployments.deploymentEnvironments?.trim(),
+                deploymentDownloadLimit = yamlRepo.deployments.deploymentDownloadLimit ?: RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
                 arePullRequestsEnabled = yamlRepo.pulls.enabled ?: true,
                 areReleasesEnabled = yamlRepo.releases.enabled ?: true,
                 arePullRequestsNotificationsEnabled = yamlRepo.pulls.notificationsEnabled ?: false,
                 areReleasesNotificationsEnabled = yamlRepo.releases.notificationsEnabled ?: false,
+                areDeploymentsEnabled = yamlRepo.deployments.enabled ?: false,
             )
         }
     }
@@ -40,7 +44,13 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
                 releases = YamlReleaseConfig(
                     enabled = repoToCheck.areReleasesEnabled,
                     notificationsEnabled = repoToCheck.areReleasesNotificationsEnabled,
-                )
+                ),
+                deployments = YamlDeploymentConfig(
+                    enabled = repoToCheck.areDeploymentsEnabled,
+                    deploymentRefNameRegex = repoToCheck.deploymentRefNameRegex,
+                    deploymentEnvironments = repoToCheck.deploymentEnvironments,
+                    deploymentDownloadLimit = repoToCheck.deploymentDownloadLimit,
+                ),
             )
         }
 
@@ -66,6 +76,8 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val pulls: YamlPullConfig = YamlPullConfig(),
         @SerialName("releases")
         val releases: YamlReleaseConfig = YamlReleaseConfig(),
+        @SerialName("deployments")
+        val deployments: YamlDeploymentConfig = YamlDeploymentConfig(),
     )
 
     @Serializable
@@ -84,5 +96,17 @@ class YamlRepoToCheckFileParser : RepoToCheckFileParser {
         val enabled: Boolean? = null,
         @SerialName("notifications-enabled")
         val notificationsEnabled: Boolean? = null,
+    )
+
+    @Serializable
+    data class YamlDeploymentConfig(
+        @SerialName("enabled")
+        val enabled: Boolean? = null,
+        @SerialName("deployment-ref-name-regex")
+        val deploymentRefNameRegex: String? = null,
+        @SerialName("deployment-environments")
+        val deploymentEnvironments: String? = null,
+        @SerialName("deployment-download-limit")
+        val deploymentDownloadLimit: Int? = null,
     )
 }

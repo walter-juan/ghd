@@ -12,6 +12,7 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.woowla.ghd.core.AppFolderFactory
 import com.woowla.ghd.data.local.room.converters.Converters
 import com.woowla.ghd.data.local.room.daos.DatabaseDao
+import com.woowla.ghd.data.local.room.daos.DeploymentDao
 import com.woowla.ghd.data.local.room.daos.PullRequestDao
 import com.woowla.ghd.data.local.room.daos.ReleaseDao
 import com.woowla.ghd.data.local.room.daos.RepoToCheckDao
@@ -20,6 +21,7 @@ import com.woowla.ghd.data.local.room.daos.ReviewRequestDao
 import com.woowla.ghd.data.local.room.daos.SyncResultDao
 import com.woowla.ghd.data.local.room.daos.SyncResultEntryDao
 import com.woowla.ghd.data.local.room.daos.SyncSettingsDao
+import com.woowla.ghd.data.local.room.entities.DbDeployment
 import com.woowla.ghd.data.local.room.entities.DbPullRequest
 import com.woowla.ghd.data.local.room.entities.DbRelease
 import com.woowla.ghd.data.local.room.entities.DbRepoToCheck
@@ -31,12 +33,13 @@ import com.woowla.ghd.data.local.room.entities.DbSyncSettings
 import kotlinx.coroutines.Dispatchers
 
 @Database(
-    version = 8,
+    version = 9,
     entities = [
         DbPullRequest::class,
         DbRelease::class,
         DbRepoToCheck::class,
         DbReview::class,
+        DbDeployment::class,
         DbReviewRequest::class,
         DbSyncResult::class,
         DbSyncResultEntry::class,
@@ -50,6 +53,7 @@ import kotlinx.coroutines.Dispatchers
         AutoMigration(from = 5, to = 6),
         AutoMigration(from = 6, to = 7),
         AutoMigration(from = 7, to = 8),
+        AutoMigration(from = 8, to = 9),
     ],
 )
 @TypeConverters(Converters::class)
@@ -67,6 +71,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun databaseDao(): DatabaseDao
     abstract fun pullRequestDao(): PullRequestDao
     abstract fun releaseDao(): ReleaseDao
+    abstract fun deploymentDao(): DeploymentDao
     abstract fun repoToCheckDao(): RepoToCheckDao
     abstract fun reviewDao(): ReviewDao
     abstract fun reviewRequestDao(): ReviewRequestDao

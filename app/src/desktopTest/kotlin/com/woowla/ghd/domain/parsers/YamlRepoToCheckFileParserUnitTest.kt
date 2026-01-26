@@ -60,7 +60,11 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             arePullRequestsEnabled = true,
             arePullRequestsNotificationsEnabled = false,
             areReleasesEnabled = false,
-            areReleasesNotificationsEnabled = true
+            areReleasesNotificationsEnabled = true,
+            deploymentRefNameRegex = null,
+            deploymentEnvironments = null,
+            deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+            areDeploymentsEnabled = false,
         )
     }
 
@@ -84,6 +88,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             arePullRequestsNotificationsEnabled = false,
             areReleasesEnabled = true,
             areReleasesNotificationsEnabled = false,
+            deploymentRefNameRegex = null,
+            deploymentEnvironments = null,
+            deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+            areDeploymentsEnabled = false,
         )
     }
 
@@ -125,6 +133,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             arePullRequestsNotificationsEnabled = false,
             areReleasesEnabled = true,
             areReleasesNotificationsEnabled = true,
+            deploymentRefNameRegex = null,
+            deploymentEnvironments = null,
+            deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+            areDeploymentsEnabled = false,
         )
         repos[1] shouldBe RepoToCheck(
             id = RepoToCheckFileParser.ID,
@@ -135,6 +147,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
             arePullRequestsNotificationsEnabled = true,
             areReleasesEnabled = true,
             areReleasesNotificationsEnabled = false,
+            deploymentRefNameRegex = null,
+            deploymentEnvironments = null,
+            deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+            areDeploymentsEnabled = false,
         )
     }
 
@@ -157,6 +173,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 arePullRequestsNotificationsEnabled = true,
                 areReleasesEnabled = true,
                 areReleasesNotificationsEnabled = false,
+                deploymentRefNameRegex = null,
+                deploymentEnvironments = null,
+                deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+                areDeploymentsEnabled = false,
             ),
             RepoToCheck(
                 id = 23L,
@@ -167,6 +187,10 @@ class YamlRepoToCheckFileParserUnitTest : StringSpec({
                 arePullRequestsNotificationsEnabled = false,
                 areReleasesEnabled = true,
                 areReleasesNotificationsEnabled = true,
+                deploymentRefNameRegex = null,
+                deploymentEnvironments = null,
+                deploymentDownloadLimit = RepoToCheck.DEFAULT_DEPLOYMENT_DOWNLOAD_LIMIT,
+                areDeploymentsEnabled = false,
             ),
         )
         val parser = YamlRepoToCheckFileParser()

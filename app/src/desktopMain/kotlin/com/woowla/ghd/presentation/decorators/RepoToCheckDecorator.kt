@@ -11,6 +11,7 @@ import com.woowla.ghd.domain.entities.RepoToCheck
 class RepoToCheckDecorator(val repoToCheck: RepoToCheck) {
     val fullRepo = "${repoToCheck.repository?.owner}/${repoToCheck.repository?.name}"
 
+    val groupName = repoToCheck.groupName
 
     val pullRequestsSyncIcon = when {
         repoToCheck.arePullRequestsEnabled && repoToCheck.arePullRequestsNotificationsEnabled -> Tabler.Filled.Bell
@@ -21,6 +22,11 @@ class RepoToCheckDecorator(val repoToCheck: RepoToCheck) {
     val releasesSyncIcon = when {
         repoToCheck.areReleasesEnabled && repoToCheck.areReleasesNotificationsEnabled -> Tabler.Filled.Bell
         repoToCheck.areReleasesEnabled -> Tabler.Outline.Refresh
+        else -> Tabler.Outline.X
+    }
+
+    val deploymentsSyncIcon = when {
+        repoToCheck.areDeploymentsEnabled -> Tabler.Outline.Refresh
         else -> Tabler.Outline.X
     }
 }

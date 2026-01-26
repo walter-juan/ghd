@@ -1,6 +1,8 @@
 package com.woowla.ghd.domain.data
 
 import com.woowla.ghd.domain.entities.AppSettings
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.PullRequest
 import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import com.woowla.ghd.domain.entities.Release
@@ -63,6 +65,14 @@ interface LocalDataSource {
     suspend fun removeReleases(ids: List<String>): Result<Unit>
 
     suspend fun removeReleaseByRepoToCheck(repoToCheckId: Long): Result<Unit>
+
+    suspend fun getAllDeployments(): Result<List<DeploymentWithRepo>>
+
+    suspend fun upsertDeployments(deployments: List<Deployment>): Result<Unit>
+
+    suspend fun removeDeployments(ids: List<String>): Result<Unit>
+
+    suspend fun removeDeploymentByRepoToCheck(repoToCheckId: Long): Result<Unit>
 
     suspend fun removeReviewsByPullRequest(pullRequestIds: List<String>): Result<Unit>
 

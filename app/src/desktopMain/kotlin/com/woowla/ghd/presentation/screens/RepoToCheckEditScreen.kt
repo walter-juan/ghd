@@ -32,6 +32,7 @@ import com.woowla.compose.icon.collections.tabler.Tabler
 import com.woowla.compose.icon.collections.tabler.tabler.Filled
 import com.woowla.compose.icon.collections.tabler.tabler.Outline
 import com.woowla.compose.icon.collections.tabler.tabler.filled.Bell
+import com.woowla.compose.icon.collections.tabler.tabler.outline.ArrowsJoin2
 import com.woowla.compose.icon.collections.tabler.tabler.outline.BrandGithub
 import com.woowla.compose.icon.collections.tabler.tabler.outline.DeviceFloppy
 import com.woowla.compose.icon.collections.tabler.tabler.outline.Filter
@@ -108,10 +109,14 @@ object RepoToCheckEditScreen {
         var repositoryUrl by remember { mutableStateOf(state.repoToCheck.repository?.url ?: "") }
         var groupName by remember { mutableStateOf(state.repoToCheck.groupName ?: "") }
         var branchRegex by remember { mutableStateOf(state.repoToCheck.pullBranchRegex ?: "") }
+        var deploymentRefNameRegex by remember { mutableStateOf(state.repoToCheck.deploymentRefNameRegex ?: "") }
+        var deploymentEnvironments by remember { mutableStateOf(state.repoToCheck.deploymentEnvironments ?: "") }
+        var deploymentDownloadLimit by remember { mutableStateOf(state.repoToCheck.deploymentDownloadLimit) }
         var arePullRequestsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsEnabled) }
         var arePullRequestsNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.arePullRequestsNotificationsEnabled) }
         var areReleasesEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesEnabled) }
         var areReleasesNotificationsEnabled by remember { mutableStateOf(state.repoToCheck.areReleasesNotificationsEnabled) }
+        var areDeploymentsEnabled by remember { mutableStateOf(state.repoToCheck.areDeploymentsEnabled) }
 
         val textFieldFocusRequester = remember { FocusRequester() }
         val snackbarHostState = remember { SnackbarHostState() }
@@ -142,10 +147,14 @@ object RepoToCheckEditScreen {
                                         repositoryUrl = repositoryUrl,
                                         groupName = groupName,
                                         branchRegex = branchRegex,
+                                        deploymentRefNameRegex = deploymentRefNameRegex,
+                                        deploymentEnvironments = deploymentEnvironments,
+                                        deploymentDownloadLimit = deploymentDownloadLimit,
                                         arePullRequestsEnabled = arePullRequestsEnabled,
                                         arePullRequestsNotificationsEnabled = arePullRequestsNotificationsEnabled,
                                         areReleasesEnabled = areReleasesEnabled,
                                         areReleasesNotificationsEnabled = areReleasesNotificationsEnabled,
+                                        areDeploymentsEnabled = areDeploymentsEnabled,
                                     )
                                 )
                             }
@@ -170,7 +179,6 @@ object RepoToCheckEditScreen {
                 RepositorySection(
                     repositoryUrl = repositoryUrl,
                     groupName = groupName,
-                    mode = state.mode,
                     focusRequester = textFieldFocusRequester,
                     onRepositoryUrlChange = { repositoryUrl = it },
                     onReleaseGroupChange = { groupName = it },
@@ -191,6 +199,16 @@ object RepoToCheckEditScreen {
                     onAreReleasesEnabledChange = { areReleasesEnabled = it },
                     onAreReleasesNotificationsEnabledChange = { areReleasesNotificationsEnabled = it },
                 )
+                DeploymentSection(
+                    areDeploymentsEnabled = areDeploymentsEnabled,
+                    onAreDeploymentsEnabledChange = { areDeploymentsEnabled = it },
+                    deploymentRefNameRegex = deploymentRefNameRegex,
+                    onDeploymentRefNameRegexChange = { deploymentRefNameRegex = it },
+                    deploymentEnvironments = deploymentEnvironments,
+                    onDeploymentEnvironmentsChange = { deploymentEnvironments = it },
+                    deploymentDownloadLimit = deploymentDownloadLimit,
+                    onDeploymentDownloadLimitChange = { deploymentDownloadLimit = it },
+                )
             }
         }
 
@@ -204,7 +222,6 @@ object RepoToCheckEditScreen {
     private fun RepositorySection(
         repositoryUrl: String,
         groupName: String,
-        mode: RepoToCheckEditStateMachine.Mode,
         focusRequester: FocusRequester,
         onRepositoryUrlChange: (String) -> Unit,
         onReleaseGroupChange: (String) -> Unit,
@@ -333,6 +350,101 @@ object RepoToCheckEditScreen {
                 onCheckedChange = onAreReleasesNotificationsEnabledChange,
                 enabled = areReleasesEnabled,
             )
+        }
+    }
+
+    @Composable
+    private fun DeploymentSection(
+        areDeploymentsEnabled: Boolean,
+        onAreDeploymentsEnabledChange: (Boolean) -> Unit,
+        deploymentRefNameRegex: String,
+        onDeploymentRefNameRegexChange: (String) -> Unit,
+        deploymentEnvironments: String,
+        onDeploymentEnvironmentsChange: (String) -> Unit,
+        deploymentDownloadLimit: Int,
+        onDeploymentDownloadLimitChange: (Int) -> Unit,
+    ) {
+        Section(title = "Deployments") {
+            SectionItemWithSwitch(
+                title = i18nUi.screen_edit_repo_to_check_deployments_section,
+                description = "Enable or disable monitoring of deployments for this repository. Deployments should be linked to a tag, so the reference name should be 'refs/tags/'.",
+                checked = areDeploymentsEnabled,
+                leadingIcon = {
+                    SynchAndNotificationsIcon(
+                        syncEnabled = areDeploymentsEnabled,
+                        notificationsEnabled = false,
+                    )
+                },
+                onCheckedChange = {
+                    onAreDeploymentsEnabledChange.invoke(it)
+                },
+            )
+            SectionItem(
+                title = "Group by ref name",
+                description = "Group deployments by deployment ref name using regex filter with group, leave it empty to disable grouping. The first matching group will be used as the key.",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Tabler.Outline.ArrowsJoin2,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                enabled = areDeploymentsEnabled,
+            ) {
+                OutlinedTextField(
+                    value = deploymentRefNameRegex,
+                    onValueChange = onDeploymentRefNameRegexChange,
+                    label = { Text(text = "Ref name regex") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = areDeploymentsEnabled,
+                    singleLine = true
+                )
+            }
+            SectionItem(
+                title = "Environments",
+                description = "Comma separated list of deployment environments to monitor (example: Production, Acceptance). Leave empty to monitor all environments.",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Tabler.Outline.Filter,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                enabled = areDeploymentsEnabled,
+            ) {
+                OutlinedTextField(
+                    value = deploymentEnvironments,
+                    onValueChange = onDeploymentEnvironmentsChange,
+                    label = { Text(text = "Environments") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = areDeploymentsEnabled,
+                    singleLine = true
+                )
+            }
+            SectionItem(
+                title = "Download limit",
+                description = "Maximum number of deployments to download per synchronization (default is 10). This limit is applied to avoid large data downloads and quota issues.",
+                leadingIcon = {
+                    Icon(
+                        imageVector = Tabler.Outline.DeviceFloppy,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                enabled = areDeploymentsEnabled,
+            ) {
+                OutlinedTextField(
+                    value = deploymentDownloadLimit.toString(),
+                    onValueChange = {
+                        val intValue = it.toIntOrNull() ?: 0
+                        onDeploymentDownloadLimitChange(intValue)
+                    },
+                    label = { Text(text = "Download limit") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = areDeploymentsEnabled,
+                    singleLine = true
+                )
+            }
         }
     }
 

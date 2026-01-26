@@ -39,3 +39,14 @@ private val colorList = listOf(
 fun String.toColor(): Color {
     return colorList[this.hashCode().absoluteValue % colorList.size].lighten(0.65F)
 }
+
+/**
+ * Truncate the string to the maxChars length, adding "…" at the end if truncated
+ */
+fun String.maxChars(maxChars: Int): String {
+    return if (this.length <= maxChars) {
+        this
+    } else {
+        this.take(maxChars - 1) + "…"
+    }
+}

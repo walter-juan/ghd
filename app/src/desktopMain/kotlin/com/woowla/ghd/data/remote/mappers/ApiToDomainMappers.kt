@@ -17,7 +17,11 @@ import com.woowla.ghd.domain.entities.Review
 import com.woowla.ghd.domain.entities.ReviewState
 import com.woowla.ghd.domain.entities.ReleaseWithRepo
 import com.woowla.ghd.core.utils.enumValueOfOrDefault
+import com.woowla.ghd.data.remote.GetDeploymentsQuery
 import com.woowla.ghd.data.remote.fragment.ActorFragment
+import com.woowla.ghd.domain.entities.Deployment
+import com.woowla.ghd.domain.entities.DeploymentState
+import com.woowla.ghd.domain.entities.DeploymentWithRepo
 import com.woowla.ghd.domain.entities.PullRequestReviewDecision
 import com.woowla.ghd.domain.entities.ReviewRequest
 import kotlin.time.Instant
@@ -116,5 +120,30 @@ fun ActorFragment.toAuthor(): Author {
         login = login,
         url = url.toString(),
         avatarUrl = avatarUrl.toString(),
+    )
+}
+
+fun GetDeploymentsQuery.Deployments.toDeployments(repoToCheck: RepoToCheck): List<DeploymentWithRepo> {
+    return edges?.mapNotNull { edge ->
+        edge?.node?.let { node ->
+            DeploymentWithRepo(
+                deployment = node.toDeployment(repoToCheck),
+                repoToCheck = repoToCheck,
+            )
+        }
+    } ?: listOf()
+}
+
+fun GetDeploymentsQuery.Node.toDeployment(repoToCheck: RepoToCheck): Deployment {
+    return Deployment(
+        id = id,
+        repoToCheckId = repoToCheck.id,
+        author = creator.actorFragment.toAuthor(),
+        environment = environment,
+        state = enumValueOfOrDefault(state.toString(), DeploymentState.UNKNOWN),
+        refName = ref?.name,
+        refPrefix = ref?.prefix,
+        createdAt = Instant.parse(createdAt.toString()),
+        updatedAt = Instant.parse(updatedAt.toString()),
     )
 }

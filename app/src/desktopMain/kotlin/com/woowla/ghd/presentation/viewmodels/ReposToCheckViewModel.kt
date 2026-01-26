@@ -197,6 +197,9 @@ class ReposToCheckStateMachine(
             if (filters.releasesNotificationsEnabled) {
                 matches = matches || repoToCheck.areReleasesNotificationsEnabled
             }
+            if (filters.deploymentsSyncEnabled) {
+                matches = matches || repoToCheck.areDeploymentsEnabled
+            }
             matches
         }
 
