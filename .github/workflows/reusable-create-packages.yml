@@ -13,12 +13,12 @@ jobs:
       matrix:
         # Supported runners and hardware resources
         # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
-        os: [windows-2022, macos-13]
+        os: [windows-2022, macos-14]
         include:
           - os: windows-2022
             ext: exe
             artifact-name: ghd-windows
-          - os: macos-13
+          - os: macos-14
             ext: dmg
             artifact-name: ghd-macos
     runs-on: ${{ matrix.os }}
