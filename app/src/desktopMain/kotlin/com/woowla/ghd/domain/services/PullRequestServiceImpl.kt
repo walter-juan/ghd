@@ -65,11 +65,13 @@ class PullRequestServiceImpl(
             )
         }
         // update the local pull requests
-        val pullRequestsWithRepos = apiResponseResults
-            .map { (repoToCheck, _, apiResponseResult) ->
-                apiResponseResult.getOrNull()?.data ?: listOf()
+        val successfulApiResponseResults = apiResponseResults.filter { (_, _, apiResponseResult) ->
+            apiResponseResult.isSuccess
+        }
+        val pullRequestsWithRepos = successfulApiResponseResults
+            .flatMap { (_, _, apiResponseResult) ->
+                requireNotNull(apiResponseResult.getOrNull()).data
             }
-            .flatten()
             .filterSyncValid(syncSettings = syncSettings)
         localDataSource.upsertPullRequests(pullRequestsWithRepos.map { it.pullRequest })
         localDataSource.removeReviewsByPullRequest(pullRequestsWithRepos.map { it.pullRequest.id })
@@ -80,7 +82,10 @@ class PullRequestServiceImpl(
         localDataSource.upsertReviewRequests(reviewRequests)
 
         // remove pull requests non returned from remote
-        val pullRequestIdsToRemove = pullRequestsBefore.map { it.pullRequest.id } - pullRequestsWithRepos.map { it.pullRequest.id }.toSet()
+        val successfulRepoIds = successfulApiResponseResults.map { (repoToCheck, _, _) -> repoToCheck.id }.toSet()
+        val pullRequestIdsToRemove = pullRequestsBefore
+            .filter { it.pullRequest.repoToCheckId in successfulRepoIds }
+            .map { it.pullRequest.id } - pullRequestsWithRepos.map { it.pullRequest.id }.toSet()
         localDataSource.removePullRequests(pullRequestIdsToRemove)
         cleanUp(syncSettings)
 
