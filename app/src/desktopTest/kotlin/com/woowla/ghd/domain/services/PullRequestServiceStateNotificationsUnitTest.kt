@@ -9,6 +9,7 @@ import com.woowla.ghd.domain.entities.PullRequestWithRepoAndReviews
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import io.mockk.verify
 
 class PullRequestServiceStateNotificationsUnitTest : StringSpec({
     /**
@@ -123,12 +124,13 @@ class PullRequestServiceStateNotificationsUnitTest : StringSpec({
     "when stateEnabledOption is NONE then sendNotifications should not send any notifications for pull requests" {
         // Given
         val testNotificationSender = TestNotificationsSender()
+        val appLogger = mockk<com.woowla.ghd.core.AppLogger>(relaxed = true)
         val pullRequestService = PullRequestServiceImpl(
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
             appSettingsService = mockk(),
-            appLogger = mockk(relaxed = true),
+            appLogger = appLogger,
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
@@ -146,6 +148,50 @@ class PullRequestServiceStateNotificationsUnitTest : StringSpec({
         )
         // Then
         testNotificationSender.newPullRequestCount shouldBe 0
+        verify {
+            appLogger.d(match {
+                it.contains("Notification :: decision :: event=pull-request-state") &&
+                    it.contains(":: global=NONE") &&
+                    it.contains(":: outcome=suppressed:global-disabled")
+            })
+        }
+    }
+
+    "when pull request notifications are disabled for a repository then state notifications log the suppression" {
+        val testNotificationSender = TestNotificationsSender()
+        val appLogger = mockk<com.woowla.ghd.core.AppLogger>(relaxed = true)
+        val pullRequestService = PullRequestServiceImpl(
+            localDataSource = mockk(),
+            remoteDataSource = mockk(),
+            notificationsSender = testNotificationSender,
+            appSettingsService = mockk(),
+            appLogger = appLogger,
+        )
+        val appSettings = RandomEntities.appSettings().copy(
+            notificationsSettings = RandomEntities.notificationsSettings().copy(
+                stateEnabledOption = EnabledOption.ALL,
+            )
+        )
+        val (oldPullRequestsWithReviews, newPullRequestsWithReviews) = buildActivityChangedPullRequests()
+        val disabledNewPullRequests = newPullRequestsWithReviews.map {
+            it.copy(repoToCheck = it.repoToCheck.copy(arePullRequestsNotificationsEnabled = false))
+        }
+
+        pullRequestService.sendStateNotifications(
+            appSettings = appSettings,
+            oldPullRequestsWithReviews = oldPullRequestsWithReviews,
+            newPullRequestsWithReviews = disabledNewPullRequests,
+        )
+
+        testNotificationSender.newPullRequestCount shouldBe 0
+        verify {
+            appLogger.d(match {
+                it.contains("Notification :: decision :: event=pull-request-state") &&
+                    it.contains(":: global=ALL") &&
+                    it.contains(":: repositoryEnabled=false") &&
+                    it.contains(":: outcome=suppressed:repository-disabled")
+            })
+        }
     }
 
     "when stateEnabledOption is ALL then sendNotifications should send notifications for all new pull requests" {

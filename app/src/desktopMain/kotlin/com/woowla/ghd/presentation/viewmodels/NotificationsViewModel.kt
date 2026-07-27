@@ -20,7 +20,10 @@ import com.woowla.ghd.domain.entities.stateEnabledOption
 import com.woowla.ghd.domain.entities.stateMergedFromOthersPullRequestsEnabled
 import com.woowla.ghd.domain.entities.stateOpenFromOthersPullRequestsEnabled
 import com.woowla.ghd.domain.services.AppSettingsService
+import com.woowla.ghd.core.notifications.NotificationClient
+import com.woowla.ghd.core.notifications.NotificationType
 import com.woowla.ghd.core.utils.FlowReduxViewModel
+import com.woowla.ghd.presentation.i18nUi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -31,6 +34,7 @@ class NotificationsViewModel(
 @OptIn(ExperimentalCoroutinesApi::class)
 class NotificationsStateMachine(
     private val appSettingsService: AppSettingsService,
+    private val notificationClient: NotificationClient,
 ) : FlowReduxStateMachine<NotificationsStateMachine.St, NotificationsStateMachine.Act>(initialState = St.Loading) {
     init {
         spec {
@@ -45,6 +49,17 @@ class NotificationsStateMachine(
                 }
                 on<Act.CleanUpSaveSuccessfully> { action, state ->
                     state.mutate { copy(savedSuccessfully = null) }
+                }
+                on<Act.SendTestNotification> { action, state ->
+                    notificationClient.sendNotification(
+                        title = i18nUi.screen_notifications_test_notification_title,
+                        message = i18nUi.screen_notifications_test_notification_message,
+                        type = NotificationType.INFO,
+                    )
+                    state.mutate { copy(testNotificationSent = true) }
+                }
+                on<Act.CleanUpTestNotificationSent> { action, state ->
+                    state.mutate { copy(testNotificationSent = null) }
                 }
                 on<Act.UpdateFilterUsername> { action, state ->
                     state.mutate { St.Success.appSettings.notificationsSettings.filterUsername.modify(this) { action.filterUsername } }
@@ -119,7 +134,11 @@ class NotificationsStateMachine(
 
     sealed interface St {
         data object Loading : St
-        @optics data class Success(val appSettings: AppSettings, val savedSuccessfully: Boolean? = null) : St {
+        @optics data class Success(
+            val appSettings: AppSettings,
+            val savedSuccessfully: Boolean? = null,
+            val testNotificationSent: Boolean? = null,
+        ) : St {
             companion object
             val notificationsSettings: NotificationsSettings = appSettings.notificationsSettings
         }
@@ -129,6 +148,8 @@ class NotificationsStateMachine(
         data object Reload : Act
         data object Save : Act
         data object CleanUpSaveSuccessfully : Act
+        data object SendTestNotification : Act
+        data object CleanUpTestNotificationSent : Act
 
         data class UpdateFilterUsername(val filterUsername: String) : Act
 

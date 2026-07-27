@@ -65,7 +65,7 @@ class RemoteDataSourceImpl(
             val owner = repoToCheck.repository.owner
             val repo = repoToCheck.repository.name
             val pullRequestsQuery = GetAllStatesPullRequestsQuery(owner = owner, name = repo, last = 25)
-            val pullRequestsResponse = apolloClient.query(pullRequestsQuery).executeV3()
+            val pullRequestsResponse = apolloClient.query(pullRequestsQuery).execute()
 
             val repository = pullRequestsResponse.dataAssertNoErrors.repository
             val openPullRequests = repository?.openPullRequests?.pullRequestFragment?.edges?.mapNotNull { it?.node } ?: listOf()
@@ -89,7 +89,7 @@ class RemoteDataSourceImpl(
             val owner = repoToCheck.repository.owner
             val repo = repoToCheck.repository.name
             val getLastReleaseQuery = GetLastReleaseQuery(owner = owner, name = repo)
-            val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).executeV3()
+            val getLastReleaseResponse = apolloClient.query(getLastReleaseQuery).execute()
 
             val data = getLastReleaseResponse
                 .dataAssertNoErrors
@@ -135,7 +135,7 @@ class RemoteDataSourceImpl(
             val owner = repoToCheck.repository.owner
             val repo = repoToCheck.repository.name
             val getDeploymentsQuery = GetDeploymentsQuery(owner = owner, name = repo, environments = environments, last = limit)
-            val getDeploymentsResponse = apolloClient.query(getDeploymentsQuery).executeV3()
+            val getDeploymentsResponse = apolloClient.query(getDeploymentsQuery).execute()
 
             val data = getDeploymentsResponse
                 .dataAssertNoErrors

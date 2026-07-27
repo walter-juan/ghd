@@ -72,21 +72,23 @@ class ReleaseServiceImpl(
     }
 
     override suspend fun sendNotifications(appSettings: AppSettings, oldReleases: List<ReleaseWithRepo>, newReleases: List<ReleaseWithRepo>): Result<Unit> {
-        if (!appSettings.notificationsSettings.newReleaseEnabled) {
-            return Result.success(Unit)
-        }
-
-        newReleases
-            .filter { newRelease ->
-                newRelease.repoToCheck.areReleasesNotificationsEnabled
+        newReleases.forEach { newRelease ->
+            val outcome = when {
+                !appSettings.notificationsSettings.newReleaseEnabled -> "suppressed:global-disabled"
+                !newRelease.repoToCheck.areReleasesNotificationsEnabled -> "suppressed:repository-disabled"
+                oldReleases.any { it.release.id == newRelease.release.id } -> "suppressed:already-known"
+                else -> "dispatched"
             }
-            .filterNot { newRelease ->
-                oldReleases.any { it.release.id == newRelease.release.id }
-            }
-            .forEach { newRelease ->
-                appLogger.d("Synchronizer :: sync :: releases :: send notification :: send new release notification, release tag ${newRelease.release.tagName}")
+            val repository = newRelease.repoToCheck.repository
+            appLogger.d(
+                "Notification :: decision :: event=release :: repository=${repository?.owner}/${repository?.name} " +
+                    ":: global=${appSettings.notificationsSettings.newReleaseEnabled} " +
+                    ":: repositoryEnabled=${newRelease.repoToCheck.areReleasesNotificationsEnabled} :: outcome=$outcome"
+            )
+            if (outcome == "dispatched") {
                 notificationsSender.newRelease(newRelease)
             }
+        }
 
         return Result.success(Unit)
     }

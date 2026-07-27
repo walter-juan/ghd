@@ -57,7 +57,7 @@ object DiUi {
 
         // state machines
         factory<PullRequestsStateMachine> { PullRequestsStateMachine(get(), get(), get()) }
-        factory<NotificationsStateMachine> { NotificationsStateMachine(get()) }
+        factory<NotificationsStateMachine> { NotificationsStateMachine(get(), get()) }
         factory<ReleasesStateMachine> { ReleasesStateMachine(get(), get(), get()) }
         factory<DeploymentsStateMachine> { DeploymentsStateMachine(get(), get(), get()) }
         factory<ReposToCheckBulkStateMachine> { ReposToCheckBulkStateMachine(get()) }

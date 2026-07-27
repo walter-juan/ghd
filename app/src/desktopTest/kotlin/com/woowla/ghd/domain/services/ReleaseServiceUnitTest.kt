@@ -5,17 +5,19 @@ import com.woowla.ghd.TestNotificationsSender
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
+import io.mockk.verify
 
 class ReleaseServiceUnitTest : StringSpec({
     "when newReleaseEnabled disabled then sendNotifications should NOT send any notifications" {
         // Given
         val testNotificationSender = TestNotificationsSender()
+        val appLogger = mockk<com.woowla.ghd.core.AppLogger>(relaxed = true)
         val releaseService = ReleaseServiceImpl(
             localDataSource = mockk(),
             remoteDataSource = mockk(),
             notificationsSender = testNotificationSender,
             appSettingsService = mockk(),
-            appLogger = mockk(relaxed = true),
+            appLogger = appLogger,
         )
         val appSettings = RandomEntities.appSettings().copy(
             notificationsSettings = RandomEntities.notificationsSettings().copy(
@@ -37,6 +39,13 @@ class ReleaseServiceUnitTest : StringSpec({
 
         // Then
         testNotificationSender.newReleaseCount shouldBe 0
+        verify {
+            appLogger.d(match {
+                it.contains("Notification :: decision :: event=release") &&
+                    it.contains(":: global=false") &&
+                    it.contains(":: outcome=suppressed:global-disabled")
+            })
+        }
     }
 
     "when newReleaseEnabled enabled then sendNotifications should send notifications" {
