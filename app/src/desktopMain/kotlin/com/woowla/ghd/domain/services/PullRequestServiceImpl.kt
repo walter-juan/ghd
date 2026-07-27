@@ -119,34 +119,23 @@ class PullRequestServiceImpl(
     }
 
     override suspend fun sendStateNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
-        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: ${appSettings.notificationsSettings.stateEnabledOption} option selected")
-        when (appSettings.notificationsSettings.stateEnabledOption) {
-            NotificationsSettings.EnabledOption.NONE -> {
-                // nothing to do
+        val settings = appSettings.notificationsSettings
+        newPullRequestsWithReviews.forEach { pullRequestWithRepo ->
+            val outcome = when {
+                settings.stateEnabledOption == NotificationsSettings.EnabledOption.NONE -> "suppressed:global-disabled"
+                !pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled -> "suppressed:repository-disabled"
+                pullRequestWithRepo.pullRequest.stateExtended == PullRequestStateExtended.UNKNOWN -> "suppressed:unknown-state"
+                oldPullRequestsWithReviews.firstOrNull { it.pullRequest.id == pullRequestWithRepo.pullRequest.id }
+                    ?.pullRequest?.stateExtended == pullRequestWithRepo.pullRequest.stateExtended -> "suppressed:state-unchanged"
+                settings.stateEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    !pullRequestWithRepo.isStateNotificationEnabled(settings) -> "suppressed:state-filter-disabled"
+                settings.stateEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    pullRequestWithRepo.pullRequest.author?.login?.trim() == settings.filterUsername.trim() -> "suppressed:author-filtered"
+                else -> "dispatched"
             }
-            NotificationsSettings.EnabledOption.ALL -> {
-                // state changes
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
-                    }
-            }
-            NotificationsSettings.EnabledOption.FILTERED -> {
-                // state changes, from others pull requests
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filterByPullRequestStateWithStateNotificationsEnabled(appSettings.notificationsSettings)
-                    .filterByPullRequestStateChangedOrNew(oldPullRequestsWithReviews)
-                    .filter { newPullRequestWithRepo ->
-                        newPullRequestWithRepo.pullRequest.author?.login?.trim() != appSettings.notificationsSettings.filterUsername.trim()
-                    }
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send state notification :: send new pull request notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
-                    }
+            logNotificationDecision("pull-request-state", pullRequestWithRepo, settings.stateEnabledOption, outcome)
+            if (outcome == "dispatched") {
+                notificationsSender.newPullRequest(pullRequestWithRepo.pullRequest)
             }
         }
 
@@ -155,133 +144,78 @@ class PullRequestServiceImpl(
 
     override suspend fun sendActivityNotifications(appSettings: AppSettings, oldPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>, newPullRequestsWithReviews: List<PullRequestWithRepoAndReviews>): Result<Unit> {
         appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: ${appSettings.notificationsSettings.activityEnabledOption} option selected")
-        when (appSettings.notificationsSettings.activityEnabledOption) {
-            NotificationsSettings.EnabledOption.NONE -> {
-                // nothing to do
+        val settings = appSettings.notificationsSettings
+        newPullRequestsWithReviews.forEach { pullRequestWithRepo ->
+            val oldPullRequestWithRepo = oldPullRequestsWithReviews
+                .firstOrNull { it.pullRequest.id == pullRequestWithRepo.pullRequest.id }
+
+            val reviewOutcome = when {
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.NONE -> "suppressed:global-disabled"
+                !pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled -> "suppressed:repository-disabled"
+                oldPullRequestWithRepo == null -> "suppressed:new-pull-request"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    !settings.activityReviewsFromYourPullRequestsEnabled -> "suppressed:activity-filter-disabled"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    pullRequestWithRepo.pullRequest.author?.login?.trim() != settings.filterUsername.trim() -> "suppressed:author-filtered"
+                else -> "dispatched"
             }
-            NotificationsSettings.EnabledOption.ALL -> {
-                // new reviews or changed
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-                    .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { !it.isReRequestedReview() }
-                    }
-                    .filter { (_, reviews) ->
-                        reviews.isNotEmpty()
-                    }
-                    .forEach { (pullRequest, reviews) ->
-                        reviews.forEach { review ->
-                            appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")
-                            notificationsSender.newPullRequestReview(pullRequest, review)
-                        }
-                    }
-
-                // checks
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
-                    }
-                // mergeable
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
-                    }
+            pullRequestWithRepo.changedReviewsFrom(oldPullRequestWithRepo).forEach { review ->
+                val outcome = if (review.isReRequestedReview()) "suppressed:re-review-requested" else reviewOutcome
+                logActivityNotificationDecision("pull-request-review", pullRequestWithRepo, settings, outcome)
+                if (outcome == "dispatched") {
+                    notificationsSender.newPullRequestReview(pullRequestWithRepo.pullRequest, review)
+                }
             }
-            NotificationsSettings.EnabledOption.FILTERED -> {
-                // new reviews or changed, from your pull requests
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filter { appSettings.notificationsSettings.activityReviewsFromYourPullRequestsEnabled }
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByReviewStateChanged(oldPullRequestsWithReviews)
-                    .map { (pullRequest, reviews) ->
-                        pullRequest to reviews.filter { !it.isReRequestedReview() }
-                    }
-                    .filter { (_, reviews) ->
-                        reviews.isNotEmpty()
-                    }
-                    .filter { (pullRequest, _) ->
-                        pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
-                    }
-                    .forEach { (pullRequest, reviews) ->
-                        reviews.forEach { review ->
-                            appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send new review notification, pull id ${pullRequest.id}, review id ${review.id}, review state ${review.state}")
-                            notificationsSender.newPullRequestReview(pullRequest, review)
-                        }
-                    }
 
-                // your review changed
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filter { appSettings.notificationsSettings.activityReviewsFromYouDismissedEnabled }
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filter { pullRequestWithRepo ->
-                        val oldReview = oldPullRequestsWithReviews
-                            .firstOrNull { it.pullRequest.id == pullRequestWithRepo.pullRequest.id }
-                            ?.reviews
-                            ?.firstOrNull { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
-                        val newReview = pullRequestWithRepo
-                            .reviews
-                            .firstOrNull { it.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim() }
+            val dismissedReviewOutcome = when {
+                settings.activityEnabledOption != NotificationsSettings.EnabledOption.FILTERED -> "suppressed:not-filtered-mode"
+                !pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled -> "suppressed:repository-disabled"
+                !settings.activityReviewsFromYouDismissedEnabled -> "suppressed:activity-filter-disabled"
+                oldPullRequestWithRepo == null -> "suppressed:new-pull-request"
+                else -> "dispatched"
+            }
+            if (pullRequestWithRepo.hasDismissedOwnReview(oldPullRequestWithRepo, settings.filterUsername)) {
+                logActivityNotificationDecision("pull-request-review-dismissed", pullRequestWithRepo, settings, dismissedReviewOutcome)
+                if (dismissedReviewOutcome == "dispatched") {
+                    notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
+                }
+            }
 
-                        if (oldReview != null) {
-                            when {
-                                newReview == null -> {
-                                    // review deleted
-                                    appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review deleted notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                                    notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
-                                    true
-                                }
-                                oldReview.state != newReview.state && newReview.state == ReviewState.DISMISSED -> {
-                                    // review state changed
-                                    appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send your review state changed notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                                    notificationsSender.yourPullRequestReviewDismissed(pullRequestWithRepo.pullRequest)
-                                    true
-                                }
-                                else -> {
-                                    false
-                                }
-                            }
-                        } else {
-                            false
-                        }
-                    }
-                // checks, from your pull requests
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filter { appSettings.notificationsSettings.activityChecksFromYourPullRequestsEnabled }
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByPullRequestChecksChanged(oldPullRequestsWithReviews)
-                    .filter { newPullRequestWithRepo ->
-                        newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
-                    }
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send checks notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
-                    }
-                // mergeable, from your pull requests
-                newPullRequestsWithReviews
-                    .filterByPullRequestNotificationsEnabled()
-                    .filter { appSettings.notificationsSettings.activityMergeableFromYourPullRequestsEnabled }
-                    .filterNotNewPullRequests(oldPullRequestsWithReviews)
-                    .filterByPullRequestMergeableChangedToCanBeMerged(oldPullRequestsWithReviews)
-                    .filter { newPullRequestWithRepo ->
-                        newPullRequestWithRepo.pullRequest.author?.login?.trim() == appSettings.notificationsSettings.filterUsername.trim()
-                    }
-                    .forEach { pullRequestWithRepo ->
-                        appLogger.d("Synchronizer :: sync :: pulls :: send activity notification :: send mergeable notification, pull id ${pullRequestWithRepo.pullRequest.id}")
-                        notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
-                    }
+            val checksOutcome = when {
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.NONE -> "suppressed:global-disabled"
+                !pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled -> "suppressed:repository-disabled"
+                oldPullRequestWithRepo == null -> "suppressed:new-pull-request"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    !settings.activityChecksFromYourPullRequestsEnabled -> "suppressed:activity-filter-disabled"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    pullRequestWithRepo.pullRequest.author?.login?.trim() != settings.filterUsername.trim() -> "suppressed:author-filtered"
+                else -> "dispatched"
+            }
+            if (oldPullRequestWithRepo != null && oldPullRequestWithRepo.pullRequest.lastCommitCheckRollupStatus != pullRequestWithRepo.pullRequest.lastCommitCheckRollupStatus) {
+                logActivityNotificationDecision("pull-request-checks", pullRequestWithRepo, settings, checksOutcome)
+                if (checksOutcome == "dispatched") {
+                    notificationsSender.pullRequestChecksChanged(pullRequestWithRepo.pullRequest)
+                }
+            }
+
+            val mergeableOutcome = when {
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.NONE -> "suppressed:global-disabled"
+                !pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled -> "suppressed:repository-disabled"
+                oldPullRequestWithRepo == null -> "suppressed:new-pull-request"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    !settings.activityMergeableFromYourPullRequestsEnabled -> "suppressed:activity-filter-disabled"
+                settings.activityEnabledOption == NotificationsSettings.EnabledOption.FILTERED &&
+                    pullRequestWithRepo.pullRequest.author?.login?.trim() != settings.filterUsername.trim() -> "suppressed:author-filtered"
+                else -> "dispatched"
+            }
+            if (oldPullRequestWithRepo != null &&
+                oldPullRequestWithRepo.pullRequest.mergeStateStatus != pullRequestWithRepo.pullRequest.mergeStateStatus &&
+                pullRequestWithRepo.pullRequest.canBeMerged
+            ) {
+                logActivityNotificationDecision("pull-request-mergeable", pullRequestWithRepo, settings, mergeableOutcome)
+                if (mergeableOutcome == "dispatched") {
+                    notificationsSender.mergeablePullRequest(pullRequestWithRepo.pullRequest)
+                }
             }
         }
 
@@ -399,5 +333,61 @@ class PullRequestServiceImpl(
             .filter { newPullRequestWithRepo ->
                 newPullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled
             }
+    }
+
+    private fun PullRequestWithRepoAndReviews.isStateNotificationEnabled(notificationsSettings: NotificationsSettings): Boolean {
+        return when (pullRequest.stateExtended) {
+            PullRequestStateExtended.UNKNOWN -> false
+            PullRequestStateExtended.OPEN -> notificationsSettings.stateOpenFromOthersPullRequestsEnabled
+            PullRequestStateExtended.CLOSED -> notificationsSettings.stateClosedFromOthersPullRequestsEnabled
+            PullRequestStateExtended.MERGED -> notificationsSettings.stateMergedFromOthersPullRequestsEnabled
+            PullRequestStateExtended.DRAFT -> notificationsSettings.stateDraftFromOthersPullRequestsEnabled
+        }
+    }
+
+    private fun PullRequestWithRepoAndReviews.changedReviewsFrom(oldPullRequestWithRepo: PullRequestWithRepoAndReviews?): List<Review> {
+        val oldReviews = oldPullRequestWithRepo?.reviews ?: return listOf()
+        return reviews.filter { newReview ->
+            val oldReview = oldReviews.firstOrNull { it.author?.login == newReview.author?.login }
+            oldReview == null || oldReview.state != newReview.state
+        }
+    }
+
+    private fun PullRequestWithRepoAndReviews.hasDismissedOwnReview(
+        oldPullRequestWithRepo: PullRequestWithRepoAndReviews?,
+        filterUsername: String,
+    ): Boolean {
+        val oldReview = oldPullRequestWithRepo?.reviews
+            ?.firstOrNull { it.author?.login?.trim() == filterUsername.trim() }
+            ?: return false
+        val newReview = reviews.firstOrNull { it.author?.login?.trim() == filterUsername.trim() }
+        return newReview == null || (oldReview.state != newReview.state && newReview.state == ReviewState.DISMISSED)
+    }
+
+    private fun logNotificationDecision(
+        eventClass: String,
+        pullRequestWithRepo: PullRequestWithRepoAndReviews,
+        globalSetting: NotificationsSettings.EnabledOption,
+        outcome: String,
+    ) {
+        val repository = pullRequestWithRepo.repoToCheck.repository
+        appLogger.d(
+            "Notification :: decision :: event=$eventClass :: repository=${repository?.owner}/${repository?.name} " +
+                ":: global=$globalSetting :: repositoryEnabled=${pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled} :: outcome=$outcome"
+        )
+    }
+
+    private fun logActivityNotificationDecision(
+        eventClass: String,
+        pullRequestWithRepo: PullRequestWithRepoAndReviews,
+        settings: NotificationsSettings,
+        outcome: String,
+    ) {
+        val repository = pullRequestWithRepo.repoToCheck.repository
+        appLogger.d(
+            "Notification :: decision :: event=$eventClass :: repository=${repository?.owner}/${repository?.name} " +
+                ":: global=${settings.activityEnabledOption} " +
+                ":: repositoryEnabled=${pullRequestWithRepo.repoToCheck.arePullRequestsNotificationsEnabled} :: outcome=$outcome"
+        )
     }
 }

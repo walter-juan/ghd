@@ -2,8 +2,12 @@ package com.woowla.ghd.core.notifications
 
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
+import com.woowla.ghd.core.AppLogger
 
-class NotificationClient(private val trayState: TrayState) {
+class NotificationClient(
+    private val trayState: TrayState,
+    private val appLogger: AppLogger,
+) {
     fun sendNotification(title: String, message: String, type: NotificationType) {
         val notification = Notification(
             title = title,
@@ -16,5 +20,6 @@ class NotificationClient(private val trayState: TrayState) {
             }
         )
         trayState.sendNotification(notification)
+        appLogger.d("Notification :: dispatch :: type=$type :: result=accepted-by-compose-tray")
     }
 }

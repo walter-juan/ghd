@@ -15,7 +15,7 @@ object DiCore {
         single { EventBus(get()) }
         single { AppLogger(logger = logger) }
         single<AppFolderFactory> { AppFolderFactory(isDebug, appFolder) }
-        single<NotificationClient> { NotificationClient(get()) }
+        single<NotificationClient> { NotificationClient(get(), get()) }
         single<TrayState> { TrayState() }
     }
 }
