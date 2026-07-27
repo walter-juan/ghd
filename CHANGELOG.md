@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security
 
+## [2.0.6-beta05]
+### Added
+- Test notification button in the notifications screen
+- Single-instance manager to restore the existing app window instead of opening a second desktop instance
+### Changed
+- Pull request and release notifications now log the decision path and apply refined filtering rules for state, activity, and release events
+- Pull request synchronization preserves repository baselines after failed syncs
+- Update dependencies
+### Fixed
+- Notification where not shown, now uses the Compose tray implementation directly instead of ComposeNativeTray dependency
+
 ## [2.0.6-beta04]
 ### Changed
 - Update GitHub macos runner
@@ -337,7 +348,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0]
 _First version_
 
-[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta04...dev
+[unreleased]: https://github.com/walter-juan/ghd/compare/v2.0.6-beta05...dev
+[2.0.6-beta05]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta05
 [2.0.6-beta04]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta04
 [2.0.6-beta03]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta03
 [2.0.6-beta02]: https://github.com/walter-juan/ghd/releases/tag/v2.0.6-beta02
