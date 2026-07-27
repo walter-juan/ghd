@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +19,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -107,18 +107,21 @@ object NotificationsScreen {
                         dispatchAction = dispatchAction,
                     )
                     val snackbarMessage = when {
+                        state.testNotificationSent == true -> i18nUi.screen_notifications_test_sent
                         state.savedSuccessfully == true -> i18nUi.generic_saved
                         state.savedSuccessfully == false -> i18nUi.generic_error
                         else -> null
                     }
                     if (snackbarMessage != null) {
-                        LaunchedEffect(snackbarHostState) {
-                            val result = snackbarHostState.showSnackbar(
+                        LaunchedEffect(snackbarMessage) {
+                            snackbarHostState.showSnackbar(
                                 message = snackbarMessage,
                                 withDismissAction = true,
                                 duration = SnackbarDuration.Short,
                             )
-                            if (result == SnackbarResult.Dismissed) {
+                            if (state.testNotificationSent == true) {
+                                dispatchAction.invoke(Act.CleanUpTestNotificationSent)
+                            } else {
                                 dispatchAction.invoke(Act.CleanUpSaveSuccessfully)
                             }
                         }
@@ -158,6 +161,18 @@ object NotificationsScreen {
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
+                )
+            }
+
+            Section(i18nUi.screen_notifications_test_section) {
+                SectionItem(
+                    title = i18nUi.screen_notifications_test_title,
+                    description = i18nUi.screen_notifications_test_description,
+                    content = {
+                        Button(onClick = { dispatchAction.invoke(Act.SendTestNotification) }) {
+                            Text(i18nUi.screen_notifications_test_action)
+                        }
+                    },
                 )
             }
 

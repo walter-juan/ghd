@@ -114,7 +114,6 @@ kotlin {
             implementation(compose.material3)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.logback.classic)
-            implementation(libs.composenativetray)
             implementation(libs.appdirs)
             implementation(libs.kaml)
             implementation(libs.konvert.api)
