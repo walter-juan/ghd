@@ -111,8 +111,8 @@ $ ./gradlew build -PdebugConfig=false
     ```
 - To know which dependencies have updates, you can use `openBrowser` to open directly the browser with the HTML report:
     ```shell
-    ./gradlew dependencyUpdates
-    ./gradlew dependencyUpdates -PopenBrowser=true
+    ./gradlew :app:dependencyUpdates
+    ./gradlew :app:dependencyUpdates -PopenBrowser=true -DoutputFormatter=plain,html --no-parallel
     ```
 - Update Gradle version
     ```shell

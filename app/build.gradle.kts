@@ -1,9 +1,6 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
-import com.github.benmanes.gradle.versions.reporter.HtmlReporter
-import com.github.benmanes.gradle.versions.reporter.PlainTextReporter
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.gradle.kotlin.dsl.support.serviceOf
-import java.io.PrintStream
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -61,9 +58,15 @@ apollo {
 }
 
 aboutLibraries {
-    android.registerAndroidTasks = false
-    export.prettyPrint = true
-    export.excludeFields.addAll("description", "funding")
+    export {
+        prettyPrint = true
+        excludeFields.addAll("description", "funding")
+        outputFile = file("src/desktopMain/resources/aboutlibraries.json")
+    }
+    library {
+        duplicationMode = com.mikepenz.aboutlibraries.plugin.DuplicateMode.MERGE
+        duplicationRule = com.mikepenz.aboutlibraries.plugin.DuplicateRule.SIMPLE
+    }
 }
 
 
@@ -122,9 +125,9 @@ kotlin {
 }
 
 dependencies {
-    ksp(libs.arrow.optics.ksp)
-    ksp(libs.androidx.room.compiler)
-    ksp(libs.konvert.ksp)
+    add("kspDesktop", libs.arrow.optics.ksp)
+    add("kspDesktop", libs.androidx.room.compiler)
+    add("kspDesktop", libs.konvert.ksp)
 }
 
 compose.desktop {
@@ -177,7 +180,7 @@ tasks.withType<Test>().configureEach {
     }
 }
 
-tasks.withType<DependencyUpdatesTask> {
+tasks.withType<DependencyUpdatesTask>().configureEach {
     fun isNonStable(version: String): Boolean {
         val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
         val regex = "^[0-9,.v-]+(-r)?$".toRegex()
@@ -192,40 +195,35 @@ tasks.withType<DependencyUpdatesTask> {
     checkForGradleUpdate = true
     gradleReleaseChannel = "current"
 
-    outputFormatter {
-        val reporters = listOf(
-            HtmlReporter(project = project, revision = revision, gradleReleaseChannel = gradleReleaseChannel),
-            PlainTextReporter(project = project, revision = revision, gradleReleaseChannel = gradleReleaseChannel),
-        )
+}
 
-        reporters.forEach { reporter ->
-            val fileName = File(outputDir, reportfileName + "." + reporter.getFileExtension())
-            project.file(outputDir).mkdirs()
-            val outputFile = project.file(fileName)
-            val stream = PrintStream(outputFile)
-            reporter.write(stream, this@outputFormatter)
-            stream.close()
-        }
-    }
-    val openBrowser: Boolean by project.extra { (findProperty("openBrowser") as? String)?.toBoolean() ?: false }
-    val htmlReportFile = File(project.projectDir, outputDir).resolve("$reportfileName.html")
+tasks.named("dependencyUpdates") {
+    doLast("openDependencyUpdatesReport") {
+        val openBrowser = providers.gradleProperty("openBrowser").map(String::toBoolean).orElse(false).get()
+        val outputDir = System.getProperty("outputDir") ?: layout.buildDirectory.dir("dependencyUpdates").get().asFile.path
+        val reportFileName = System.getProperty("reportfileName") ?: "report"
+        val htmlReportFile = file(outputDir).resolve("$reportFileName.html")
 
-    doLast {
+        logger.lifecycle("Open browser: $openBrowser")
+        logger.lifecycle("Dependency updates HTML report: $htmlReportFile")
+
         if (openBrowser) {
-            openBrowser(file = htmlReportFile)
+            openDependencyUpdatesReport(file = htmlReportFile)
         }
     }
 }
 
-fun openBrowser(file: File) {
-    require(file.exists()) { "File [${file.absoluteFile}] doesn't exists" }
+fun openDependencyUpdatesReport(file: File) {
+    logger.lifecycle("Opening dependency updates report: $file")
+    require(file.isFile) { "Dependency updates HTML report does not exist: ${file.absoluteFile}" }
 
     val os = org.gradle.internal.os.OperatingSystem.current()
-    if (os.isMacOsX || os.isLinux) {
-        logger.info("Open $file")
-        val execOperations = project.serviceOf<ExecOperations>()
-        execOperations.exec { commandLine("open", file) }
-    } else {
-        logger.error("Non-supported operating system to open a file ${os.name}")
+    val command = when {
+        os.isMacOsX -> "open"
+        os.isLinux -> "xdg-open"
+        else -> error("Unsupported operating system for opening a dependency updates report: ${os.name}")
     }
+
+    val execOperations = project.serviceOf<ExecOperations>()
+    execOperations.exec { commandLine(command, file) }
 }

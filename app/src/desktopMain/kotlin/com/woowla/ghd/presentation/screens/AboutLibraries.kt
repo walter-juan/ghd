@@ -34,7 +34,7 @@ object AboutLibraries {
                 libraries = libraries,
                 modifier = Modifier.fillMaxSize().padding(paddingValues),
                 onLibraryClick = { library ->
-                    (library.website ?: library.scm?.url)?.let(::openWebpage)
+                    (library.website ?: library.scm?.url)?.let(::openWebpage) ?: false
                 },
             )
         }
